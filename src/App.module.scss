@@ -1,0 +1,11 @@
+.my-button {
+  border: 1px solid #444;
+  border-radius: 0;
+  background: #222;
+  color: rgba(white, 0.8);
+  cursor: pointer;
+
+  &:hover {
+    color: tomato;
+  }
+}
