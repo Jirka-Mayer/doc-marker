@@ -6,7 +6,7 @@ import { AppMode } from "./AppMode"
 export function App() {
   const [count, setCount] = useState(0)
 
-  const [mode, setMode] = useState(AppMode.EDIT_TEXT)
+  const [mode, setMode] = useState(AppMode.ANNOTATE_HIGHLIGHTS)
   const [activeFieldName, setActiveFieldName] = useState(null)
   
   return (

@@ -4,7 +4,9 @@ import * as styles from "./Report.module.scss"
 import { AppMode } from "./AppMode"
 
 // set of all of our CSS classes
-const stylesClassSet = new Set(Object.values(styles))
+const stylesActiveClassSet = new Set(
+  Object.values(styles).filter(k => k.indexOf("active") !== -1)
+)
 
 // field names defined in the style sheet
 const allowedFieldNames = Object.keys(styles)
@@ -105,29 +107,115 @@ export class Report extends React.Component {
   }
 
   handleAnnotationClick(index) {
-    //
+    if (this.props.activeFieldName === null)
+      return
+
+    // clicking after the end of line does nothing
+    if (this.quill.getText(index, 1) == "\n")
+      return
+
+    // clicking before the start of line does nothing
+    if (this.quill.getText(index - 1, 1) == "\n")
+      return
+
+    // clicking before the start of text does nothing
+    if (index == 0)
+      return
+
+    // delete the entire region
+    let fieldName = this.props.activeFieldName
+    let from = this.followHighlightLeft(fieldName, index)
+    let to = this.followHighlightRight(fieldName, index)
+
+    // the click was not over any highlighted range
+    if (from === to)
+      return
+
+    let formats = {}
+    formats["highlight-" + fieldName] = ""
+    this.quill.formatText(from, to - from, formats)
+  }
+
+  followHighlightRight(fieldName, startIndex) {
+    let index = startIndex
+    while (true) {
+      if (this.quill.getText(index, 1) != "\n") {
+        let format = this.quill.getFormat(index, 1)
+        if (format["highlight-" + fieldName] !== "yes")
+          break
+      }
+      index += 1
+    }
+    return index
+  }
+
+  followHighlightLeft(fieldName, startIndex) {
+    let index = startIndex - 1
+    while (true) {
+      if (this.quill.getText(index, 1) != "\n") {
+        let format = this.quill.getFormat(index, 1)
+        if (format["highlight-" + fieldName] !== "yes")
+          break
+      }      
+      index -= 1
+    }
+    return index + 1
   }
 
   handleAnnotationDrag(index, length) {
     if (this.props.activeFieldName === null)
       return
     
-    // TODO: round selection to words
+    // round the selection to words
+    let from = this.getWordStartBefore(index)
+    let to = this.getWordEndAfter(index + length)
     
     let formats = {}
     formats["highlight-" + this.props.activeFieldName] = "yes"
-    this.quill.formatText(index, length, formats)
+    this.quill.formatText(from, to - from, formats)
 
-    this.quill.setSelection(index + length, 0)
+    // silent source ensures that it doesn't
+    // trigger the click event above
+    this.quill.setSelection(to, 0, "silent")
+  }
+
+  getWordStartBefore(index) {
+    const WINDOW = 50
+    const text = this.quill.getText(index - WINDOW, WINDOW)
+    for (let i = text.length - 1; i >= 0; i--) {
+      if (!this.isWordChar(text[i])) {
+        return index - text.length + i + 1
+      }
+    }
+    return index - text.length
+  }
+
+  getWordEndAfter(index) {
+    const WINDOW = 50
+    const text = this.quill.getText(index, WINDOW)
+    for (let i = 0; i < text.length; i++) {
+      if (!this.isWordChar(text[i])) {
+        return index + i
+      }
+    }
+    return index + text.length - 1
+  }
+
+  isWordChar(char) {
+    if (char == " " || char == "\n" || char == "\t" || char == "\r")
+      return false
+    return true
   }
 
   renderAppMode() {
     if (this.props.mode === AppMode.EDIT_TEXT) {
       this.quill.enable(true)
+      this.containerElement.classList.remove(styles["annotating-mode"])
     }
 
     if (this.props.mode === AppMode.ANNOTATE_HIGHLIGHTS) {
       this.quill.enable(false)
+      this.containerElement.classList.add(styles["annotating-mode"])
     }
   }
 
@@ -136,7 +224,7 @@ export class Report extends React.Component {
 
     // remove all of our css classes
     Array.from(this.quillElement.classList.values())
-      .filter(name => stylesClassSet.has(name))
+      .filter(name => stylesActiveClassSet.has(name))
       .forEach(name => this.quillElement.classList.remove(name))
 
     // no field is active
