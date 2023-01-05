@@ -5,17 +5,13 @@
   border: 2px solid black;
 }
 
-.highlight {
-  background-color: rgba(green, 10%);
-  padding: 0.1em 0;
-}
-
-.active {
-  --x-info: "Not used, just generates the needed styles object entry.";
-}
-
 @for $i from 0 to 10 {
-  .active-#{$i} .highlight-#{$i} {
+  .highlight-#{$i}-yes {
+    background-color: rgba(green, 10%);
+    padding: 0.1em 0;
+  }
+  
+  .active-#{$i} .highlight-#{$i}-yes {
     border-bottom: 2px solid #37a537;
   }
 }
