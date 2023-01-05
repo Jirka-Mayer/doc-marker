@@ -50,8 +50,9 @@ function remove(node) {
 }
 
 function value(node) {
-  const result = match(node, this.keyName + "-")[0] || ''
-  const value = result.slice(this.keyName.length)
+  const prefix = this.keyName + "-"
+  const result = match(node, prefix)[0] || ''
+  const value = result.slice(prefix.length)
   return this.canAdd(node, value) ? value : ''
 }
 
