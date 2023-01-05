@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from "react"
+import React from "react"
 import Quill from "quill"
 import * as styles from "./Report.module.scss"
 import { highlightAttributorFactory } from "./highlightAttributorFactory"
+import { AppMode } from "./AppMode"
 
 Quill.register(
   highlightAttributorFactory(
@@ -20,10 +21,7 @@ export class Report extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      // TODO: this will later come to us via props
-      focusedField: "0"
-    }
+    this.state = {}
 
     this.containerElement = null
     this.quillElement = null
@@ -56,59 +54,80 @@ export class Report extends React.Component {
       { insert: " world!\n"}
     ])
 
-    this.focusField(this.state.focusedField)
+    this.renderAppMode()
+    this.renderFieldActivity()
+
+    this.quill.on("selection-change", this.onSelectionChange)
 
     // expose quill to the browser console
     window.quill = this.quill
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.focusedField !== this.state.focusedField) {
-      this.focusField(this.state.focusedField)
-    }
+    if (prevProps.mode !== this.props.mode)
+      this.renderAppMode()
+    
+    if (prevProps.activeFieldName !== this.props.activeFieldName)
+      this.renderFieldActivity()
   }
 
   componentWillUnmount() {
+    this.quill.off("selection-change", this.onSelectionChange)
+    
     this.quill = null
     this.quillElement.remove()
     this.quillElement = null
   }
 
-  focusField(field) {
-    if (styles["focus-" + field] === undefined) {
-      // TODO: implement some centralized error reporting
-      alert(`ERROR: The field ${field} is not in the stylesheet. Update the @for loop bounds accordingly.`)
-      return
+  onSelectionChange(range, oldRange, source) {
+    // TODO: when the mode is "annotations", handle clicks and drags
+  }
+
+  renderAppMode() {
+    if (this.props.mode === AppMode.EDIT_TEXT) {
+      this.quill.enable(true)
     }
 
-    const matches = (this.quillElement.getAttribute('class') || '')
+    if (this.props.mode === AppMode.ANNOTATE_HIGHLIGHTS) {
+      this.quill.enable(false)
+    }
+  }
+
+  renderFieldActivity() {
+    const activeFieldName = this.props.activeFieldName
+
+    // remove all activity css classes
+    const classNames = this.quillElement.getAttribute('class') || ''
+    classNames
       .split(/\s+/)
-      .filter((name) => name.indexOf(styles["focus"] + "-") === 0)
-    matches.forEach((name) => {
-      this.quillElement.classList.remove(name)
-    })
+      .filter((name) => name.indexOf(styles["active"] + "-") === 0)
+      .forEach((name) => {
+        this.quillElement.classList.remove(name)
+      })
+
+    // no field is active
+    if (activeFieldName === null)
+      return
+
+    // check the activity class exists
+    if (styles["active-" + activeFieldName] === undefined) {
+      console.error(`The field ${activeFieldName} is not in the ` +
+        `stylesheet. Update the style sheet accordingly.`)
+    }
     
-    this.quillElement.classList.add(styles["focus"] + "-" + field)
+    // add the proper activity css class
+    this.quillElement.classList.add(styles["active"] + "-" + activeFieldName)
   }
 
   render() {
     return (
       <div className={styles["debug-container"]}>
         <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"></link>
+
+        <pre>Mode: {this.props.mode}</pre>
+        <pre>Active field name: {JSON.stringify(this.props.activeFieldName)}</pre>
   
         <div ref={el => this.containerElement = el}></div>
-  
-        <hr />
-        <button onClick={() => {quill.enable(false)}}>Disable editing</button>
-        <button onClick={() => {quill.enable(true)}}>Enable editing</button>
-        <hr />
-        {[...Array(5).keys()].map((x, i) =>
-          <button
-            key={i}
-            disabled={this.state.focusedField == i.toString()}
-            onClick={() => {this.setState({ focusedField: i.toString() })}}
-          >Focus field {i}</button>
-        )}
       </div>
     )
   }
