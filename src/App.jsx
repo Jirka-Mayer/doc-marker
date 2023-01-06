@@ -1,5 +1,6 @@
 import * as styles from "./App.module.scss"
 import { Report } from "./Report"
+import { Form } from "./Form"
 import { useState } from "react"
 import { AppMode } from "./AppMode"
 
@@ -43,6 +44,8 @@ export function App() {
       )}
 
       <Report mode={mode} activeFieldName={activeFieldName} />
+
+      <Form onActivate={fn => setActiveFieldName(fn)} />
     </>
   )
 }
