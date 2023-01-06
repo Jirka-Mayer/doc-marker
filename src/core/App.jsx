@@ -16,44 +16,54 @@ export function App() {
   
   return (
     <>
-
-      <pre>Content: { JSON.stringify(content) }</pre>
-
-      <QuillBinder
-        quillManager={quillManager}
-        appMode={mode}
-        activeFieldId={activeFieldId}
-      />
-
-      <pre>Highlights: { JSON.stringify(highlights) }</pre>
-      <button onClick={() => reportStoreDispatch({ type: "add", highlight: "a", value: 42 })}>Set 42</button>
-
-      <hr />
-
-      <button
-        disabled={mode === AppMode.EDIT_TEXT}
-        onClick={() => {setMode(AppMode.EDIT_TEXT)}}
-      >Edit Text</button>
-      <button
-        disabled={mode === AppMode.ANNOTATE_HIGHLIGHTS}
-        onClick={() => {setMode(AppMode.ANNOTATE_HIGHLIGHTS)}}
-      >Annotate Highlights</button>
-
-      <hr />
-
-      <button
-        disabled={activeFieldId === null}
-        onClick={() => {setActiveFieldId(null)}}
-      >Activate no field</button>
-      {[...Array(5).keys()].map((x, i) =>
+      <div>
+        ~Top toolbar <a href="./copy-test.html">copy-test</a>
+        <hr/>
         <button
-          key={i}
-          disabled={activeFieldId == i.toString()}
-          onClick={() => {setActiveFieldId(i.toString())}}
-        >Activate field {i}</button>
-      )}
+          disabled={mode === AppMode.EDIT_TEXT}
+          onClick={() => {setMode(AppMode.EDIT_TEXT)}}
+        >Edit Text</button>
+        <button
+          disabled={mode === AppMode.ANNOTATE_HIGHLIGHTS}
+          onClick={() => {setMode(AppMode.ANNOTATE_HIGHLIGHTS)}}
+        >Annotate Highlights</button>
+        <hr />
+        <button
+          disabled={activeFieldId === null}
+          onClick={() => {setActiveFieldId(null)}}
+        >Activate no field</button>
+        {[...Array(5).keys()].map((x, i) =>
+          <button
+            key={i}
+            disabled={activeFieldId == i.toString()}
+            onClick={() => {setActiveFieldId(i.toString())}}
+          >Activate field {i}</button>
+        )}
+      </div>
 
-      <Form onActivate={fn => setActiveFieldId(fn)} />
+      <hr />
+
+      <div className={styles["columns-container"]}>
+        <div className={styles["column"]}>
+          
+          <QuillBinder
+            quillManager={quillManager}
+            appMode={mode}
+            activeFieldId={activeFieldId}
+          />
+          
+          <pre>Highlights: { JSON.stringify(highlights) }</pre>
+          <button onClick={() => reportStoreDispatch({ type: "add", highlight: "a", value: 42 })}>Set 42</button>
+          <pre>Content: { JSON.stringify(content, null, 2) }</pre>
+
+        </div>
+        <div className={styles["separator"]}></div>
+        <div className={styles["column"]}>
+          
+          <Form onActivate={fn => setActiveFieldId(fn)} />
+
+        </div>
+      </div>
     </>
   )
 }

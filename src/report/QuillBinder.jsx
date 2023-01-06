@@ -29,10 +29,12 @@ export function QuillBinder({ quillManager, appMode, activeFieldId }) {
   })
   
   return (
-    <div style={{ border: "3px solid black", padding: "20px", margin: "20px" }}>
-      <pre ref={debugRef}></pre>
+    <div>
       <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"></link>
+      
       <div ref={bindingContainerRef}></div>
+
+      <pre ref={debugRef}></pre>
     </div>
   )
 }
