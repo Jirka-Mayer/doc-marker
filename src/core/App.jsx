@@ -1,9 +1,9 @@
 import * as styles from "./App.module.scss"
-import { Form } from "./Form"
+import { Form } from "../form/Form"
 import { useState } from "react"
 import { AppMode } from "./AppMode"
-import { useReportStore } from "./ReportStore"
-import { QuillBinder } from "./QuillBinder"
+import { useReportStore } from "../report/ReportStore"
+import { QuillBinder } from "../report/QuillBinder"
 
 export function App() {
 

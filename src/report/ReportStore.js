@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { QuillManager } from "./QuillManager";
-import { useLazyRef } from "./useLazyRef"
+import { useLazyRef } from "../core/useLazyRef"
 
 /**
  * Integrates the report store into react as a custom hook
