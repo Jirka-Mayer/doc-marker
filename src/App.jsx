@@ -1,22 +1,32 @@
 import * as styles from "./App.module.scss"
-import { Report } from "./Report"
 import { Form } from "./Form"
 import { useState } from "react"
 import { AppMode } from "./AppMode"
+import { useReportStore } from "./ReportStore"
+import { QuillBinder } from "./QuillBinder"
 
 export function App() {
-  const [count, setCount] = useState(0)
+
+  const {
+    quillManager, highlights, content, reportStoreDispatch
+  } = useReportStore()
 
   const [mode, setMode] = useState(AppMode.ANNOTATE_HIGHLIGHTS)
-  const [activeFieldName, setActiveFieldName] = useState(null)
+  const [activeFieldId, setActiveFieldId] = useState(null)
   
   return (
     <>
-      <p>Hello world {count}x!</p>
-      <button
-        className={styles["my-button"]}
-        onClick={() => setCount(count + 1)}
-      >Click me!</button>
+
+      <pre>Content: { JSON.stringify(content) }</pre>
+
+      <QuillBinder
+        quillManager={quillManager}
+        appMode={mode}
+        activeFieldId={activeFieldId}
+      />
+
+      <pre>Highlights: { JSON.stringify(highlights) }</pre>
+      <button onClick={() => reportStoreDispatch({ type: "add", highlight: "a", value: 42 })}>Set 42</button>
 
       <hr />
 
@@ -32,20 +42,18 @@ export function App() {
       <hr />
 
       <button
-        disabled={activeFieldName === null}
-        onClick={() => {setActiveFieldName(null)}}
+        disabled={activeFieldId === null}
+        onClick={() => {setActiveFieldId(null)}}
       >Activate no field</button>
       {[...Array(5).keys()].map((x, i) =>
         <button
           key={i}
-          disabled={activeFieldName == i.toString()}
-          onClick={() => {setActiveFieldName(i.toString())}}
+          disabled={activeFieldId == i.toString()}
+          onClick={() => {setActiveFieldId(i.toString())}}
         >Activate field {i}</button>
       )}
 
-      <Report mode={mode} activeFieldName={activeFieldName} />
-
-      <Form onActivate={fn => setActiveFieldName(fn)} />
+      <Form onActivate={fn => setActiveFieldId(fn)} />
     </>
   )
 }
