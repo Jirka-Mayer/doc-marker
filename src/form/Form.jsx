@@ -1,18 +1,18 @@
 import * as styles from "./Form.module.scss"
-import { Field } from "./Field"
 import { useState } from "react"
 
 import { materialRenderers, materialCells } from "@jsonforms/material-renderers"
 import { resqRenderers, resqCells } from "./renderers"
 import { JsonForms } from "@jsonforms/react"
+import { FormContext } from "./FormContext"
 
 const schema = {
   "type": "object",
   "properties": {
     "age": {
-      "type": "integer",
-      "minimum": 0,
-      "maximum": 150
+      "type": "string", // DEBUG, should be integer
+      // "minimum": 0,
+      // "maximum": 150
     },
     "gender": {
       "type": "string",
@@ -43,22 +43,22 @@ const uischema = {
 
 const initialData = {}
 
-export function Form({ onActivate }) {
+export function Form({ activeFieldId, setActiveFieldId }) {
   const [data, setData] = useState(initialData);
 
   return (
-    <div>
-      {/* <Field title="Person name" fieldName="0" onActivate={onActivate} />
-      <Field title="Age" fieldName="1" onActivate={onActivate} /> */}
+    <div style={{background: "#E7EBF0", padding: 20}}>
       
-      <JsonForms
-        schema={schema}
-        uischema={uischema}
-        data={data}
-        renderers={resqRenderers}
-        cells={resqCells}
-        onChange={({ data, errors }) => setData(data)}
-      />
+      <FormContext.Provider value={{ activeFieldId, setActiveFieldId }}>
+        <JsonForms
+          schema={schema}
+          uischema={uischema}
+          data={data}
+          renderers={resqRenderers}
+          cells={resqCells}
+          onChange={({ data, errors }) => setData(data)}
+        />
+      </FormContext.Provider>
 
       <pre>{ JSON.stringify(data, null, 2) }</pre>
 

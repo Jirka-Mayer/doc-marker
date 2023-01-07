@@ -37,9 +37,9 @@ export class QuillManager {
     // figure out where to perform content initialization with respect to react state
     this.setContents({ ops: [
       { insert: "Hello " },
-      { insert: "world!", attributes: { "highlight://#/foo/bar": true } },
+      { insert: "world!", attributes: { "highlight://#/properties/age": true } },
       { insert: "\n" },
-      { insert: "Hello", attributes: { "highlight://#/asd/baz": true } },
+      { insert: "Hello", attributes: { "highlight://#/properties/gender": true } },
       { insert: " world!\n"}
     ]})
 

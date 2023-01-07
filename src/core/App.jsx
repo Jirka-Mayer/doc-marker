@@ -39,6 +39,7 @@ export function App() {
             onClick={() => {setActiveFieldId(i.toString())}}
           >Activate field {i}</button>
         )}
+        <code>Active field: {JSON.stringify(activeFieldId)}</code>
       </div>
 
       <hr />
@@ -60,7 +61,10 @@ export function App() {
         <div className={styles["separator"]}></div>
         <div className={styles["column"]}>
           
-          <Form onActivate={fn => setActiveFieldId(fn)} />
+          <Form
+            activeFieldId={activeFieldId}
+            setActiveFieldId={fn => setActiveFieldId(fn)}
+          />
 
         </div>
       </div>
