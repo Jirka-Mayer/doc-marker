@@ -1,0 +1,25 @@
+.paper {
+  overflow: hidden;
+
+  .label {
+    background: #efefef;
+    border-bottom: 1px solid #dfdfdf;
+    padding: 2px 4px;
+  
+    white-space: normal;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    padding: 2px 4px;
+  }
+
+  .helper-text {
+    margin: 0;
+    padding: 2px 4px;
+
+    background: #f5e7e7;
+    border-top: 1px solid #ffcbcb;
+  }
+}
