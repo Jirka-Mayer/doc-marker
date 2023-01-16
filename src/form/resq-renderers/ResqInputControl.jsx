@@ -30,9 +30,11 @@ export function ResqInputControl(props) {
     formContext.setActiveFieldId(id)
   }
 
-  function onChange(newValue) {
-    //
-    // handleChange(path, newValue)
+  function onChange(e) {
+    let newValue = e.target.value
+    if (newValue === "")
+      newValue = undefined
+    handleChange(path, newValue)
   }
 
   const isFieldActive = formContext.activeFieldId === id
@@ -52,7 +54,7 @@ export function ResqInputControl(props) {
       </IconButton>
       <InputBase
         sx={{ ml: 1, flex: 1 }}
-        placeholder={id}
+        placeholder={`${path} (${id})`}
         onFocus={onFocus}
         onChange={onChange}
       />
@@ -60,6 +62,7 @@ export function ResqInputControl(props) {
       <IconButton color="default" disabled={false} sx={{ p: '10px' }}>
         <DoneIcon />
       </IconButton>
+      <p>{errors}</p>
     </Paper>
   )
 }

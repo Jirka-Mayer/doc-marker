@@ -1,8 +1,7 @@
 import * as styles from "./Form.module.scss"
 import { useState } from "react"
 
-import { materialRenderers, materialCells } from "@jsonforms/material-renderers"
-import { resqRenderers, resqCells } from "./renderers"
+import { formRenderers, formCells } from "./formRenderersAndCells"
 import { JsonForms } from "@jsonforms/react"
 import { FormContext } from "./FormContext"
 
@@ -11,6 +10,7 @@ const schema = {
   "properties": {
     "age": {
       "type": "string", // DEBUG, should be integer
+      // "type": "integer",
       // "minimum": 0,
       // "maximum": 150
     },
@@ -54,8 +54,8 @@ export function Form({ activeFieldId, setActiveFieldId }) {
           schema={schema}
           uischema={uischema}
           data={data}
-          renderers={resqRenderers}
-          cells={resqCells}
+          renderers={formRenderers}
+          cells={formCells}
           onChange={({ data, errors }) => setData(data)}
         />
       </FormContext.Provider>
