@@ -23,6 +23,7 @@ export function ResqInputControl(props) {
     input,
     
     handleChange,
+    data,
     path
   } = props;
 
@@ -55,6 +56,7 @@ export function ResqInputControl(props) {
       <InputBase
         sx={{ ml: 1, flex: 1 }}
         placeholder={`${path} (${id})`}
+        value={data}
         onFocus={onFocus}
         onChange={onChange}
       />
