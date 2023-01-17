@@ -41,10 +41,13 @@ const uischema = {
   ]
 }
 
-const initialData = {}
-
-export function Form({ activeFieldId, setActiveFieldId }) {
-  const [data, setData] = useState(initialData);
+export function Form(props) {
+  const {
+    activeFieldId,
+    setActiveFieldId,
+    formData,
+    setFormData
+  } = props
 
   return (
     <div style={{background: "#E7EBF0", padding: 20}}>
@@ -53,14 +56,14 @@ export function Form({ activeFieldId, setActiveFieldId }) {
         <JsonForms
           schema={schema}
           uischema={uischema}
-          data={data}
+          data={formData}
           renderers={formRenderers}
           cells={formCells}
-          onChange={({ data, errors }) => setData(data)}
+          onChange={({ data, errors }) => setFormData(data)}
         />
       </FormContext.Provider>
 
-      <pre>{ JSON.stringify(data, null, 2) }</pre>
+      <pre>{ JSON.stringify(formData, null, 2) }</pre>
 
     </div>
   )

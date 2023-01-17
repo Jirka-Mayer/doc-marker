@@ -21,6 +21,17 @@ export class FieldNumberAllocator {
   }
 
   /**
+   * Resets the allocator to the empty state
+   */
+  reset() {
+    this.freeNumbers = new Set(this.allNumbers)
+    this.knownIds = new Set()
+    
+    this.numberToId = new Map()
+    this.idToNumber = new Map()
+  }
+
+  /**
    * Allocates a number for a new field ID
    */
   allocateNew(id) {

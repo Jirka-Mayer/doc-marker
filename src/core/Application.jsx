@@ -5,6 +5,8 @@ import { AppMode } from "./AppMode"
 import { useReportStore } from "../report/ReportStore"
 import { QuillBinder } from "../report/QuillBinder"
 import { AppBar } from "./AppBar"
+import { Menu } from "../menu/Menu"
+import { PatientFile } from "../core/PatientFile"
 
 export function Application() {
 
@@ -12,12 +14,58 @@ export function Application() {
     quillManager, highlights, content, reportStoreDispatch
   } = useReportStore()
 
-  const [mode, setMode] = useState(AppMode.ANNOTATE_HIGHLIGHTS)
+  const [isMenuOpen, setMenuOpen] = useState(true)
+  const [mode, setMode] = useState(AppMode.EDIT_TEXT)
   const [activeFieldId, setActiveFieldId] = useState(null)
+  const [patientId, setPatientId] = useState(null)
+  const [formData, setFormData] = useState(null)
   
+  function applicationOpenFile(patientFile) {
+    const _patientId = patientFile.getPatientId()
+    const _reportDelta = patientFile.getReportDelta()
+    const _formData = patientFile.getFormData()
+
+    setPatientId(_patientId)
+    reportStoreDispatch({
+      type: "setContents",
+      delta: _reportDelta
+    })
+    setFormData(_formData)
+
+    setMode(_formData === null ? AppMode.EDIT_TEXT : AppMode.ANNOTATE_HIGHLIGHTS)
+    setMenuOpen(false)
+  }
+
+  function downloadFile() {
+    // create patient file
+    const file = PatientFile.fromApplicationState({
+      patientId,
+      reportDelta: content,
+      formData
+    })
+
+    // export JSON
+    const json = file.toPrettyJson()
+
+    // download file
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(json)
+    var a = document.createElement("a")
+    a.setAttribute("href", dataStr)
+    a.setAttribute("download", patientId + ".resq.json")
+    a.click()
+  }
+
   return (
     <>
-      <AppBar mode={mode} setMode={setMode} />
+      <Menu isMenuOpen={isMenuOpen} applicationOpenFile={applicationOpenFile} />
+
+      <AppBar
+        closeFile={() => {setMenuOpen(true)}}
+        mode={mode}
+        setMode={setMode}
+        patientId={patientId}
+        downloadFile={downloadFile}
+      />
 
       <div className={styles["columns-container"]}>
         <div className={styles["column"]}>
@@ -56,6 +104,8 @@ export function Application() {
           <Form
             activeFieldId={activeFieldId}
             setActiveFieldId={fn => setActiveFieldId(fn)}
+            formData={formData}
+            setFormData={setFormData}
           />
 
         </div>

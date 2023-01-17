@@ -72,12 +72,18 @@ export class ReportStore {
    * Call this when you want to modify the state
    */
   dispatch(action) {
+    
+    // TODO: this is dummy, it should trigger quill change instead
     if (action.type === "add") {
-      // TODO: this is dummy, it should trigger quill change instead
       this.setHighlights({
         ...this.highlights,
         [action.highlight]: action.value
       })
+    }
+
+    // set the content of the quill
+    else if (action.type === "setContents") {
+      this.quillManager.setContents(action.delta)
     }
   }
 }

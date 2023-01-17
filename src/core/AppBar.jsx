@@ -2,27 +2,41 @@ import * as styles from "./AppBar.module.scss"
 import { Button, ButtonGroup, Divider, IconButton, Paper } from "@mui/material"
 import BorderColorIcon from "@mui/icons-material/BorderColor"
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
-import ReadMoreIcon from '@mui/icons-material/ReadMore';
-import ContentCutIcon from '@mui/icons-material/ContentCut';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import ReadMoreIcon from '@mui/icons-material/ReadMore'
+import ContentCutIcon from '@mui/icons-material/ContentCut'
+import DownloadIcon from '@mui/icons-material/Download'
 import { AppMode } from "./AppMode"
 
 export function AppBar(props) {
 
   const {
+    closeFile,
     mode,
-    setMode
+    setMode,
+    patientId,
+    downloadFile
   } = props
 
   return (
     <Paper elevation={4} square className={styles["appbar"]}>
       <div className={styles["appbar__upper"]}>
-        Lorem ipsum dolor
+        <IconButton color="default" sx={{ p: '10px' }} onClick={() => closeFile()}>
+          <ArrowBackIcon />
+        </IconButton>
+        Back to menu (close file)
+        _______
+        Patient ID: {patientId}
       </div>
       <Divider />
       <div className={styles["appbar__tools"]}>
 
-        <IconButton color="default" disabled={false} sx={{ p: '10px' }}>
-          <ManageSearchIcon />
+        <IconButton
+          color="default"
+          sx={{ p: '10px' }}
+          onClick={() => downloadFile()}
+        >
+          <DownloadIcon />
         </IconButton>
 
         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical"/>

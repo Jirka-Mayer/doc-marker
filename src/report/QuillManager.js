@@ -33,16 +33,6 @@ export class QuillManager {
       this.numberAllocator
     )
 
-    // TODO: DEBUG: initialize dummy content
-    // figure out where to perform content initialization with respect to react state
-    this.setContents({ ops: [
-      { insert: "Hello " },
-      { insert: "world!", attributes: { "highlight://#/properties/age": true } },
-      { insert: "\n" },
-      { insert: "Hello", attributes: { "highlight://#/properties/gender": true } },
-      { insert: " world!\n"}
-    ]})
-
     // listen for changes
     this.startListening()
   }
@@ -53,7 +43,7 @@ export class QuillManager {
       modules: {
         toolbar: false
       },
-      placeholder: "Paste discharge report here...\nTODO: Localization",
+      placeholder: "Paste discharge report here...",
       formats: [
         // inline
         "bold", "italic", "underline", "strike", "script",
@@ -83,6 +73,7 @@ export class QuillManager {
    * Like the quill's setContents, but it translates highlight IDs automatically
    */
   setContents(delta, source) {
+    this.numberAllocator.reset()
     this.quill.setContents(
       this.numberAllocator.deltaToNumbers(delta),
       source
