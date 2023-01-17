@@ -49,7 +49,10 @@ export class QuillManager {
 
   constructQuillInstance() {
     return new Quill(this.quillElement, {
-      theme: "snow",
+      theme: false,
+      modules: {
+        toolbar: false
+      },
       placeholder: "Paste discharge report here...\nTODO: Localization",
       formats: [
         // inline

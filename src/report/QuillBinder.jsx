@@ -1,4 +1,6 @@
+import { Paper } from "@mui/material"
 import { useEffect, useRef } from "react"
+import "./QuillBinder.scss"
 
 /**
  * Binds the quill instance with the DOM as a react component
@@ -32,7 +34,9 @@ export function QuillBinder({ quillManager, appMode, activeFieldId }) {
     <div>
       <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"></link>
       
-      <div ref={bindingContainerRef}></div>
+      <Paper style={{ overflow: "hidden" }} square>
+        <div ref={bindingContainerRef}></div>
+      </Paper>
 
       <pre ref={debugRef}></pre>
     </div>

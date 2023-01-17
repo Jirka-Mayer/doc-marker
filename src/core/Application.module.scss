@@ -13,9 +13,12 @@
 .columns-container {
   display: flex;
   flex-direction: row;
-  padding-top: 20px;
+
+  flex-grow: 1;
+  overflow: hidden;
 
   .separator {
+    height: 100%;
     width: 1px;
     margin: 0 20px;
     background: #eee;
@@ -23,8 +26,12 @@
 
   .column {
     flex: 1;
+    height: 100%;
+    box-sizing: border-box;
     flex-basis: 50%;
-    padding: 0 20px;
+    padding: 40px 20px;
+    // padding-top: 40px;
     overflow-x: hidden;
+    overflow-y: scroll;
   }
 }

@@ -1,6 +1,7 @@
+import "./index.scss"
 import { createRoot } from "react-dom/client"
-import { App } from "./core/App"
+import { Application } from "./core/Application"
 
-const container = document.getElementById("app")
+const container = document.getElementById("application")
 const root = createRoot(container)
-root.render(<App />)
+root.render(<Application />)
