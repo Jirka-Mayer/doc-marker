@@ -31,7 +31,7 @@ const uischema = {
     {
       "type": "Control",
       "scope": "#/properties/age",
-      "label": "~~Age~~ Hospital arrival time (if not known, enter the best available estimate):"
+      "label": "Hospital arrival time (if not known, enter the best available estimate):"
     },
     {
       "type": "Control",

@@ -1,4 +1,4 @@
-import { InputLabel, FormControl, IconButton, OutlinedInput, Input, Paper, FormHelperText } from "@mui/material"
+import { InputLabel, FormControl, IconButton, OutlinedInput, Input, Paper, FormHelperText, Typography } from "@mui/material"
 import InputBase from "@mui/material/InputBase"
 import Divider from "@mui/material/Divider"
 import DoneIcon from "@mui/icons-material/Done"
@@ -40,16 +40,35 @@ export function ResqInputControl(props) {
     handleChange(path, newValue)
   }
 
+  // TODO: debounce input
+  // (bounces when typing too fast)
+
   const isFieldActive = formContext.activeFieldId === id
   
   return (
     <Paper
-      className={styles["paper"]}
+      className={`${styles["paper"]} ${isFieldActive ? styles["is-field-active"] : ""}`}
+      elevation={isFieldActive ? 8 : 2}
     >
       <InputLabel
         className={styles["label"]}
         htmlFor={id + "-input"}
       >{ label }</InputLabel>
+
+      <Divider />
+
+      <InputBase
+        className={styles["input"]}
+        fullWidth={true}
+        id={id + "-input"}
+        placeholder={`${path} (${id})`}
+        value={data}
+        onFocus={onFocus}
+        onChange={onChange}
+      />
+
+      <Divider />
+
       <div className={styles["row"]}>
         <IconButton
           disabled={false}
@@ -60,23 +79,25 @@ export function ResqInputControl(props) {
           <ManageSearchIcon />
           {/* <BorderColorIcon fontSize="small"/> */}
         </IconButton>
-        <InputBase
-          id={id + "-input"}
-          sx={{ ml: 1, flex: 1 }}
-          placeholder={`${path} (${id})`}
-          value={data}
-          onFocus={onFocus}
-          onChange={onChange}
-        />
+
+        <div className={styles["highlights"]}>
+          <span className={styles["highlight"]}>Lorem ipsum dolor sit amet consectetur lorem ipsum dolor</span>
+          <span className={styles["highlight"]}>Hello world!</span>
+          {/* <span className={styles["highlight"]}>Foobar baz bar. Lorem ipsum dolor sit amet. Lorem ipsum dolor.</span> */}
+        </div>
+        
         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
         <IconButton color="default" disabled={false} sx={{ p: '10px' }}>
           <DoneIcon />
         </IconButton>
       </div>
-      <FormHelperText
-        className={styles["helper-text"]}
-        error={true}
-      >{errors}</FormHelperText>
+
+      { errors === "" ? "" : (
+        <FormHelperText
+          className={styles["helper-text"]}
+          error={true}
+        >{errors}</FormHelperText>
+      )}
     </Paper>
   )
 }

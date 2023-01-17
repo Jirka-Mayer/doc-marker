@@ -2,11 +2,12 @@
   overflow: hidden;
 
   .label {
-    background: #efefef;
-    border-bottom: 1px solid #dfdfdf;
-    padding: 2px 4px;
-  
+    padding: 4px 8px;
     white-space: normal;
+  }
+
+  .input {
+    padding: 10px 13px;
   }
 
   .row {
@@ -17,9 +18,41 @@
 
   .helper-text {
     margin: 0;
-    padding: 2px 4px;
-
+    padding: 4px 8px;
     background: #f5e7e7;
-    border-top: 1px solid #ffcbcb;
+  }
+}
+
+.highlights {
+  width: 50px; // and then flex-grow to full width
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-right: 5px;
+
+  .highlight {
+    display: block;
+    margin: 2px;
+    padding: 2px;
+    color: rgba(black, 0.7);
+
+    cursor: pointer;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+
+    &:hover, .is-field-active &:hover {
+      background: #00800036;
+    }
+
+    .is-field-active & {
+      background: #0080001a;
+    }
   }
 }
