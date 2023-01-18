@@ -38,6 +38,8 @@ export class QuillManager {
   }
 
   constructQuillInstance() {
+    this.quillElement.setAttribute("spellcheck", false)
+
     return new Quill(this.quillElement, {
       theme: false,
       modules: {

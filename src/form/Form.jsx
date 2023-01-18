@@ -4,6 +4,7 @@ import { useState } from "react"
 import { formRenderers, formCells } from "./formRenderersAndCells"
 import { JsonForms } from "@jsonforms/react"
 import { FormContext } from "./FormContext"
+import { DesigningControls } from "./DesigningControls"
 
 const schema = {
   "type": "object",
@@ -64,6 +65,8 @@ export function Form(props) {
       </FormContext.Provider>
 
       <pre>{ JSON.stringify(formData, null, 2) }</pre>
+
+      <DesigningControls />
 
     </div>
   )
