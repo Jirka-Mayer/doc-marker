@@ -2,6 +2,8 @@
   width: 400px;
 }
 
+// -------------------------
+
 .checkbox-row {
   display: flex;
   flex-direction: row;
@@ -30,5 +32,22 @@
 }
 
 .checkbox-row--verified {
+  background: #2e7d321c;
+}
+
+// ---------------------------
+
+.field-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px 10px 5px 10px;
+}
+
+.field-row--active {
+  background: #1976d21c;
+}
+
+.field-row--verified {
   background: #2e7d321c;
 }

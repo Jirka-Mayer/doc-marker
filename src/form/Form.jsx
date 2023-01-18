@@ -6,41 +6,9 @@ import { JsonForms } from "@jsonforms/react"
 import { FormContext } from "./FormContext"
 import { DesigningControls } from "./DesigningControls"
 
-const schema = {
-  "type": "object",
-  "properties": {
-    "age": {
-      "type": "string", // DEBUG, should be integer
-      // "type": "integer",
-      // "minimum": 0,
-      // "maximum": 150
-    },
-    "gender": {
-      "type": "string",
-      "enum": [
-        "Male",
-        "Female",
-        "Other"
-      ]
-    }
-  },
-  "required": ["gender"]
-}
-const uischema = {
-  "type": "HorizontalLayout",
-  "elements": [
-    {
-      "type": "Control",
-      "scope": "#/properties/age",
-      "label": "Hospital arrival time (if not known, enter the best available estimate):"
-    },
-    {
-      "type": "Control",
-      "scope": "#/properties/gender",
-      "label": "Gender"
-    }
-  ]
-}
+import dataSchema from "./schemas/data-schema.json"
+import uiSchema from "./schemas/ui-schema.json"
+import { FieldState } from "./FieldState"
 
 export function Form(props) {
   const {
@@ -50,23 +18,53 @@ export function Form(props) {
     setFormData
   } = props
 
+  const [formErrors, setFormErrors] = useState(null)
+
+  const [fieldStates, setFieldStates] = useState({})
+  function getFieldState(fieldId) {
+    return fieldStates[fieldId] || FieldState.EMPTY
+  }
+  function setFieldState(fieldId, state) {
+    setFieldStates({
+      ...fieldStates,
+      [fieldId]: state
+    })
+  }
+
   return (
     <div style={{background: "#E7EBF0", padding: 20}}>
+
+      <button onClick={() => {
+        setFormData({ ...formData, age: 42 })
+        setFieldState("#/properties/age", FieldState.ROBOT_VALUE)
+      }}>Robot resolve age</button>
+      <br/>
+      <br/>
       
-      <FormContext.Provider value={{ activeFieldId, setActiveFieldId }}>
+      <FormContext.Provider value={{
+        activeFieldId, setActiveFieldId,
+        getFieldState, setFieldState
+      }}>
         <JsonForms
-          schema={schema}
-          uischema={uischema}
+          schema={dataSchema}
+          uischema={uiSchema}
           data={formData}
           renderers={formRenderers}
           cells={formCells}
-          onChange={({ data, errors }) => setFormData(data)}
+          onChange={({ data, errors }) => {
+            setFormData(data)
+            setFormErrors(errors)
+          }}
         />
       </FormContext.Provider>
 
-      <pre>{ JSON.stringify(formData, null, 2) }</pre>
+      <pre>Data: { JSON.stringify(formData, null, 2) }</pre>
 
-      <DesigningControls />
+      <pre>States: { JSON.stringify(fieldStates, null, 2) }</pre>
+
+      <pre>Errors: { JSON.stringify(formErrors, null, 2) }</pre>
+
+      {/* <DesigningControls /> */}
 
     </div>
   )

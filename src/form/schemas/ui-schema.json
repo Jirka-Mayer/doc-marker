@@ -1,0 +1,15 @@
+{
+  "type": "HorizontalLayout",
+  "elements": [
+    {
+      "type": "Control",
+      "scope": "#/properties/age",
+      "label": "Hospital arrival time (if not known, enter the best available estimate):"
+    },
+    {
+      "type": "Control",
+      "scope": "#/properties/gender",
+      "label": "Gender"
+    }
+  ]
+}

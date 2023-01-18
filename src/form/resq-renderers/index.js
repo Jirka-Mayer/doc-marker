@@ -8,11 +8,19 @@ import ResqTextControl, {
   ResqTextControl as ResqTextControlUnwrapped
 } from "./ResqTextControl"
 
+import ResqIntegerControl, {
+  resqIntegerControlTester,
+  ResqIntegerControl as ResqIntegerControlUnwrapped
+} from "./ResqIntegerControl"
+
 export const Unwrapped = {
-  ResqTextControl: ResqTextControlUnwrapped
+  ResqTextControl: ResqTextControlUnwrapped,
+  ResqIntegerControl: ResqIntegerControlUnwrapped
 }
 
 export {
   ResqTextControl,
-  resqTextControlTester
+  resqTextControlTester,
+  ResqIntegerControl,
+  resqIntegerControlTester
 }

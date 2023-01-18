@@ -1,3 +1,43 @@
+.field-label {
+  padding: 4px 8px !important;
+  white-space: normal !important;
+}
+
+.field-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 5px 10px 5px 10px;
+}
+
+.field-row--active {
+  background: #1976d21c;
+}
+
+.field-row--verified {
+  background: #2e7d321c;
+}
+
+.field-flag-button {
+  opacity: 0;
+
+  .field-row:hover & {
+    opacity: 1;
+  }
+
+  .field-row--active & {
+    opacity: 1;
+  }
+}
+
+.field-error-message {
+  margin: 0 !important;
+  padding: 4px 8px !important;
+  background: #f5e7e7;
+}
+
+// ====================================================
+
 .paper {
   overflow: hidden;
 

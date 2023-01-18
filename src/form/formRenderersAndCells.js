@@ -9,14 +9,16 @@ import { materialHorizontalLayoutTester, MaterialHorizontalLayout } from "@jsonf
 import { materialVerticalLayoutTester, MaterialVerticalLayout } from "@jsonforms/material-renderers"
 
 import { resqTextControlTester, ResqTextControl } from "./resq-renderers"
+import { resqIntegerControlTester, ResqIntegerControl } from "./resq-renderers"
 
 export const formRenderers = [
   // controls
   //{ tester: materialTextControlTester, renderer: MaterialTextControl },
-  { tester: materialIntegerControlTester, renderer: MaterialIntegerControl },
+  //{ tester: materialIntegerControlTester, renderer: MaterialIntegerControl },
 
   // resq controls
   { tester: resqTextControlTester, renderer: ResqTextControl },
+  { tester: resqIntegerControlTester, renderer: ResqIntegerControl },
 
   // layouts
   { tester: materialHorizontalLayoutTester, renderer: MaterialHorizontalLayout },
