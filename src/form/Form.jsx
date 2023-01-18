@@ -15,7 +15,9 @@ export function Form(props) {
     activeFieldId,
     setActiveFieldId,
     formData,
-    setFormData
+    setFormData,
+    highlights,
+    reportStoreDispatch
   } = props
 
   const [formErrors, setFormErrors] = useState(null)
@@ -35,15 +37,18 @@ export function Form(props) {
     <div style={{background: "#E7EBF0", padding: 20}}>
 
       <button onClick={() => {
+        let fieldId = "#/properties/age"
         setFormData({ ...formData, age: 42 })
-        setFieldState("#/properties/age", FieldState.ROBOT_VALUE)
+        setFieldState(fieldId, FieldState.ROBOT_VALUE)
+        reportStoreDispatch({ type: "highlight", fieldId, range: [74, 9] })
       }}>Robot resolve age</button>
       <br/>
       <br/>
       
       <FormContext.Provider value={{
         activeFieldId, setActiveFieldId,
-        getFieldState, setFieldState
+        getFieldState, setFieldState,
+        highlights, reportStoreDispatch
       }}>
         <JsonForms
           schema={dataSchema}

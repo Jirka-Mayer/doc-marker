@@ -76,9 +76,13 @@ export function Application() {
             activeFieldId={activeFieldId}
           />
           
-          <pre>Highlights: { JSON.stringify(highlights) }</pre>
-          <button onClick={() => reportStoreDispatch({ type: "add", highlight: "a", value: 42 })}>Set 42</button>
-          <pre>Content: { JSON.stringify(content, null, 2) }</pre>
+          <pre
+            style={{ whiteSpace: "pre-wrap" }}
+          >Highlights: { JSON.stringify(highlights, null, 2) }</pre>
+
+          <pre
+            style={{ whiteSpace: "pre-wrap" }}
+          >Content: { JSON.stringify(content, null, 2) }</pre>
 
           <div>
             <a href="./copy-test.html">copy-test</a>
@@ -106,6 +110,8 @@ export function Application() {
             setActiveFieldId={fn => setActiveFieldId(fn)}
             formData={formData}
             setFormData={setFormData}
+            highlights={highlights}
+            reportStoreDispatch={reportStoreDispatch}
           />
 
         </div>

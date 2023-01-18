@@ -32,6 +32,16 @@ export class HighlightManager {
   }
 
   /**
+   * Highlights text for some field
+   */
+  highlightText(index, length, fieldId) {
+    const fieldNumber = this.numberAllocator.getNumber(fieldId)
+    this.quill.formatText(index, length, {
+      ["highlight-" + fieldNumber]: "yes"
+    })
+  }
+
+  /**
    * Called by quill on selection change
    */
   onSelectionChange(range, oldRange, source) {

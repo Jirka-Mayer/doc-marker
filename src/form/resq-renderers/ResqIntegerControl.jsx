@@ -6,11 +6,12 @@ import SmartToyIcon from '@mui/icons-material/SmartToy'
 import CheckIcon from '@mui/icons-material/Check'
 import FlagIcon from '@mui/icons-material/Flag'
 import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags'
-import { FieldState } from "../FieldState"
+import NotListedLocationIcon from '@mui/icons-material/NotListedLocation'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
 import { useDebouncedChange } from "@jsonforms/material-renderers/src/util/debounce"
 import { useFieldActivity } from "../useFieldActivity"
 import { useFieldState } from "../useFieldState"
-import { useCallback } from "react"
+import { useFieldHighlights } from "../useFieldHighlights"
 
 const toNumber = (value) => value === '' ? undefined : parseInt(value, 10)
 const eventToValue = (e) => toNumber(e.target.value)
@@ -30,6 +31,8 @@ export function ResqIntegerControl(props) {
   const fieldId = id
   const htmlId = id + "-input"
 
+  const isEmpty = data === undefined
+
   const {
     isFieldActive,
     toggleFieldActivity,
@@ -44,6 +47,11 @@ export function ResqIntegerControl(props) {
     updateFieldStateWithChange
   } = useFieldState(fieldId, isFieldActive)
 
+  const {
+    highlightsRanges,
+    hasHighlights
+  } = useFieldHighlights(fieldId)
+
   const [inputValue, onChange] = useDebouncedChange(
     handleChange, '', data, path, eventToValue
   )
@@ -56,6 +64,14 @@ export function ResqIntegerControl(props) {
 
   function onFocus() {
     setFieldActive()
+  }
+
+  function selectHighlightPinIcon() {
+    if (isEmpty)
+      return <SmartToyIcon />
+    if (!hasHighlights && !isEmpty)
+      return <NotListedLocationIcon />
+    return <LocationOnIcon />
   }
 
   return (
@@ -89,6 +105,15 @@ export function ResqIntegerControl(props) {
           className={styles["field-flag-button"]}
         >
           {isFieldActive ? <FlagIcon /> : <EmojiFlagsIcon />}
+        </IconButton>
+
+        {/* Highlight pin button */}
+        <IconButton
+          // onClick={toggleFieldActivity}
+          sx={{ p: '10px' }}
+          className={styles["field-highlights-button"]}
+        >
+          {selectHighlightPinIcon()}
         </IconButton>
 
         {/* Robot value verification button */}

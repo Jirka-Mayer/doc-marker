@@ -2,6 +2,7 @@ import * as styles from "./AppBar.module.scss"
 import { Button, ButtonGroup, Divider, IconButton, Paper } from "@mui/material"
 import BorderColorIcon from "@mui/icons-material/BorderColor"
 import ManageSearchIcon from '@mui/icons-material/ManageSearch'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
@@ -55,7 +56,7 @@ export function AppBar(props) {
             disableElevation
           >Anonymize</Button>
           <Button
-            startIcon={<BorderColorIcon />}
+            startIcon={<LocationOnIcon />}
             variant={mode === AppMode.ANNOTATE_HIGHLIGHTS ? "contained" : "outlined"}
             onClick={() => {setMode(AppMode.ANNOTATE_HIGHLIGHTS)}}
             disableElevation

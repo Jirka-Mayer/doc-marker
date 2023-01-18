@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { QuillManager } from "./QuillManager";
 import { useLazyRef } from "../core/useLazyRef"
+import { contentsToHighlights } from "./contentsToHighlights";
 
 /**
  * Integrates the report store into react as a custom hook
@@ -63,9 +64,11 @@ export class ReportStore {
    * Called by quill manager when the content of quill changes
    */
   onTextChange(delta) {
-    // TODO: compute new highlights?
-
-    this.setContent(this.quillManager.getContents())
+    let contents = this.quillManager.getContents()
+    let highlights = contentsToHighlights(contents)
+    
+    this.setContent(contents)
+    this.setHighlights(highlights)
   }
 
   /**
@@ -73,17 +76,16 @@ export class ReportStore {
    */
   dispatch(action) {
     
-    // TODO: this is dummy, it should trigger quill change instead
-    if (action.type === "add") {
-      this.setHighlights({
-        ...this.highlights,
-        [action.highlight]: action.value
-      })
+    // set the content of the quill
+    if (action.type === "setContents") {
+      this.quillManager.setContents(action.delta)
     }
 
-    // set the content of the quill
-    else if (action.type === "setContents") {
-      this.quillManager.setContents(action.delta)
+    // highlight a range for a field
+    else if (action.type === "highlight") {
+      this.quillManager.highlightText(
+        action.range[0], action.range[1], action.fieldId
+      )
     }
   }
 }

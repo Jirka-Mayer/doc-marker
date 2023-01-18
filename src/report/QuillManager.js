@@ -90,6 +90,13 @@ export class QuillManager {
     return this.numberAllocator.deltaToIds(delta)
   }
 
+  /**
+   * Add a highlight for some field to some text
+   */
+  highlightText(index, length, fieldId) {
+    this.highlightManager.highlightText(index, length, fieldId)
+  }
+
   ///////////////
   // Rendering //
   ///////////////
