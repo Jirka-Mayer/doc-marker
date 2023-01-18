@@ -87,5 +87,10 @@ export class ReportStore {
         action.range[0], action.range[1], action.fieldId
       )
     }
+
+    // scroll highlight into view
+    else if (action.type === "scrollHighlightIntoView") {
+      this.quillManager.scrollHighlightIntoView(action.fieldId)
+    }
   }
 }

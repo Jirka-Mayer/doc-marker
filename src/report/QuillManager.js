@@ -150,4 +150,22 @@ export class QuillManager {
     const activeFieldNumber = this.numberAllocator.getNumber(fieldId)
     this.quillElement.classList.add(styles["active-" + activeFieldNumber])
   }
+
+  /**
+   * Scrolls the first highlight element for the field into view
+   */
+  scrollHighlightIntoView(fieldId) {
+    const fieldNumber = this.numberAllocator.getNumber(fieldId)
+    let element = this.quillElement.querySelector(
+      "." + styles["highlight-" + fieldNumber + "-yes"]
+    )
+
+    if (!element)
+      return
+      
+    element.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    })
+  }
 }

@@ -12,6 +12,8 @@ import { useDebouncedChange } from "@jsonforms/material-renderers/src/util/debou
 import { useFieldActivity } from "../useFieldActivity"
 import { useFieldState } from "../useFieldState"
 import { useFieldHighlights } from "../useFieldHighlights"
+import { useContext } from "react"
+import { FormContext } from "../FormContext"
 
 const toNumber = (value) => value === '' ? undefined : parseInt(value, 10)
 const eventToValue = (e) => toNumber(e.target.value)
@@ -32,6 +34,10 @@ export function ResqIntegerControl(props) {
   const htmlId = id + "-input"
 
   const isEmpty = data === undefined
+
+  const {
+    reportStoreDispatch
+  } = useContext(FormContext)
 
   const {
     isFieldActive,
@@ -64,6 +70,7 @@ export function ResqIntegerControl(props) {
 
   function onFocus() {
     setFieldActive()
+    reportStoreDispatch({ type: "scrollHighlightIntoView", fieldId })
   }
 
   function selectHighlightPinIcon() {
