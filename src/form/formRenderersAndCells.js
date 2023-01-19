@@ -5,6 +5,7 @@
 
 import { materialTextControlTester, MaterialTextControl } from "@jsonforms/material-renderers"
 import { materialIntegerControlTester, MaterialIntegerControl } from "@jsonforms/material-renderers"
+import { materialGroupTester, MaterialGroupLayout } from "@jsonforms/material-renderers"
 import { materialHorizontalLayoutTester, MaterialHorizontalLayout } from "@jsonforms/material-renderers"
 import { materialVerticalLayoutTester, MaterialVerticalLayout } from "@jsonforms/material-renderers"
 
@@ -21,6 +22,7 @@ export const formRenderers = [
   { tester: resqIntegerControlTester, renderer: ResqIntegerControl },
 
   // layouts
+  { tester: materialGroupTester, renderer: MaterialGroupLayout },
   { tester: materialHorizontalLayoutTester, renderer: MaterialHorizontalLayout },
   { tester: materialVerticalLayoutTester, renderer: MaterialVerticalLayout },
 ]

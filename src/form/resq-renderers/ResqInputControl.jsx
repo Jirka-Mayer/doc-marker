@@ -85,7 +85,7 @@ export function ResqInputControl(props) {
       <InputLabel
         className={styles["field-label"]}
         htmlFor={htmlId}
-      >{ label || `[${id}]` }</InputLabel>
+      >{ uischema.label || `${fieldId}` }</InputLabel>
       <Divider/>
       <div className={[
         styles["field-row"],

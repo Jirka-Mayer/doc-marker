@@ -1,14 +1,14 @@
 import * as styles from "./Form.module.scss"
 import { useState } from "react"
-
 import { formRenderers, formCells } from "./formRenderersAndCells"
 import { JsonForms } from "@jsonforms/react"
 import { FormContext } from "./FormContext"
 import { DesigningControls } from "./DesigningControls"
-
-import dataSchema from "./schemas/data-schema.json"
-import uiSchema from "./schemas/ui-schema.json"
 import { FieldState } from "./FieldState"
+
+// load the correct form
+import dataSchema from "../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/data-schema.json"
+import uiSchema from "../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/ui-schema.json"
 
 export function Form(props) {
   const {
