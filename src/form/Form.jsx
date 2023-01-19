@@ -37,8 +37,9 @@ export function Form(props) {
     <div style={{background: "#E7EBF0", padding: 20}}>
 
       <button onClick={() => {
-        let fieldId = "#/properties/age"
-        setFormData({ ...formData, age: 42 })
+        let fieldId = "#/properties/anamnesis/properties/age"
+        let d = formData || {}
+        setFormData({ ...d, anamnesis: { ...d.anamnesis, age: 42 } })
         setFieldState(fieldId, FieldState.ROBOT_VALUE)
         reportStoreDispatch({ type: "highlight", fieldId, range: [74, 9] })
       }}>Robot resolve age</button>

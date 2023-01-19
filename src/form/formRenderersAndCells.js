@@ -3,12 +3,10 @@
   https://github.com/eclipsesource/jsonforms/blob/master/packages/material-renderers/src
 */
 
-import { materialTextControlTester, MaterialTextControl } from "@jsonforms/material-renderers"
-import { materialIntegerControlTester, MaterialIntegerControl } from "@jsonforms/material-renderers"
-import { materialGroupTester, MaterialGroupLayout } from "@jsonforms/material-renderers"
 import { materialHorizontalLayoutTester, MaterialHorizontalLayout } from "@jsonforms/material-renderers"
-import { materialVerticalLayoutTester, MaterialVerticalLayout } from "@jsonforms/material-renderers"
 
+import { resqVerticalLayoutTester, ResqVerticalLayout } from "./resq-renderers"
+import { resqGroupTester, ResqGroupLayout } from "./resq-renderers"
 import { resqTextControlTester, ResqTextControl } from "./resq-renderers"
 import { resqIntegerControlTester, ResqIntegerControl } from "./resq-renderers"
 
@@ -22,9 +20,9 @@ export const formRenderers = [
   { tester: resqIntegerControlTester, renderer: ResqIntegerControl },
 
   // layouts
-  { tester: materialGroupTester, renderer: MaterialGroupLayout },
+  { tester: resqGroupTester, renderer: ResqGroupLayout },
   { tester: materialHorizontalLayoutTester, renderer: MaterialHorizontalLayout },
-  { tester: materialVerticalLayoutTester, renderer: MaterialVerticalLayout },
+  { tester: resqVerticalLayoutTester, renderer: ResqVerticalLayout },
 ]
 
 export const formCells = []

@@ -3,6 +3,20 @@
   https://github.com/eclipsesource/jsonforms/blob/master/packages/material-renderers/src/controls/index.ts
 */
 
+
+// ========== Layouts ==========
+
+import ResqVerticalLayout, {
+  resqVerticalLayoutTester
+} from "./ResqVerticalLayout"
+
+import ResqGroupLayout, {
+  resqGroupTester
+} from "./ResqGroupLayout"
+
+
+// ========== Controls ==========
+
 import ResqTextControl, {
   resqTextControlTester,
   ResqTextControl as ResqTextControlUnwrapped
@@ -13,12 +27,22 @@ import ResqIntegerControl, {
   ResqIntegerControl as ResqIntegerControlUnwrapped
 } from "./ResqIntegerControl"
 
+
+// ========== Export ==========
+
 export const Unwrapped = {
   ResqTextControl: ResqTextControlUnwrapped,
   ResqIntegerControl: ResqIntegerControlUnwrapped
 }
 
 export {
+  // layouts
+  ResqVerticalLayout,
+  resqVerticalLayoutTester,
+  ResqGroupLayout,
+  resqGroupTester,
+
+  // controls
   ResqTextControl,
   resqTextControlTester,
   ResqIntegerControl,

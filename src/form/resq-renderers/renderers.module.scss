@@ -1,3 +1,9 @@
+.vertical-layout__row {
+  margin-bottom: 16px;
+}
+
+// ====================================================
+
 .field-label {
   padding: 4px 8px !important;
   white-space: normal !important;
@@ -37,6 +43,7 @@
 }
 
 // ====================================================
+// probably legacy and can be removed:
 
 .paper {
   overflow: hidden;
