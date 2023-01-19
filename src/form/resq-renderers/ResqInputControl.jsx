@@ -27,7 +27,8 @@ export function ResqInputControl(props) {
     uischema,
     path,
     handleChange,
-    controlInput: InnerComponent
+    controlInput: InnerComponent,
+    controlInputProps: controlInputPropsGiven
   } = props
 
   const fieldId = id
@@ -69,6 +70,9 @@ export function ResqInputControl(props) {
   }
 
   const controlInputProps = {
+    // given props
+    ...controlInputPropsGiven,
+
     // json forms
     data,
     path,

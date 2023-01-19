@@ -42,6 +42,22 @@
   background: #f5e7e7;
 }
 
+.field-select-container {
+  flex: 1;
+
+  :global(.MuiInput-root):before {
+    display: none;
+  }
+
+  :global(.MuiSelect-icon) {
+    opacity: 0;
+
+    .field-row:hover & {
+      opacity: 1;
+    }
+  }
+}
+
 // ====================================================
 // probably legacy and can be removed:
 

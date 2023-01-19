@@ -27,6 +27,11 @@ import ResqIntegerControl, {
   ResqIntegerControl as ResqIntegerControlUnwrapped
 } from "./ResqIntegerControl"
 
+import ResqEnumControl, {
+  resqEnumControlTester,
+  ResqEnumControl as ResqEnumControlUnwrapped
+} from "./ResqEnumControl"
+
 
 // ========== Export ==========
 
@@ -46,5 +51,7 @@ export {
   ResqTextControl,
   resqTextControlTester,
   ResqIntegerControl,
-  resqIntegerControlTester
+  resqIntegerControlTester,
+  ResqEnumControl,
+  resqEnumControlTester
 }
