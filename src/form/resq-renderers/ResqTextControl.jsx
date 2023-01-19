@@ -1,9 +1,15 @@
 import { isStringControl, rankWith } from "@jsonforms/core"
 import { withJsonFormsControlProps } from "@jsonforms/react"
 import { ResqInputControl } from "./ResqInputControl"
+import { ControlInputText } from "./ControlInputText"
 
 export function ResqTextControl(props) {
-  return <ResqInputControl {...props} />
+  return (
+    <ResqInputControl
+      {...props}
+      controlInput={ControlInputText}
+    />
+  )
 }
 
 export const resqTextControlTester = rankWith(

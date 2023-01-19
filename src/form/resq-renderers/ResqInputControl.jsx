@@ -1,100 +1,137 @@
-import { InputLabel, FormControl, IconButton, OutlinedInput, Input, Paper, FormHelperText, Typography } from "@mui/material"
-import InputBase from "@mui/material/InputBase"
-import Divider from "@mui/material/Divider"
-import DoneIcon from "@mui/icons-material/Done"
-import ShortTextIcon from "@mui/icons-material/ShortText"
-import ManageSearchIcon from '@mui/icons-material/ManageSearch'
-import BorderColorIcon from "@mui/icons-material/BorderColor"
-import { useContext } from "react"
+import * as styles from "./renderers.module.scss"
+import { FormHelperText, InputLabel, Divider, Paper, IconButton, ToggleButton } from "@mui/material"
+import SmartToyIcon from '@mui/icons-material/SmartToy'
+import CheckIcon from '@mui/icons-material/Check'
+import FlagIcon from '@mui/icons-material/Flag'
+import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags'
+import NotListedLocationIcon from '@mui/icons-material/NotListedLocation'
+import LocationOnIcon from '@mui/icons-material/LocationOn'
+import { useFieldActivity } from "../useFieldActivity"
+import { useFieldState } from "../useFieldState"
+import { useFieldHighlights } from "../useFieldHighlights"
+import { useContext, useEffect } from "react"
 import { FormContext } from "../FormContext"
 
-import * as styles from "./renderers.module.scss"
-
+/**
+ * Wrapper for all input controls that have the "label : field : errors" structure
+ * where the field is a text/intener/select input (any one-line input).
+ * The control "input" element is passed as a prop "controlInput"
+ * and inside used as "InnerComponent"
+ */
 export function ResqInputControl(props) {
-  const formContext = useContext(FormContext)
-  
   const {
-    id,
-    description,
-    errors,
-    label,
-    uischema,
-    visible,
-    required,
-    config,
-    input,
-    
-    handleChange,
     data,
-    path
-  } = props;
+    label,
+    errors,
+    id,
+    uischema,
+    path,
+    handleChange,
+    controlInput: InnerComponent
+  } = props
+
+  const fieldId = id
+  const htmlId = id + "-input"
+
+  const isEmpty = data === undefined
+
+  const {
+    reportStoreDispatch
+  } = useContext(FormContext)
+
+  const {
+    isFieldActive,
+    toggleFieldActivity,
+    setFieldActive
+  } = useFieldActivity(fieldId)
+
+  const {
+    hasRobotValue,
+    isVerified,
+    hasVerifiedAppearance,
+    toggleRobotVerified,
+    updateFieldStateWithChange
+  } = useFieldState(fieldId, isFieldActive)
+
+  const {
+    highlightsRanges,
+    hasHighlights
+  } = useFieldHighlights(fieldId)
+
+  // called with onChange before input debouncing and handleChange
+  function observeChange(newData) {
+    updateFieldStateWithChange(newData)
+  }
 
   function onFocus() {
-    formContext.setActiveFieldId(id)
+    setFieldActive()
+    reportStoreDispatch({ type: "scrollHighlightIntoView", fieldId })
   }
 
-  function onChange(e) {
-    let newValue = e.target.value
-    if (newValue === "")
-      newValue = undefined
-    handleChange(path, newValue)
+  const controlInputProps = {
+    // json forms
+    data,
+    path,
+    handleChange,
+
+    // resq
+    htmlId,
+    onFocus,
+    observeChange,
   }
 
-  // TODO: debounce input
-  // (bounces when typing too fast)
-
-  const isFieldActive = formContext.activeFieldId === id
-  
   return (
-    <Paper
-      className={`${styles["paper"]} ${isFieldActive ? styles["is-field-active"] : ""}`}
-      elevation={isFieldActive ? 8 : 2}
-    >
+    <Paper>
       <InputLabel
-        className={styles["label"]}
-        htmlFor={id + "-input"}
-      >{ label }</InputLabel>
+        className={styles["field-label"]}
+        htmlFor={htmlId}
+      >{ label || `[${id}]` }</InputLabel>
+      <Divider/>
+      <div className={[
+        styles["field-row"],
+        isFieldActive ? styles["field-row--active"] : "",
+        hasVerifiedAppearance ? styles["field-row--verified"] : ""
+      ].join(" ")}>
 
-      <Divider />
+        <InnerComponent {...controlInputProps} />
 
-      <InputBase
-        className={styles["input"]}
-        fullWidth={true}
-        id={id + "-input"}
-        placeholder={`${path} (${id})`}
-        value={data}
-        onFocus={onFocus}
-        onChange={onChange}
-      />
-
-      <Divider />
-
-      <div className={styles["row"]}>
+        {/* Activity flag button */}
         <IconButton
-          disabled={false}
-          color={isFieldActive ? "primary" : "default"}
+          onClick={toggleFieldActivity}
           sx={{ p: '10px' }}
+          className={styles["field-flag-button"]}
         >
-          {/* <ShortTextIcon /> */}
-          <ManageSearchIcon />
-          {/* <BorderColorIcon fontSize="small"/> */}
+          {isFieldActive ? <FlagIcon /> : <EmojiFlagsIcon />}
         </IconButton>
 
-        <div className={styles["highlights"]}>
-          <span className={styles["highlight"]}>Lorem ipsum dolor sit amet consectetur lorem ipsum dolor</span>
-          <span className={styles["highlight"]}>Hello world!</span>
-          {/* <span className={styles["highlight"]}>Foobar baz bar. Lorem ipsum dolor sit amet. Lorem ipsum dolor.</span> */}
-        </div>
-        
-        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-        <IconButton color="default" disabled={false} sx={{ p: '10px' }}>
-          <DoneIcon />
-        </IconButton>
+        {/* Highlight pin button */}
+        { hasHighlights ?
+          <IconButton
+            sx={{ p: '10px' }}
+            className={styles["field-highlights-button"]}
+          >
+            <LocationOnIcon />
+          </IconButton>
+        : ""}
+
+        {/* Robot value verification button */}
+        { hasRobotValue ? (
+          <ToggleButton
+            size="small"
+            color={hasVerifiedAppearance ? "success" : "primary"}
+            value="check"
+            selected={isVerified}
+            onChange={toggleRobotVerified}
+          >
+            <SmartToyIcon />
+            <CheckIcon />
+          </ToggleButton>
+        ) : ""}
+
       </div>
-
       { errors === "" ? "" : (
         <FormHelperText
-          className={styles["helper-text"]}
+          className={styles["field-error-message"]}
           error={true}
         >{errors}</FormHelperText>
       )}
