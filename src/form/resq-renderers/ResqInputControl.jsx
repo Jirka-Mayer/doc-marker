@@ -112,7 +112,7 @@ export function ResqInputControl(props) {
         { hasHighlights ?
           <IconButton
             sx={{ p: '10px' }}
-            className={styles["field-highlights-button"]}
+            // className={styles["field-highlights-button"]}
           >
             <LocationOnIcon />
           </IconButton>

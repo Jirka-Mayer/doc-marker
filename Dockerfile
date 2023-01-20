@@ -9,6 +9,7 @@ RUN npm install
 
 # copy source code and build
 COPY ./src ./src
+COPY ./forms ./forms
 RUN npm run build
 
 # build runtime image

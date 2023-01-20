@@ -1,6 +1,8 @@
 RES-Q+ Client
 =============
 
+Try it out at: https://ufallab.ms.mff.cuni.cz/~mayer/resq-client/
+
 After cloning the repo:
 
 ```
@@ -24,11 +26,17 @@ Developed on node `v16.14.0`.
 To build the docker image:
 
 ```
-docker build --tag resqplus-client:dev .
+npm run dockerBuild
 ```
 
 To run the docker image:
 
 ```
-docker run --rm -it -p 1234:80 resqplus-client:dev
+npm run dockerRun
+```
+
+To push the docker image to Docker Hub:
+
+```
+npm run dockerPush
 ```

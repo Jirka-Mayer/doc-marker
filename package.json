@@ -1,10 +1,14 @@
 {
   "name": "resqplus-client",
+  "version": "0.1.0-dev",
   "source": "src/index.html",
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build"
+    "build": "parcel build --public-url ./",
+    "dockerBuild": "docker build --tag jirkamayer/resqplus-client:$npm_package_version .",
+    "dockerPush": "docker push jirkamayer/resqplus-client:$npm_package_version",
+    "dockerRun": "docker run --rm -it -p 1234:80 jirkamayer/resqplus-client:$npm_package_version"
   },
   "devDependencies": {
     "@emotion/react": "^11.10.5",

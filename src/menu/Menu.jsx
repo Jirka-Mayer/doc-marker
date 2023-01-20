@@ -4,6 +4,9 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { useState } from "react"
 import { PatientFile } from "../core/PatientFile"
 
+import packageJson from "../../package.json"
+const VERSION = packageJson.version
+
 import json_test_onlyDischargeReport from "./test__only-discharge-report.json"
 
 export function Menu(props) {
@@ -68,8 +71,9 @@ export function Menu(props) {
 
       <div className={styles["container"]}>
 
-        <Typography variant="h3" gutterBottom>RES-Q+ Data Entry Platform</Typography>
-
+        <Typography variant="h3">RES-Q+ Data Entry Platform</Typography>
+        <Typography variant="h5" gutterBottom sx={{ opacity: 0.5 }}>[v{VERSION}]</Typography>
+        
         <Typography variant="h5" gutterBottom>Real Data</Typography>
 
         <Typography variant="body1" gutterBottom>
