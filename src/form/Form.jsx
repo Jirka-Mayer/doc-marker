@@ -5,6 +5,7 @@ import { JsonForms } from "@jsonforms/react"
 import { FormContext } from "./FormContext"
 import { DesigningControls } from "./DesigningControls"
 import { FieldState } from "./FieldState"
+import { exportToResqOnline } from "./exportToResqOnline"
 
 // load the correct form
 import dataSchema from "../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/data-schema.json"
@@ -43,6 +44,9 @@ export function Form(props) {
         setFieldState(fieldId, FieldState.ROBOT_VALUE)
         reportStoreDispatch({ type: "highlight", fieldId, range: [74, 9] })
       }}>Robot resolve age</button>
+      <button onClick={() => {
+        exportToResqOnline(formData, uiSchema, dataSchema)
+      }}>Export to RESQ online form</button>
       <br/>
       <br/>
       

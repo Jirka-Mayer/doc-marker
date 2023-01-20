@@ -11,7 +11,8 @@
             {
               "type": "Control",
               "scope": "#/properties/anamnesis/properties/age",
-              "label": "Věk"
+              "label": "Věk",
+              "onlineFormId": "input6814"
             },
             {
               "type": "Control",
@@ -21,7 +22,8 @@
                 "1 (Male)": "muž",
                 "2 (Female)": "žena",
                 "3 (Other)": "jiné"
-              }
+              },
+              "onlineFormId": "input6815"
             }
           ]
         },
@@ -31,12 +33,14 @@
             {
               "type": "Control",
               "scope": "#/properties/onset/properties/wakeup_stroke",
-              "label": "Pacient se s příznaky CMP probudil?"
+              "label": "Pacient se s příznaky CMP probudil?",
+              "onlineFormId": "input6816"
             },
             {
               "type": "Control",
               "scope": "#/properties/onset/properties/patient_bed_time",
               "label": "Kdy šel pacient spát?",
+              "onlineFormId": "input6817",
               "rule": {
                 "effect": "SHOW",
                 "condition": {
@@ -60,7 +64,8 @@
                 "1 (Yes)": "ano",
                 "2 (No)": "ne",
                 "3 (Unknown)": "neznámé"
-              }
+              },
+              "onlineFormId": "input6818"
             },
             {
               "type": "Control",
@@ -71,7 +76,8 @@
                 "2 (Emergency department/Casualty)": "iktová jednotka nebo ARO",
                 "3 (Outpatient clinic/facility)": "pohotovost/urgentní příjem",
                 "4 (Other department)": "jinde"
-              }
+              },
+              "onlineFormId": "input6819"
             }
           ]
         }
