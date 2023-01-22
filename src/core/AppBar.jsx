@@ -7,7 +7,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
 import DownloadIcon from '@mui/icons-material/Download'
+import BugReportIcon from '@mui/icons-material/BugReport'
 import { AppMode } from "./AppMode"
+import { useAtom } from "jotai"
+import { displayDebugInfoAtom } from "./userPreferencesStore"
 
 export function AppBar(props) {
 
@@ -18,6 +21,8 @@ export function AppBar(props) {
     patientId,
     downloadFile
   } = props
+
+  const [displayDebugInfo, setDisplayDebugInfo] = useAtom(displayDebugInfoAtom)
 
   return (
     <Paper elevation={1} square className={styles["appbar"]}>
@@ -38,6 +43,14 @@ export function AppBar(props) {
           onClick={() => downloadFile()}
         >
           <DownloadIcon />
+        </IconButton>
+
+        <IconButton
+          color={displayDebugInfo ? "primary" : "default"}
+          sx={{ p: '10px' }}
+          onClick={() => setDisplayDebugInfo(!displayDebugInfo)}
+        >
+          <BugReportIcon />
         </IconButton>
 
         <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical"/>

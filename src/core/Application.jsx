@@ -8,6 +8,31 @@ import { PatientFile } from "../core/PatientFile"
 import { StatusBar } from "./StatusBar"
 import { AppBody } from "./AppBody"
 
+/*
+  APPLICATION STATE
+  -----------------
+
+  - app file store ......... jotai atoms, nice
+    - guid
+    - last modified at timestamp
+    - patient ID
+  - report store ........ jotai nexus (build myself)
+    - content
+    - highlights
+  - form store ....... json forms data object (but could be rewritten to use atoms for the data for better performance)
+    - data schema
+    - UI schema
+    - data
+    - errors
+    - field states
+  - editor state store ....... jotai atoms
+    - active field
+    - app mode
+  - user preferences store ....... jotai atoms, nice
+    - debug mode
+    - localization
+*/
+
 export function Application() {
 
   const {
