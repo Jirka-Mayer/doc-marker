@@ -35,7 +35,7 @@ export function Form(props) {
   }
 
   return (
-    <div style={{background: "#E7EBF0", padding: 20}}>
+    <div>
 
       <button onClick={() => {
         let fieldId = "#/properties/anamnesis/properties/age"

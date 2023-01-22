@@ -1,0 +1,28 @@
+.app-body {
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.app-body--closed {
+  display: none;
+}
+
+.report, .form {
+  flex: 1;
+  height: 100%;
+  box-sizing: border-box;
+  flex-basis: 50%;
+  overflow: hidden;
+}
+
+.report {
+  background: #f8f9fa;
+}
+
+.form {
+  background: #f3f3f3;
+}

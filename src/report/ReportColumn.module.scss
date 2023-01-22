@@ -1,0 +1,18 @@
+.scroll-container {
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+}
+
+.content {
+  padding: 40px 20px;
+}
+
+.quill-paper {
+  max-width: 700px;
+  margin: 0 auto;
+
+  &.quill-paper--invisible {
+    background: none;
+  }
+}

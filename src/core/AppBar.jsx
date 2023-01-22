@@ -20,7 +20,7 @@ export function AppBar(props) {
   } = props
 
   return (
-    <Paper elevation={4} square className={styles["appbar"]}>
+    <Paper elevation={1} square className={styles["appbar"]}>
       <div className={styles["appbar__upper"]}>
         <IconButton color="default" sx={{ p: '10px' }} onClick={() => closeFile()}>
           <ArrowBackIcon />

@@ -1,4 +1,3 @@
-import "./index.scss"
 import { createRoot } from "react-dom/client"
 import { Application } from "./core/Application"
 

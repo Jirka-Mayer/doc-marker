@@ -120,14 +120,16 @@ export class QuillManager {
   renderAppMode(appMode) {
     if (appMode === AppMode.EDIT_TEXT) {
       this.quill.enable(true)
-      this.highlightManager.setIsAnnotating(false)
-      this.containerElement.classList.remove(styles["annotating-mode"])
+    } else {
+      this.quill.enable(false)
     }
 
     if (appMode === AppMode.ANNOTATE_HIGHLIGHTS) {
-      this.quill.enable(false)
       this.highlightManager.setIsAnnotating(true)
       this.containerElement.classList.add(styles["annotating-mode"])
+    } else {
+      this.highlightManager.setIsAnnotating(false)
+      this.containerElement.classList.remove(styles["annotating-mode"])
     }
   }
 

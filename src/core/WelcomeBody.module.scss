@@ -1,0 +1,24 @@
+.welcome-body {
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+
+  background: #f3f3f3;
+}
+
+.welcome-body--closed {
+  display: none;
+}
+
+.centering-container {
+  min-height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paper {
+  width: 700px;
+  margin: 40px;
+  padding: 40px;
+}

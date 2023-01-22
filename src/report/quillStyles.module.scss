@@ -1,22 +1,16 @@
-.debug-container {
-  width: 700px;
-  padding: 20px;
-  margin: 30px 0;
-  border: 2px solid black;
-}
-
-.annotating-mode {
-  background: #eee;
-}
+// .annotating-mode {
+//   background: #eee;
+// }
 
 @for $i from 0 to 10 {
   .highlight-#{$i}-yes {
-    background-color: rgba(green, 10%);
-    padding: 0.1em 0;
+    border-bottom: 2px solid rgba(#2e7d32, 70%);
+    padding: 2px 0;
   }
   
   .active-#{$i} .highlight-#{$i}-yes {
-    border-bottom: 2px solid #37a537;
+    background-color: rgba(#1976d2, 20%);
+    border-bottom: 2px solid #1976d2;
     
     .annotating-mode & {
       cursor: pointer;

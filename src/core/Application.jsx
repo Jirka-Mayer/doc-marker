@@ -1,12 +1,12 @@
 import * as styles from "./Application.module.scss"
-import { Form } from "../form/Form"
 import { useState } from "react"
 import { AppMode } from "./AppMode"
 import { useReportStore } from "../report/ReportStore"
-import { QuillBinder } from "../report/QuillBinder"
 import { AppBar } from "./AppBar"
-import { Menu } from "../menu/Menu"
+import { WelcomeBody } from "./WelcomeBody"
 import { PatientFile } from "../core/PatientFile"
+import { StatusBar } from "./StatusBar"
+import { AppBody } from "./AppBody"
 
 export function Application() {
 
@@ -57,64 +57,44 @@ export function Application() {
 
   return (
     <>
-      <Menu isMenuOpen={isMenuOpen} applicationOpenFile={applicationOpenFile} />
+      <div className={styles["app-bar-container"]}>
+        
+        <AppBar
+          closeFile={() => {setMenuOpen(true)}}
+          mode={mode}
+          setMode={setMode}
+          patientId={patientId}
+          downloadFile={downloadFile}
+        />
+        
+      </div>
+      <div className={styles["app-body-container"]}>
+        
+        <WelcomeBody
+          isOpen={isMenuOpen}
 
-      <AppBar
-        closeFile={() => {setMenuOpen(true)}}
-        mode={mode}
-        setMode={setMode}
-        patientId={patientId}
-        downloadFile={downloadFile}
-      />
+          applicationOpenFile={applicationOpenFile}
+        />
 
-      <div className={styles["columns-container"]}>
-        <div className={styles["column"]}>
-          
-          <QuillBinder
-            quillManager={quillManager}
-            appMode={mode}
-            activeFieldId={activeFieldId}
-          />
-          
-          <pre
-            style={{ whiteSpace: "pre-wrap" }}
-          >Highlights: { JSON.stringify(highlights, null, 2) }</pre>
+        <AppBody
+          isOpen={!isMenuOpen}
 
-          <pre
-            style={{ whiteSpace: "pre-wrap" }}
-          >Content: { JSON.stringify(content, null, 2) }</pre>
+          quillManager={quillManager}
+          appMode={mode}
+          activeFieldId={activeFieldId}
+          setActiveFieldId={setActiveFieldId}
+          highlights={highlights}
+          content={content}
+          formData={formData}
+          setFormData={setFormData}
+          reportStoreDispatch={reportStoreDispatch}
+        />
 
-          <div>
-            <a href="./copy-test.html">copy-test</a>
-            <hr />
-            <button
-              disabled={activeFieldId === null}
-              onClick={() => {setActiveFieldId(null)}}
-            >Activate no field</button>
-            {[...Array(2).keys()].map((x, i) =>
-              <button
-                key={i}
-                disabled={activeFieldId == i.toString()}
-                onClick={() => {setActiveFieldId(i.toString())}}
-              >Activate field {i}</button>
-            )}
-            <code>Active field: {JSON.stringify(activeFieldId)}</code>
-          </div>
+      </div>
+      <div className={styles["status-bar-container"]}>
 
-        </div>
-        <div className={styles["separator"]}></div>
-        <div className={styles["column"]}>
-          
-          <Form
-            activeFieldId={activeFieldId}
-            setActiveFieldId={fn => setActiveFieldId(fn)}
-            formData={formData}
-            setFormData={setFormData}
-            highlights={highlights}
-            reportStoreDispatch={reportStoreDispatch}
-          />
+        <StatusBar />
 
-        </div>
       </div>
     </>
   )
