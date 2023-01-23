@@ -5,8 +5,6 @@ export function FormColumn(props) {
   const {
     activeFieldId,
     setActiveFieldId,
-    formData,
-    setFormData,
   } = props
 
   return (
@@ -16,8 +14,6 @@ export function FormColumn(props) {
         <Form
           activeFieldId={activeFieldId}
           setActiveFieldId={fn => setActiveFieldId(fn)}
-          formData={formData}
-          setFormData={setFormData}
         />
         
       </div>

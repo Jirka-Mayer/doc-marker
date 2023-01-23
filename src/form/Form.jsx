@@ -7,6 +7,8 @@ import { DesigningControls } from "./DesigningControls"
 import { FieldState } from "./FieldState"
 import { exportToResqOnline } from "./exportToResqOnline"
 import { quillManager } from "../report/reportStore"
+import { formDataAtom } from "./formStore"
+import { useAtom } from "jotai"
 
 // load the correct form
 import dataSchema from "../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/data-schema.json"
@@ -16,11 +18,11 @@ export function Form(props) {
   const {
     activeFieldId,
     setActiveFieldId,
-    formData,
-    setFormData,
   } = props
 
   const [formErrors, setFormErrors] = useState(null)
+
+  const [formData, setFormData] = useAtom(formDataAtom)
 
   const [fieldStates, setFieldStates] = useState({})
   function getFieldState(fieldId) {

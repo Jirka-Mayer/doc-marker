@@ -9,8 +9,6 @@ export function AppBody(props) {
     appMode,
     activeFieldId,
     setActiveFieldId,
-    formData,
-    setFormData,
   } = props
   
   return (
@@ -28,8 +26,6 @@ export function AppBody(props) {
         <FormColumn
           activeFieldId={activeFieldId}
           setActiveFieldId={setActiveFieldId}
-          formData={formData}
-          setFormData={setFormData}
         />
         
       </div>

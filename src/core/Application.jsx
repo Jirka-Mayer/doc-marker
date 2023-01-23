@@ -3,12 +3,11 @@ import { useState } from "react"
 import { AppMode } from "./AppMode"
 import { AppBar } from "./AppBar"
 import { WelcomeBody } from "./WelcomeBody"
-import { PatientFile } from "../core/PatientFile"
 import { StatusBar } from "./StatusBar"
 import { AppBody } from "./AppBody"
 import JotaiNexus from "./JotaiNexus"
-import { quillManager, contentAtom } from "../report/reportStore"
 import { useAtom } from "jotai"
+import { isFileOpenAtom, openFileAtom, patientIdAtom, closeFileAtom, downloadFileAtom } from "./appFileStore"
 
 /*
   APPLICATION STATE
@@ -37,45 +36,18 @@ import { useAtom } from "jotai"
 
 export function Application() {
 
-  const [content] = useAtom(contentAtom)
+  // TODO: move it out of here
+  const [patientId] = useAtom(patientIdAtom)
+  const [isFileOpen] = useAtom(isFileOpenAtom)
 
-  const [isMenuOpen, setMenuOpen] = useState(true)
+  // TODO: move into a store
   const [mode, setMode] = useState(AppMode.EDIT_TEXT)
   const [activeFieldId, setActiveFieldId] = useState(null)
-  const [patientId, setPatientId] = useState(null)
-  const [formData, setFormData] = useState(null)
-  
-  function applicationOpenFile(patientFile) {
-    const _patientId = patientFile.getPatientId()
-    const _reportDelta = patientFile.getReportDelta()
-    const _formData = patientFile.getFormData()
 
-    setPatientId(_patientId)
-    quillManager.setContents(_reportDelta)
-    setFormData(_formData)
-
-    setMode(_formData === null ? AppMode.EDIT_TEXT : AppMode.ANNOTATE_HIGHLIGHTS)
-    setMenuOpen(false)
-  }
-
-  function downloadFile() {
-    // create patient file
-    const file = PatientFile.fromApplicationState({
-      patientId,
-      reportDelta: content,
-      formData
-    })
-
-    // export JSON
-    const json = file.toPrettyJson()
-
-    // download file
-    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(json)
-    var a = document.createElement("a")
-    a.setAttribute("href", dataStr)
-    a.setAttribute("download", patientId + ".resq.json")
-    a.click()
-  }
+  // TODO: move it out of here
+  const [,openFile] = useAtom(openFileAtom)
+  const [,closeFile] = useAtom(closeFileAtom)
+  const [,downloadFile] = useAtom(downloadFileAtom)
 
   return (
     <>
@@ -83,7 +55,7 @@ export function Application() {
       <div className={styles["app-bar-container"]}>
         
         <AppBar
-          closeFile={() => {setMenuOpen(true)}}
+          closeFile={closeFile}
           mode={mode}
           setMode={setMode}
           patientId={patientId}
@@ -94,19 +66,17 @@ export function Application() {
       <div className={styles["app-body-container"]}>
         
         <WelcomeBody
-          isOpen={isMenuOpen}
+          isOpen={!isFileOpen}
 
-          applicationOpenFile={applicationOpenFile}
+          applicationOpenFile={openFile}
         />
 
         <AppBody
-          isOpen={!isMenuOpen}
+          isOpen={isFileOpen}
 
           appMode={mode}
           activeFieldId={activeFieldId}
           setActiveFieldId={setActiveFieldId}
-          formData={formData}
-          setFormData={setFormData}
         />
 
       </div>
