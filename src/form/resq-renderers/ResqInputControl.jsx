@@ -11,6 +11,7 @@ import { useFieldState } from "../useFieldState"
 import { useFieldHighlights } from "../useFieldHighlights"
 import { useContext, useEffect } from "react"
 import { FormContext } from "../FormContext"
+import { quillManager } from "../../report/reportStore"
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure
@@ -35,10 +36,6 @@ export function ResqInputControl(props) {
   const htmlId = id + "-input"
 
   const isEmpty = data === undefined
-
-  const {
-    reportStoreDispatch
-  } = useContext(FormContext)
 
   const {
     isFieldActive,
@@ -66,7 +63,7 @@ export function ResqInputControl(props) {
 
   function onFocus() {
     setFieldActive()
-    reportStoreDispatch({ type: "scrollHighlightIntoView", fieldId })
+    quillManager.scrollHighlightIntoView(fieldId)
   }
 
   const controlInputProps = {

@@ -1,10 +1,8 @@
-import { FormContext } from "./FormContext"
-import { useContext } from "react"
+import { highlightsAtom } from "../report/reportStore"
+import { useAtom } from "jotai"
 
 export function useFieldHighlights(fieldId) {
-  const {
-    highlights: highlightsGlobal
-  } = useContext(FormContext)
+  const [highlightsGlobal] = useAtom(highlightsAtom)
 
   const highlightsRanges = highlightsGlobal[fieldId] || []
 

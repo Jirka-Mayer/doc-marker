@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "react"
 import * as styles from "./QuillBinder.module.scss"
+import { quillManager } from "./reportStore"
 
 /**
  * Binds the quill instance with the DOM as a react component
  */
-export function QuillBinder({ quillManager, appMode, activeFieldId }) {
+export function QuillBinder({ appMode, activeFieldId }) {
   const bindingContainerRef = useRef(null)
   
   useEffect(() => {

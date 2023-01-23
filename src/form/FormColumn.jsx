@@ -7,8 +7,6 @@ export function FormColumn(props) {
     setActiveFieldId,
     formData,
     setFormData,
-    highlights,
-    reportStoreDispatch
   } = props
 
   return (
@@ -20,8 +18,6 @@ export function FormColumn(props) {
           setActiveFieldId={fn => setActiveFieldId(fn)}
           formData={formData}
           setFormData={setFormData}
-          highlights={highlights}
-          reportStoreDispatch={reportStoreDispatch}
         />
         
       </div>

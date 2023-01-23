@@ -6,6 +6,7 @@ import { FormContext } from "./FormContext"
 import { DesigningControls } from "./DesigningControls"
 import { FieldState } from "./FieldState"
 import { exportToResqOnline } from "./exportToResqOnline"
+import { quillManager } from "../report/reportStore"
 
 // load the correct form
 import dataSchema from "../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/data-schema.json"
@@ -17,8 +18,6 @@ export function Form(props) {
     setActiveFieldId,
     formData,
     setFormData,
-    highlights,
-    reportStoreDispatch
   } = props
 
   const [formErrors, setFormErrors] = useState(null)
@@ -42,7 +41,7 @@ export function Form(props) {
         let d = formData || {}
         setFormData({ ...d, anamnesis: { ...d.anamnesis, age: 42 } })
         setFieldState(fieldId, FieldState.ROBOT_VALUE)
-        reportStoreDispatch({ type: "highlight", fieldId, range: [74, 9] })
+        quillManager.highlightText(72, 9, fieldId)
       }}>Robot resolve age</button>
       <button onClick={() => {
         exportToResqOnline(formData, uiSchema, dataSchema)
@@ -52,8 +51,7 @@ export function Form(props) {
       
       <FormContext.Provider value={{
         activeFieldId, setActiveFieldId,
-        getFieldState, setFieldState,
-        highlights, reportStoreDispatch
+        getFieldState, setFieldState
       }}>
         <JsonForms
           schema={dataSchema}

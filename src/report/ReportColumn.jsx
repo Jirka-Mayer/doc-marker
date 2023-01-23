@@ -4,19 +4,19 @@ import { Paper } from "@mui/material"
 import { AppMode } from "../core/AppMode"
 import { useAtom } from "jotai"
 import { displayDebugInfoAtom } from "../core/userPreferencesStore"
+import { highlightsAtom, contentAtom } from "./reportStore"
 
 export function ReportColumn(props) {
   const {
-    quillManager,
     appMode,
     activeFieldId,
-    highlights,
-    content
   } = props
 
   const paperVisible = appMode === AppMode.EDIT_TEXT
 
   const [displayDebugInfo] = useAtom(displayDebugInfoAtom)
+  const [content] = useAtom(contentAtom)
+  const [highlights] = useAtom(highlightsAtom)
 
   return (
     <div className={styles["scroll-container"]}>
@@ -28,7 +28,6 @@ export function ReportColumn(props) {
           elevation={paperVisible ? 1 : 0}
         >
           <QuillBinder
-            quillManager={quillManager}
             appMode={appMode}
             activeFieldId={activeFieldId}
           />

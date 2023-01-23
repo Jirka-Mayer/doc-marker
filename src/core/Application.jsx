@@ -1,12 +1,14 @@
 import * as styles from "./Application.module.scss"
 import { useState } from "react"
 import { AppMode } from "./AppMode"
-import { useReportStore } from "../report/ReportStore"
 import { AppBar } from "./AppBar"
 import { WelcomeBody } from "./WelcomeBody"
 import { PatientFile } from "../core/PatientFile"
 import { StatusBar } from "./StatusBar"
 import { AppBody } from "./AppBody"
+import JotaiNexus from "./JotaiNexus"
+import { quillManager, contentAtom } from "../report/reportStore"
+import { useAtom } from "jotai"
 
 /*
   APPLICATION STATE
@@ -35,9 +37,7 @@ import { AppBody } from "./AppBody"
 
 export function Application() {
 
-  const {
-    quillManager, highlights, content, reportStoreDispatch
-  } = useReportStore()
+  const [content] = useAtom(contentAtom)
 
   const [isMenuOpen, setMenuOpen] = useState(true)
   const [mode, setMode] = useState(AppMode.EDIT_TEXT)
@@ -51,10 +51,7 @@ export function Application() {
     const _formData = patientFile.getFormData()
 
     setPatientId(_patientId)
-    reportStoreDispatch({
-      type: "setContents",
-      delta: _reportDelta
-    })
+    quillManager.setContents(_reportDelta)
     setFormData(_formData)
 
     setMode(_formData === null ? AppMode.EDIT_TEXT : AppMode.ANNOTATE_HIGHLIGHTS)
@@ -82,6 +79,7 @@ export function Application() {
 
   return (
     <>
+      <JotaiNexus />
       <div className={styles["app-bar-container"]}>
         
         <AppBar
@@ -104,15 +102,11 @@ export function Application() {
         <AppBody
           isOpen={!isMenuOpen}
 
-          quillManager={quillManager}
           appMode={mode}
           activeFieldId={activeFieldId}
           setActiveFieldId={setActiveFieldId}
-          highlights={highlights}
-          content={content}
           formData={formData}
           setFormData={setFormData}
-          reportStoreDispatch={reportStoreDispatch}
         />
 
       </div>

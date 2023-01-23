@@ -6,15 +6,11 @@ export function AppBody(props) {
   const {
     isOpen,
 
-    quillManager,
     appMode,
     activeFieldId,
     setActiveFieldId,
-    highlights,
-    content,
     formData,
     setFormData,
-    reportStoreDispatch
   } = props
   
   return (
@@ -22,11 +18,8 @@ export function AppBody(props) {
       <div className={styles["report"]}>
         
         <ReportColumn
-          quillManager={quillManager}
           appMode={appMode}
           activeFieldId={activeFieldId}
-          highlights={highlights}
-          content={content}
         />
 
       </div>
@@ -37,8 +30,6 @@ export function AppBody(props) {
           setActiveFieldId={setActiveFieldId}
           formData={formData}
           setFormData={setFormData}
-          highlights={highlights}
-          reportStoreDispatch={reportStoreDispatch}
         />
         
       </div>
