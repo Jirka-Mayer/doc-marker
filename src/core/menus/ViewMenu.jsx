@@ -6,6 +6,9 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
 import { useAtom } from "jotai"
 import { displayDebugInfoAtom } from "../userPreferencesStore";
+import { appModeAtom } from "../editorStateStore";
+import { AppMode } from "../AppMode";
+import { isFileOpenAtom } from "../appFileStore";
 
 export function ViewMenu() {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -19,6 +22,8 @@ export function ViewMenu() {
 
   // === used state ===
 
+  const [isFileOpen] = useAtom(isFileOpenAtom)
+  const [appMode, setAppMode] = useAtom(appModeAtom)
   const [displayDebugInfo, setDisplayDebugInfo] = useAtom(displayDebugInfoAtom)
 
   // === click handlers ===
@@ -41,19 +46,31 @@ export function ViewMenu() {
       >
         <MenuList>
 
-          <MenuItem selected={true}>
+          <MenuItem
+            onClick={() => setAppMode(AppMode.EDIT_TEXT)}
+            selected={appMode === AppMode.EDIT_TEXT}
+            disabled={!isFileOpen}
+          >
             <ListItemIcon>
               <ReadMoreIcon />
             </ListItemIcon>
             <Typography variant="inherit">Text editing mode</Typography>
           </MenuItem>
-          <MenuItem>
+          <MenuItem
+            onClick={() => setAppMode(AppMode.ANONYMIZE)}
+            selected={appMode === AppMode.ANONYMIZE}
+            disabled={!isFileOpen}
+          >
             <ListItemIcon>
               <ContentCutIcon />
             </ListItemIcon>
             <Typography variant="inherit">Anonymization mode</Typography>
           </MenuItem>
-          <MenuItem>
+          <MenuItem
+            onClick={() => setAppMode(AppMode.ANNOTATE_HIGHLIGHTS)}
+            selected={appMode === AppMode.ANNOTATE_HIGHLIGHTS}
+            disabled={!isFileOpen}
+          >
             <ListItemIcon>
               <LocationOnIcon />
             </ListItemIcon>
