@@ -7,37 +7,11 @@ import { StatusBar } from "./StatusBar"
 import { AppBody } from "./AppBody"
 import JotaiNexus from "./JotaiNexus"
 import { useAtom } from "jotai"
-import { isFileOpenAtom, openFileAtom, patientIdAtom, closeFileAtom, downloadFileAtom } from "./appFileStore"
-
-/*
-  APPLICATION STATE
-  -----------------
-
-  - app file store ......... jotai atoms, nice
-    - guid
-    - last modified at timestamp
-    - patient ID
-  - report store ........ jotai nexus (build myself)
-    - content
-    - highlights
-  - form store ....... json forms data object (but could be rewritten to use atoms for the data for better performance)
-    - data schema
-    - UI schema
-    - data
-    - errors
-    - field states
-  - editor state store ....... jotai atoms
-    - active field
-    - app mode
-  - user preferences store ....... jotai atoms, nice
-    - debug mode
-    - localization
-*/
+import { isFileOpenAtom, openFileAtom, downloadFileAtom } from "./appFileStore"
 
 export function Application() {
 
   // TODO: move it out of here
-  const [patientId] = useAtom(patientIdAtom)
   const [isFileOpen] = useAtom(isFileOpenAtom)
 
   // TODO: move into a store
@@ -46,7 +20,6 @@ export function Application() {
 
   // TODO: move it out of here
   const [,openFile] = useAtom(openFileAtom)
-  const [,closeFile] = useAtom(closeFileAtom)
   const [,downloadFile] = useAtom(downloadFileAtom)
 
   return (
@@ -55,10 +28,8 @@ export function Application() {
       <div className={styles["app-bar-container"]}>
         
         <AppBar
-          closeFile={closeFile}
           mode={mode}
           setMode={setMode}
-          patientId={patientId}
           downloadFile={downloadFile}
         />
         

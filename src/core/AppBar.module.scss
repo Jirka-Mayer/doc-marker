@@ -2,12 +2,54 @@
   z-index: 10;
 }
 
-.appbar__upper {
-  padding: 20px;
+.appbar__upper-container {
+  display: flex;
 }
 
-.appbar__tools {
+.appbar__logo {
+  padding: 10px 0;
+
+  margin-left: 30px;
+
+  img {
+    height: 50px;
+  }
+}
+
+.appbar__center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.appbar__no-file-open {
+  color: rgba(black, 0.6);
+}
+
+.appbar__patient-id {
+  color: rgba(black, 0.7);
+}
+
+.appbar__menubar {
+  button {
+    min-width: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+.appbar__modeswitcher {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: right;
+  padding: 5px 10px;
+  margin-right: 50px;
+  flex-grow: 1;
+}
+
+.appbar__toolbar {
+  display: flex;
+  margin-left: 50px;
+  align-items: center;
+  justify-content: left;
 }
