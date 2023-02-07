@@ -29,6 +29,7 @@ import { useState } from "react"
 import { FileMenu } from "./menus/FileMenu"
 import { ViewMenu } from "./menus/ViewMenu"
 import { Toolbar } from "./Toolbar"
+import { ToolsMenu } from "./menus/ToolsMenu"
 
 /*
   MENU CONTENTS
@@ -113,7 +114,7 @@ export function AppBar(props) {
             <Button size="small">Edit</Button>
             <ViewMenu />
             <Button size="small">Format</Button>
-            <Button size="small">Tools</Button>
+            <ToolsMenu />
           </div>
         </div>
         <div className={styles["appbar__modeswitcher"]}>
