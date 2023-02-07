@@ -1,3 +1,6 @@
+/**
+ * Represents the possible states of a form field
+ */
 export class FieldState {
   /**
    * The field has not been touched yet

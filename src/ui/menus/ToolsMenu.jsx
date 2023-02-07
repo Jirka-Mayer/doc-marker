@@ -3,7 +3,7 @@ import { useState } from "react";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { useAtom } from "jotai"
-import { isFileOpenAtom } from "../appFileStore";
+import { isFileOpenAtom } from "../../state/fileStore";
 
 export function ToolsMenu() {
   const [anchorEl, setAnchorEl] = useState(null)

@@ -9,7 +9,7 @@ import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags'
 import CheckIcon from '@mui/icons-material/Check'
 import { useState } from "react"
 
-import { FieldState } from "./FieldState"
+import { FieldState } from "../../state/form/FieldState"
 
 function useFieldActivity(fieldName, activeField, setActiveField) {
   const isActive = activeField === fieldName

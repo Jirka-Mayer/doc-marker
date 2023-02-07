@@ -5,10 +5,10 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'
 import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
 import { useAtom } from "jotai"
-import { displayDebugInfoAtom } from "../userPreferencesStore";
-import { appModeAtom } from "../editorStateStore";
-import { AppMode } from "../AppMode";
-import { isFileOpenAtom } from "../appFileStore";
+import { displayDebugInfoAtom } from "../../state/userPreferencesStore";
+import { appModeAtom } from "../../state/editorStore";
+import { AppMode } from "../../state/editor/AppMode";
+import { isFileOpenAtom } from "../../state/fileStore";
 
 export function ViewMenu() {
   const [anchorEl, setAnchorEl] = useState(null)

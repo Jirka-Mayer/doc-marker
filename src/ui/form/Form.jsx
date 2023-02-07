@@ -4,15 +4,15 @@ import { formRenderers, formCells } from "./formRenderersAndCells"
 import { JsonForms } from "@jsonforms/react"
 import { FormContext } from "./FormContext"
 import { DesigningControls } from "./DesigningControls"
-import { FieldState } from "./FieldState"
+import { FieldState } from "../state/form/FieldState"
 import { exportToResqOnline } from "./exportToResqOnline"
-import { quillManager } from "../report/reportStore"
-import { formDataAtom } from "./formStore"
+import { quillManager } from "../../state/reportStore"
+import { formDataAtom } from "../../state/formStore"
 import { useAtom } from "jotai"
 
 // load the correct form
-import dataSchema from "../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/data-schema.json"
-import uiSchema from "../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/ui-schema.json"
+import dataSchema from "../../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/data-schema.json"
+import uiSchema from "../../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/ui-schema.json"
 
 export function Form(props) {
   const {

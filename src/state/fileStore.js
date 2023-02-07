@@ -1,7 +1,7 @@
 import { atom } from "jotai"
-import { contentAtom, quillManager } from "../report/reportStore"
-import { formDataAtom } from "../form/formStore"
-import { PatientFile } from "./PatientFile"
+import { contentAtom, quillManager } from "./reportStore"
+import { formDataAtom } from "./formStore"
+import { AppFile } from "../state/file/AppFile"
 
 
 // === private backing-field (base) atoms ===
@@ -48,7 +48,7 @@ export const downloadFileAtom = atom(null, (get, set) => {
   const patientId = get(patientIdAtom)
   
   // create app file
-  const file = PatientFile.fromApplicationState({
+  const file = AppFile.fromApplicationState({
     patientId,
     reportDelta: get(contentAtom),
     formData: get(formDataAtom)

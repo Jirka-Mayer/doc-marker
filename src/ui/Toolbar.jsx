@@ -1,9 +1,9 @@
 import { Divider, IconButton } from "@mui/material"
 import { useAtom } from "jotai"
-import { displayDebugInfoAtom } from "./userPreferencesStore"
+import { displayDebugInfoAtom } from "../state/userPreferencesStore"
 import DownloadIcon from '@mui/icons-material/Download'
 import BugReportIcon from '@mui/icons-material/BugReport'
-import { downloadFileAtom } from "./appFileStore"
+import { downloadFileAtom } from "../state/fileStore"
 
 export function Toolbar() {
   const [displayDebugInfo, setDisplayDebugInfo] = useAtom(displayDebugInfoAtom)

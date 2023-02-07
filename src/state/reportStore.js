@@ -1,7 +1,7 @@
-import { QuillManager } from "./QuillManager"
-import { contentsToHighlights } from "./contentsToHighlights"
+import { QuillManager } from "./report/QuillManager"
+import { contentsToHighlights } from "./report/contentsToHighlights"
 import { atom } from "jotai"
-import { readAtom, writeAtom } from "../core/JotaiNexus"
+import { readAtom, writeAtom } from "../utils/JotaiNexus"
 
 
 // === private backing-field (base) atoms ===

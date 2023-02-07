@@ -1,4 +1,4 @@
-import { highlightsAtom } from "../report/reportStore"
+import { highlightsAtom } from "../../state/reportStore"
 import { useAtom } from "jotai"
 
 export function useFieldHighlights(fieldId) {

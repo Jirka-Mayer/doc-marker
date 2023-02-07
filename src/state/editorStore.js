@@ -1,5 +1,5 @@
 import { atom } from "jotai"
-import { AppMode } from "./AppMode"
+import { AppMode } from "./editor/AppMode"
 
 export const appModeAtom = atom(AppMode.EDIT_TEXT)
 

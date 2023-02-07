@@ -1,7 +1,7 @@
 /**
- * Represents the complete patient file, as is loaded/stored/downloaded
+ * Represents the file that is loaded and edited by the application
  */
-export class PatientFile {
+export class AppFile {
   static CURRENT_VERSION = 1
 
   constructor(body) {
@@ -16,16 +16,16 @@ export class PatientFile {
   /**
    * Creates new empty patient file belonging to a given patient ID
    * @param {string} patientId 
-   * @returns {PatientFile}
+   * @returns {AppFile}
    */
   static newEmpty(patientId) {
-    return new PatientFile({
+    return new AppFile({
       
       /**
        * Version of the file so that we can perform migrations
        * and evolve the format
        */
-      fileVersion: PatientFile.CURRENT_VERSION,
+      fileVersion: AppFile.CURRENT_VERSION,
       
       /**
        * String patient ID used by the RES-Q registry
@@ -54,7 +54,7 @@ export class PatientFile {
       formData
     } = state
 
-    let file = PatientFile.newEmpty(patientId)
+    let file = AppFile.newEmpty(patientId)
     file.body.reportDelta = JSON.parse(JSON.stringify(reportDelta))
     file.body.formData = JSON.parse(JSON.stringify(formData))
     

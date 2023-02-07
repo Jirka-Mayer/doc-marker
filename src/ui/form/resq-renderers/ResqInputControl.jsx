@@ -11,7 +11,7 @@ import { useFieldState } from "../useFieldState"
 import { useFieldHighlights } from "../useFieldHighlights"
 import { useContext, useEffect } from "react"
 import { FormContext } from "../FormContext"
-import { quillManager } from "../../report/reportStore"
+import { quillManager } from "../../state/reportStore"
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure

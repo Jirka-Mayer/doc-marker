@@ -1,5 +1,5 @@
 import { FormContext } from "./FormContext"
-import { FieldState } from "./FieldState"
+import { FieldState } from "../../state/form/FieldState"
 import { useContext } from "react"
 
 export function useFieldState(fieldId, isFieldActive) {

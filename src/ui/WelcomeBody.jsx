@@ -2,7 +2,7 @@ import * as styles from "./WelcomeBody.module.scss"
 import Typography from '@mui/material/Typography'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Paper, Stack, TextField } from "@mui/material"
 import { useState } from "react"
-import { PatientFile } from "../core/PatientFile"
+import { AppFile } from "../state/file/AppFile"
 
 import packageJson from "../../package.json"
 const VERSION = packageJson.version
@@ -45,7 +45,7 @@ export function WelcomeBody(props) {
   }
 
   function createNewFile(patientId) {
-    const file = PatientFile.newEmpty(patientId)
+    const file = AppFile.newEmpty(patientId)
     applicationOpenFile(file)
   }
 
@@ -57,12 +57,12 @@ export function WelcomeBody(props) {
     input.value = null
 
     const body = JSON.parse(json)
-    const file = new PatientFile(body)
+    const file = new AppFile(body)
     applicationOpenFile(file)
   }
 
   function test_onlyDischargeReport() {
-    const file = new PatientFile(json_test_onlyDischargeReport)
+    const file = new AppFile(json_test_onlyDischargeReport)
     applicationOpenFile(file)
   }
 

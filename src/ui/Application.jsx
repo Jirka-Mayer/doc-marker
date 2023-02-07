@@ -3,10 +3,10 @@ import { AppBar } from "./AppBar"
 import { WelcomeBody } from "./WelcomeBody"
 import { StatusBar } from "./StatusBar"
 import { AppBody } from "./AppBody"
-import JotaiNexus from "./JotaiNexus"
+import JotaiNexus from "../utils/JotaiNexus"
 import { useAtom } from "jotai"
-import { isFileOpenAtom, openFileAtom, downloadFileAtom } from "./appFileStore"
-import { activeFieldIdAtom, appModeAtom } from "./editorStateStore"
+import { isFileOpenAtom, openFileAtom, downloadFileAtom } from "../state/fileStore"
+import { activeFieldIdAtom, appModeAtom } from "../state/editorStore"
 
 export function Application() {
 

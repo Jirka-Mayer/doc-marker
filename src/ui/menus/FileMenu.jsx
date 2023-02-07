@@ -7,8 +7,8 @@ import DownloadIcon from '@mui/icons-material/Download';
 import InfoIcon from '@mui/icons-material/Info';
 import LanguageIcon from '@mui/icons-material/Language';
 import { useAtom } from "jotai"
-import { openFileAtom, closeFileAtom, isFileOpenAtom, downloadFileAtom } from "../appFileStore";
-import { PatientFile } from "../PatientFile";
+import { openFileAtom, closeFileAtom, isFileOpenAtom, downloadFileAtom } from "../../state/fileStore";
+import { AppFile } from "../../state/file/AppFile";
 
 export function FileMenu() {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -32,7 +32,7 @@ export function FileMenu() {
 
   function onNewEmptyFileClick() {
     // let patientId = ?
-    // const file = PatientFile.newEmpty(patientId)
+    // const file = AppFile.newEmpty(patientId)
     // openFile(file)
     alert("Not implemented.")
     closeMenu()

@@ -1,10 +1,10 @@
 import * as styles from "./ReportColumn.module.scss"
 import { QuillBinder } from "./QuillBinder"
 import { Paper } from "@mui/material"
-import { AppMode } from "../core/AppMode"
+import { AppMode } from "../../../state/editor/AppMode"
 import { useAtom } from "jotai"
-import { displayDebugInfoAtom } from "../core/userPreferencesStore"
-import { highlightsAtom, contentAtom } from "./reportStore"
+import { displayDebugInfoAtom } from "../../../state/userPreferencesStore"
+import { highlightsAtom, contentAtom } from "../../../state/reportStore"
 
 export function ReportColumn(props) {
   const {

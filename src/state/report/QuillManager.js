@@ -1,5 +1,5 @@
 import Quill from "quill"
-import { AppMode } from "../core/AppMode"
+import { AppMode } from "../editor/AppMode"
 import { defineHighlightAttributors } from "./defineHighlightAttributors"
 import { FieldNumberAllocator } from "./FieldNumberAllocator"
 import { HighlightManager } from "./HighlightManager"

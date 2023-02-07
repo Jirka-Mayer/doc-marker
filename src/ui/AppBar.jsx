@@ -21,49 +21,15 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
 import DownloadIcon from '@mui/icons-material/Download'
 import BugReportIcon from '@mui/icons-material/BugReport'
-import { AppMode } from "./AppMode"
+import { AppMode } from "../state/editor/AppMode"
 import { useAtom } from "jotai"
-import { displayDebugInfoAtom } from "./userPreferencesStore"
-import { isFileOpenAtom, patientIdAtom } from "./appFileStore"
+import { displayDebugInfoAtom } from "../state/userPreferencesStore"
+import { isFileOpenAtom, patientIdAtom } from "../state/fileStore"
 import { useState } from "react"
 import { FileMenu } from "./menus/FileMenu"
 import { ViewMenu } from "./menus/ViewMenu"
 import { Toolbar } from "./Toolbar"
 import { ToolsMenu } from "./menus/ToolsMenu"
-
-/*
-  MENU CONTENTS
-  -------------
-
-  [File]
-    - New empty
-    - New from uploaded document (docx, odf, rtf, txt, pdf?)
-    - Download
-    - Details
-        (file details - created at / modified at / UUID / Patient ID)
-    - Language
-    - Close file
-  
-  [Edit]
-    - undo
-    - redo
-
-  [View]
-    - compact app bar
-    - debug info
-    - show form
-
-  [Format]
-    - bold, italic, underline
-    - ...
-  
-  [Tools]
-    - pre-fill form
-
-  [QuickActionBar]
-    - undo / redo
-    - bold, italic, underline
-*/
 
 const logoImageUrl = new URL(
   "resq-logo.png",

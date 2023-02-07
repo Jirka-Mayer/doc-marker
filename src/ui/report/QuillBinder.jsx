@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 import * as styles from "./QuillBinder.module.scss"
-import { quillManager } from "./reportStore"
+import { quillManager } from "../../../state/reportStore"
 
 /**
  * Binds the quill instance with the DOM as a react component
