@@ -4,6 +4,8 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { useAtom } from "jotai"
 import { isFileOpenAtom } from "../../state/fileStore";
+import { runAutomaticExtraction } from "../../state/editor/runAutomaticExtraction";
+import { exportToResqRegistry } from "../../state/file/exportToResqRegistry";
 
 export function ToolsMenu() {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -21,13 +23,13 @@ export function ToolsMenu() {
 
   // === click handlers ===
 
-  function onExportToResqClick() {
-    //
+  function onNlpExtractionClick() {
+    runAutomaticExtraction()
     closeMenu()
   }
 
-  function onNlpExtractionClick() {
-    //
+  function onExportToResqClick() {
+    exportToResqRegistry()
     closeMenu()
   }
 

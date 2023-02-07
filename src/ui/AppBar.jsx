@@ -60,9 +60,9 @@ export function AppBar() {
           </div>
           <div className={styles["appbar__menubar"]}>
             <FileMenu />
-            <Button size="small">Edit</Button>
+            <Button disabled={true} size="small">Edit</Button>
             <ViewMenu />
-            <Button size="small">Format</Button>
+            <Button disabled={true} size="small">Format</Button>
             <ToolsMenu />
           </div>
         </div>

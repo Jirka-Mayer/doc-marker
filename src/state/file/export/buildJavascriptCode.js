@@ -116,7 +116,7 @@ function exportControl(controlSchema, globalDataSchema, value) {
   console.error("Don't know how to export control " + controlSchema.scope)
 }
 
-export function exportToResqOnline(data, uischema, dataSchema) {
+export function buildJavascriptCode(data, uiSchema, dataSchema) {
   let exportParts = []
 
   exportParts.push(exportHead())
@@ -137,13 +137,9 @@ export function exportToResqOnline(data, uischema, dataSchema) {
       visitControl(schemaItem)
     }
   }
-  traverseSchema(uischema)
+  traverseSchema(uiSchema)
 
   exportParts.push(exportTail())
 
-  const exportedCode = exportParts.join("")
-
-  console.log(exportedCode)
-  navigator.clipboard.writeText(exportedCode)
-  console.log("Code was copied to clipboard!")
+  return exportParts.join("")
 }
