@@ -1,11 +1,18 @@
 import { useEffect, useRef } from "react"
 import * as styles from "./QuillBinder.module.scss"
-import { quillManager } from "../../../state/reportStore"
+import { quillManager } from "../../state/reportStore"
+import { useAtom } from "jotai"
+import { activeFieldIdAtom, appModeAtom } from "../../state/editorStore"
+import { displayDebugInfoAtom } from "../../state/userPreferencesStore"
 
 /**
  * Binds the quill instance with the DOM as a react component
  */
-export function QuillBinder({ appMode, activeFieldId }) {
+export function QuillBinder() {
+  const [appMode] = useAtom(appModeAtom)
+  const [activeFieldId] = useAtom(activeFieldIdAtom)
+  const [displayDebugInfo] = useAtom(displayDebugInfoAtom)
+  
   const bindingContainerRef = useRef(null)
   
   useEffect(() => {
@@ -24,11 +31,13 @@ export function QuillBinder({ appMode, activeFieldId }) {
   useEffect(() => {
     let text = ""
     let m = quillManager.numberAllocator.idToNumber
-    for (let k of m.keys()) {
-      text += k + " => " + m.get(k) + "\n"
+    if (displayDebugInfo) {
+      for (let k of m.keys()) {
+        text += k + " => " + m.get(k) + "\n"
+      }
     }
     debugRef.current.innerText = text
-  })
+  }, [displayDebugInfo])
   
   return (
     <>

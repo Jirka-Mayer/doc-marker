@@ -6,48 +6,28 @@ import { AppBody } from "./AppBody"
 import JotaiNexus from "../utils/JotaiNexus"
 import { useAtom } from "jotai"
 import { isFileOpenAtom, openFileAtom, downloadFileAtom } from "../state/fileStore"
-import { activeFieldIdAtom, appModeAtom } from "../state/editorStore"
 
 export function Application() {
-
-  // TODO: move it out of here
   const [isFileOpen] = useAtom(isFileOpenAtom)
 
   // TODO: move it out of here
-  const [mode, setMode] = useAtom(appModeAtom)
-  const [activeFieldId, setActiveFieldId] = useAtom(activeFieldIdAtom)
-
-  // TODO: move it out of here
   const [,openFile] = useAtom(openFileAtom)
-  const [,downloadFile] = useAtom(downloadFileAtom)
 
   return (
     <>
       <JotaiNexus />
       <div className={styles["app-bar-container"]}>
         
-        <AppBar
-          mode={mode}
-          setMode={setMode}
-          downloadFile={downloadFile}
-        />
+        <AppBar />
         
       </div>
       <div className={styles["app-body-container"]}>
         
-        <WelcomeBody
-          isOpen={!isFileOpen}
-
-          applicationOpenFile={openFile}
+        <WelcomeBody isOpen={!isFileOpen}
+          applicationOpenFile={openFile} // TODO: move it out of here
         />
 
-        <AppBody
-          isOpen={isFileOpen}
-
-          appMode={mode}
-          activeFieldId={activeFieldId}
-          setActiveFieldId={setActiveFieldId}
-        />
+        <AppBody isOpen={isFileOpen} />
 
       </div>
       <div className={styles["status-bar-container"]}>

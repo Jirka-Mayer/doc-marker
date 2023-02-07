@@ -1,22 +1,19 @@
 import * as styles from "./ReportColumn.module.scss"
 import { QuillBinder } from "./QuillBinder"
 import { Paper } from "@mui/material"
-import { AppMode } from "../../../state/editor/AppMode"
+import { AppMode } from "../../state/editor/AppMode"
 import { useAtom } from "jotai"
-import { displayDebugInfoAtom } from "../../../state/userPreferencesStore"
-import { highlightsAtom, contentAtom } from "../../../state/reportStore"
+import { displayDebugInfoAtom } from "../../state/userPreferencesStore"
+import { highlightsAtom, contentAtom } from "../../state/reportStore"
+import { appModeAtom } from "../../state/editorStore"
 
-export function ReportColumn(props) {
-  const {
-    appMode,
-    activeFieldId,
-  } = props
-
-  const paperVisible = appMode === AppMode.EDIT_TEXT
-
+export function ReportColumn() {
+  const [appMode] = useAtom(appModeAtom)
   const [displayDebugInfo] = useAtom(displayDebugInfoAtom)
   const [content] = useAtom(contentAtom)
   const [highlights] = useAtom(highlightsAtom)
+
+  const paperVisible = appMode === AppMode.EDIT_TEXT
 
   return (
     <div className={styles["scroll-container"]}>
@@ -27,10 +24,7 @@ export function ReportColumn(props) {
           square
           elevation={paperVisible ? 1 : 0}
         >
-          <QuillBinder
-            appMode={appMode}
-            activeFieldId={activeFieldId}
-          />
+          <QuillBinder />
         </Paper>
         
         { displayDebugInfo ? <>

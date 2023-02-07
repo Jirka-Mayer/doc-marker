@@ -1,49 +1,32 @@
 import * as styles from "./AppBar.module.scss"
 import {
   Button,
-  ButtonGroup,
   Divider,
-  IconButton,
-  Menu,
-  MenuItem,
   Paper,
   Typography,
   ToggleButtonGroup,
   ToggleButton,
-  TextField,
-  InputBase
 } from "@mui/material"
-import BorderColorIcon from "@mui/icons-material/BorderColor"
-import ManageSearchIcon from '@mui/icons-material/ManageSearch'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
-import DownloadIcon from '@mui/icons-material/Download'
-import BugReportIcon from '@mui/icons-material/BugReport'
 import { AppMode } from "../state/editor/AppMode"
 import { useAtom } from "jotai"
-import { displayDebugInfoAtom } from "../state/userPreferencesStore"
 import { isFileOpenAtom, patientIdAtom } from "../state/fileStore"
-import { useState } from "react"
 import { FileMenu } from "./menus/FileMenu"
 import { ViewMenu } from "./menus/ViewMenu"
 import { Toolbar } from "./Toolbar"
 import { ToolsMenu } from "./menus/ToolsMenu"
+import { appModeAtom } from "../state/editorStore"
 
 const logoImageUrl = new URL(
   "resq-logo.png",
   import.meta.url
 );
 
-export function AppBar(props) {
-
-  const {
-    mode,
-    setMode
-  } = props
-
+export function AppBar() {
   const [isFileOpen] = useAtom(isFileOpenAtom)
+  const [appMode, setAppMode] = useAtom(appModeAtom)
   const [patientId] = useAtom(patientIdAtom)
 
   return (
@@ -86,10 +69,10 @@ export function AppBar(props) {
         <div className={styles["appbar__modeswitcher"]}>
           <ToggleButtonGroup
             color="primary"
-            value={isFileOpen ? mode : null}
+            value={isFileOpen ? appMode : null}
             disabled={!isFileOpen}
             exclusive
-            onChange={(e, newMode) => {setMode(newMode)}}
+            onChange={(e, newMode) => {setAppMode(newMode)}}
           >
             <ToggleButton value={AppMode.EDIT_TEXT}>
               <ReadMoreIcon fontSize="small" sx={{ mr: 1 }} /> Edit text

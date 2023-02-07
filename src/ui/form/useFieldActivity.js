@@ -1,11 +1,8 @@
-import { FormContext } from "./FormContext"
-import { useContext } from "react"
+import { useAtom } from "jotai"
+import { activeFieldIdAtom } from "../../state/editorStore"
 
 export function useFieldActivity(fieldId) {
-  const {
-    activeFieldId,
-    setActiveFieldId
-  } = useContext(FormContext)
+  const [activeFieldId, setActiveFieldId] = useAtom(activeFieldIdAtom)
   
   const isFieldActive = activeFieldId === fieldId
 

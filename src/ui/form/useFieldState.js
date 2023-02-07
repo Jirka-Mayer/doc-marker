@@ -1,18 +1,9 @@
-import { FormContext } from "./FormContext"
 import { FieldState } from "../../state/form/FieldState"
-import { useContext } from "react"
+import { useAtom } from "jotai"
+import { getFieldStateAtom } from "../../state/formStore"
 
 export function useFieldState(fieldId, isFieldActive) {
-  const {
-    getFieldState: getFieldStateGlobal,
-    setFieldState: setFieldStateGlobal
-  } = useContext(FormContext)
-
-  const fieldState = getFieldStateGlobal(fieldId)
-
-  function setFieldState(state) {
-    setFieldStateGlobal(fieldId, state)
-  }
+  const [fieldState, setFieldState] = useAtom(getFieldStateAtom(fieldId))
 
   const hasRobotValue = (
     fieldState === FieldState.ROBOT_VALUE
