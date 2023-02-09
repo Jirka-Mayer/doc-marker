@@ -1,12 +1,5 @@
-import Quill from "quill"
-import { AppMode } from "../editor/AppMode"
-import { defineHighlightAttributors } from "./defineHighlightAttributors"
-import { FieldNumberAllocator } from "./FieldNumberAllocator"
-import { HighlightManager } from "./HighlightManager"
-import { styles, activeCssClassSet, allFieldNumbers } from "./quillStyles"
-
-// extend Quill with highlight attributors
-defineHighlightAttributors()
+import { HighlightManager } from "../../quill/highlights/HighlightManager"
+import { styles } from "../../quill/ui/quillStyles"
 
 /**
  * Wrapper around quill, providing additional logic like the highlights
@@ -16,17 +9,6 @@ export class QuillManager {
     // callback called when quill content changes
     this.onTextChange = onTextChange
 
-    this.numberAllocator = new FieldNumberAllocator(allFieldNumbers)
-    
-    // one container element containing everything
-    // the quill-instance element is inside
-    this.containerElement = document.createElement("div")
-    this.quillElement = document.createElement("div")
-    this.containerElement.appendChild(this.quillElement)
-
-    // create the quill instance
-    this.quill = this.constructQuillInstance()
-
     // create highlight manager
     this.highlightManager = new HighlightManager(
       this.quill,
@@ -35,28 +17,6 @@ export class QuillManager {
 
     // listen for changes
     this.startListening()
-  }
-
-  constructQuillInstance() {
-    this.quillElement.setAttribute("spellcheck", false)
-
-    return new Quill(this.quillElement, {
-      theme: false,
-      modules: {
-        toolbar: false
-      },
-      placeholder: "Paste discharge report here...",
-      formats: [
-        // inline
-        "bold", "italic", "underline", "strike", "script",
-        
-        // block
-        "header",
-        
-        // custom
-        ...HighlightManager.getHighlightFormats()
-      ]
-    })
   }
 
   startListening() {
@@ -72,25 +32,6 @@ export class QuillManager {
   /////////////////////
 
   /**
-   * Like the quill's setContents, but it translates highlight IDs automatically
-   */
-  setContents(delta, source) {
-    this.numberAllocator.reset()
-    this.quill.setContents(
-      this.numberAllocator.deltaToNumbers(delta),
-      source
-    )
-  }
-
-  /**
-   * Returns the content of the quill editor as a delta
-   */
-  getContents() {
-    let delta = this.quill.getContents()
-    return this.numberAllocator.deltaToIds(delta)
-  }
-
-  /**
    * Add a highlight for some field to some text
    */
   highlightText(index, length, fieldId) {
@@ -100,58 +41,6 @@ export class QuillManager {
   ///////////////
   // Rendering //
   ///////////////
-
-  /**
-   * Attaches the quill editor to a given parent element
-   */
-  attachTo(parentElement) {
-    if (this.containerElement.parentElement === parentElement) {
-      return // attached already
-    }
-    
-    // detach from existing and attach here
-    this.containerElement.remove()
-    parentElement.appendChild(this.containerElement)
-  }
-
-  /**
-   * Call this to update the DOM according to the application mode
-   */
-  renderAppMode(appMode) {
-    if (appMode === AppMode.EDIT_TEXT) {
-      this.quill.enable(true)
-    } else {
-      this.quill.enable(false)
-    }
-
-    if (appMode === AppMode.ANNOTATE_HIGHLIGHTS) {
-      this.highlightManager.setIsAnnotating(true)
-      this.containerElement.classList.add(styles["annotating-mode"])
-    } else {
-      this.highlightManager.setIsAnnotating(false)
-      this.containerElement.classList.remove(styles["annotating-mode"])
-    }
-  }
-
-  /**
-   * Call this to update the DOM according to the active field
-   */
-  renderFieldActivity(fieldId) {
-    this.highlightManager.setActiveFieldId(fieldId)
-
-    // remove all of our css classes
-    Array.from(this.quillElement.classList.values())
-      .filter(name => activeCssClassSet.has(name))
-      .forEach(name => this.quillElement.classList.remove(name))
-
-    // no field is active
-    if (fieldId === null)
-      return
-    
-    // add the proper activity css class
-    const activeFieldNumber = this.numberAllocator.getNumber(fieldId)
-    this.quillElement.classList.add(styles["active-" + activeFieldNumber])
-  }
 
   /**
    * Scrolls the first highlight element for the field into view

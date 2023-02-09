@@ -1,5 +1,5 @@
 import { QuillManager } from "./report/QuillManager"
-import { contentsToHighlights } from "./report/contentsToHighlights"
+import { contentsToHighlights } from "../quill/highlights/contentsToHighlights"
 import { atom } from "jotai"
 import { readAtom, writeAtom } from "../utils/JotaiNexus"
 
@@ -32,3 +32,5 @@ function onTextChange(delta) {
 }
 
 export const quillManager = new QuillManager(onTextChange)
+
+// TODO: quillExtended.on("text-change") ...

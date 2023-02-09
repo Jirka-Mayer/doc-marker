@@ -1,4 +1,4 @@
-import { allFieldNumbers } from "./quillStyles"
+import { allFieldNumbers } from "../ui/quillStyles"
 
 /**
  * Handles the highlighting functionality added to quill
