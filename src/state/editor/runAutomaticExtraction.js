@@ -2,7 +2,7 @@ import { readAtom, writeAtom } from "../../utils/JotaiNexus"
 import { FieldState } from "../form/FieldState"
 import { getFieldStateAtom } from "../form/fieldStatesStore"
 import { formDataAtom } from "../formStore"
-import { quillManager } from "../reportStore"
+import { quillExtended } from "../reportStore"
 
 /**
  * Runs the automatic NLP form pre-filling
@@ -23,5 +23,5 @@ export function runAutomaticExtraction() {
 
   writeAtom(formDataAtom, newFormData)
   writeAtom(getFieldStateAtom(fieldId), FieldState.ROBOT_VALUE)
-  quillManager.highlightText(rangeIndex, rangeLength, fieldId)
+  quillExtended.highlightText(rangeIndex, rangeLength, fieldId)
 }

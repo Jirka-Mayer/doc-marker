@@ -1,4 +1,4 @@
-import { QuillManager } from "./report/QuillManager"
+import { QuillExtended } from "../quill/QuillExtended"
 import { contentsToHighlights } from "../quill/highlights/contentsToHighlights"
 import { atom } from "jotai"
 import { readAtom, writeAtom } from "../utils/JotaiNexus"
@@ -23,14 +23,12 @@ export const highlightsAtom = atom(get => get(highlightsBaseAtom))
 
 // === quill ===
 
-function onTextChange(delta) {
-  let contents = quillManager.getContents()
+export const quillExtended = new QuillExtended()
+
+quillExtended.on("text-change", (delta, oldContents, source) => {
+  const contents = quillExtended.getContents()
   let highlights = contentsToHighlights(contents)
   
   writeAtom(contentBaseAtom, contents)
   writeAtom(highlightsBaseAtom, highlights)
-}
-
-export const quillManager = new QuillManager(onTextChange)
-
-// TODO: quillExtended.on("text-change") ...
+})

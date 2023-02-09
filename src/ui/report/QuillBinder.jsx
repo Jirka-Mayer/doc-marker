@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 import * as styles from "./QuillBinder.module.scss"
-import { quillManager } from "../../state/reportStore"
+import { quillExtended } from "../../state/reportStore"
 import { useAtom } from "jotai"
 import { activeFieldIdAtom, appModeAtom } from "../../state/editorStore"
 import { displayDebugInfoAtom } from "../../state/userPreferencesStore"
@@ -16,21 +16,21 @@ export function QuillBinder() {
   const bindingContainerRef = useRef(null)
   
   useEffect(() => {
-    quillManager.attachTo(bindingContainerRef.current)
+    quillExtended.attachTo(bindingContainerRef.current)
   })
 
   useEffect(() => {
-    quillManager.renderAppMode(appMode)
+    quillExtended.renderAppMode(appMode)
   }, [appMode])
 
   useEffect(() => {
-    quillManager.renderFieldActivity(activeFieldId)
+    quillExtended.renderFieldActivity(activeFieldId)
   }, [activeFieldId])
 
   const debugRef = useRef(null)
   useEffect(() => {
     let text = ""
-    let m = quillManager.numberAllocator.idToNumber
+    let m = quillExtended.highlightsAllocator.idToNumber
     if (displayDebugInfo) {
       for (let k of m.keys()) {
         text += k + " => " + m.get(k) + "\n"

@@ -1,10 +1,15 @@
 import Quill from "quill"
 import { AppMode } from "../state/editor/AppMode"
-import { allHighlightFormatNames, defineHighlightAttributors } from "./highlights/defineHighlightAttributors"
+import {
+  allHighlightFormatNames,
+  defineHighlightAttributors
+} from "./highlights/defineHighlightAttributors"
 import { allAnonymizationNumbers, allHighlightNumbers } from "./ui/quillStyles"
 import { DeltaMapper } from "./DeltaMapper"
 import { IdToNumberAllocator } from "./utils/IdToNumberAllocator"
 import { QuillStateRenderer } from "./ui/QuillStateRenderer"
+import { EventEmitter } from "./utils/EventEmitter"
+import { EventForwarder } from "./EventForwarder"
 
 // extend Quill with highlight attributors
 defineHighlightAttributors()
@@ -32,8 +37,12 @@ export class QuillExtended {
     this.quill = this._constructQuillInstance()
 
     // allocators
-    this.annonymizationsAllocator = new IdToNumberAllocator(allAnonymizationNumbers)
-    this.highlightsAllocator = new IdToNumberAllocator(allHighlightNumbers)
+    this.annonymizationsAllocator = new IdToNumberAllocator(
+      allAnonymizationNumbers
+    )
+    this.highlightsAllocator = new IdToNumberAllocator(
+      allHighlightNumbers
+    )
 
     // sets proper root CSS classes
     this.stateRenderer = new QuillStateRenderer(
@@ -47,6 +56,17 @@ export class QuillExtended {
       this.highlightsAllocator,
       this.annonymizationsAllocator
     )
+
+    // handles external event subscriptions
+    this.eventEmitter = new EventEmitter()
+
+    // forwards internal events into the external emitter
+    this.eventForwarder = new EventForwarder(
+      this.quill,
+      this.deltaMapper,
+      this.eventEmitter
+    )
+    this.eventForwarder.registerListeners()
   }
 
   _constructQuillInstance() {
@@ -175,5 +195,18 @@ export class QuillExtended {
   setSelection(index, length = 0, source = "api") {
     return this.quill.setSelection(index, length, source)
   }
+
+  // Events //
+  // ------ //
+
+  off(eventName, listener) {
+    this.eventEmitter.off(eventName, listener)
+  }
+
+  on(eventName, listener) {
+    this.eventEmitter.on(eventName, listener)
+  }
+
+  // MISSING: once
 
 }

@@ -1,5 +1,5 @@
 import { atom } from "jotai"
-import { contentAtom, quillManager } from "./reportStore"
+import { contentAtom, quillExtended } from "./reportStore"
 import { formDataAtom } from "./formStore"
 import { AppFile } from "../state/file/AppFile"
 
@@ -27,7 +27,7 @@ export const openFileAtom = atom(null, (get, set, appFile) => {
   const formData = appFile.getFormData()
 
   set(patientIdAtom, patientId)
-  quillManager.setContents(reportDelta)
+  quillExtended.setContents(reportDelta)
   set(formDataAtom, formData)
 
   // TODO: implement GUIDs

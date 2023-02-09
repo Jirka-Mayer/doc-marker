@@ -9,7 +9,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'
 import { useFieldActivity } from "../useFieldActivity"
 import { useFieldState } from "../useFieldState"
 import { useFieldHighlights } from "../useFieldHighlights"
-import { quillManager } from "../../../state/reportStore"
+import { quillExtended } from "../../../state/reportStore"
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure
@@ -61,7 +61,7 @@ export function ResqInputControl(props) {
 
   function onFocus() {
     setFieldActive()
-    quillManager.scrollHighlightIntoView(fieldId)
+    quillExtended.scrollHighlightIntoView(fieldId)
   }
 
   const controlInputProps = {
