@@ -1,10 +1,14 @@
 import { DeltaMapper } from "./DeltaMapper";
 import { EventEmitter } from "./utils/EventEmitter";
+import { WordSelector } from "./WordSelector"
 
 export class EventForwarder {
-  constructor(quill, deltaMapper, eventEmitter) {
+  constructor(quill, wordSelector, deltaMapper, eventEmitter) {
     // internal quill instance
     this.quill = quill
+
+    /** @type {WordSelector} */
+    this.wordSelector = wordSelector
 
     /** @type {DeltaMapper} */
     this.deltaMapper = deltaMapper
@@ -30,6 +34,10 @@ export class EventForwarder {
   }
 
   onInternalSelectionChange(range, oldRange, source) {
+    // let the word selector have a say in what gets emitted to the outside
+    if (this.wordSelector.interceptSelectionChangeEvent(range, oldRange, source))
+      return // prevent event propagation when true is returned
+    
     this.eventEmitter.emit(
       "selection-change",
       range,

@@ -5,6 +5,7 @@ import {
   defineHighlightAttributors
 } from "./highlights/defineHighlightAttributors"
 import { allAnonymizationNumbers, allHighlightNumbers } from "./ui/quillStyles"
+import { WordSelector } from "./WordSelector"
 import { DeltaMapper } from "./DeltaMapper"
 import { IdToNumberAllocator } from "./utils/IdToNumberAllocator"
 import { QuillStateRenderer } from "./ui/QuillStateRenderer"
@@ -44,6 +45,9 @@ export class QuillExtended {
       allHighlightNumbers
     )
 
+    // handles the mode where we select only entire words
+    this.wordSelector = new WordSelector(this.quill)
+
     // sets proper root CSS classes
     this.stateRenderer = new QuillStateRenderer(
       this.quillElement,
@@ -63,6 +67,7 @@ export class QuillExtended {
     // forwards internal events into the external emitter
     this.eventForwarder = new EventForwarder(
       this.quill,
+      this.wordSelector,
       this.deltaMapper,
       this.eventEmitter
     )
@@ -209,4 +214,37 @@ export class QuillExtended {
 
   // MISSING: once
 
+
+  /////////////////////////////
+  // Extended Quill-like API //
+  /////////////////////////////
+
+  // Word Selection //
+  // -------------- //
+
+  /**
+   * Enables (or disables) the selection mode that selects entire words only
+   * @param {bool} enabled
+   */
+  enableWordSelection(enabled = true) {
+    this.wordSelector.isEnabled = enabled
+  }
+
+  disableWordSelection() {
+    this.enableWordSelection(false)
+  }
+
+  isWordSelectionEnabled() {
+    return this.wordSelector.isEnabled
+  }
+
+  // Anonymization //
+  // ------------- //
+
+  // ...
+
+  // Highlights //
+  // ---------- //
+
+  // ...
 }
