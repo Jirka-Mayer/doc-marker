@@ -13,7 +13,7 @@ export class WordSelector {
      * Is the word selecting mode enabled or not
      * @type {boolean}
      */
-    this.isEnabled = true
+    this.isEnabled = false
   }
 
   /**

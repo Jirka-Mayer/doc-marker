@@ -1,6 +1,6 @@
 import { AppMode } from "../../state/editor/AppMode"
 import { IdToNumberAllocator } from "../utils/IdToNumberAllocator"
-import { styles, activateHighlightClassSet } from "./quillStyles"
+import { styles, activateHighlightValueClassSet } from "./quillStyles"
 
 /**
  * Class responsible for setting the proper CSS classes on the quill element
@@ -37,7 +37,7 @@ export class QuillStateRenderer {
 
     // remove all of our highlight activation css classes
     Array.from(this.quillElement.classList.values())
-      .filter(name => activateHighlightClassSet.has(name))
+      .filter(name => activateHighlightValueClassSet.has(name))
       .forEach(name => this.quillElement.classList.remove(name))
 
     // no field is active

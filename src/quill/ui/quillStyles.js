@@ -6,8 +6,7 @@ const allAnonymizationNumbers = Object.keys(styles)
   .map(k => {
     const from = "anonymization-".length
     const to = k.length - "-yes".length
-    const len = to - from
-    return k.substring(from, len)
+    return k.substring(from, to)
   })
   .sort()
 
@@ -17,20 +16,20 @@ const allHighlightNumbers = Object.keys(styles)
   .map(k => {
     const from = "highlight-".length
     const to = k.length - "-yes".length
-    const len = to - from
-    return k.substring(from, len)
+    return k.substring(from, to)
   })
   .sort()
 
 // set of all CSS classes that signal highlight activity on the quill element
-const activateHighlightClassSet = new Set(
-  Object.values(styles)
+const activateHighlightValueClassSet = new Set(
+  Object.keys(styles)
     .filter(k => k.indexOf("activate-highlight-") === 0)
+    .map(k => styles[k])
 )
 
 export {
   styles,
   allAnonymizationNumbers,
   allHighlightNumbers,
-  activateHighlightClassSet
+  activateHighlightValueClassSet
 }

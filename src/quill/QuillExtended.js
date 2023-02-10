@@ -11,6 +11,8 @@ import { IdToNumberAllocator } from "./utils/IdToNumberAllocator"
 import { QuillStateRenderer } from "./ui/QuillStateRenderer"
 import { EventEmitter } from "./utils/EventEmitter"
 import { EventForwarder } from "./EventForwarder"
+import { HighlightsApi } from "./HighlightsApi"
+import { getInlineFormatRange } from "./utils/getInlineFormatRange"
 
 // extend Quill with highlight attributors
 defineHighlightAttributors()
@@ -72,6 +74,13 @@ export class QuillExtended {
       this.eventEmitter
     )
     this.eventForwarder.registerListeners()
+
+    // extended API implementations
+    this.highlightsApi = new HighlightsApi(
+      this.quill,
+      this.quillElement,
+      this.highlightsAllocator
+    )
   }
 
   _constructQuillInstance() {
@@ -109,8 +118,18 @@ export class QuillExtended {
     }
     
     // detach from existing and attach here
-    this.containerElement.remove()
+    this.detach()
     parentElement.appendChild(this.containerElement)
+  }
+
+  /**
+   * Detaches the element from the parent component
+   */
+  detach() {
+    if (this.containerElement.parentElement === null)
+      return // already detached
+
+    this.containerElement.remove() // detach
   }
 
   /**
@@ -126,11 +145,11 @@ export class QuillExtended {
   renderAppMode(appMode) {
     this.stateRenderer.renderAppMode(appMode)
     
-    if (appMode === AppMode.EDIT_TEXT) {
-      this.quill.enable(true)
-    } else {
-      this.quill.enable(false)
-    }
+    // if (appMode === AppMode.EDIT_TEXT) {
+    //   this.quill.enable(true)
+    // } else {
+    //   this.quill.enable(false)
+    // }
 
     if (appMode === AppMode.ANNOTATE_HIGHLIGHTS) {
       // TODO: this.highlightManager.setIsAnnotating(true)
@@ -186,6 +205,21 @@ export class QuillExtended {
 
   // MISSING: updateContents
 
+  // Formatting //
+  // ---------- //
+
+  // TODO: DeltaMapper -> map format names (highlight format names)
+
+  // MISSING: format
+
+  // MISSING: formatLine
+
+  // MISSING: formatText
+
+  // MISSING: getFormat
+
+  // MISSING: removeFormat
+
   // Selection //
   // --------- //
 
@@ -200,6 +234,31 @@ export class QuillExtended {
   setSelection(index, length = 0, source = "api") {
     return this.quill.setSelection(index, length, source)
   }
+
+  // Editor //
+  // ------ //
+
+  blur() {
+    this.quill.blur()
+  }
+
+  focus() {
+    this.quill.focus()
+  }
+
+  disable() {
+    this.enable(false)
+  }
+
+  enable(enabled = true) {
+    this.quill.enable(enabled)
+  }
+
+  hasFocus() {
+    return this.quill.hasFocus()
+  }
+
+  // MISSING: update
 
   // Events //
   // ------ //
@@ -238,6 +297,14 @@ export class QuillExtended {
     return this.wordSelector.isEnabled
   }
 
+  // Formatting //
+  // ---------- //
+
+  getInlineFormatRange(index, formatName, formatValue) {
+    // TODO: DeltaMapper -> map format names (highlight format names)
+    return getInlineFormatRange(this.quill, index, formatName, formatValue)
+  }
+
   // Anonymization //
   // ------------- //
 
@@ -246,5 +313,25 @@ export class QuillExtended {
   // Highlights //
   // ---------- //
 
-  // ...
+  /**
+   * Highlights (or removes highlight) for a given field in a given range
+   * @param {number} index Range start
+   * @param {number} length Range length
+   * @param {string} fieldId ID of the form field
+   * @param {boolean} highlighted Set false to remove highlight for the field
+   * @param {string} source Who triggered the update (quill source)
+   */
+  highlightText(index, length, fieldId, highlighted = true, source = "api") {
+    this.highlightsApi.highlightText(
+      index, length, fieldId, highlighted, source
+    )
+  }
+
+  getHighlightRange(index, fieldId) {
+    return this.highlightsApi.getHighlightRange(index, fieldId)
+  }
+
+  scrollHighlightIntoView(fieldId) {
+    this.highlightsApi.scrollHighlightIntoView(fieldId)
+  }
 }

@@ -4,6 +4,7 @@ import { quillExtended } from "../../state/reportStore"
 import { useAtom } from "jotai"
 import { activeFieldIdAtom, appModeAtom } from "../../state/editorStore"
 import { displayDebugInfoAtom } from "../../state/userPreferencesStore"
+import { useAnnotationController } from "./useAnnotationController"
 
 /**
  * Binds the quill instance with the DOM as a react component
@@ -15,18 +16,29 @@ export function QuillBinder() {
   
   const bindingContainerRef = useRef(null)
   
+  // quill element attachment to DOM
   useEffect(() => {
     quillExtended.attachTo(bindingContainerRef.current)
-  })
+    return () => {
+      quillExtended.detach()
+    }
+  }, [])
 
+  // app mode rendering
   useEffect(() => {
     quillExtended.renderAppMode(appMode)
   }, [appMode])
 
+  // active field rendering
   useEffect(() => {
     quillExtended.renderFieldActivity(activeFieldId)
   }, [activeFieldId])
 
+  // app mode controllers
+  useAnnotationController()
+
+  // debug rendering
+  // TODO: remove from here and put into the report column instead
   const debugRef = useRef(null)
   useEffect(() => {
     let text = ""
