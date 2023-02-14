@@ -6,6 +6,7 @@ import { activeFieldIdAtom, appModeAtom } from "../../state/editorStore"
 import { displayDebugInfoAtom } from "../../state/userPreferencesStore"
 import { useAnnotationController } from "./useAnnotationController"
 import { useAnonymizationController } from "./useAnonymizationController"
+import { AnonymizationContextMenu } from "./anonymization/AnonymizationContextMenu"
 
 /**
  * Binds the quill instance with the DOM as a react component
@@ -58,6 +59,8 @@ export function QuillBinder() {
       {/* <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"></link> */}
       
       <div ref={bindingContainerRef}></div>
+
+      <AnonymizationContextMenu />
 
       <pre ref={debugRef}></pre>
     </>

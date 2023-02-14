@@ -45,12 +45,11 @@ function handleSelectionChange(range, activeFieldId) {
   if (range === null)
     return
 
-  // handle when the user just clicks the text area
-  if (range.length === 0)
+  if (range.length === 0) {
     handleClick(range.index, activeFieldId)
-  
-  // handle when the user actually drags the text area
-  handleDrag(range, activeFieldId)
+  } else {
+    handleDrag(range, activeFieldId)
+  }
 }
 
 function handleClick(index, activeFieldId) {

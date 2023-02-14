@@ -3,12 +3,16 @@ import { quillExtended } from "../../state/reportStore"
 import { AppMode } from "../../state/editor/AppMode"
 import { useAtom } from "jotai"
 import { appModeAtom } from "../../state/editorStore"
+import {
+  openMenuAtom as openContextMenuAtom
+} from "./anonymization/AnonymizationContextMenu"
 
 export function useAnonymizationController() {
   const [appMode] = useAtom(appModeAtom)
+  const [,openContextMenu] = useAtom(openContextMenuAtom)
 
   const onSelectionChange = useCallback((range, oldRange, source) => {
-    handleSelectionChange(range)
+    handleSelectionChange(range, openContextMenu)
   }, [])
 
   function attach() {
@@ -32,17 +36,16 @@ export function useAnonymizationController() {
   }, [appMode])
 }
 
-function handleSelectionChange(range) {
+function handleSelectionChange(range, openContextMenu) {
   // if the selection is outside quill, do nothing
   if (range === null)
     return
 
-  // handle when the user just clicks the text area
-  if (range.length === 0)
+  if (range.length === 0) {
     handleClick(range.index)
-
-  // handle when the user actually drags the text area
-  handleDrag(range)
+  } else {
+    handleDrag(range, openContextMenu)
+  }
 }
 
 function handleClick(index) {
@@ -63,12 +66,7 @@ function handleClick(index) {
   quillExtended.anonymizeText(anonymizedRange.index, anonymizedRange.length, "")
 }
 
-function handleDrag(range) {
-  // TODO: open context menu that asks for the kind of anonymized data
-  
-  // anonymize the text
-  quillExtended.anonymizeText(range.index, range.length, "other")
-
-  // clear selection silently (to not trigger the click event above)
-  quillExtended.setSelection(range.index, 0, "silent")
+function handleDrag(range, openContextMenu) {
+  // open context menu that asks for the kind of anonymized data
+  openContextMenu(range)
 }
