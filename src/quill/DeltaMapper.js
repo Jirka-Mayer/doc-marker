@@ -5,12 +5,9 @@ import { mapDeltaAttributes } from "./utils/mapDeltaAttributes"
  * Provides delta-mapping functionality for the extended quill specifically
  */
 export class DeltaMapper {
-  constructor(highlightsAllocator, anonymizationsAllocator) {
+  constructor(highlightsAllocator) {
     /** @type {IdToNumberAllocator} */
     this.highlightsAllocator = highlightsAllocator
-    
-    /** @type {IdToNumberAllocator} */
-    this.anonymizationsAllocator = anonymizationsAllocator
   }
 
   /**
@@ -20,9 +17,6 @@ export class DeltaMapper {
     const externalDelta = mapDeltaAttributes(
       internalDelta,
       (key, value) => {
-        if (this.isInternalAnonymizationAttribute(key))
-          return this.exportAnonymizationAttribute(key, value)
-
         if (this.isInternalHighlightAttribute(key))
           return this.exportHighlightAttribute(key, value)
       
@@ -40,9 +34,6 @@ export class DeltaMapper {
     const internalDelta = mapDeltaAttributes(
       externalDelta,
       (key, value) => {
-        if (this.isExternalAnonymizationAttribute(key))
-          return this.exportAnonymizationAttribute(key, value)
-
         if (this.isExternalHighlightAttribute(key))
           return this.exportHighlightAttribute(key, value)
 
@@ -102,58 +93,6 @@ export class DeltaMapper {
     const id = externalKey.substring(DeltaMapper.highlights.externalPrefix.length)
     const number = this.highlightsAllocator.getNumber(id)
     const internalKey = DeltaMapper.highlights.internalPrefix + number
-    return [internalKey, internalValue]
-  }
-
-
-  ////////////////////
-  // Anonymizations //
-  ////////////////////
-
-  /*
-   * External attribute:
-   * "anonymization://foo.bar": true
-   * 
-   * Internal attribute:
-   * "anonymization-7": "yes"
-   */
-
-  static anonymizations = {
-    externalPrefix: "anonymization://",
-    externalValue: true,
-    externalMissingValue: false,
-    internalPrefix: "anonymization-",
-    internalValue: "yes",
-    internalMissingValue: ""
-  }
-
-  isExternalAnonymizationAttribute(externalKey) {
-    // does the key start with the "anonymization://" prefix?
-    return (externalKey || "").indexOf(DeltaMapper.anonymizations.externalPrefix) === 0
-  }
-
-  isInternalAnonymizationAttribute(internalKey) {
-    // does the key start with the "anonymization-" prefix?
-    return (internalKey || "").indexOf(DeltaMapper.anonymizations.internalPrefix) === 0
-  }
-
-  exportAnonymizationAttribute(internalKey, internalValue) {
-    const externalValue = internalValue === DeltaMapper.anonymizations.internalValue
-      ? DeltaMapper.anonymizations.externalValue
-      : DeltaMapper.anonymizations.externalMissingValue
-    const number = internalKey.substring(DeltaMapper.anonymizations.internalPrefix.length)
-    const id = this.anonymizationsAllocator.getId(number)
-    const externalKey = DeltaMapper.anonymizations.externalPrefix + id
-    return [externalKey, externalValue]
-  }
-
-  importAnonymizationAttribute(externalKey, externalValue) {
-    const internalValue = externalValue === DeltaMapper.anonymizations.externalValue
-      ? DeltaMapper.anonymizations.internalValue
-      : DeltaMapper.anonymizations.internalMissingValue
-    const id = externalKey.substring(DeltaMapper.anonymizations.externalPrefix.length)
-    const number = this.anonymizationsAllocator.getNumber(id)
-    const internalKey = DeltaMapper.anonymizations.internalPrefix + number
     return [internalKey, internalValue]
   }
 }

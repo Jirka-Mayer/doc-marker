@@ -5,6 +5,7 @@ import { useAtom } from "jotai"
 import { activeFieldIdAtom, appModeAtom } from "../../state/editorStore"
 import { displayDebugInfoAtom } from "../../state/userPreferencesStore"
 import { useAnnotationController } from "./useAnnotationController"
+import { useAnonymizationController } from "./useAnonymizationController"
 
 /**
  * Binds the quill instance with the DOM as a react component
@@ -35,6 +36,7 @@ export function QuillBinder() {
   }, [activeFieldId])
 
   // app mode controllers
+  useAnonymizationController()
   useAnnotationController()
 
   // debug rendering

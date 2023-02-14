@@ -55,6 +55,12 @@ export class QuillStateRenderer {
    * Sets the app mode CSS classes
    */
   renderAppMode(appMode) {
+    if (appMode === AppMode.ANONYMIZE) {
+      this.containerElement.classList.add(styles["anonymization-mode"])
+    } else {
+      this.containerElement.classList.remove(styles["anonymization-mode"])
+    }
+
     if (appMode === AppMode.ANNOTATE_HIGHLIGHTS) {
       this.containerElement.classList.add(styles["annotating-mode"])
     } else {

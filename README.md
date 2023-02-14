@@ -1,5 +1,5 @@
-RES-Q+ Client
-=============
+DocMarker for RES-Q+
+====================
 
 Try it out at: https://ufallab.ms.mff.cuni.cz/~mayer/resq-client/
 

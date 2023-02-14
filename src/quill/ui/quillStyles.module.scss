@@ -2,9 +2,21 @@
 // Anonymization //
 ///////////////////
 
-@for $i from 0 to 10 {
-  .anonymization-#{$i}-yes {
-    background: rgba(black, 0.3);
+.anonymization-mode :global(.ql-editor) > * {
+  cursor: cell;
+}
+
+.anonymization--name-person, // name of a person
+.anonymization--name-organization, // name of some organization
+.anonymization--personalInformation, // birth ID, date of birth
+.anonymization--contactInformation, // telephone, email
+.anonymization--other
+{
+  padding: 2px 0;
+  background: rgba(black, 0.3);
+
+  .anonymization-mode & {
+    cursor: pointer;
   }
 }
 

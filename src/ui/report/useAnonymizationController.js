@@ -2,19 +2,15 @@ import { useCallback, useEffect } from "react"
 import { quillExtended } from "../../state/reportStore"
 import { AppMode } from "../../state/editor/AppMode"
 import { useAtom } from "jotai"
-import { activeFieldIdAtom, appModeAtom } from "../../state/editorStore"
+import { appModeAtom } from "../../state/editorStore"
 
-/**
- * Controls report-related UI in the annotation mode
- */
-export function useAnnotationController() {
+export function useAnonymizationController() {
   const [appMode] = useAtom(appModeAtom)
-  const [activeFieldId] = useAtom(activeFieldIdAtom)
-  
+
   const onSelectionChange = useCallback((range, oldRange, source) => {
-    handleSelectionChange(range, activeFieldId)
-  }, [activeFieldId])
-  
+    handleSelectionChange(range)
+  }, [])
+
   function attach() {
     quillExtended.disable()
     quillExtended.enableWordSelection()
@@ -29,54 +25,49 @@ export function useAnnotationController() {
 
   // connect with react
   useEffect(() => {
-    if (appMode === AppMode.ANNOTATE_HIGHLIGHTS) {
+    if (appMode === AppMode.ANONYMIZE) {
       attach()
       return detach
     }
-  }, [appMode, activeFieldId])
+  }, [appMode])
 }
 
-function handleSelectionChange(range, activeFieldId) {
-  // if no field is active, do nothing
-  if (activeFieldId === null)
-      return
-
+function handleSelectionChange(range) {
   // if the selection is outside quill, do nothing
   if (range === null)
     return
 
   // handle when the user just clicks the text area
   if (range.length === 0)
-    handleClick(range.index, activeFieldId)
-  
+    handleClick(range.index)
+
   // handle when the user actually drags the text area
-  handleDrag(range, activeFieldId)
+  handleDrag(range)
 }
 
-function handleClick(index, activeFieldId) {
+function handleClick(index) {
   // ignore clicks around the text
   if (!quillExtended.isClickInsideText(index))
     return
 
-  // get highlight range
-  const highlightRange = quillExtended.getHighlightRange(index, activeFieldId)
+  // TODO: open context menu that asks whther the anonymization should be removed
 
-  // the click was not over any highlighted range
-  if (highlightRange === null)
+  // get anonymized range
+  const anonymizedRange = quillExtended.getAnonymizedRange(index)
+
+  // the click was not over any anonymized range
+  if (anonymizedRange === null)
     return
 
-  // remove the highlight
-  quillExtended.highlightText(
-    highlightRange.index,
-    highlightRange.length,
-    activeFieldId,
-    false
-  )
+  // remove the anonymization
+  quillExtended.anonymizeText(anonymizedRange.index, anonymizedRange.length, "")
 }
 
-function handleDrag(range, activeFieldId) {
-  // highlight the text
-  quillExtended.highlightText(range.index, range.length, activeFieldId)
+function handleDrag(range) {
+  // TODO: open context menu that asks for the kind of anonymized data
+  
+  // anonymize the text
+  quillExtended.anonymizeText(range.index, range.length, "other")
 
   // clear selection silently (to not trigger the click event above)
   quillExtended.setSelection(range.index, 0, "silent")

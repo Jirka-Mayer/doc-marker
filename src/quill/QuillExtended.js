@@ -1,20 +1,23 @@
 import Quill from "quill"
 import { AppMode } from "../state/editor/AppMode"
+import { defineAnonymizationAttributor } from "./anonymization/defineAnonymizationAttributor"
 import {
   allHighlightFormatNames,
   defineHighlightAttributors
 } from "./highlights/defineHighlightAttributors"
-import { allAnonymizationNumbers, allHighlightNumbers } from "./ui/quillStyles"
+import { allHighlightNumbers } from "./ui/quillStyles"
 import { WordSelector } from "./WordSelector"
 import { DeltaMapper } from "./DeltaMapper"
 import { IdToNumberAllocator } from "./utils/IdToNumberAllocator"
 import { QuillStateRenderer } from "./ui/QuillStateRenderer"
 import { EventEmitter } from "./utils/EventEmitter"
 import { EventForwarder } from "./EventForwarder"
+import { AnonymizationApi } from "./AnonymizationApi"
 import { HighlightsApi } from "./HighlightsApi"
 import { getInlineFormatRange } from "./utils/getInlineFormatRange"
 
-// extend Quill with highlight attributors
+// extend Quill with custom attributors
+defineAnonymizationAttributor()
 defineHighlightAttributors()
 
 /**
@@ -40,9 +43,6 @@ export class QuillExtended {
     this.quill = this._constructQuillInstance()
 
     // allocators
-    this.annonymizationsAllocator = new IdToNumberAllocator(
-      allAnonymizationNumbers
-    )
     this.highlightsAllocator = new IdToNumberAllocator(
       allHighlightNumbers
     )
@@ -59,8 +59,7 @@ export class QuillExtended {
 
     // converts between in internal and exteral delta format
     this.deltaMapper = new DeltaMapper(
-      this.highlightsAllocator,
-      this.annonymizationsAllocator
+      this.highlightsAllocator
     )
 
     // handles external event subscriptions
@@ -76,6 +75,10 @@ export class QuillExtended {
     this.eventForwarder.registerListeners()
 
     // extended API implementations
+    this.anonymizationApi = new AnonymizationApi(
+      this.quill,
+      this.quillElement
+    )
     this.highlightsApi = new HighlightsApi(
       this.quill,
       this.quillElement,
@@ -99,7 +102,8 @@ export class QuillExtended {
         // block
         "header",
         
-        // custom
+        // custom (inline)
+        "anonymized",
         ...allHighlightFormatNames
       ]
     })
@@ -144,18 +148,6 @@ export class QuillExtended {
    */
   renderAppMode(appMode) {
     this.stateRenderer.renderAppMode(appMode)
-    
-    // if (appMode === AppMode.EDIT_TEXT) {
-    //   this.quill.enable(true)
-    // } else {
-    //   this.quill.enable(false)
-    // }
-
-    if (appMode === AppMode.ANNOTATE_HIGHLIGHTS) {
-      // TODO: this.highlightManager.setIsAnnotating(true)
-    } else {
-      // TODO: this.highlightManager.setIsAnnotating(false)
-    }
   }
 
 
@@ -190,7 +182,6 @@ export class QuillExtended {
 
   setContents(delta, source = "api") {
     // reset allocators
-    this.annonymizationsAllocator.reset()
     this.highlightsAllocator.reset()
 
     // import content
@@ -297,6 +288,26 @@ export class QuillExtended {
     return this.wordSelector.isEnabled
   }
 
+  /**
+   * If the users clicks (changes selection to length 0),
+   * this method checks whether the selection is at the end/beginning
+   * of text line, in which case the user probably clicked next to the
+   * text, or if the click actually was over the textual content
+   * @param {number} index
+   */
+  isClickInsideText(index) {
+    if (this.getText(index, 1) == "\n") // after the end of line
+      return false
+
+    if (this.getText(index - 1, 1) == "\n") // before the start of line
+      return false
+
+    if (index == 0) // before the start of text
+      return false
+
+    return true
+  }
+
   // Formatting //
   // ---------- //
 
@@ -308,7 +319,20 @@ export class QuillExtended {
   // Anonymization //
   // ------------- //
 
-  // ...
+  /**
+   * Anonymizes (or removes anonymization) for a given data kind in a given range
+   * @param {number} index Range start
+   * @param {number} length Range length
+   * @param {string} kindId Kind of the anonymized data
+   * @param {string} source Who triggered the update (quill source)
+   */
+  anonymizeText(index, length, kindId = "", source = "api") {
+    this.anonymizationApi.anonymizeText(index, length, kindId, source)
+  }
+
+  getAnonymizedRange(index) {
+    return this.anonymizationApi.getAnonymizedRange(index)
+  }
 
   // Highlights //
   // ---------- //
