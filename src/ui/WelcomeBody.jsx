@@ -25,7 +25,7 @@ export function WelcomeBody(props) {
     const m = String(now.getMonth() + 1).padStart(2, "0")
     const d = String(now.getDate() + 1).padStart(2, "0")
     const salt = Math.floor((Math.random() * 999) + 1)
-    return `prototype_client_${y}-${m}-${d}_${salt}`
+    return `doc_marker_${y}-${m}-${d}_${salt}`
   }
 
   function openNewFileDialog() {
@@ -71,7 +71,7 @@ export function WelcomeBody(props) {
       <div className={styles["centering-container"]}>
         <Paper className={styles["paper"]} square>
 
-          <Typography variant="h3">RES-Q+ Data Entry Platform</Typography>
+          <Typography variant="h3">DocMarker for RES-Q+</Typography>
           <Typography variant="h5" gutterBottom sx={{ opacity: 0.5 }}>[v{VERSION}]</Typography>
           
           <Typography variant="h5" gutterBottom>Real Data</Typography>

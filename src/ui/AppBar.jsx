@@ -87,12 +87,13 @@ export function AppBar() {
         </div>
       </div>
 
-      { isFileOpen ? <>
+      {/* Keep the toolbar closed for now */}
+      {/* { isFileOpen ? <>
         <Divider />
         <div className={styles["appbar__toolbar"]}>
           <Toolbar />
         </div>
-      </> : null }
+      </> : null } */}
 
     </Paper>
   )

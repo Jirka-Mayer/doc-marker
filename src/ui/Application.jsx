@@ -30,11 +30,11 @@ export function Application() {
         <AppBody isOpen={isFileOpen} />
 
       </div>
-      <div className={styles["status-bar-container"]}>
+      {/* <div className={styles["status-bar-container"]}>
 
         <StatusBar />
 
-      </div>
+      </div> */}
     </>
   )
 }
