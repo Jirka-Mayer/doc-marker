@@ -80,6 +80,30 @@
               "onlineFormId": "input6819"
             }
           ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/admission/properties/admission_timestamp",
+              "label": "Datum přijetí"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/admission/properties/hospital_arrival_time",
+              "label":"Datum příjezdu do nemocnice (pokud není znám, uveďte nejpřesnější odhadovaný čas)",
+              "rule": {
+                "effect": "HIDE",
+                "condition": {
+                  "scope": "#/properties/onset/properties/inhospital_stroke",
+                  "schema": {
+                    "enum": ["1 (Yes)"]
+                  }
+                }
+              }
+            }
+          ]
         }
       ]
     }

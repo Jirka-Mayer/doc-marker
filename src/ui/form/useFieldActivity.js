@@ -1,20 +1,15 @@
 import { useAtom } from "jotai"
-import { activeFieldIdAtom } from "../../state/editorStore"
+import { getFieldIsActiveAtom } from "../../state/editorStore"
 
 export function useFieldActivity(fieldId) {
-  const [activeFieldId, setActiveFieldId] = useAtom(activeFieldIdAtom)
-  
-  const isFieldActive = activeFieldId === fieldId
+  const [isFieldActive, setIsFieldActive] = useAtom(getFieldIsActiveAtom(fieldId))
 
   function toggleFieldActivity() {
-    if (isFieldActive)
-      setActiveFieldId(null)
-    else
-      setActiveFieldId(fieldId)
+    setIsFieldActive(!isFieldActive)
   }
 
   function setFieldActive() {
-    setActiveFieldId(fieldId)
+    setIsFieldActive(true)
   }
 
   return {

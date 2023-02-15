@@ -1,0 +1,2681 @@
+{
+  "type": "VerticalLayout",
+  "elements": [
+    {
+      "type": "Group",
+      "label": "Admission data",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/anamnesis/properties/age",
+              "label": "Age",
+              "options": {
+                "showSortButtons": true
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/anamnesis/properties/sex"
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/onset/properties/wakeup_stroke",
+              "label": "Wakeup stroke"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/onset/properties/patient_bed_time",
+              "label": "Time when patient went to bed",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/onset/properties/wakeup_stroke",
+                  "schema": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/onset/properties/inhospital_stroke",
+              "label": "Stroke while already hospitalized"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/admission/properties/first_attended",
+              "label": "Where was the patient first attended to at your hospital?"
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/admission/properties/admission_timestamp",
+              "label": "Date of admission"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/admission/properties/hospital_arrival_time",
+              "label": "Arrival time to hospital (if unknown then please put the best estimate time)",
+              "rule": {
+                "effect": "HIDE",
+                "condition": {
+                  "scope": "#/properties/onset/properties/inhospital_stroke",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/onset/properties/onset_time_known",
+          "label": "Is the time of onset of stroke symptoms known?",
+          "rule": {
+            "effect": "HIDE",
+            "condition": {
+              "scope": "#/properties/onset/properties/wakeup_stroke",
+              "schema": {
+                "const": true
+              }
+            }
+          }
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/onset/properties/onset_date",
+              "label": "Date of onset of stroke symptoms"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/onset/properties/onset_time",
+              "label": "Time of onset of stroke symptoms",
+              "rule": {
+                "effect": "HIDE",
+                "condition": {
+                  "type": "OR",
+                  "conditions": [
+                    {
+                      "scope": "#/properties/onset/properties/wakeup_stroke",
+                      "schema": {
+                        "const": true
+                      }
+                    },
+                    {
+                      "scope": "#/properties/onset/properties/onset_time_known",
+                      "schema": {
+                        "const": false
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/admission/properties/arrived_from",
+          "label": "Patient arrived to your hospital from?",
+          "options": {
+            "showUnfocusedDescription": true,
+            "format": "radio"
+          },
+          "rule": {
+            "effect": "HIDE",
+            "condition": {
+              "scope": "#/properties/onset/properties/inhospital_stroke",
+              "schema": {
+                "enum": [
+                  "Yes"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/admission/properties/pre_notified_hospital",
+          "label": "Was the hospital pre-notified by EMS?",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/admission/properties/arrived_from",
+              "schema": {
+                "enum": [
+                  "From home/scene by EMS/ambulance"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/admission/properties/first_hospital_admission",
+          "label": "Name of the first hospital of admission",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/admission/properties/arrived_from",
+              "schema": {
+                "enum": [
+                  "From another hospital"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/admission/properties/hospitalized_in",
+              "label": "The patient hospitalized in (day 1)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/admission/properties/admission_department",
+              "label": "Patient admitted under which department?"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Group",
+      "label": "Hospitalization data",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Group",
+              "label": "Previous known history (select all that apply)",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/hypertension",
+                  "label": "Hypertension"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/diabetes",
+                  "label": "Diabetes"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/hyperlypidemia",
+                  "label": "Hyperlypidemia"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/active_smoker",
+                  "label": "Active smoker in last 10 years"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/ischemic_stroke",
+                  "label": "Previous ischemic/TIA stroke leading to hospitalization"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/hermorrhage_stroke",
+                  "label": "Previous hemorrhage stroke leading to hospitalization"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/atrial_fibrilation",
+                  "label": "Atrial fibrilation or flutter (paroxysmal/persistent/permanent)"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/coronary_artery",
+                  "label": "Coronary artery disease/previous myocardial infarction"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/heart_failure",
+                  "label": "Congestive heart failure"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/hormonal_contraception",
+                  "label": "Hormonal contraception"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/hiv",
+                  "label": "HIV"
+                },
+                {
+                  "type": "Control",
+                  "label": "COVID positive in last 6 months",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/covid_positive"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/other",
+                  "label": "Other"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/unknown",
+                  "label": "Unknown"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/risk_factors/properties/none",
+                  "label": "None"
+                }
+              ]
+            },
+            {
+              "type": "Group",
+              "label": "Treatment before admission/event",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/antidiabetics",
+                  "label": "Antidiabetics"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/antihypertensives",
+                  "label": "Antihypertensives"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/asa",
+                  "label": "ASA (aspirin)"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/cilostazol",
+                  "label": "Cilostazol"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/clopidogrel",
+                  "label": "Clopidogrel"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/ticagrelor",
+                  "label": "Ticagrelor"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/ticlopidine",
+                  "label": "Ticlopidine"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/prasugrel",
+                  "label": "Prasugrel"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/dipyridamol",
+                  "label": "Dipyridamol, slow release"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/other_antiplatelet",
+                  "label": "Other antiplatelet"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/warfarin",
+                  "label": "Warfarin"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/heparin",
+                  "label": " Low molecular weight Heparin/Heparin"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/dabigatran",
+                  "label": "Dabigatran"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/rivaroxaban",
+                  "label": "Rivaroxaban"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/apixaban",
+                  "label": "Apixaban"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/edoxaban",
+                  "label": "Edoxaban"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/other_anticoagualant",
+                  "label": "Other anticoagualant"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/statin",
+                  "label": "Statin"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/none",
+                  "label": "None"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/other",
+                  "label": "Other"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/anamnesis/properties/medication/properties/unknown",
+                  "label": "Unknown"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Was the first glucose measurement in hospital done?",
+              "scope": "#/properties/admission/properties/medical_examination/properties/glucose_done"
+            },
+            {
+              "type": "Control",
+              "label": "Glucose (first measurement in hosp.; enter number with or without decimal point)",
+              "scope": "#/properties/admission/properties/medical_examination/properties/glucose",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/admission/properties/medical_examination/properties/glucose_done",
+                  "schema": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Was the first LDL cholesterol measurement in hospital done?",
+              "scope": "#/properties/admission/properties/medical_examination/properties/cholesterol_done"
+            },
+            {
+              "type": "Control",
+              "label": "LDL Cholesterol (first measurement in hosp.; enter number with or without decimal point)",
+              "scope": "#/properties/admission/properties/medical_examination/properties/cholesterol",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/admission/properties/medical_examination/properties/cholesterol_done",
+                  "schema": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Systolic blood pressure (first measurement in hosp. in mmHg)",
+              "scope": "#/properties/admission/properties/medical_examination/properties/systolic_pressure"
+            },
+            {
+              "type": "Control",
+              "label": "Diastolic blood pressure (first measurement in hosp. in mmHg)",
+              "scope": "#/properties/admission/properties/medical_examination/properties/diastolic_pressure"
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Was NIHSS score assessed at admission?",
+              "scope": "#/properties/admission/properties/medical_examination/properties/nihss_done"
+            },
+            {
+              "type": "Control",
+              "label": "NIHSS score",
+              "scope": "#/properties/admission/properties/medical_examination/properties/nihss",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/admission/properties/medical_examination/properties/nihss_done",
+                  "schema": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Modified Ranking Scale (mRS) before stroke",
+              "scope": "#/properties/anamnesis/properties/prestroke_mrs",
+              "options": {
+                "showUnfocusedDescription": true,
+                "format": "radio"
+              }
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "First INR testing done?",
+              "scope": "#/properties/admission/properties/medical_examination/properties/inr_testing"
+            },
+            {
+              "type": "Control",
+              "label": "Glasgow coma scale (GCS)",
+              "scope": "#/properties/admission/properties/medical_examination/properties/gcs"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Group",
+      "label": "Imaging, diagnosis and treatment",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Brain imaging",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_type"
+            },
+            {
+              "type": "Control",
+              "label": "Imaging done on what date?",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_date",
+              "rule": {
+                "effect": "HIDE",
+                "condition": {
+                  "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_type",
+                  "schema": {
+                    "enum": [
+                      "Imaging not done"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "Imaging done at what time?",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_time",
+              "rule": {
+                "effect": "HIDE",
+                "condition": {
+                  "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_type",
+                  "schema": {
+                    "enum": [
+                      "Imaging not done"
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Group",
+          "label": "Old infarcts seen on the imaging?",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/old_infarcts/properties/cortical",
+              "label": "Cortical"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/old_infarcts/properties/subcortical",
+              "label": "Subcortical (basal ganglia, internal capsule)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/old_infarcts/properties/brainstem",
+              "label": "Brainstem"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/old_infarcts/properties/none",
+              "label": "None"
+            }
+          ],
+          "rule": {
+            "effect": "HIDE",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_type",
+              "schema": {
+                "enum": [
+                  "Imaging not done"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "label": "Stroke type",
+          "scope": "#/properties/diagnosis/properties/stroke_type"
+        },
+        {
+          "type": "Control",
+          "label": "ASPECTS score",
+          "scope": "#/properties/diagnosis/properties/imaging/properties/aspects_score",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/stroke_type",
+              "schema": {
+                "enum": [
+                  "Ischemic stroke"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "label": "CTA/MRA occlusion",
+          "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/stroke_type",
+              "schema": {
+                "enum": [
+                  "Ischemic stroke"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Group",
+          "label": "If arterial occlusion is present then select location",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/mca_m1_left",
+              "label": "MCA M1 – Middle cerebral artery M1 (LEFT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/mca_m1_left",
+              "label": "MCA M1 – Middle cerebral artery M1 (LEFT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/mca_m2_left",
+              "label": "MCA M2 – Middle cerebral artery M2 (LEFT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/mca_m3_left",
+              "label": "MCA M3 – Middle cerebral artery M3 (LEFT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/cerebral_artery_left",
+              "label": "Anterior cerebral artery (LEFT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/pca_p1_left",
+              "label": "PCA P1 – Posterior cerebral artery P1 (LEFT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/pca_p2_left",
+              "label": "PCA P2 – Posterior cerebral artery P2 (LEFT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/artery_extracranial_left",
+              "label": "Carotid artery extracranial (LEFT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/artery_intracranial_left",
+              "label": "Carotid artery intracranial (LEFT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/mca_m1_right",
+              "label": "MCA M1 – Middle cerebral artery M1 (RIGHT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/mca_m2_right",
+              "label": "MCA M2 – Middle cerebral artery M2 (RIGHT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/mca_m3_right",
+              "label": "MCA M3 – Middle cerebral artery M3 (RIGHT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/cerebral_artery_right",
+              "label": "Anterior cerebral artery (RIGHT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/pca_p1_right",
+              "label": "PCA P1 – Posterior cerebral artery P1 (RIGHT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/pca_p2_right",
+              "label": "PCA P2 – Posterior cerebral artery P2 (RIGHT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/artery_extracranial_right",
+              "label": "Carotid artery extracranial (RIGHT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/artery_intracranial_right",
+              "label": "Carotid artery intracranial (RIGHT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/basilar_artery",
+              "label": "Basilar artery"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion_choices/properties/vertebral_artery",
+              "label": "Vertebral artery"
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion",
+              "schema": {
+                "enum": [
+                  "Yes"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Was the patient treated with IV thrombolysis in your hospital?",
+              "options": {
+                "showUnfocusedDescription": true,
+                "format": "radio"
+              },
+              "scope": "#/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Ischemic stroke",
+                      "Stroke mimics"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "Please select main reason for not doing thrombolysis",
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/no_thrombolysis_reasons",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "type": "AND",
+                  "conditions": [
+                    {
+                      "scope": "#/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+                      "schema": {
+                        "enum": [
+                          "No"
+                        ]
+                      }
+                    },
+                    {
+                      "scope": "#/properties/diagnosis/properties/stroke_type",
+                      "schema": {
+                        "enum": [
+                          "Ischemic stroke"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Drug used",
+              "scope": "#/properties/treatment/properties/thrombolysis/properties/drug",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "Antidote anticoagulant given",
+              "scope": "#/properties/treatment/properties/thrombolysis/properties/anticoagulant_given",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "label": "Transfer time (door-out)",
+          "scope": "#/properties/treatment/properties/thrombolysis/properties/transfer_time",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/no_thrombolysis_reasons",
+              "schema": {
+                "enum": [
+                  "Transferred to another hospital for IVT"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Treatment dose (in mg)",
+              "scope": "#/properties/treatment/properties/thrombolysis/properties/drug_dose",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "Bolus time",
+              "scope": "#/properties/treatment/properties/thrombolysis/properties/bolus_time",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "label": "IV thrombolysis given in",
+          "scope": "#/properties/treatment/properties/thrombolysis/properties/room",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "type": "AND",
+              "conditions": [
+                {
+                  "scope": "#/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Ischemic stroke"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Was the patient treated with  thrombectomy in your hospital?",
+              "options": {
+                "showUnfocusedDescription": true,
+                "format": "radio"
+              },
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "type": "AND",
+                  "conditions": [
+                    {
+                      "scope": "#/properties/diagnosis/properties/stroke_type",
+                      "schema": {
+                        "enum": [
+                          "Ischemic stroke"
+                        ]
+                      }
+                    },
+                    {
+                      "scope": "#/properties/diagnosis/properties/imaging/properties/cta_mra_occlusion",
+                      "schema": {
+                        "enum": [
+                          "Yes"
+                        ]
+                      }
+                    },
+                    {
+                      "scope": "#/properties/treatment/properties/ischemic_stroke/properties/no_thrombolysis_reasons",
+                      "schema": {
+                        "not": {
+                          "enum": [
+                            "Transferred to another hospital for IVT"
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "Please select main reason for not doing thrombectomy",
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/no_thrombectomy_reasons",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+                  "schema": {
+                    "enum": [
+                      "No"
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Groin puncture time",
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/groin_puncture_time",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "TICI score",
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/tici_score",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "Reperfusion time",
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/reperfusion_time",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "type": "AND",
+                  "conditions": [
+                    {
+                      "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+                      "schema": {
+                        "enum": [
+                          "Yes"
+                        ]
+                      }
+                    },
+                    {
+                      "scope": "#/properties/treatment/properties/ischemic_stroke/properties/tici_score",
+                      "schema": {
+                        "enum": [
+                          "1",
+                          "2A",
+                          "2B",
+                          "2C",
+                          "3",
+                          "Oclussion was not confirmed"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "label": "Transfer time (door-out)",
+          "scope": "#/properties/treatment/properties/thrombolysis/properties/transfer_time",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/no_thrombectomy_reasons",
+              "schema": {
+                "enum": [
+                  "Transferred to another hospital for MT"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Group",
+          "label": "Procedure complications in thrombectomy",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_complications/properties/perforation",
+              "label": "Vessel perforation"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_complications/properties/dissection",
+              "label": "Dissection"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_complications/properties/embolization",
+              "label": "Embolization to different vascular territory"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_complications/properties/hematoma",
+              "label": "Hematoma at arterial access requiring transfusion"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_complications/properties/other",
+              "label": "Other"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_complications/properties/none",
+              "label": "None"
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+              "schema": {
+                "enum": [
+                  "Yes"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Bleeding volume (in ml)",
+              "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_volume",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "const": "Intracerebral hemorrhage"
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "Infratentorial source of bleeding",
+              "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/infratentorial_bleeding",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Intracerebral hemorrhage"
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Source of bleeding found",
+              "scope": "#/properties/treatment/properties/bleeding_source_found",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Intracerebral hemorrhage",
+                      "Subarachnoid hemorrhage"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "Intraventricular hemorrhage (IVH)",
+              "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/intraventricular_hemorrhage",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Intracerebral hemorrhage"
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "label": "ICH score",
+          "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/ich_score",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/stroke_type",
+              "schema": {
+                "const": "Intracerebral hemorrhage"
+              }
+            }
+          }
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Group",
+              "label": "The reason for bleeding was",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/hypertension",
+                  "label": "Arterial hypertension"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/aneurysm",
+                  "label": "Aneurysm"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/malformation",
+                  "label": "Arteriovenous malformation"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/anticolagulant",
+                  "label": "Anticoagulation therapy"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/angiopathy",
+                  "label": "Amyloid angiopathy"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/other",
+                  "label": "Other / Unknown"
+                }
+              ]
+            },
+            {
+              "type": "Control",
+              "label": "What antidote to anticoagulants was used?",
+              "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/antidote",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/anticolagulant",
+                  "schema": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/stroke_type",
+              "schema": {
+                "enum": [
+                  "Intracerebral hemorrhage"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Group",
+          "label": "If neurosurgery was performed, select the type",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/neurosurgery/properties/hematoma_evacuation",
+              "label": "Arterial hypertension"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/neurosurgery/properties/ventricular_drainage",
+              "label": "Aneurysm"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/neurosurgery/properties/craniectomy",
+              "label": "Arteriovenous malformation"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/neurosurgery/properties/not_required",
+              "label": "Anticoagulation therapy"
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/stroke_type",
+              "schema": {
+                "enum": [
+                  "Intracerebral hemorrhage"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "label": "Hunt Hess score",
+          "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/hunt_hess_score",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/stroke_type",
+              "schema": {
+                "enum": [
+                  "Subarachnoid hemorrhage"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Group",
+          "label": "Intervention",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/intervention/properties/coiling",
+              "label": "Endovascular (coiling)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/intervention/properties/clipping",
+              "label": "Neurosurgical (clipping)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/intervention/properties/drainage",
+              "label": "Ventricular drainage"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/intervention/properties/craniectomy",
+              "label": "Decompressive craniectomy"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/intervention/properties/other",
+              "label": "Other"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/intervention/properties/none",
+              "label": "None"
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/stroke_type",
+              "schema": {
+                "enum": [
+                  "Subarachnoid hemorrhage"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "label": "Nimodipine treatment administered?",
+          "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/nimodipine_treatment",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/stroke_type",
+              "schema": {
+                "enum": [
+                  "Subarachnoid hemorrhage"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Group",
+          "label": "Treatment",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/cerebral_venous_thrombosis/properties/intervention/properties/anticoagulation",
+              "label": "Anticoagulation"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/cerebral_venous_thrombosis/properties/intervention/properties/thrombectomy",
+              "label": "Endovascular intervention - thrombectomy"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/cerebral_venous_thrombosis/properties/intervention/properties/thrombolysis",
+              "label": "Endovascular intervention - local thrombolysis"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/cerebral_venous_thrombosis/properties/intervention/properties/craniectomy",
+              "label": "Neurosurgical treatment (decompressive craniectomy)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/treatment/properties/cerebral_venous_thrombosis/properties/intervention/properties/none",
+              "label": "None"
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/stroke_type",
+              "schema": {
+                "enum": [
+                  "Cerebral venous trombosis"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "label": "Final diagnosis",
+          "scope": "#/properties/treatment/properties/stroke_mimics/properties/final_diagnosis",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/stroke_type",
+              "schema": {
+                "enum": [
+                  "Stroke mimics"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "label": "CT/MR perfusion deficit",
+          "scope": "#/properties/diagnosis/properties/imaging/properties/perfusion/properties/perfusion_deficit",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_type",
+              "schema": {
+                "enum": [
+                  "Non-contrast CT + CT angiography + CT perfusion",
+                  "MR DWI/FLAIR + angiography + MR perfusion",
+                  "Imaging done in another hospital"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "CT/MR perfusion deficit core volume (in ml)",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/perfusion/properties/perfusion_core_volume",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/diagnosis/properties/imaging/properties/perfusion/properties/perfusion_deficit",
+                  "schema": {
+                    "enum": [
+                      "Medial",
+                      "Anterior",
+                      "Posterior",
+                      "Carotid"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "CT/MR perfusion deficit core volume (in ml)",
+              "scope": "#/properties/diagnosis/properties/imaging/properties/perfusion/properties/perfusion_hypoperfusion_volume",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/diagnosis/properties/imaging/properties/perfusion/properties/perfusion_deficit",
+                  "schema": {
+                    "enum": [
+                      "Medial"
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "Group",
+      "label": "Post-acute care",
+      "elements": [
+        {
+          "type": "Control",
+          "label": "Patient hospitalized for more than 24 hours",
+          "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time"
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Patient ventilated",
+              "scope": "#/properties/post_acute_care/properties/patient_ventilated",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "type": "AND",
+                  "conditions": [
+                    {
+                      "scope": "#/properties/diagnosis/properties/stroke_type",
+                      "schema": {
+                        "enum": [
+                          "Ischemic stroke",
+                          "Intracerebral hemorrhage",
+                          "Transient Ischemic Atack (TIA)",
+                          "Subarachnoid hemorrhage",
+                          "Cerebral venous trombosis",
+                          "Undetermined"
+                        ]
+                      }
+                    },
+                    {
+                      "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                      "schema": {
+                        "enum": [
+                          "Yes"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "Was decompressive craniectomy performed",
+              "scope": "#/properties/post_acute_care/properties/decompressive_craniectomy",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "type": "AND",
+                  "conditions": [
+                    {
+                      "scope": "#/properties/diagnosis/properties/stroke_type",
+                      "schema": {
+                        "enum": [
+                          "Ischemic stroke",
+                          "Intracerebral hemorrhage",
+                          "Undetermined"
+                        ]
+                      }
+                    },
+                    {
+                      "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                      "schema": {
+                        "enum": [
+                          "Yes"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Carotid arteries imaging done",
+              "scope": "#/properties/post_acute_care/properties/carotid_arteries/properties/carotid_arteries_imaging"
+            },
+            {
+              "type": "Control",
+              "label": "Symptomatic carotid stenosis",
+              "scope": "#/properties/post_acute_care/properties/carotid_arteries/properties/symptomatic_carotid_stenosis",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/post_acute_care/properties/carotid_arteries/properties/carotid_arteries_imaging",
+                  "schema": {
+                    "const": true
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "Carotid endarterectomy performed or stenting within two weeks after the stroke",
+              "scope": "#/properties/post_acute_care/properties/carotid_arteries/properties/carotid_endarterectomy_within_2_weeks",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/post_acute_care/properties/carotid_arteries/properties/symptomatic_carotid_stenosis",
+                  "schema": {
+                    "enum": [
+                      "50%-70%",
+                      ">70%"
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "type": "AND",
+              "conditions": [
+                {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Ischemic stroke",
+                      "Transient Ischemic Atack (TIA)",
+                      "Undetermined"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "label": "Atrial fibrilation/flutter (AF)",
+          "scope": "#/properties/post_acute_care/properties/atrial_fibrilation",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "type": "AND",
+              "conditions": [
+                {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Ischemic stroke",
+                      "Transient Ischemic Atack (TIA)",
+                      "Undetermined"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Group",
+          "label": "Stroke etiology",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/stroke_etiology/properties/atherosclerosis",
+              "label": "Large artery atherosclerosis (e.g. Carotid or basilar stenosis)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/stroke_etiology/properties/cardioembolism",
+              "label": "Cardioembolism (e.g. AF/flutter/prosthetic heart valve)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/stroke_etiology/properties/other_etiology_stroke",
+              "label": "Stroke of other determined etiology (dissection, vasculopathy or hematologic disorder)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/stroke_etiology/properties/cryptogenic_stroke",
+              "label": "Cryptogenic stroke (stroke of undetermined etiology including ESUS)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/stroke_etiology/properties/vessel_disease",
+              "label": "Small vessel disease/lacunar"
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "type": "AND",
+              "conditions": [
+                {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Ischemic stroke",
+                      "Transient Ischemic Atack (TIA)"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Group",
+          "label": "Venous thromboembolism (VTE) interventions",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/vte/properties/ufh",
+              "label": "Low dose unfractionated heparin (UFH)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/vte/properties/lmwh",
+              "label": "Low molecular weight heparin (LMWH)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/vte/properties/ipc",
+              "label": "Intermitent pneumatic compression devices (IPC)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/vte/properties/gcs",
+              "label": "Graduated compression stockings (GCS)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/vte/properties/warfarin_for_vte",
+              "label": "Warfarin prescribed for VTE only"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/vte/properties/vfp",
+              "label": "Venous foot pumps (VFP)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/vte/properties/xa_inhibitor_for_vte",
+              "label": "Oral factor Xa inhibitor prescribed for VTE only"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/vte/properties/other",
+              "label": "Other"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/vte/properties/none",
+              "label": "None"
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "type": "AND",
+              "conditions": [
+                {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Ischemic stroke",
+                      "Intracerebral hemorrhage",
+                      "Undetermined"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Group",
+          "label": "Post stroke complications",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/pneumonia",
+              "label": "Pneumonia"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/dvt",
+              "label": "Deep vein thrombosis (DVT)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/pulmonary_embolism",
+              "label": "Pulmonary embolism"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/urinary_tract_infection",
+              "label": "Urinary tract infection"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/pressure_sores",
+              "label": "Pressure sores"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/drip_site_sepsis",
+              "label": "Drip site sepsis"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/stroke_reccurence",
+              "label": "Reccurence/Extension of stroke"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/other",
+              "label": "Other"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/none",
+              "label": "None"
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "type": "AND",
+              "conditions": [
+                {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Ischemic stroke",
+                      "Intracerebral hemorrhage",
+                      "Subarachnoid hemorrhage",
+                      "Cerebral venous trombosis",
+                      "Undetermined"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Was CT/MR performed after IVT/MT",
+              "scope": "#/properties/post_acute_care/properties/post_recanalization_imaging/properties/imaging_type",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "type": "OR",
+                  "conditions": [
+                    {
+                      "type": "AND",
+                      "conditions": [
+                        {
+                          "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+                          "schema": {
+                            "enum": [
+                              "Yes"
+                            ]
+                          }
+                        },
+                        {
+                          "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                          "schema": {
+                            "enum": [
+                              "Yes"
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "AND",
+                      "conditions": [
+                        {
+                          "scope": "#/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+                          "schema": {
+                            "enum": [
+                              "Yes"
+                            ]
+                          }
+                        },
+                        {
+                          "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                          "schema": {
+                            "enum": [
+                              "Yes"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "Was CT/MR performed after IVT/MT",
+              "scope": "#/properties/post_acute_care/properties/post_recanalization_imaging/properties/findings",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/post_acute_care/properties/post_recanalization_imaging/properties/imaging_type",
+                  "schema": {
+                    "enum": [
+                      "Yes, CT",
+                      "Yes, MR"
+                    ]
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Group",
+          "label": "Fever",
+          "elements": [
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/post_acute_care/properties/fever/properties/day_1_temperature",
+                  "label": "Day 1 temperature checks (no. of times)",
+                  "options": {
+                    "showUnfocusedDescription": true,
+                    "format": "radio"
+                  }
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/post_acute_care/properties/fever/properties/day_2_temperature",
+                  "label": "Day 2 temperature checks (no. of times)",
+                  "options": {
+                    "showUnfocusedDescription": true,
+                    "format": "radio"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/fever/properties/day_3_temperature",
+              "label": "Day 3 temperature checks (no. of times)",
+              "options": {
+                "showUnfocusedDescription": true,
+                "format": "radio"
+              }
+            },
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/post_acute_care/properties/fever/properties/72_hour_fever",
+                  "label": "In the first 72 hours of admission did patient develop fever of ≥ 37.5⁰C"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/post_acute_care/properties/fever/properties/first_elevated_temperature_paracetamol",
+                  "label": "Was paracetamol (or other antipyretic) administered for the first elevated temperature?",
+                  "rule": {
+                    "effect": "SHOW",
+                    "condition": {
+                      "scope": "#/properties/post_acute_care/properties/fever/properties/72_hour_fever",
+                      "schema": {
+                        "enum": [
+                          "Yes"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "type": "AND",
+              "conditions": [
+                {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Ischemic stroke",
+                      "Intracerebral hemorrhage",
+                      "Transient Ischemic Atack (TIA)",
+                      "Undetermined"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Group",
+          "label": "Hyperglycaemia",
+          "elements": [
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/post_acute_care/properties/hyperglycaemia/properties/day_1_glucose",
+                  "label": "Day 1 blood glucose level checks (no. of times)",
+                  "options": {
+                    "showUnfocusedDescription": true,
+                    "format": "radio"
+                  }
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/post_acute_care/properties/hyperglycaemia/properties/day_2_glucose",
+                  "label": "Day 2 blood glucose level checks (no. of times)",
+                  "options": {
+                    "showUnfocusedDescription": true,
+                    "format": "radio"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/post_acute_care/properties/hyperglycaemia/properties/day_3_glucose",
+                  "label": "Day 3 blood glucose level checks (no. of times)",
+                  "options": {
+                    "showUnfocusedDescription": true,
+                    "format": "radio"
+                  }
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/post_acute_care/properties/hyperglycaemia/properties/48_hour_glucose_lvl_developed",
+                  "label": "In the first 48 hours following admission did the patient develop a glucose level of greater or equal 10 mmol/L (180 mg/dl)?"
+                }
+              ]
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/hyperglycaemia/properties/first_elevated_glucose_insulin",
+              "label": "Was insulin administered for the first elevated glucose (>=10 mmol/L [180 mg/dl])",
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/post_acute_care/properties/hyperglycaemia/properties/48_hour_glucose_lvl_developed",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "type": "AND",
+              "conditions": [
+                {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Ischemic stroke",
+                      "Intracerebral hemorrhage",
+                      "Transient Ischemic Atack (TIA)",
+                      "Undetermined"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Group",
+          "label": "Swallow",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/swallow/properties/swallowing_screening",
+              "label": "Swallowing screening performed?"
+            },
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/post_acute_care/properties/swallow/properties/swallowing_screening_test",
+                  "label": "Swallowing screening test performed"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/post_acute_care/properties/swallow/properties/swallowing_screening_performer",
+                  "label": "Who performed swallowing screening"
+                }
+              ],
+              "rule": {
+                "effect": "SHOW",
+                "condition": {
+                  "scope": "#/properties/post_acute_care/properties/swallow/properties/swallowing_screening",
+                  "schema": {
+                    "enum": [
+                      "Yes, within 4 hours",
+                      "Yes, within 24 hours after admission",
+                      "Yes, after 24 hours after admission"
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "type": "AND",
+              "conditions": [
+                {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Ischemic stroke",
+                      "Intracerebral hemorrhage",
+                      "Transient Ischemic Atack (TIA)",
+                      "Undetermined"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "Group",
+          "label": "Rehabilitation",
+          "elements": [
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/post_acute_care/properties/rehabilitation/properties/physiotherapy",
+                  "label": "Patient received physiotherapy?"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/post_acute_care/properties/rehabilitation/properties/ergotherapy",
+                  "label": "Patient received ergotherapy (occupational therapy)?"
+                }
+              ]
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/post_acute_care/properties/rehabilitation/properties/speech_therapy",
+              "label": "Patient received speech therapy?"
+            }
+          ],
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "type": "AND",
+              "conditions": [
+                {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Ischemic stroke",
+                      "Intracerebral hemorrhage",
+                      "Transient Ischemic Atack (TIA)",
+                      "Cerebral venous trombosis",
+                      "Subarachnoid hemorrhage",
+                      "Undetermined"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                  "schema": {
+                    "enum": [
+                      "Yes"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "Group",
+      "label": "Discharge data",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Discharge destination",
+              "scope": "#/properties/discharge/properties/destination/properties/discharge_destination"
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "label": "Discharge destination within the same facility",
+          "scope": "#/properties/discharge/properties/destination/properties/same_center",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/discharge/properties/destination/properties/discharge_destination",
+              "schema": {
+                "enum": [
+                  "Trasferred within the same centre"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "label": "Discharged to another facility",
+          "scope": "#/properties/discharge/properties/destination/properties/another_center",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/discharge/properties/destination/properties/discharge_destination",
+              "schema": {
+                "enum": [
+                  "Trasferred to another centre"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "label": "Discharged to another facility - stroke center",
+          "scope": "#/properties/discharge/properties/destination/properties/stroke_center",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/discharge/properties/destination/properties/another_center",
+              "schema": {
+                "enum": [
+                  "Primary stroke centre"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "label": "Discharged to another facility - comprehensive stroke centre",
+          "scope": "#/properties/discharge/properties/destination/properties/stroke_center",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/discharge/properties/destination/properties/another_center",
+              "schema": {
+                "enum": [
+                  "Comprehensive stroke centre"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "label": "Discharged to another facility - another standart hospital",
+          "scope": "#/properties/discharge/properties/destination/properties/stroke_center",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/discharge/properties/destination/properties/another_center",
+              "schema": {
+                "enum": [
+                  "Another standart hospital"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "label": "Date of discharge",
+          "scope": "#/properties/discharge/properties/discharge_date"
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Modified Rankin Scale (mRS) score on discharge",
+              "scope": "#/properties/discharge/properties/mrs_score",
+              "rule": {
+                "effect": "HIDE",
+                "condition": {
+                  "type": "OR",
+                  "conditions": [
+                    {
+                      "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                      "schema": {
+                        "enum": [
+                          "No, patient died"
+                        ]
+                      }
+                    },
+                    {
+                      "scope": "#/properties/discharge/properties/destination/properties/discharge_destination",
+                      "schema": {
+                        "enum": [
+                          "Patient died"
+                        ]
+                      }
+                    },
+                    {
+                      "scope": "#/properties/diagnosis/properties/stroke_type",
+                      "schema": {
+                        "enum": [
+                          "Stroke mimics"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              "options": {
+                "showUnfocusedDescription": true,
+                "format": "radio"
+              }
+            },
+            {
+              "type": "Control",
+              "label": "NIHSS score on discharge",
+              "scope": "#/properties/discharge/properties/nihss",
+              "rule": {
+                "effect": "HIDE",
+                "condition": {
+                  "type": "OR",
+                  "conditions": [
+                    {
+                      "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                      "schema": {
+                        "enum": [
+                          "No, patient died"
+                        ]
+                      }
+                    },
+                    {
+                      "scope": "#/properties/discharge/properties/destination/properties/discharge_destination",
+                      "schema": {
+                        "enum": [
+                          "Patient died"
+                        ]
+                      }
+                    },
+                    {
+                      "scope": "#/properties/diagnosis/properties/stroke_type",
+                      "schema": {
+                        "enum": [
+                          "Stroke mimics"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "Group",
+          "label": "Treatment prescribed on discharge",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/antidiabetics",
+              "label": "Antidiabetics"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/antihypertensives",
+              "label": "Antihypertensives"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/aspirin",
+              "label": "ASA (aspirin)"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/cilostazol",
+              "label": "Cilostazol"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/ticagrelor",
+              "label": "Ticagrelor"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/ticlopidine",
+              "label": "Ticagrelor"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/prasugrel",
+              "label": "Prasugrel"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/dipyridamol",
+              "label": "Dipyridamol, slow release"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/other_antiplatelet",
+              "label": "Other antiplatelet"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/warfarin",
+              "label": "Vitamin K antagonist, e.g. Warfarin"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/heparin",
+              "label": " Low molecular weight Heparin/Heparin"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/dabigatran",
+              "label": "Dabigatran"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/rivaroxaban",
+              "label": "Rivaroxaban"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/apixaban",
+              "label": "Apixaban"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/edoxaban",
+              "label": "Edoxaban"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/other_anticoagulant",
+              "label": "Other anticoagulant"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/anticoagulant_recommended",
+              "label": "Anticoagulant was not prescribed but is planned"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/statin",
+              "label": "Statin"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/none",
+              "label": "None"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/discharge/properties/medication/properties/other",
+              "label": "Other"
+            }
+          ],
+          "rule": {
+            "effect": "HIDE",
+            "condition": {
+              "type": "OR",
+              "conditions": [
+                {
+                  "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                  "schema": {
+                    "enum": [
+                      "No, patient died"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/discharge/properties/destination/properties/discharge_destination",
+                  "schema": {
+                    "enum": [
+                      "Patient died"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Stroke mimics"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "label": "Follow up appointment scheduled in your hospital for stroke management",
+              "scope": "#/properties/discharge/properties/expert_appointment_scheduled",
+              "rule": {
+                "effect": "HIDE",
+                "condition": {
+                  "scope": "#/properties/post_acute_care/properties/expert_appointment_scheduled",
+                  "schema": {
+                    "enum": [
+                      "No, patient died"
+                    ]
+                  }
+                }
+              }
+            },
+            {
+              "type": "Control",
+              "label": "If the patient was a smoker, was he/she recommended a smoking cessation program?",
+              "scope": "#/properties/discharge/properties/smoking_program",
+              "rule": {
+                "effect": "HIDE",
+                "condition": {
+                  "scope": "#/properties/post_acute_care/properties/hospitalized_time",
+                  "schema": {
+                    "enum": [
+                      "No, patient died"
+                    ]
+                  }
+                }
+              }
+            }
+          ],
+          "rule": {
+            "effect": "HIDE",
+            "condition": {
+              "type": "OR",
+              "conditions": [
+                {
+                  "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                  "schema": {
+                    "enum": [
+                      "No, patient died"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/discharge/properties/destination/properties/discharge_destination",
+                  "schema": {
+                    "enum": [
+                      "Patient died"
+                    ]
+                  }
+                },
+                {
+                  "scope": "#/properties/diagnosis/properties/stroke_type",
+                  "schema": {
+                    "enum": [
+                      "Stroke mimics"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

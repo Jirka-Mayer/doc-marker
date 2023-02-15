@@ -11,7 +11,7 @@ export function ResqEnumControl(props) {
   
   const controlInputProps = {
     optionValues: schema.enum,
-    optionLabels: uischema.enumValueLabels
+    optionLabels: uischema.enumValueLabels || {}
   }
 
   return (

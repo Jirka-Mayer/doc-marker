@@ -13,7 +13,7 @@ import { quillExtended } from "../../../state/reportStore"
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure
- * where the field is a text/intener/select input (any one-line input).
+ * where the field is a text/integer/select input (any one-line input).
  * The control "input" element is passed as a prop "controlInput"
  * and inside used as "InnerComponent"
  */

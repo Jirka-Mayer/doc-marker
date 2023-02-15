@@ -42,7 +42,10 @@ export function ControlInputSelect(props) {
         fullWidth={true}
         variant="standard"
         displayEmpty
-        renderValue={(selected) => optionLabels[selected] || <em>{noneOptionLabel}</em>}
+        renderValue={(selected) => selected
+          ? (optionLabels[selected] || `[${selected}]`)
+          : <em>{noneOptionLabel}</em>
+        }
       >
         {[<MenuItem value={''} key='jsonforms.enum.none'><em>{noneOptionLabel}</em></MenuItem>].concat(
           optionValues.map(optionValue => (

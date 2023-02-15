@@ -6,8 +6,13 @@ import { useAtom } from "jotai"
 import { displayDebugInfoAtom } from "../../state/userPreferencesStore"
 
 // load the correct form
-import dataSchema from "../../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/data-schema.json"
-import uiSchema from "../../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/ui-schema.json"
+// import dataSchema from "../../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/data-schema.json"
+// import uiSchema from "../../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/ui-schema.json"
+
+// debug stuff
+import dataSchema from "../../../forms/simple-dump/data-schema.json"
+import uiSchema from "../../../forms/simple-dump/ui-schema.json"
+// import { materialRenderers } from "@jsonforms/material-renderers"
 
 export function Form() {
   const [formErrors, setFormErrors] = useAtom(formErrorsAtom)
@@ -22,6 +27,7 @@ export function Form() {
         uischema={uiSchema}
         data={formData}
         renderers={formRenderers}
+        // renderers={materialRenderers}
         cells={formCells}
         onChange={({ data, errors }) => {
           setFormData(data)

@@ -50,6 +50,14 @@
     "admission": {
       "type": "object",
       "properties": {
+        "admission_timestamp": {
+          "type": "string",
+          "format": "date"
+        },
+        "hospital_arrival_time": {
+          "type": "string",
+          "format": "time"
+        },
         "first_attended": {
           "type": "string",
           "enum": [

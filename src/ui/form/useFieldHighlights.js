@@ -2,7 +2,12 @@ import { highlightsAtom } from "../../state/reportStore"
 import { useAtom } from "jotai"
 
 export function useFieldHighlights(fieldId) {
-  const [highlightsGlobal] = useAtom(highlightsAtom)
+  // TODO: highlights need to be optimized via parallel atoms,
+  // like field activity and field state is
+
+  // HACK: The highlighting is disabled for now:
+  // const [highlightsGlobal] = useAtom(highlightsAtom)
+  highlightsGlobal = {}
 
   const highlightsRanges = highlightsGlobal[fieldId] || []
 
