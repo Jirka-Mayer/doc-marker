@@ -61,6 +61,9 @@ export function ResqInputControl(props) {
 
   function onFocus() {
     setFieldActive()
+  }
+
+  function onHighlightPinClick() {
     quillExtended.scrollHighlightIntoView(fieldId)
   }
 
@@ -77,6 +80,8 @@ export function ResqInputControl(props) {
     htmlId,
     onFocus,
     observeChange,
+    isFieldActive,
+    hasVerifiedAppearance,
   }
 
   return (
@@ -106,6 +111,7 @@ export function ResqInputControl(props) {
         {/* Highlight pin button */}
         { hasHighlights ?
           <IconButton
+            onClick={onHighlightPinClick}
             sx={{ p: '10px' }}
             // className={styles["field-highlights-button"]}
           >

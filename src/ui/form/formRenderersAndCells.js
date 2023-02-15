@@ -9,6 +9,7 @@ import { resqVerticalLayoutTester, ResqVerticalLayout } from "./resq-renderers"
 import { resqGroupTester, ResqGroupLayout } from "./resq-renderers"
 import { resqTextControlTester, ResqTextControl } from "./resq-renderers"
 import { resqIntegerControlTester, ResqIntegerControl } from "./resq-renderers"
+import { resqBooleanControlTester, ResqBooleanControl } from "./resq-renderers"
 import { resqEnumControlTester, ResqEnumControl } from "./resq-renderers"
 
 export const formRenderers = [
@@ -19,6 +20,7 @@ export const formRenderers = [
   // resq controls
   { tester: resqTextControlTester, renderer: ResqTextControl },
   { tester: resqIntegerControlTester, renderer: ResqIntegerControl },
+  { tester: resqBooleanControlTester, renderer: ResqBooleanControl },
   { tester: resqEnumControlTester, renderer: ResqEnumControl },
 
   // layouts

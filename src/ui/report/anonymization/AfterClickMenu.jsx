@@ -1,4 +1,4 @@
-import { Menu, MenuList, MenuItem, ListItemIcon, Typography, Divider } from "@mui/material";
+import { Menu, MenuList, MenuItem, ListItemIcon, Typography, ListSubheader, Divider } from "@mui/material";
 import { useAtom } from "jotai";
 import { quillExtended } from "../../../state/reportStore";
 import { createContextMenuAtoms } from "../utils/createContextMenuAtoms";
@@ -48,15 +48,9 @@ export function AfterClickMenu() {
         open={anchorPosition !== null}
         onClose={closeMenu}
       >
-        <MenuList>
-
-          <MenuItem disabled={true}>
-            <Typography variant="button">
-              { kindId }
-            </Typography>
-          </MenuItem>
-
-          <Divider />
+        <MenuList
+          subheader={<ListSubheader>{ kindId }</ListSubheader>}
+        >
 
           <MenuItem onClick={removeAnonymizationMarking}>
             <ListItemIcon>
