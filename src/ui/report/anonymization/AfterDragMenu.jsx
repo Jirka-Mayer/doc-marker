@@ -17,7 +17,7 @@ const {
 
 export { openMenuAtom }
 
-export function AnonymizationContextMenu() {
+export function AfterDragMenu() {
   const [anchorTextRange] = useAtom(anchorTextRangeAtom)
   const [anchorPosition] = useAtom(anchorPositionAtom)
   const [,closeMenu] = useAtom(closeMenuAtom)

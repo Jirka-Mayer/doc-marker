@@ -334,6 +334,13 @@ export class QuillExtended {
     return this.anonymizationApi.getAnonymizedRange(index)
   }
 
+  /**
+   * Returns the anonymization kind in a given range
+   */
+  getAnonymization(index, length) {
+    return this.quill.getFormat(index, length)["anonymized"]
+  }
+
   // Highlights //
   // ---------- //
 

@@ -4,15 +4,19 @@ import { AppMode } from "../../state/editor/AppMode"
 import { useAtom } from "jotai"
 import { appModeAtom } from "../../state/editorStore"
 import {
-  openMenuAtom as openContextMenuAtom
-} from "./anonymization/AnonymizationContextMenu"
+  openMenuAtom as openAfterClickMenuAtom
+} from "./anonymization/AfterClickMenu"
+import {
+  openMenuAtom as openAfterDragMenuAtom
+} from "./anonymization/AfterDragMenu"
 
 export function useAnonymizationController() {
   const [appMode] = useAtom(appModeAtom)
-  const [,openContextMenu] = useAtom(openContextMenuAtom)
+  const [,openAfterClickMenu] = useAtom(openAfterClickMenuAtom)
+  const [,openAfterDragMenu] = useAtom(openAfterDragMenuAtom)
 
   const onSelectionChange = useCallback((range, oldRange, source) => {
-    handleSelectionChange(range, openContextMenu)
+    handleSelectionChange(range, openAfterClickMenu, openAfterDragMenu)
   }, [])
 
   function attach() {
@@ -36,25 +40,23 @@ export function useAnonymizationController() {
   }, [appMode])
 }
 
-function handleSelectionChange(range, openContextMenu) {
+function handleSelectionChange(range, openAfterClickMenu, openAfterDragMenu) {
   // if the selection is outside quill, do nothing
   if (range === null)
     return
 
   if (range.length === 0) {
-    handleClick(range.index)
+    handleClick(range.index, openAfterClickMenu)
   } else {
-    handleDrag(range, openContextMenu)
+    handleDrag(range, openAfterDragMenu)
   }
 }
 
-function handleClick(index) {
+function handleClick(index, openAfterClickMenu) {
   // ignore clicks around the text
   if (!quillExtended.isClickInsideText(index))
     return
-
-  // TODO: open context menu that asks whther the anonymization should be removed
-
+  
   // get anonymized range
   const anonymizedRange = quillExtended.getAnonymizedRange(index)
 
@@ -62,11 +64,11 @@ function handleClick(index) {
   if (anonymizedRange === null)
     return
 
-  // remove the anonymization
-  quillExtended.anonymizeText(anonymizedRange.index, anonymizedRange.length, "")
+  // show the context menu
+  openAfterClickMenu(anonymizedRange)
 }
 
-function handleDrag(range, openContextMenu) {
+function handleDrag(range, openAfterDragMenu) {
   // open context menu that asks for the kind of anonymized data
-  openContextMenu(range)
+  openAfterDragMenu(range)
 }

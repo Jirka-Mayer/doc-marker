@@ -6,7 +6,8 @@ import { activeFieldIdAtom, appModeAtom } from "../../state/editorStore"
 import { displayDebugInfoAtom } from "../../state/userPreferencesStore"
 import { useAnnotationController } from "./useAnnotationController"
 import { useAnonymizationController } from "./useAnonymizationController"
-import { AnonymizationContextMenu } from "./anonymization/AnonymizationContextMenu"
+import { AfterClickMenu } from "./anonymization/AfterClickMenu"
+import { AfterDragMenu } from "./anonymization/AfterDragMenu"
 
 /**
  * Binds the quill instance with the DOM as a react component
@@ -60,7 +61,8 @@ export function QuillBinder() {
       
       <div ref={bindingContainerRef}></div>
 
-      <AnonymizationContextMenu />
+      <AfterClickMenu />
+      <AfterDragMenu />
 
       <pre ref={debugRef}></pre>
     </>
