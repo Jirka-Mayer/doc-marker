@@ -2,6 +2,7 @@ import { QuillExtended } from "../quill/QuillExtended"
 import { contentsToHighlights } from "../quill/highlights/contentsToHighlights"
 import { atom } from "jotai"
 import { readAtom, writeAtom } from "../utils/JotaiNexus"
+import { assignIfNeeded } from "../utils/assignIfNeeded"
 
 
 // === private backing-field (base) atoms ===
@@ -30,5 +31,9 @@ quillExtended.on("text-change", (delta, oldContents, source) => {
   let highlights = contentsToHighlights(contents)
   
   writeAtom(contentBaseAtom, contents)
-  writeAtom(highlightsBaseAtom, highlights)
+
+  writeAtom(
+    highlightsBaseAtom,
+    assignIfNeeded(readAtom(highlightsBaseAtom), highlights)
+  )
 })

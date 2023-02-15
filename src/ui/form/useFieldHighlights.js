@@ -6,8 +6,8 @@ export function useFieldHighlights(fieldId) {
   // like field activity and field state is
 
   // HACK: The highlighting is disabled for now:
-  // const [highlightsGlobal] = useAtom(highlightsAtom)
-  highlightsGlobal = {}
+  const [highlightsGlobal] = useAtom(highlightsAtom)
+  // highlightsGlobal = {}
 
   const highlightsRanges = highlightsGlobal[fieldId] || []
 
