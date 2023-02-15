@@ -24,6 +24,7 @@ export function ResqInputControl(props) {
     errors,
     id,
     uischema,
+    visible,
     path,
     handleChange,
     controlInput: InnerComponent,
@@ -85,7 +86,7 @@ export function ResqInputControl(props) {
   }
 
   return (
-    <Paper>
+    <Paper sx={{ display: visible ? "block" : "none" }}>
       <InputLabel
         className={styles["field-label"]}
         htmlFor={htmlId}
