@@ -2,27 +2,30 @@ import { QuillExtended } from "../quill/QuillExtended"
 import { contentsToHighlights } from "../quill/highlights/contentsToHighlights"
 import { atom } from "jotai"
 import { readAtom, writeAtom } from "../utils/JotaiNexus"
-import { assignIfNeeded } from "../utils/assignIfNeeded"
 
 
-// === private backing-field (base) atoms ===
+/////////////
+// Content //
+/////////////
 
-const contentBaseAtom = atom({})
-const highlightsBaseAtom = atom({ ops: [] })
-
-
-// === public read-only atoms ===
+const contentBaseAtom = atom({ ops: [] })
 
 export const contentAtom = atom(get => get(contentBaseAtom))
-export const highlightsAtom = atom(get => get(highlightsBaseAtom))
 
 
-// === public action atoms ===
+////////////////
+// Highlights //
+////////////////
 
-// none so far
+import * as highlightsStore from "./report/highlightsStore"
+
+export const highlightsAtom = highlightsStore.highlightsAtom
+export const getFieldHighlightsAtom = highlightsStore.getFieldHighlightsAtom
 
 
-// === quill ===
+////////////////////
+// Quill Extended //
+////////////////////
 
 export const quillExtended = new QuillExtended()
 
@@ -31,9 +34,5 @@ quillExtended.on("text-change", (delta, oldContents, source) => {
   let highlights = contentsToHighlights(contents)
   
   writeAtom(contentBaseAtom, contents)
-
-  writeAtom(
-    highlightsBaseAtom,
-    assignIfNeeded(readAtom(highlightsBaseAtom), highlights)
-  )
+  writeAtom(highlightsAtom, highlights)
 })
