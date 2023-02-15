@@ -1,7 +1,7 @@
 DocMarker for RES-Q+
 ====================
 
-Try it out at: https://ufallab.ms.mff.cuni.cz/~mayer/resq-client/
+Try it out at: https://ufallab.ms.mff.cuni.cz/~mayer/resq-doc-marker/
 
 After cloning the repo:
 
@@ -39,4 +39,11 @@ To push the docker image to Docker Hub:
 
 ```
 npm run dockerPush
+```
+
+To build for a static website:
+
+```
+rm -rf dist
+npm run build --public-url ./
 ```
