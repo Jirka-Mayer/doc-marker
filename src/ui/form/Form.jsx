@@ -41,7 +41,7 @@ export function Form() {
         <pre>Errors: { JSON.stringify(formErrors, null, 2) }</pre>
       </> : null}
 
-      {/* <DesigningControls /> */}
+      <DesigningControls />
 
     </div>
   )

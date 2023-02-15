@@ -1,5 +1,5 @@
 import * as styles from "./DesigningControls.module.scss"
-import { Button, Divider, FormGroup, Paper, IconButton, ToggleButton, InputBase } from "@mui/material"
+import { Button, Divider, FormGroup, Paper, IconButton, ToggleButton, InputBase, Typography } from "@mui/material"
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import SmartToyIcon from '@mui/icons-material/SmartToy'
@@ -105,6 +105,8 @@ export function DesigningControls() {
   
   return (
     <>
+      <Typography variant="h3"><br/>&nbsp;<br/>Example UI ideas<br/>&nbsp;</Typography>
+    
       <Paper className={styles["paper"]}>
         Checkbox group
         <Divider/>
@@ -137,6 +139,7 @@ export function DesigningControls() {
           />
           <ToggleButton
             size="small"
+            value="check"
             // color={isVerified ? "success" : "primary"}
             // selected={isVerified}
             // onChange={() => {setVerified(!isVerified)}}
