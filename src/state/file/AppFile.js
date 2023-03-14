@@ -2,6 +2,10 @@
  * Represents the file that is loaded and edited by the application
  */
 export class AppFile {
+  
+  /**
+   * Current version of the file, that the application works with
+   */
   static CURRENT_VERSION = 1
 
   constructor(body) {
@@ -13,78 +17,78 @@ export class AppFile {
     this.validate()
   }
 
-  /**
-   * Creates new empty patient file belonging to a given patient ID
-   * @param {string} patientId 
-   * @returns {AppFile}
-   */
-  static newEmpty(patientId) {
-    return new AppFile({
-      
-      /**
-       * Version of the file so that we can perform migrations
-       * and evolve the format
-       */
-      fileVersion: AppFile.CURRENT_VERSION,
-      
-      /**
-       * String patient ID used by the RES-Q registry
-       */
-      patientId: patientId,
-      
-      /**
-       * Quill editor delta format representing its content
-       */
-      reportDelta: {
-        ops: []
-      },
+  static generateNewUuid() {
+    // TODO: use proper UUID v4 library
+    return "dummy-uuid-" + Math.round(Math.random() * 10000)
+  }
 
-      /**
-       * When null, it means the form has not started to be filled,
-       * otherwise this is an object according to the form schema
-       */
-      formData: null
+  static fromJson(body) {
+    return new AppFile(body)
+  }
+
+  static createNewEmpty(formId) {
+    return AppFile.fromJson({
+      "_version": AppFile.CURRENT_VERSION,
+    
+      "_uuid": this.generateNewUuid(),
+      "_writtenAt": new Date().toISOString(),
+      
+      "_formId": formId,
+      "_formData": null,
+      
+      "_reportDelta": { ops: [] },
+      "_reportText": "",
+      "_highlights": {},
+
+      "patientId": null,
     })
   }
 
-  static fromApplicationState(state) {
-    const {
-      patientId,
-      reportDelta,
-      formData
-    } = state
-
-    let file = AppFile.newEmpty(patientId)
-    file.body.reportDelta = JSON.parse(JSON.stringify(reportDelta))
-    file.body.formData = JSON.parse(JSON.stringify(formData))
-    
-    file.validate()
-
-    return file
+  toJson() {
+    return JSON.parse(JSON.stringify(this.body)) // clone body
   }
 
-  /**
-   * Validates the file content
-   */
-  validate() {
-    // TODO: check version and major fields
-    // possibly check parts of it against some schema?
-    // throw errors on problems
+  toJsonString() {
+    return JSON.stringify(this.body)
   }
 
-  getPatientId() {
-    return this.body.patientId
-  }
-
-  getReportDelta() {
-    return this.body.reportDelta
-  }
-
-  getFormData() {
-    return this.body.formData
-  }
-
-  toPrettyJson() {
+  toPrettyJsonString() {
     return JSON.stringify(this.body, null, 2)
+  }
+
+  validate() {
+    const json = this.body
+
+    if (json["_version"] !== CURRENT_VERSION)
+      throw new Error("Invalid file version: " + json["_version"])
+    
+    if (!json["_uuid"])
+      throw new Error("Missing file UUID")
+    
+    if (!json["_writtenAt"])
+      throw new Error("Missing file '_writtenAt' field")
+
+    // ... validate other fields as well ...
+  }
+
+
+  ////////////////////////
+  // Body Field Getters //
+  ////////////////////////
+
+  get uuid() {
+    return this.body["_uuid"]
+  }
+
+  get writtenAtString() {
+    return this.body["_writtenAt"]
+  }
+
+  get writtenAtDate() {
+    return new Date(this.body["_writtenAt"])
+  }
+
+  get patientId() {
+    return this.body["patientId"]
   }
 }

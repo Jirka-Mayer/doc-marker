@@ -12,6 +12,11 @@ export const formDataAtom = atom(null)
  */
 export const formErrorsAtom = atom(null)
 
+/**
+ * Contains the ID of the currently used form
+ */
+export const formIdAtom = atom(null)
+
 
 //////////////////
 // Field States //

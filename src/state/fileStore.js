@@ -1,64 +1,170 @@
 import { atom } from "jotai"
-import { contentAtom, quillExtended } from "./reportStore"
-import { formDataAtom } from "./formStore"
 import { AppFile } from "../state/file/AppFile"
+import { AppMode } from "./editor/AppMode"
+import { FileStorage } from "./file/FileStorage"
+import * as reportStore from "./reportStore"
+import * as formStore from "./formStore"
+import * as editorStore from "./editorStore"
 
 
-// === private backing-field (base) atoms ===
+///////////////////////////
+// Openned file metadata //
+///////////////////////////
+
+const fileUuidBaseAtom = atom(null)
 
 /**
- * GUID of the open file. If null, no file is open.
+ * Returns the uuid of the currently open file or null if no file is open
  */
-const fileGuidBaseAtom = atom(null)
+export const fileUuidAtom = atom(get => get(fileUuidBaseAtom))
 
+/**
+ * True if a file is open
+ */
+export const isFileOpenAtom = atom(get => get(fileUuidBaseAtom) !== null)
 
-// === public read-only atoms ===
-
-export const isFileOpenAtom = atom(get => get(fileGuidBaseAtom) !== null)
-
+/**
+ * Returns the assigned patient ID of the file, or null if none was assigned yet
+ */
 export const patientIdAtom = atom(null)
 
 
-// === public action atoms ===
+////////////////////////
+// File Serialization //
+////////////////////////
 
-export const openFileAtom = atom(null, (get, set, appFile) => {
-  const patientId = appFile.getPatientId()
-  const reportDelta = appFile.getReportDelta()
-  const formData = appFile.getFormData()
+/**
+ * Reading this atom will serialize the currently open file
+ * to an AppFile instance, or to null if no file is open
+ */
+const serializeFileAtom = atom(get => {
+  if (!get(isFileOpenAtom))
+    return null
 
-  set(patientIdAtom, patientId)
-  quillExtended.setContents(reportDelta)
-  set(formDataAtom, formData)
+  return AppFile.fromJson({
+    "_version": AppFile.CURRENT_VERSION,
+    
+    "_uuid": get(fileUuidAtom),
+    "_writtenAt": new Date().toISOString(),
+    
+    "_formId": get(formStore.formIdAtom),
+    "_formData": get(formStore.formDataAtom),
+    
+    "_reportDelta": get(reportStore.contentAtom),
+    "_reportText": reportStore.quillExtended.getText(),
+    "_highlights": get(reportStore.highlightsAtom),
 
-  // TODO: implement GUIDs
-  set(fileGuidBaseAtom, "some-guid")
-
-  // TODO: extract app mode into a store
-  // setMode(formData === null ? AppMode.EDIT_TEXT : AppMode.ANNOTATE_HIGHLIGHTS)
+    "patientId": get(patientIdAtom),
+  })
 })
 
-export const closeFileAtom = atom(null, (get, set) => {
-  // TODO: save file to local storage
+/**
+ * Writing this atom will deserialize the given app file into the
+ * application state. Providing null will reset the editor to "no file" state.
+ */
+const deserializeFileAtom = atom(null, (get, set, appFile) => {
+  if (appFile === null) {
+    set(fileUuidBaseAtom, null)
+    return
+  }
 
-  // close file
-  set(fileGuidBaseAtom, null)
+  json = appFile.toJson()
+
+  if (json["_version"] !== AppFile.CURRENT_VERSION)
+    throw new Error("File to be deserialized must have the latest version number")
+
+  set(fileUuidAtom, json["_uuid"])
+
+  set(formStore.formIdAtom, json["_formId"])
+  set(formStore.formDataAtom, json["_formData"])
+
+  reportStore.quillExtended.setContents(json["_reportDelta"])
+  // report text and highlights are ignored
+
+  set(patientIdAtom, json["patientId"])
+})
+
+
+///////////////////////////
+// New File & Close File //
+///////////////////////////
+
+/**
+ * Call to open a new file.
+ * If a file is already openned, it will be saved.
+ * The only required argument is the form ID to use.
+ */
+export const createNewFileAtom = atom(null, (get, set, formId) => {
+  set(saveCurrentFileAtom)
+  set(deserializeFileAtom, AppFile.createNewEmpty(formId))
+})
+
+/**
+ * Call to close the current file.
+ * It will also be saved.
+ */
+export const closeFileAtom = atom(null, (get, set) => {
+  set(saveCurrentFileAtom)
+  set(fileUuidBaseAtom, null)
+})
+
+
+//////////////////
+// File Storage //
+//////////////////
+
+const fileListBaseAtom = atom(FileStorage.listFiles())
+
+/**
+ * Holds the list of stored files
+ */
+export const fileListAtom = atom(get => get(fileListBaseAtom))
+
+/**
+ * Call to refresh the list of stored files from the local storage
+ */
+export const refreshFileListAtom = atom(null, (get, set, _) => {
+  set(fileListBaseAtom, FileStorage.listFiles())
+})
+
+/**
+ * Call to save the current file.
+ * Does nothing if no file is open.
+ */
+export const saveCurrentFileAtom = atom(null, (get, set) => {
+  if (!get(isFileOpenAtom))
+    return
+  
+  const appFile = get(serializeFileAtom)
+  FileStorage.storeFile(appFile)
+  set(refreshFileListAtom)
+})
+
+
+///////////////////////////////////////////////
+// Legacy code to be rewritten into sections //
+///////////////////////////////////////////////
+
+export const openFileAtom = atom(null, (get, set, appFile) => {
+  set(deserializeFileAtom, appFile)
+
+  if (get(formStore.formDataAtom) === null)
+    set(editorStore.appModeAtom, AppMode.EDIT_TEXT)
+  else
+    set(editorStore.appModeAtom, AppMode.ANNOTATE_HIGHLIGHTS)
 })
 
 export const downloadFileAtom = atom(null, (get, set) => {
   const patientId = get(patientIdAtom)
   
   // create app file
-  const file = AppFile.fromApplicationState({
-    patientId,
-    reportDelta: get(contentAtom),
-    formData: get(formDataAtom)
-  })
+  const file = get(serializeFileAtom)
 
   // export JSON
-  const json = file.toPrettyJson()
+  const jsonString = file.toPrettyJsonString()
 
   // download file
-  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(json)
+  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonString)
   var a = document.createElement("a")
   a.setAttribute("href", dataStr)
   a.setAttribute("download", patientId + ".resq.json")
