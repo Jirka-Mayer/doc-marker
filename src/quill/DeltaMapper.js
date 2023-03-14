@@ -51,14 +51,14 @@ export class DeltaMapper {
 
   /*
    * External attribute:
-   * "highlight://#/properties/foo/properties/bar": true
+   * "highlighted@foo.bar": true
    * 
    * Internal attribute:
    * "highlight-4": "yes"
    */
 
   static highlights = {
-    externalPrefix: "highlight://",
+    externalPrefix: "highlighted@",
     externalValue: true,
     externalMissingValue: false,
     internalPrefix: "highlight-",
@@ -67,7 +67,7 @@ export class DeltaMapper {
   }
 
   isExternalHighlightAttribute(externalKey) {
-    // does the key start with the "highlight://" prefix?
+    // does the key start with the "highlighted@" prefix?
     return (externalKey || "").indexOf(DeltaMapper.highlights.externalPrefix) === 0
   }
 

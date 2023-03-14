@@ -14,7 +14,14 @@ Here's an example of the file's content:
   
   "_form": "ResQPlus AppDevelopmentForm 1.0 CZ",
   "_reportDelta": { "ops": [] },
-  "_formData": null
+  "_formData": null,
+
+  "_reportText": "Lorem ipsum.\nDolor sit amet.",
+  "_highlights": {
+    "foo.bar": [
+      { "index": 10, "length": 15 }
+    ]
+  }
 }
 ```
 
@@ -23,6 +30,8 @@ The `_version` field is an application-specific version of the entire file, an i
 The `_uuid` is a unique identifier of the file to detect duplicates. It's a UUID v4 value. The `_writtenAt` is an ISO 8601 UTC time, when the file was last modified (written). This is to resolve UUID collisions.
 
 The `_form` field is the ID of the form used in the file, `_reportDelta` is the quill delta with the content of the text report and `_formData` is the JSON data filled out in the form.
+
+The field `_reportText` stores the plain text of the report and the field `_highlights` stores the list of highlighted regions by field. These can be computed from the report delta, but are stored in plain format for easier file processing by external applications.
 
 
 ### Highlights and anonymizations

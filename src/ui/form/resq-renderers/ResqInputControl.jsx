@@ -31,7 +31,7 @@ export function ResqInputControl(props) {
     controlInputProps: controlInputPropsGiven
   } = props
 
-  const fieldId = id
+  const fieldId = path // field ID is defined to be the path in the form data
   const htmlId = id + "-input"
 
   const isEmpty = data === undefined

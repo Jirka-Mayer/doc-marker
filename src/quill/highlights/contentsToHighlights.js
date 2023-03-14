@@ -1,4 +1,4 @@
-const HIGHLIGHT_ATTRIBUTE_PREFIX = "highlight://"
+const HIGHLIGHT_ATTRIBUTE_PREFIX = "highlighted@"
 
 /**
  * Converts Quill contents delta to the highlights format
