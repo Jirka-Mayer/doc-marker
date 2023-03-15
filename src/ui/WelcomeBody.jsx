@@ -7,6 +7,7 @@ import { AppFile } from "../state/file/AppFile"
 import DeleteIcon from '@mui/icons-material/Delete'
 import DownloadIcon from '@mui/icons-material/Download'
 import * as fileStore from "../state/fileStore"
+import moment from "moment"
 
 import packageJson from "../../package.json"
 const VERSION = packageJson.version
@@ -115,10 +116,14 @@ export function WelcomeBody(props) {
                         </Tooltip>
                       </TableCell>
                       <TableCell>
-                        { record.updatedAt.toISOString() }
+                        <Tooltip title={moment(record.updatedAt).toString()} disableInteractive>
+                          <span>{ moment(record.updatedAt).calendar() }</span>
+                        </Tooltip>
                       </TableCell>
                       <TableCell>
-                        { record.createdAt.toISOString() }
+                        <Tooltip title={moment(record.createdAt).toString()} disableInteractive>
+                          <span>{ moment(record.createdAt).calendar() }</span>
+                        </Tooltip>
                       </TableCell>
                       <TableCell align="right">
                         <Tooltip title="Delete from browser" placement="left" disableInteractive>
