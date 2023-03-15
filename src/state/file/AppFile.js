@@ -27,11 +27,13 @@ export class AppFile {
   }
 
   static createNewEmpty(formId) {
+    const now = new Date()
     return AppFile.fromJson({
       "_version": AppFile.CURRENT_VERSION,
     
       "_uuid": this.generateNewUuid(),
-      "_writtenAt": new Date().toISOString(),
+      "_createdAt": now.toISOString(),
+      "_updatedAt": now.toISOString(),
       
       "_formId": formId,
       "_formData": null,
@@ -65,8 +67,11 @@ export class AppFile {
     if (!json["_uuid"])
       throw new Error("Missing file UUID")
     
-    if (!json["_writtenAt"])
-      throw new Error("Missing file '_writtenAt' field")
+      if (!json["_createdAt"])
+      throw new Error("Missing file '_createdAt' field")
+
+    if (!json["_updatedAt"])
+      throw new Error("Missing file '_updatedAt' field")
 
     // ... validate other fields as well ...
   }
@@ -80,12 +85,20 @@ export class AppFile {
     return this.body["_uuid"]
   }
 
-  get writtenAtString() {
-    return this.body["_writtenAt"]
+  get createdAtString() {
+    return this.body["_createdAt"]
   }
 
-  get writtenAtDate() {
-    return new Date(this.body["_writtenAt"])
+  get createdAtDate() {
+    return new Date(this.body["_createdAt"])
+  }
+
+  get updatedAtString() {
+    return this.body["_updatedAt"]
+  }
+
+  get updatedAtDate() {
+    return new Date(this.body["_updatedAt"])
   }
 
   get patientId() {

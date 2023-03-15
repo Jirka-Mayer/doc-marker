@@ -96,6 +96,7 @@ export function WelcomeBody(props) {
                   <TableRow>
                     <TableCell>File</TableCell>
                     <TableCell>Last modified</TableCell>
+                    <TableCell>Created at</TableCell>
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
@@ -114,7 +115,10 @@ export function WelcomeBody(props) {
                         </Tooltip>
                       </TableCell>
                       <TableCell>
-                        { record.writtenAt.toISOString() }
+                        { record.updatedAt.toISOString() }
+                      </TableCell>
+                      <TableCell>
+                        { record.createdAt.toISOString() }
                       </TableCell>
                       <TableCell align="right">
                         <Tooltip title="Delete from browser" placement="left" disableInteractive>

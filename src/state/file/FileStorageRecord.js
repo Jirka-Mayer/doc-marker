@@ -3,7 +3,8 @@ import { AppFile } from "./AppFile"
 export class FileStorageRecord {
   constructor(json) {
     this.uuid = json.uuid || null
-    this.writtenAt = new Date(json.writtenAt)
+    this.createdAt = new Date(json.createdAt)
+    this.updatedAt = new Date(json.updatedAt)
     this.patientId = json.patientId || null
 
     if (this.uuid === null)
@@ -17,7 +18,8 @@ export class FileStorageRecord {
   static fromAppFile(appFile) {
     return this.fromJson({
       uuid: appFile.uuid,
-      writtenAt: appFile.writtenAtString,
+      createdAt: appFile.createdAtString,
+      updatedAt: appFile.updatedAtString,
       patientId: appFile.patientId
     })
   }
@@ -25,7 +27,8 @@ export class FileStorageRecord {
   toJson() {
     return {
       uuid: this.uuid,
-      writtenAt: this.writtenAt.toISOString(),
+      createdAt: this.createdAt.toISOString(),
+      updatedAt: this.updatedAt.toISOString(),
       patientId: this.patientId
     }
   }

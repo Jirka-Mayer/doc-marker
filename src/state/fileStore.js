@@ -23,6 +23,13 @@ export const fileUuidAtom = atom(get => get(fileUuidBaseAtom))
  */
 export const isFileOpenAtom = atom(get => get(fileUuidBaseAtom) !== null)
 
+const fileCreatedAtBaseAtom = atom(null)
+
+/**
+ * When was the openned file created, as a Date instance
+ */
+export const fileCreatedAtAtom = atom(get => get(fileCreatedAtBaseAtom))
+
 /**
  * Returns the assigned patient ID of the file, or null if none was assigned yet
  */
@@ -52,7 +59,8 @@ const serializeFileAtom = atom(get => {
     "_version": AppFile.CURRENT_VERSION,
     
     "_uuid": get(fileUuidAtom),
-    "_writtenAt": new Date().toISOString(),
+    "_createdAt": get(fileCreatedAtBaseAtom).toISOString(),
+    "_updatedAt": new Date().toISOString(),
     
     "_formId": get(formStore.formIdAtom),
     "_formData": get(formStore.formDataAtom),
@@ -81,12 +89,14 @@ const deserializeFileAtom = atom(null, (get, set, appFile) => {
     throw new Error("File to be deserialized must have the latest version number")
 
   set(fileUuidBaseAtom, json["_uuid"])
+  set(fileCreatedAtBaseAtom, new Date(json["_createdAt"]))
+  // _updatedAt is ignored, since it's overwritten during save anyways
 
   set(formStore.formIdAtom, json["_formId"])
   set(formStore.formDataAtom, json["_formData"])
 
   reportStore.quillExtended.setContents(json["_reportDelta"])
-  // report text and highlights are ignored
+  // _reportText and _highlights are ignored, since they are computable from delta
 
   set(patientIdAtom, json["patientId"])
 })
