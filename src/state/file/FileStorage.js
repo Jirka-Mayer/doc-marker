@@ -27,7 +27,8 @@ export class FileStorage {
       out.push(FileStorageRecord.fromJson(json[i]))
     }
 
-    out.sort((a, b) => a.writtenAt - b.writtenAt)
+    out.sort((a, b) => a.updatedAt - b.updatedAt)
+    out.reverse() // newest to oldest
 
     out = out.filter(
       r => localStorage.getItem(this.FILE_KEY_PREFIX + r.uuid)

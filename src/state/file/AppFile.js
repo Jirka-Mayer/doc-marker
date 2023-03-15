@@ -1,3 +1,5 @@
+import * as uuid from "uuid"
+
 /**
  * Represents the file that is loaded and edited by the application
  */
@@ -18,8 +20,7 @@ export class AppFile {
   }
 
   static generateNewUuid() {
-    // TODO: use proper UUID v4 library
-    return "dummy-uuid-" + Math.round(Math.random() * 10000)
+    return uuid.v4()
   }
 
   static fromJson(body) {
