@@ -5,13 +5,10 @@ import { StatusBar } from "./StatusBar"
 import { AppBody } from "./AppBody"
 import JotaiNexus from "../utils/JotaiNexus"
 import { useAtom } from "jotai"
-import { isFileOpenAtom, openFileAtom, downloadFileAtom } from "../state/fileStore"
+import * as fileStore from "../state/fileStore"
 
 export function Application() {
-  const [isFileOpen] = useAtom(isFileOpenAtom)
-
-  // TODO: move it out of here
-  const [,openFile] = useAtom(openFileAtom)
+  const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
 
   return (
     <>
@@ -23,9 +20,7 @@ export function Application() {
       </div>
       <div className={styles["app-body-container"]}>
         
-        <WelcomeBody isOpen={!isFileOpen}
-          applicationOpenFile={openFile} // TODO: move it out of here
-        />
+        <WelcomeBody isOpen={!isFileOpen} />
 
         <AppBody isOpen={isFileOpen} />
 

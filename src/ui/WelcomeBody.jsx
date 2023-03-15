@@ -12,17 +12,10 @@ import moment from "moment"
 import packageJson from "../../package.json"
 const VERSION = packageJson.version
 
-import json_test_onlyDischargeReport from "./test__only-discharge-report.json"
-
 export function WelcomeBody(props) {
-  
   const {
     isOpen,
-    applicationOpenFile
   } = props
-
-  const [isNewFileDialogOpen, setNewDialogOpen] = useState(false)
-  const [newFilePatientId, setNewFilePatientId] = useState("")
 
   const [fileList] = useAtom(fileStore.fileListAtom)
   const [,createNewFile] = useAtom(fileStore.createNewFileAtom)
@@ -30,10 +23,7 @@ export function WelcomeBody(props) {
   const [,deleteFile] = useAtom(fileStore.deleteFileAtom)
   const [,downloadFile] = useAtom(fileStore.downloadFileAtom)
 
-  function openDeleteFileDialog(record) {
-    // TODO: actually show a dialog
-    deleteFile(record.uuid)
-  }
+  const [recordToDelete, setRecordToDelete] = useState(null)
 
   async function uploadFile(input) {
     if (input.files.length === 0)
@@ -44,12 +34,7 @@ export function WelcomeBody(props) {
 
     const body = JSON.parse(json)
     const file = new AppFile(body)
-    applicationOpenFile(file)
-  }
-
-  function test_onlyDischargeReport() {
-    const file = new AppFile(json_test_onlyDischargeReport)
-    applicationOpenFile(file)
+    // applicationOpenFile(file)
   }
 
   return (
@@ -105,7 +90,7 @@ export function WelcomeBody(props) {
                   {fileList.map(record =>
                     <TableRow key={ record.uuid }>
                       <TableCell>
-                        <Tooltip title="Open file" placement="left" disableInteractive>
+                        <Tooltip title="Open file" disableInteractive>
                           <Button
                             variant="text"
                             size="small"
@@ -126,16 +111,16 @@ export function WelcomeBody(props) {
                         </Tooltip>
                       </TableCell>
                       <TableCell align="right">
-                        <Tooltip title="Delete from browser" placement="left" disableInteractive>
+                        <Tooltip title="Delete from browser" disableInteractive>
                           <IconButton
                             size="small"
                             className={styles["file-list__action-button"]}
-                            onClick={() => openDeleteFileDialog(record)}
+                            onClick={() => setRecordToDelete(record)}
                           >
                             <DeleteIcon fontSize="inherit" />
                           </IconButton>
                         </Tooltip>
-                        <Tooltip title="Download" placement="right" disableInteractive>
+                        <Tooltip title="Download" disableInteractive>
                           <IconButton
                             size="small"
                             className={styles["file-list__action-button"]}
@@ -152,50 +137,33 @@ export function WelcomeBody(props) {
             </TableContainer>
           ) }
 
-
-          <Typography variant="h5" gutterBottom>Testing Data</Typography>
-
-          <Stack direction="row" spacing={2}>
-            <Button
-              variant="outlined"
-              onClick={test_onlyDischargeReport}
-            >Only Discharge Report</Button>
-          </Stack>
-
-          <Dialog open={isNewFileDialogOpen} onClose={() => {}}>
-            <DialogTitle>Create New File</DialogTitle>
+          <Dialog open={recordToDelete !== null} onClose={() => setRecordToDelete(null)}>
+            <DialogTitle>Delete file from browser</DialogTitle>
             <DialogContent>
-              <DialogContentText>
-                Dear RES-Q user. RES-Q effort is to ensure that our partnership is compliant with all legislation. Please understand that
-                we cannot allow identification of patients from RES-Q database. Therefore, please use RES-Q generated identifier.
-                It contains SITE ID and RECORD CREATION DATE and it allows to filter patients by creation date in the Patient List.
+              <DialogContentText gutterBottom>
+                Are you sure you want to delete the following file from this web browser?
+                If you have the file downloaded, you can always upload it back again.
               </DialogContentText>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="new-file__patient-id"
-                label="Patient ID"
-                type="text"
-                fullWidth
-                variant="standard"
-                value={newFilePatientId}
-                onChange={e => {setNewFilePatientId(e.target.value)}}
-              />
-              <TextField
-                autoFocus
-                margin="dense"
-                id="new-file__patient-id"
-                label="Patient Admission Date"
-                type="text"
-                fullWidth
-                variant="standard"
-                defaultValue="This field is not used now, need to learn more about it."
-                disabled
-              />
+              <Typography variant="button" gutterBottom>
+                { recordToDelete ? recordToDelete.constructFileName() : "" }
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                Last modified:&nbsp;
+                { recordToDelete ? moment(recordToDelete.updatedAt).calendar() : "" }
+              </Typography>
             </DialogContent>
             <DialogActions>
-              <Button onClick={() => {}}>Cancel</Button>
-              <Button variant="contained" onClick={() => {}}>Create</Button>
+              <Button
+                variant="outlined" color="error"
+                onClick={() => setRecordToDelete(null)}
+              >Cancel</Button>
+              <Button
+                variant="contained" color="error"
+                onClick={() => {
+                  deleteFile(recordToDelete.uuid)
+                  setRecordToDelete(null)
+                }}
+              >Delete</Button>
             </DialogActions>
           </Dialog>
         </Paper>
