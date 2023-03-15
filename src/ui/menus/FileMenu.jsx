@@ -6,8 +6,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import DownloadIcon from '@mui/icons-material/Download';
 import InfoIcon from '@mui/icons-material/Info';
 import LanguageIcon from '@mui/icons-material/Language';
+import SaveIcon from '@mui/icons-material/Save';
 import { useAtom } from "jotai"
-import { openFileAtom, closeFileAtom, isFileOpenAtom, downloadFileAtom } from "../../state/fileStore";
+import * as fileStore from "../../state/fileStore"
 import { AppFile } from "../../state/file/AppFile";
 
 export function FileMenu() {
@@ -22,24 +23,28 @@ export function FileMenu() {
 
   // === used state ===
 
-  const [isFileOpen] = useAtom(isFileOpenAtom)
+  const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
 
-  const [,openFile] = useAtom(openFileAtom)
-  const [,closeFile] = useAtom(closeFileAtom)
-  const [,downloadFile] = useAtom(downloadFileAtom)
+  const [,createNewFile] = useAtom(fileStore.createNewFileAtom)
+  const [,saveCurrentFile] = useAtom(fileStore.saveCurrentFileAtom)
+  const [,closeFile] = useAtom(fileStore.closeFileAtom)
+  const [,downloadCurrentFile] = useAtom(fileStore.downloadCurrentFileAtom)
 
   // === click handlers ===
 
   function onNewEmptyFileClick() {
-    // let patientId = ?
-    // const file = AppFile.newEmpty(patientId)
-    // openFile(file)
-    alert("Not implemented.")
+    // TODO: get the default form ID from somewhere
+    // createNewFile(FormID)
+    closeMenu()
+  }
+
+  function onSaveFileClick() {
+    saveCurrentFile()
     closeMenu()
   }
 
   function onDownloadFileClick() {
-    downloadFile()
+    downloadCurrentFile()
     closeMenu()
   }
 
@@ -71,6 +76,12 @@ export function FileMenu() {
               <UploadFileIcon />
             </ListItemIcon>
             <Typography variant="inherit">New from uploaded document</Typography>
+          </MenuItem>
+          <MenuItem onClick={onSaveFileClick} disabled={!isFileOpen}>
+            <ListItemIcon>
+              <SaveIcon />
+            </ListItemIcon>
+            <Typography variant="inherit">Save file</Typography>
           </MenuItem>
           
           <Divider/>

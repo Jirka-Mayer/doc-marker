@@ -1,8 +1,12 @@
 import * as styles from "./WelcomeBody.module.scss"
 import Typography from '@mui/material/Typography'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Paper, Stack, TextField } from "@mui/material"
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Paper, Stack, Table, TableBody, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip } from "@mui/material"
 import { useState } from "react"
+import { useAtom } from "jotai"
 import { AppFile } from "../state/file/AppFile"
+import DeleteIcon from '@mui/icons-material/Delete'
+import DownloadIcon from '@mui/icons-material/Download'
+import * as fileStore from "../state/fileStore"
 
 import packageJson from "../../package.json"
 const VERSION = packageJson.version
@@ -19,34 +23,15 @@ export function WelcomeBody(props) {
   const [isNewFileDialogOpen, setNewDialogOpen] = useState(false)
   const [newFilePatientId, setNewFilePatientId] = useState("")
 
-  function generateNewPatientId() {
-    const now = new Date()
-    const y = now.getFullYear()
-    const m = String(now.getMonth() + 1).padStart(2, "0")
-    const d = String(now.getDate() + 1).padStart(2, "0")
-    const salt = Math.floor((Math.random() * 999) + 1)
-    return `doc_marker_${y}-${m}-${d}_${salt}`
-  }
+  const [fileList] = useAtom(fileStore.fileListAtom)
+  const [,createNewFile] = useAtom(fileStore.createNewFileAtom)
+  const [,openFile] = useAtom(fileStore.openFileAtom)
+  const [,deleteFile] = useAtom(fileStore.deleteFileAtom)
+  const [,downloadFile] = useAtom(fileStore.downloadFileAtom)
 
-  function openNewFileDialog() {
-    setNewFilePatientId(generateNewPatientId())
-    setNewDialogOpen(true)
-  }
-
-  function closeNewFileDialog() {
-    setNewDialogOpen(false)
-  }
-
-  function submitNewFileDialog() {
-    if (newFilePatientId === "")
-      return
-    createNewFile(newFilePatientId)
-    setNewDialogOpen(false)
-  }
-
-  function createNewFile(patientId) {
-    const file = AppFile.newEmpty(patientId)
-    applicationOpenFile(file)
+  function openDeleteFileDialog(record) {
+    // TODO: actually show a dialog
+    deleteFile(record.uuid)
   }
 
   async function uploadFile(input) {
@@ -74,20 +59,18 @@ export function WelcomeBody(props) {
           <Typography variant="h3">DocMarker for RES-Q+</Typography>
           <Typography variant="h5" gutterBottom sx={{ opacity: 0.5 }}>[v{VERSION}]</Typography>
           
-          <Typography variant="h5" gutterBottom>Real Data</Typography>
+          <Typography variant="h5" gutterBottom>Start from scratch</Typography>
 
-          <Typography variant="body1" gutterBottom>
-            Here can be a list of uploaded files identified by patient ID
-          </Typography>
-
-          <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={2} className={styles["new-file-actions"]}>
             <Button
               variant="contained"
-              onClick={openNewFileDialog}
+              /* TODO: get the default form ID from somewhere */
+              onClick={() => createNewFile("ResQPlus AppDevelopmentForm 1.0 CZ")}
             >Create New File</Button>
             <Button
-              variant="contained"
+              variant="outlined"
               component="label"
+              disabled={true}
             >
               Upload File
               <input
@@ -99,7 +82,67 @@ export function WelcomeBody(props) {
             </Button>
           </Stack>
 
-          <Divider sx={{ my: 2 }} />
+
+          <Typography variant="h5" gutterBottom>Files in this web browser</Typography>
+
+          { fileList.length === 0 ? (
+            <Typography variant="body1" gutterBottom>
+              No files stored in the browser.
+            </Typography>
+          ) : (
+            <TableContainer component="div" className={styles["file-list"]}>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>File</TableCell>
+                    <TableCell>Last modified</TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {fileList.map(record =>
+                    <TableRow key={ record.uuid }>
+                      <TableCell>
+                        <Tooltip title="Open file" placement="left" disableInteractive>
+                          <Button
+                            variant="text"
+                            size="small"
+                            onClick={() => openFile(record.uuid)}
+                          >
+                            { record.constructFileName() }
+                          </Button>
+                        </Tooltip>
+                      </TableCell>
+                      <TableCell>
+                        { record.writtenAt.toISOString() }
+                      </TableCell>
+                      <TableCell align="right">
+                        <Tooltip title="Delete from browser" placement="left" disableInteractive>
+                          <IconButton
+                            size="small"
+                            className={styles["file-list__action-button"]}
+                            onClick={() => openDeleteFileDialog(record)}
+                          >
+                            <DeleteIcon fontSize="inherit" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Download" placement="right" disableInteractive>
+                          <IconButton
+                            size="small"
+                            className={styles["file-list__action-button"]}
+                            onClick={() => downloadFile(record.uuid)}
+                          >
+                            <DownloadIcon fontSize="inherit" />
+                          </IconButton>
+                        </Tooltip>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) }
+
 
           <Typography variant="h5" gutterBottom>Testing Data</Typography>
 
@@ -110,7 +153,7 @@ export function WelcomeBody(props) {
             >Only Discharge Report</Button>
           </Stack>
 
-          <Dialog open={isNewFileDialogOpen} onClose={closeNewFileDialog}>
+          <Dialog open={isNewFileDialogOpen} onClose={() => {}}>
             <DialogTitle>Create New File</DialogTitle>
             <DialogContent>
               <DialogContentText>
@@ -142,8 +185,8 @@ export function WelcomeBody(props) {
               />
             </DialogContent>
             <DialogActions>
-              <Button onClick={closeNewFileDialog}>Cancel</Button>
-              <Button variant="contained" onClick={submitNewFileDialog}>Create</Button>
+              <Button onClick={() => {}}>Cancel</Button>
+              <Button variant="contained" onClick={() => {}}>Create</Button>
             </DialogActions>
           </Dialog>
         </Paper>

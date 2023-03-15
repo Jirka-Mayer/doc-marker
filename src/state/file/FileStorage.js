@@ -8,21 +8,21 @@ const localStorage = window.localStorage
  */
 export class FileStorage {
 
-  FILE_LIST_KEY = "docMarkerFileList"
-  FILE_KEY_PREFIX = "docMarkerFile/" // + file UUID
+  static FILE_LIST_KEY = "docMarkerFileList"
+  static FILE_KEY_PREFIX = "docMarkerFile/" // + file UUID
 
   /**
    * Returns the list of stored files
    */
   static listFiles() {
-    const data = localStorage.getItem(this.FILE_KEY_PREFIX)
+    const data = localStorage.getItem(this.FILE_LIST_KEY)
     
     if (!data)
       return []
     
     const json = JSON.parse(data)
 
-    const out = []
+    let out = []
     for (let i = 0; i < json.length; i++) {
       out.push(FileStorageRecord.fromJson(json[i]))
     }
@@ -49,9 +49,9 @@ export class FileStorage {
    */
   static storeFile(appFile) {
     const text = appFile.toJsonString()
-    localStorage.setItem(this.FILE_KEY_PREFIX + uuid, text)
+    localStorage.setItem(this.FILE_KEY_PREFIX + appFile.uuid, text)
 
-    const list = this.listFiles()
+    let list = this.listFiles()
     list = list.filter(r => r.uuid !== appFile.uuid)
     list.push(FileStorageRecord.fromAppFile(appFile))
     this._writeFileList(list)
@@ -77,8 +77,8 @@ export class FileStorage {
   static deleteFile(uuid) {
     localStorage.removeItem(this.FILE_KEY_PREFIX + uuid)
 
-    const list = this.listFiles()
-    list = list.filter(r => r.uuid !== appFile.uuid)
+    let list = this.listFiles()
+    list = list.filter(r => r.uuid !== uuid)
     this._writeFileList(list)
   }
 

@@ -1,3 +1,5 @@
+import { AppFile } from "./AppFile"
+
 export class FileStorageRecord {
   constructor(json) {
     this.uuid = json.uuid || null
@@ -15,7 +17,7 @@ export class FileStorageRecord {
   static fromAppFile(appFile) {
     return this.fromJson({
       uuid: appFile.uuid,
-      writtenAt: appFile.writteAtString,
+      writtenAt: appFile.writtenAtString,
       patientId: appFile.patientId
     })
   }
@@ -26,5 +28,12 @@ export class FileStorageRecord {
       writtenAt: this.writtenAt.toISOString(),
       patientId: this.patientId
     }
+  }
+
+  /**
+   * Returns the desired file name as string
+   */
+  constructFileName() {
+    return AppFile.constructFileName(this.patientId, this.uuid)
   }
 }

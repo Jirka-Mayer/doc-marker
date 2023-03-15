@@ -22,3 +22,19 @@
   margin: 40px;
   padding: 40px;
 }
+
+.new-file-actions {
+  margin-bottom: 16px;
+}
+
+.file-list {
+  margin-bottom: 16px;
+}
+
+.file-list__action-button {
+  opacity: 0;
+
+  tr:hover & {
+    opacity: 1;
+  }
+}

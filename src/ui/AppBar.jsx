@@ -12,7 +12,7 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
 import { AppMode } from "../state/editor/AppMode"
 import { useAtom } from "jotai"
-import { isFileOpenAtom, patientIdAtom } from "../state/fileStore"
+import * as fileStore from "../state/fileStore"
 import { FileMenu } from "./menus/FileMenu"
 import { ViewMenu } from "./menus/ViewMenu"
 import { Toolbar } from "./Toolbar"
@@ -25,9 +25,9 @@ const logoImageUrl = new URL(
 );
 
 export function AppBar() {
-  const [isFileOpen] = useAtom(isFileOpenAtom)
+  const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
   const [appMode, setAppMode] = useAtom(appModeAtom)
-  const [patientId] = useAtom(patientIdAtom)
+  const [fileName] = useAtom(fileStore.fileNameAtom)
 
   return (
     <Paper elevation={1} square className={styles["appbar"]}>
@@ -41,11 +41,11 @@ export function AppBar() {
             { isFileOpen ? (
               <Typography
                 sx={{ ml: 1 }}
-                className={styles["appbar__patient-id"]}
+                className={styles["appbar__file-name"]}
                 component="span"
                 variant="button"
               >
-                { patientId }
+                { fileName }
               </Typography>
             ) : (
               <Typography

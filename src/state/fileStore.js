@@ -28,6 +28,13 @@ export const isFileOpenAtom = atom(get => get(fileUuidBaseAtom) !== null)
  */
 export const patientIdAtom = atom(null)
 
+/**
+ * Returns the name of the file
+ */
+export const fileNameAtom = atom(
+  get => AppFile.constructFileName(get(patientIdAtom), get(fileUuidAtom))
+)
+
 
 ////////////////////////
 // File Serialization //
@@ -73,7 +80,7 @@ const deserializeFileAtom = atom(null, (get, set, appFile) => {
   if (json["_version"] !== AppFile.CURRENT_VERSION)
     throw new Error("File to be deserialized must have the latest version number")
 
-  set(fileUuidAtom, json["_uuid"])
+  set(fileUuidBaseAtom, json["_uuid"])
 
   set(formStore.formIdAtom, json["_formId"])
   set(formStore.formDataAtom, json["_formData"])
@@ -82,30 +89,6 @@ const deserializeFileAtom = atom(null, (get, set, appFile) => {
   // report text and highlights are ignored
 
   set(patientIdAtom, json["patientId"])
-})
-
-
-///////////////////////////
-// New File & Close File //
-///////////////////////////
-
-/**
- * Call to open a new file.
- * If a file is already openned, it will be saved.
- * The only required argument is the form ID to use.
- */
-export const createNewFileAtom = atom(null, (get, set, formId) => {
-  set(saveCurrentFileAtom)
-  set(deserializeFileAtom, AppFile.createNewEmpty(formId))
-})
-
-/**
- * Call to close the current file.
- * It will also be saved.
- */
-export const closeFileAtom = atom(null, (get, set) => {
-  set(saveCurrentFileAtom)
-  set(fileUuidBaseAtom, null)
 })
 
 
@@ -128,6 +111,46 @@ export const refreshFileListAtom = atom(null, (get, set, _) => {
 })
 
 /**
+ * Downloads a stored file, given its UUID
+ */
+ export const downloadFileAtom = atom(null, (get, set, uuid) => {
+  const appFile = FileStorage.loadFile(uuid)
+  appFile.download()
+})
+
+/**
+ * Deletes a file from the browser storage, given its UUID
+ */
+export const deleteFileAtom = atom(null, (get, set, uuid) => {
+  FileStorage.deleteFile(uuid)
+  set(refreshFileListAtom)
+})
+
+
+/////////////////////////////
+// Current File Operations //
+/////////////////////////////
+
+/**
+ * Call to open a new file.
+ * If a file is already openned, it will be saved.
+ * The only required argument is the form ID to use.
+ */
+export const createNewFileAtom = atom(null, (get, set, formId) => {
+  set(saveCurrentFileAtom)
+  set(deserializeFileAtom, AppFile.createNewEmpty(formId))
+})
+
+/**
+ * Call to close the current file.
+ * It will also be saved.
+ */
+export const closeFileAtom = atom(null, (get, set) => {
+  set(saveCurrentFileAtom)
+  set(fileUuidBaseAtom, null)
+})
+
+/**
  * Call to save the current file.
  * Does nothing if no file is open.
  */
@@ -140,12 +163,11 @@ export const saveCurrentFileAtom = atom(null, (get, set) => {
   set(refreshFileListAtom)
 })
 
-
-///////////////////////////////////////////////
-// Legacy code to be rewritten into sections //
-///////////////////////////////////////////////
-
-export const openFileAtom = atom(null, (get, set, appFile) => {
+/**
+ * Call to open a stored file. You need to provide its UUID
+ */
+export const openFileAtom = atom(null, (get, set, uuid) => {
+  const appFile = FileStorage.loadFile(uuid)
   set(deserializeFileAtom, appFile)
 
   if (get(formStore.formDataAtom) === null)
@@ -154,19 +176,10 @@ export const openFileAtom = atom(null, (get, set, appFile) => {
     set(editorStore.appModeAtom, AppMode.ANNOTATE_HIGHLIGHTS)
 })
 
-export const downloadFileAtom = atom(null, (get, set) => {
-  const patientId = get(patientIdAtom)
-  
-  // create app file
-  const file = get(serializeFileAtom)
-
-  // export JSON
-  const jsonString = file.toPrettyJsonString()
-
-  // download file
-  var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonString)
-  var a = document.createElement("a")
-  a.setAttribute("href", dataStr)
-  a.setAttribute("download", patientId + ".resq.json")
-  a.click()
+/**
+ * Downloads the currently open file
+ */
+export const downloadCurrentFileAtom = atom(null, (get, set) => {
+  const appFile = get(serializeFileAtom)
+  appFile.download()
 })

@@ -59,7 +59,7 @@ export class AppFile {
   validate() {
     const json = this.body
 
-    if (json["_version"] !== CURRENT_VERSION)
+    if (json["_version"] !== AppFile.CURRENT_VERSION)
       throw new Error("Invalid file version: " + json["_version"])
     
     if (!json["_uuid"])
@@ -90,5 +90,45 @@ export class AppFile {
 
   get patientId() {
     return this.body["patientId"]
+  }
+
+
+  ///////////
+  // Other //
+  ///////////
+
+  /**
+   * Returns the desired file name as string
+   */
+  static constructFileName(patientId, uuid) {
+    if (patientId) {
+      return patientId
+    }
+    if (uuid) {
+      return "draft-file_" + uuid.substring(0, 8)
+    }
+    return null
+  }
+
+  /**
+   * Returns the desired file name as string
+   */
+  constructFileName() {
+    return AppFile.constructFileName(this.patientId, this.uuid)
+  }
+
+  /**
+   * Download this app file to the user's computer
+   */
+  download() {
+    // export JSON
+    const jsonString = this.toPrettyJsonString()
+
+    // download file
+    let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(jsonString)
+    let a = document.createElement("a")
+    a.setAttribute("href", dataStr)
+    a.setAttribute("download", this.constructFileName() + ".json")
+    a.click()
   }
 }
