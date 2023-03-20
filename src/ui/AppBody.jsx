@@ -12,8 +12,7 @@ export function AppBody(props) {
   } = props
 
   const [appMode] = useAtom(appModeAtom)
-  const [formData] = useAtom(formDataAtom)
-  const isFormOpen = (appMode === AppMode.ANNOTATE_HIGHLIGHTS) || (formData !== null)
+  const isFormOpen = (appMode === AppMode.ANNOTATE_HIGHLIGHTS)
   
   return (
     <div className={styles["app-body"] + " " + (isOpen ? "" : styles["app-body--closed"])}>
