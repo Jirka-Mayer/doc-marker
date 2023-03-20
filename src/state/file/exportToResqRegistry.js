@@ -15,5 +15,4 @@ export function exportToResqRegistry() {
 
   console.log(jsCode)
   navigator.clipboard.writeText(jsCode)
-  alert("Code was copied to clipboard!")
 }

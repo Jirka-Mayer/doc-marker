@@ -5,9 +5,11 @@ import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { useAtom } from "jotai"
 import { isFileOpenAtom } from "../../state/fileStore";
 import { runAutomaticExtraction } from "../../state/editor/runAutomaticExtraction";
-import { exportToResqRegistry } from "../../state/file/exportToResqRegistry";
+import { isOpenAtom as isResqExportDialogOpenAtom } from "../dialogs/ResqExportDialog";
 
 export function ToolsMenu() {
+  const [,setResqExportDialogIsOpen] = useAtom(isResqExportDialogOpenAtom)
+
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   function onMenuClick(e) {
@@ -29,7 +31,7 @@ export function ToolsMenu() {
   }
 
   function onExportToResqClick() {
-    exportToResqRegistry()
+    setResqExportDialogIsOpen(true)
     closeMenu()
   }
 

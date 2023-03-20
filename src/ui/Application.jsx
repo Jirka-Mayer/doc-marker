@@ -6,6 +6,7 @@ import { AppBody } from "./AppBody"
 import JotaiNexus from "../utils/JotaiNexus"
 import { useAtom } from "jotai"
 import * as fileStore from "../state/fileStore"
+import { ResqExportDialog } from "./dialogs/ResqExportDialog"
 
 export function Application() {
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
@@ -30,6 +31,8 @@ export function Application() {
         <StatusBar />
 
       </div> */}
+
+      <ResqExportDialog />
     </>
   )
 }
