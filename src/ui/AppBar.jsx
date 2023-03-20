@@ -28,12 +28,17 @@ export function AppBar() {
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
   const [appMode, setAppMode] = useAtom(appModeAtom)
   const [fileName] = useAtom(fileStore.fileNameAtom)
+  const [,closeFile] = useAtom(fileStore.closeFileAtom)
 
   return (
     <Paper elevation={1} square className={styles["appbar"]}>
 
       <div className={styles["appbar__upper-container"]}>
-        <div className={styles["appbar__logo"]}>
+        <div
+          className={styles["appbar__logo"]}
+          onClick={() => closeFile()}
+          style={{ cursor: isFileOpen ? "pointer" : "default" }}
+        >
           <img src={logoImageUrl} alt="RES-Q+ Logo" />
         </div>
         <div className={styles["appbar__center"]}>
