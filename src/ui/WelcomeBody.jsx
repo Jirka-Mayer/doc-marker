@@ -4,6 +4,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import { useState } from "react"
 import { useAtom } from "jotai"
 import { AppFile } from "../state/file/AppFile"
+import { FormDefinition } from "../../forms/FormDefinition"
 import DeleteIcon from '@mui/icons-material/Delete'
 import DownloadIcon from '@mui/icons-material/Download'
 import * as fileStore from "../state/fileStore"
@@ -50,8 +51,7 @@ export function WelcomeBody(props) {
           <Stack direction="row" spacing={2} className={styles["new-file-actions"]}>
             <Button
               variant="contained"
-              /* TODO: get the default form ID from somewhere */
-              onClick={() => createNewFile("ResQPlus AppDevelopmentForm 1.0 CZ")}
+              onClick={() => createNewFile(FormDefinition.DEFAULT_FORM_ID)}
             >Create New File</Button>
             <Button
               variant="outlined"

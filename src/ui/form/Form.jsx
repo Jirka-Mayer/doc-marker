@@ -1,41 +1,52 @@
 import { formRenderers, formCells } from "./formRenderersAndCells"
 import { JsonForms } from "@jsonforms/react"
 import { DesigningControls } from "./DesigningControls"
-import { formDataAtom, allFieldStatesAtom, formErrorsAtom } from "../../state/formStore"
 import { useAtom } from "jotai"
-import { displayDebugInfoAtom } from "../../state/userPreferencesStore"
-
-// load the correct form
-// import dataSchema from "../../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/data-schema.json"
-// import uiSchema from "../../../forms/ResQPlus AppDevelopmentForm 1.0 CZ/ui-schema.json"
-
-// debug stuff
-import dataSchema from "../../../forms/simple-dump/data-schema.json"
-import uiSchema from "../../../forms/simple-dump/ui-schema.json"
-// import { materialRenderers } from "@jsonforms/material-renderers"
+import { useEffect, useState } from "react"
+import { FormDefinition } from "../../../forms/FormDefinition"
+import * as formStore from "../../state/formStore"
+import * as userPreferencesStore from "../../state/userPreferencesStore"
 
 export function Form() {
-  const [formErrors, setFormErrors] = useAtom(formErrorsAtom)
-  const [formData, setFormData] = useAtom(formDataAtom)
-  const [fieldStates] = useAtom(allFieldStatesAtom)
-  const [displayDebugInfo] = useAtom(displayDebugInfoAtom)
+  const [formId] = useAtom(formStore.formIdAtom)
+  const [dataSchema, setDataSchema] = useState({})
+  const [uiSchema, setUiSchema] = useState({})
+
+  const [formErrors, setFormErrors] = useAtom(formStore.formErrorsAtom)
+  const [formData, setFormData] = useAtom(formStore.formDataAtom)
+  const [fieldStates] = useAtom(formStore.allFieldStatesAtom)
+  const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom)
+
+  useEffect(() => {
+    if (formId === null) {
+      setDataSchema({})
+      setUiSchema({})
+      return
+    }
+    FormDefinition.load(formId).then(form => {
+      setDataSchema(form.dataSchema)
+      setUiSchema(form.uiSchema)
+    })
+  }, [formId])
 
   return (
     <div>
-      <JsonForms
-        schema={dataSchema}
-        uischema={uiSchema}
-        data={formData}
-        renderers={formRenderers}
-        // renderers={materialRenderers}
-        cells={formCells}
-        onChange={({ data, errors }) => {
-          setFormData(data)
-          setFormErrors(errors)
-        }}
-      />
+      { formId === null ? null : (
+        <JsonForms
+          schema={dataSchema}
+          uischema={uiSchema}
+          data={formData}
+          renderers={formRenderers}
+          cells={formCells}
+          onChange={({ data, errors }) => {
+            setFormData(data)
+            setFormErrors(errors)
+          }}
+        />
+      )}
 
       { displayDebugInfo ? <>
+        <pre>FormID: { JSON.stringify(formId, null, 2) }</pre>
         <pre>Data: { JSON.stringify(formData, null, 2) }</pre>
         <pre>States: { JSON.stringify(fieldStates, null, 2) }</pre>
         <pre>Errors: { JSON.stringify(formErrors, null, 2) }</pre>
