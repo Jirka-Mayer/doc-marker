@@ -23,6 +23,7 @@ export function Form() {
       setUiSchema({})
       return
     }
+    // TODO: load the form, then the translation, then render the form
     FormDefinition.load(formId).then(form => {
       setDataSchema(form.dataSchema)
       setUiSchema(form.uiSchema)

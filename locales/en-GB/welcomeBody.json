@@ -1,0 +1,35 @@
+{
+  "title": "DocMarker for RES-Q+",
+  
+  "createNewFile": "Create new file",
+  "uploadFile": "Upload file",
+
+  "browserFiles": {
+    "title": "Files in this web browser",
+    "emptyMessage": "No files stored in the browser.",
+    "column": {
+      "file": "File",
+      "lastModified": "Last modified",
+      "createdAt": "Created at"
+    },
+    "row": {
+      "lastModified": "{{timestamp, MOMENT_CALENDAR}}",
+      "createdAt": "{{timestamp, MOMENT_CALENDAR}}"
+    },
+    "tip": {
+      "open": "Open file",
+      "lastModified": "{{timestamp, FULL_TIMESTAMP}}",
+      "createdAt": "{{timestamp, FULL_TIMESTAMP}}",
+      "delete": "Delete from browser",
+      "download": "Download"
+    }
+  },
+
+  "deleteDialog": {
+    "title": "Delete file from browser",
+    "confirmationText": "Are you sure you want to delete the following file from this web browser? If you have the file downloaded, you can always upload it back again.",
+    "lastModified": "Last modified: {{timestamp, MOMENT_CALENDAR}}",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  }
+}

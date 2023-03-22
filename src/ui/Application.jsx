@@ -7,6 +7,7 @@ import JotaiNexus from "../utils/JotaiNexus"
 import { useAtom } from "jotai"
 import * as fileStore from "../state/fileStore"
 import { ResqExportDialog } from "./dialogs/ResqExportDialog"
+import { ChangeLocaleDialog } from "./dialogs/ChangeLocaleDialog"
 
 export function Application() {
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
@@ -33,6 +34,7 @@ export function Application() {
       </div> */}
 
       <ResqExportDialog />
+      <ChangeLocaleDialog />
     </>
   )
 }

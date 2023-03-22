@@ -35,7 +35,7 @@ export class DeltaMapper {
       externalDelta,
       (key, value) => {
         if (this.isExternalHighlightAttribute(key))
-          return this.exportHighlightAttribute(key, value)
+          return this.importHighlightAttribute(key, value)
 
         return [key, value]
       }

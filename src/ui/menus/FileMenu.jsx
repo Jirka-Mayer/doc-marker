@@ -10,6 +10,8 @@ import SaveIcon from '@mui/icons-material/Save';
 import { useAtom } from "jotai"
 import * as fileStore from "../../state/fileStore"
 import { AppFile } from "../../state/file/AppFile";
+import { isOpenAtom as isLocaleDialogOpenAtom } from "../dialogs/ChangeLocaleDialog"
+import { FormDefinition } from "../../../forms/FormDefinition";
 
 export function FileMenu() {
   const [anchorEl, setAnchorEl] = useState(null)
@@ -30,11 +32,12 @@ export function FileMenu() {
   const [,closeFile] = useAtom(fileStore.closeFileAtom)
   const [,downloadCurrentFile] = useAtom(fileStore.downloadCurrentFileAtom)
 
+  const [,setLocaleDialogOpen] = useAtom(isLocaleDialogOpenAtom)
+
   // === click handlers ===
 
   function onNewEmptyFileClick() {
-    // TODO: get the default form ID from somewhere
-    // createNewFile(FormID)
+    createNewFile(FormDefinition.DEFAULT_FORM_ID)
     closeMenu()
   }
 
@@ -50,6 +53,11 @@ export function FileMenu() {
 
   function onCloseFileClick() {
     closeFile()
+    closeMenu()
+  }
+
+  function onChangeLanguageClick() {
+    setLocaleDialogOpen(true)
     closeMenu()
   }
 
@@ -98,7 +106,7 @@ export function FileMenu() {
             </ListItemIcon>
             <Typography variant="inherit">Details</Typography>
           </MenuItem>
-          <MenuItem disabled={true}>
+          <MenuItem onClick={onChangeLanguageClick}>
             <ListItemIcon>
               <LanguageIcon />
             </ListItemIcon>

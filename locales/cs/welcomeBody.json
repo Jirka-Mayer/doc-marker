@@ -1,0 +1,29 @@
+{
+  "title": "DocMarker pro RES-Q+",
+  
+  "createNewFile": "Vytvořit nový soubor",
+  "uploadFile": "Nahrát soubor",
+
+  "browserFiles": {
+    "title": "Soubory v tomto webovém prohlížeči",
+    "emptyMessage": "V tomto prohlížeči nejsou uložené žádné soubory.",
+    "column": {
+      "file": "Soubor",
+      "lastModified": "Naposledy upravený",
+      "createdAt": "Vytvořený"
+    },
+    "tip": {
+      "open": "Otevřít soubor",
+      "delete": "Smazat z prohlížeče",
+      "download": "Stáhnout"
+    }
+  },
+
+  "deleteDialog": {
+    "title": "Smazat z prohlížeče",
+    "confirmationText": "Jste si jistí, že chcete smazat následující soubor z paměti prohlížeče? Pokud máte soubor stažený, můžete ho kdykoliv nahrát zpět.",
+    "lastModified": "Naposledy upravený: {{timestamp, MOMENT_CALENDAR}}",
+    "cancel": "Zrušit",
+    "delete": "Smazat"
+  }
+}

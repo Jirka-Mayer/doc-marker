@@ -11,12 +11,15 @@ import * as fileStore from "../state/fileStore"
 import moment from "moment"
 
 import packageJson from "../../package.json"
+import { useTranslation } from "react-i18next"
 const VERSION = packageJson.version
 
 export function WelcomeBody(props) {
   const {
     isOpen,
   } = props
+
+  const { t } = useTranslation("welcomeBody")
 
   const [fileList] = useAtom(fileStore.fileListAtom)
   const [,createNewFile] = useAtom(fileStore.createNewFileAtom)
@@ -33,6 +36,7 @@ export function WelcomeBody(props) {
     const json = await input.files[0].text()
     input.value = null
 
+    // TODO: handle UUID collisions
     const body = JSON.parse(json)
     const file = new AppFile(body)
     // applicationOpenFile(file)
@@ -43,46 +47,28 @@ export function WelcomeBody(props) {
       <div className={styles["centering-container"]}>
         <Paper className={styles["paper"]} square>
 
-          <Typography variant="h3">DocMarker for RES-Q+</Typography>
+          <Typography variant="h3">{ t("title") }</Typography>
           <Typography variant="h5" gutterBottom sx={{ opacity: 0.5 }}>[v{VERSION}]</Typography>
           
-          <Typography variant="h5" gutterBottom>Start from scratch</Typography>
-
-          <Stack direction="row" spacing={2} className={styles["new-file-actions"]}>
-            <Button
-              variant="contained"
-              onClick={() => createNewFile(FormDefinition.DEFAULT_FORM_ID)}
-            >Create New File</Button>
-            <Button
-              variant="outlined"
-              component="label"
-              disabled={true}
-            >
-              Upload File
-              <input
-                hidden
-                accept="application/json"
-                type="file"
-                onChange={e => uploadFile(e.target)}
-              />
-            </Button>
-          </Stack>
+          {/* <Typography variant="h5" gutterBottom>&nbsp;</Typography> */}
 
 
-          <Typography variant="h5" gutterBottom>Files in this web browser</Typography>
+          <Typography variant="h5" gutterBottom>
+            { t("browserFiles.title") }
+          </Typography>
 
           { fileList.length === 0 ? (
             <Typography variant="body1" gutterBottom>
-              No files stored in the browser.
+              { t("browserFiles.emptyMessage") }
             </Typography>
           ) : (
             <TableContainer component="div" className={styles["file-list"]}>
               <Table size="small">
                 <TableHead>
                   <TableRow>
-                    <TableCell>File</TableCell>
-                    <TableCell>Last modified</TableCell>
-                    <TableCell>Created at</TableCell>
+                    <TableCell>{ t("browserFiles.column.file") }</TableCell>
+                    <TableCell>{ t("browserFiles.column.lastModified") }</TableCell>
+                    <TableCell>{ t("browserFiles.column.createdAt") }</TableCell>
                     <TableCell></TableCell>
                   </TableRow>
                 </TableHead>
@@ -90,7 +76,7 @@ export function WelcomeBody(props) {
                   {fileList.map(record =>
                     <TableRow key={ record.uuid }>
                       <TableCell>
-                        <Tooltip title="Open file" disableInteractive>
+                        <Tooltip title={t("browserFiles.tip.open")} disableInteractive>
                           <Button
                             variant="text"
                             size="small"
@@ -101,17 +87,23 @@ export function WelcomeBody(props) {
                         </Tooltip>
                       </TableCell>
                       <TableCell>
-                        <Tooltip title={moment(record.updatedAt).toString()} disableInteractive>
-                          <span>{ moment(record.updatedAt).calendar() }</span>
+                        <Tooltip
+                          title={t("browserFiles.tip.lastModified", { timestamp: record.updatedAt })}
+                          disableInteractive
+                        >
+                          <span>{ t("browserFiles.row.lastModified", { timestamp: record.updatedAt }) }</span>
                         </Tooltip>
                       </TableCell>
                       <TableCell>
-                        <Tooltip title={moment(record.createdAt).toString()} disableInteractive>
-                          <span>{ moment(record.createdAt).calendar() }</span>
+                        <Tooltip
+                          title={t("browserFiles.tip.createdAt", { timestamp: record.createdAt })}
+                          disableInteractive
+                        >
+                          <span>{ t("browserFiles.row.createdAt", { timestamp: record.createdAt }) }</span>
                         </Tooltip>
                       </TableCell>
                       <TableCell align="right">
-                        <Tooltip title="Delete from browser" disableInteractive>
+                        <Tooltip title={t("browserFiles.tip.delete")} disableInteractive>
                           <IconButton
                             size="small"
                             className={styles["file-list__action-button"]}
@@ -120,7 +112,7 @@ export function WelcomeBody(props) {
                             <DeleteIcon fontSize="inherit" />
                           </IconButton>
                         </Tooltip>
-                        <Tooltip title="Download" disableInteractive>
+                        <Tooltip title={t("browserFiles.tip.download")} disableInteractive>
                           <IconButton
                             size="small"
                             className={styles["file-list__action-button"]}
@@ -137,33 +129,53 @@ export function WelcomeBody(props) {
             </TableContainer>
           ) }
 
+          <Stack direction="row" spacing={2} className={styles["new-file-actions"]}>
+            <Button
+              variant="contained"
+              onClick={() => createNewFile(FormDefinition.DEFAULT_FORM_ID)}
+            >{ t("createNewFile") }</Button>
+            <Button
+              variant="outlined"
+              component="label"
+              disabled={true}
+            >
+              { t("uploadFile") }
+              <input
+                hidden
+                accept="application/json"
+                type="file"
+                onChange={e => uploadFile(e.target)}
+              />
+            </Button>
+          </Stack>
+
           <Dialog open={recordToDelete !== null} onClose={() => setRecordToDelete(null)}>
-            <DialogTitle>Delete file from browser</DialogTitle>
+            <DialogTitle>{ t("deleteDialog.title") }</DialogTitle>
             <DialogContent>
               <DialogContentText gutterBottom>
-                Are you sure you want to delete the following file from this web browser?
-                If you have the file downloaded, you can always upload it back again.
+                { t("deleteDialog.confirmationText") }
               </DialogContentText>
               <Typography variant="button" gutterBottom>
                 { recordToDelete ? recordToDelete.constructFileName() : "" }
               </Typography>
               <Typography variant="body2" gutterBottom>
-                Last modified:&nbsp;
-                { recordToDelete ? moment(recordToDelete.updatedAt).calendar() : "" }
+                { recordToDelete ?
+                  t("deleteDialog.lastModified", { timestamp: recordToDelete.updatedAt })
+                : "" }
               </Typography>
             </DialogContent>
             <DialogActions>
               <Button
                 variant="outlined" color="error"
                 onClick={() => setRecordToDelete(null)}
-              >Cancel</Button>
+              >{ t("deleteDialog.cancel") }</Button>
               <Button
                 variant="contained" color="error"
                 onClick={() => {
                   deleteFile(recordToDelete.uuid)
                   setRecordToDelete(null)
                 }}
-              >Delete</Button>
+              >{ t("deleteDialog.delete") }</Button>
             </DialogActions>
           </Dialog>
         </Paper>
