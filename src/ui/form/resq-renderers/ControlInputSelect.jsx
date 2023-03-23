@@ -1,5 +1,6 @@
 import * as styles from "./renderers.module.scss"
 import { Select, MenuItem } from "@mui/material"
+import { useMemo } from "react"
 
 const eventToValue = (e) => e.target.value || undefined
 
@@ -9,15 +10,15 @@ export function ControlInputSelect(props) {
     data,
     path,
     handleChange,
+    schema,
+    uischema,
+    options,
+    t,
 
     // resq
     htmlId,
     onFocus,
     observeChange,
-
-    // select constrol input
-    optionValues,
-    optionLabels
   } = props
 
   function onChange(e) {
@@ -26,11 +27,11 @@ export function ControlInputSelect(props) {
     handleChange(path, v)
   }
 
-  const noneOptionLabel = "Select an option..."
-
-  // TODO: read through the documentation of MUI select and fine-tune
-  // all the settings related to "placeholder", missing value, selected null,
-  // missing translation, etc...
+  const noneOptionLabel = useMemo(() => t(
+    "enum.none",
+    "Select an option...",
+    { schema, uischema, path}
+  ), [t, schema, uischema, path])
 
   return (
     <div className={styles["field-select-container"]}>
@@ -42,18 +43,13 @@ export function ControlInputSelect(props) {
         fullWidth={true}
         variant="standard"
         displayEmpty
-        renderValue={(selected) => selected
-          ? (optionLabels[selected] || `[${selected}]`)
-          : <em>{noneOptionLabel}</em>
-        }
       >
-        {[<MenuItem value={''} key='jsonforms.enum.none'><em>{noneOptionLabel}</em></MenuItem>].concat(
-          optionValues.map(optionValue => (
-            <MenuItem value={optionValue} key={optionValue}>
-              {optionLabels[optionValue] || `[${optionValue}]`}
-            </MenuItem>
-          ))
-        )}
+        <MenuItem value={''} key='jsonforms.enum.none'><em>{noneOptionLabel}</em></MenuItem>
+        {options.map(optionValue => (
+          <MenuItem value={optionValue.value} key={optionValue.value}>
+            {optionValue.label}
+          </MenuItem>
+        ))}
       </Select>
     </div>
   )

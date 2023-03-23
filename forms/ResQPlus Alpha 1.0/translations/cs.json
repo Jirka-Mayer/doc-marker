@@ -1,0 +1,14 @@
+{
+  "group": {
+    "admissionData": "Data při přijetí"
+  },
+  "anamnesis": {
+    "age": { "label": "Věk" },
+    "gender": {
+      "label": "Pohlaví",
+      "1 (Male)": "muž",
+      "2 (Female)": "žena",
+      "3 (Other)": "jiné"
+    }
+  }
+}

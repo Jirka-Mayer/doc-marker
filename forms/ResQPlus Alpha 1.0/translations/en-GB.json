@@ -1,0 +1,14 @@
+{
+  "group": {
+    "admissionData": "Admission data"
+  },
+  "anamnesis": {
+    "age": { "label": "Age" },
+    "gender": {
+      "label": "Gender",
+      "1 (Male)": "male",
+      "2 (Female)": "female",
+      "3 (Other)": "other"
+    }
+  }
+}

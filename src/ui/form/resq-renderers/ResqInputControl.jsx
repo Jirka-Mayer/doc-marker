@@ -28,7 +28,6 @@ export function ResqInputControl(props) {
     path,
     handleChange,
     controlInput: InnerComponent,
-    controlInputProps: controlInputPropsGiven
   } = props
 
   const fieldId = path // field ID is defined to be the path in the form data
@@ -69,15 +68,10 @@ export function ResqInputControl(props) {
   }
 
   const controlInputProps = {
-    // given props
-    ...controlInputPropsGiven,
-
-    // json forms
-    data,
-    path,
-    handleChange,
+    ...props,
 
     // resq
+    fieldId,
     htmlId,
     onFocus,
     observeChange,
@@ -90,7 +84,7 @@ export function ResqInputControl(props) {
       <InputLabel
         className={styles["field-label"]}
         htmlFor={htmlId}
-      >{ uischema.label || `${fieldId}` }</InputLabel>
+      >{ label || `${fieldId}` }</InputLabel>
       <Divider/>
       <div className={[
         styles["field-row"],

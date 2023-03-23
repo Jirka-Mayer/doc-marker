@@ -1,0 +1,8 @@
+{
+  "enum": {
+    "none": "Vyberte možnost..."
+  },
+  "error": {
+    "required": "je povinná položka"
+  }
+}

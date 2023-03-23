@@ -1,0 +1,26 @@
+{
+  "type": "VerticalLayout",
+  "elements": [
+    {
+      "type": "Group",
+      "label": "group.admissionData",
+      "elements": [
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/anamnesis/properties/age",
+              "onlineFormId": "input6814"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/anamnesis/properties/gender",
+              "onlineFormId": "input6815"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

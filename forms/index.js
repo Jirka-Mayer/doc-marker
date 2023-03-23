@@ -3,6 +3,19 @@
 export default {
   
   /**
+   * ResQPlus Alpha 1.0
+   */
+  "ResQPlus Alpha 1.0": async () => { return {
+    dataSchema: await import("./ResQPlus Alpha 1.0/data-schema.json"),
+    uiSchema: await import("./ResQPlus Alpha 1.0/ui-schema.json"),
+    translationImporters: {
+      "cs": async () => await import("./ResQPlus Alpha 1.0/translations/cs.json"),
+      "en-GB": async () => await import("./ResQPlus Alpha 1.0/translations/en-GB.json"),
+      // en-US falls back on en-GB
+    }
+  }},
+
+  /**
    * ResQPlus AppDevelopmentForm 1.0 CZ
    */
   "ResQPlus AppDevelopmentForm 1.0 CZ": async () => { return {
