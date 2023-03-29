@@ -1,0 +1,149 @@
+[
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/anamnesis/properties/age",
+        "options": {
+          "showSortButtons": true
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/anamnesis/properties/sex"
+      }
+    ]
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/onset/properties/wakeup_stroke"
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/onset/properties/sleep_timestamp",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/onset/properties/wakeup_stroke",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/onset/properties/inhospital_stroke"
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/admission/properties/first_contact_place"
+      }
+    ]
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/admission/properties/admission_timestamp",
+        "rule": {
+          "effect": "HIDE",
+          "condition": {
+            "scope": "#/properties/onset/properties/inhospital_stroke",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/onset/properties/onset_timestamp",
+        "rule": {
+          "effect": "HIDE",
+          "condition": {
+            "scope": "#/properties/onset/properties/wakeup_stroke",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "Control",
+    "scope": "#/properties/admission/properties/arrival_mode",
+    "options": {
+      "showUnfocusedDescription": true,
+      "format": "radio"
+    },
+    "rule": {
+      "effect": "HIDE",
+      "condition": {
+        "scope": "#/properties/onset/properties/inhospital_stroke",
+        "schema": {
+          "const": true
+        }
+      }
+    }
+  },
+  {
+    "type": "Control",
+    "scope": "#/properties/admission/properties/ems_prenotification",
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/admission/properties/arrival_mode",
+        "schema": {
+          "enum": [
+            "ems"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "Control",
+    "scope": "#/properties/admission/properties/transferred_from_hospital",
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/admission/properties/arrival_mode",
+        "schema": {
+          "enum": [
+            "hospital"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/admission/properties/hospitalized_in"
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/admission/properties/admission_department"
+      }
+    ]
+  }
+]

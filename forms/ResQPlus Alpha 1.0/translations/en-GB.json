@@ -1,35 +1,69 @@
 {
   "group": {
-    "admissionData": "Admission data"
+    "admission": "Admission data"
   },
   "anamnesis": {
-    "age": { "label": "Age" },
-    "gender": {
-      "label": "Gender",
-      "1 (Male)": "Male",
-      "2 (Female)": "Female",
-      "3 (Other)": "Other"
+    "age": {
+      "label": "Age at admission",
+      "description": "enter age 0 - 120"
+    },
+    "sex": {
+      "label": "Sex",
+      "male": "Male",
+      "female": "Female"
     }
   },
   "onset": {
-    "wakeup_stroke": { "label": "Wakeup stroke" },
-    "patient_bed_time": { "label": "Time when patient went to bed" },
+    "wakeup_stroke": {
+      "label": "Wakeup stroke"
+    },
+    "sleep_timestamp": {
+      "label": "Time when patient went to bed"
+    },
     "inhospital_stroke": {
-      "label": "Stroke while already hospitalized",
-      "1 (Yes)": "Yes",
-      "2 (No)": "No",
-      "3 (Unknown)": "Unknown"
+      "label": "Stroke while already hospitalized"
+    },
+    "onset_timestamp": {
+      "label": "Time of onset of stroke symptoms"
     }
   },
   "admission": {
-    "first_attended": {
-      "label": "Where was the patient first attended to at your hospital?",
-      "1 (Direct to CT/MR imaging suite)": "Direct to CT/MR imaging suite",
-      "2 (Emergency department/Casualty)": "Emergency department/Casualty",
-      "3 (Outpatient clinic/facility)": "Outpatient clinic/facility",
-      "4 (Other department)": "Other department"
+    "admission_timestamp": {
+      "label": "Arrival time to hospital",
+      "description": "if unknown then please put the best estimate time"
     },
-    "admission_timestamp": { "label": "Date of admission" },
-    "hospital_arrival_time": { "label": "Arrival time to hospital (if unknown then please put the best estimate time)" }
+    "arrival_mode": {
+      "label": "Patient arrived to your hospital from?",
+      "ems": "From home/scene by EMS/ambulance",
+      "private": "From home/scene by private transportation",
+      "hospital": "From another hospital"
+    },
+    "ems_prenotification": {
+      "label": "Was the hospital pre-notified by EMS?"
+    },
+    "hospitalized_in": {
+      "label": "The patient hospitalized in (day 1)",
+      "icu": "ICU/stroke unit",
+      "telemetry_bed": "Other monitored bed with telemetry",
+      "standard_bed": "Standard bed"
+    },
+    "admission_department": {
+      "label": "Patient admitted under which department?",
+      "neurology": "Neurology",
+      "neurosurgery": "Neurosurgery",
+      "critical_care": "Critical care",
+      "internal_medicine": "Internal medicine",
+      "other": "Other"
+    },
+    "first_contact_place": {
+      "label": "Where was the patient first attended to at your hospital?",
+      "direct_CT/MR": "Direct to CT/MR imaging suite",
+      "emergency": "Emergency department/Casualty",
+      "outpatient_clinic": "Outpatient clinic/facility",
+      "other_department": "Other department"
+    },
+    "transferred_from_hospital": {
+      "label": "Name of the first hospital of admission"
+    }
   }
 }

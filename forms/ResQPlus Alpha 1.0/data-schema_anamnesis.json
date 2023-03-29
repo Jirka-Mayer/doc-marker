@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "default": {},
+  "properties": {
+    "age": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 120
+    },
+    "sex": {
+      "type": "string",
+      "enum": ["male", "female"]
+    }
+  },
+  "required": [
+    "age",
+    "gender"
+  ]
+}

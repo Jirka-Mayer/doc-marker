@@ -6,7 +6,7 @@ export default {
    * ResQPlus Alpha 1.0
    */
   "ResQPlus Alpha 1.0": async () => { return {
-    dataSchema: await import("./ResQPlus Alpha 1.0/data-schema.json"),
+    dataSchema: (await import("./ResQPlus Alpha 1.0/data-schema.js")).default,
     uiSchema: (await import("./ResQPlus Alpha 1.0/ui-schema.js")).default,
     translationImporters: {
       "cs": async () => await import("./ResQPlus Alpha 1.0/translations/cs.json"),

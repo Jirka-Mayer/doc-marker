@@ -1,12 +1,12 @@
-import admissionDataElements from "./ui-schema_admissionData.json"
+import admissionElements from "./ui-schema_admission.json"
 
 export default {
   "type": "VerticalLayout",
   "elements": [
     {
       "type": "Group",
-      "label": "group.admissionData",
-      "elements": admissionDataElements
+      "label": "group.admission",
+      "elements": admissionElements
     }
   ]
 }

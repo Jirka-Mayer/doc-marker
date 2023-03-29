@@ -1,35 +1,69 @@
 {
   "group": {
-    "admissionData": "Data při přijetí"
+    "admission": "Data při přijetí"
   },
   "anamnesis": {
-    "age": { "label": "Věk" },
-    "gender": {
-      "label": "Pohlaví",
-      "1 (Male)": "muž",
-      "2 (Female)": "žena",
-      "3 (Other)": "jiné"
+    "age": {
+      "label": "Věk při přijetí",
+      "description": "zadejte věk 0 - 120"
+    },
+    "sex": {
+      "label": "Biologické pohlaví",
+      "male": "muž",
+      "female": "žena"
     }
   },
   "onset": {
-    "wakeup_stroke": { "label": "Pacient se s příznaky CMP probudil?" },
-    "patient_bed_time": { "label": "Kdy šel pacient spát?" },
+    "wakeup_stroke": {
+      "label": "Pacient se s příznaky CMP probudil?"
+    },
+    "sleep_timestamp": {
+      "label": "Kdy šel pacient spát?"
+    },
     "inhospital_stroke": {
-      "label": "CMP během hospitalizace",
-      "1 (Yes)": "ano",
-      "2 (No)": "ne",
-      "3 (Unknown)": "neznámé"
+      "label": "CMP během hospitalizace"
+    },
+    "onset_timestamp": {
+      "label": "Čas vzniku CMP (Onset)"
     }
   },
   "admission": {
-    "first_attended": {
-      "label": "Místo prvního kontaktu s pacientem ve vaší nemocnici",
-      "1 (Direct to CT/MR imaging suite)": "CT/MR vyšetřovna",
-      "2 (Emergency department/Casualty)": "iktová jednotka nebo ARO",
-      "3 (Outpatient clinic/facility)": "pohotovost/urgentní příjem",
-      "4 (Other department)": "jinde"
+    "admission_timestamp": {
+      "label": "Čas příjezdu do nemocnice",
+      "description": "pokud není znám, uveďte nejpřesnější odhadovaný čas"
     },
-    "admission_timestamp": { "label": "Datum přijetí" },
-    "hospital_arrival_time": { "label": "Datum příjezdu do nemocnice (pokud není znám, uveďte nejpřesnější odhadovaný čas)" }
+    "arrival_mode": {
+      "label": "Odkud pacient přijel do vaší nemocnice?",
+      "ems": "z místa vzniku CMP sanitkou",
+      "private": "z místa vzniku CMP vlastní dopravou",
+      "hospital": "z jiné nemocnice"
+    },
+    "ems_prenotification": {
+      "label": "Byla příjezd pacienta notifikována záchrannou službou?"
+    },
+    "hospitalized_in": {
+      "label": "Pacient byl 1. den přijat na",
+      "icu": "JIP",
+      "telemetry_bed": "jiné monitorované lůžko (telemetrie)",
+      "standard_bed": "standardní lůžko"
+    },
+    "admission_department": {
+      "label": "Na které oddělení byl pacient přijat?",
+      "neurology": "neurologie",
+      "neurosurgery": "neurochirurgie",
+      "critical_care": "ARO/anesteziologie",
+      "internal_medicine": "interna",
+      "other": "jiné"
+    },
+    "first_contact_place": {
+      "label": "Místo prvního kontaktu s pacientem ve vaší nemocnici",
+      "direct_CT/MR": "CT/MR vyšetřovna",
+      "emergency": "iktová jednotka nebo ARO",
+      "outpatient_clinic": "pohotovost/urgentní příjem",
+      "other_department": "jinde"
+    },
+    "transferred_from_hospital": {
+      "label": "První nemocnice, kam byl pacient přijat"
+    }
   }
 }
