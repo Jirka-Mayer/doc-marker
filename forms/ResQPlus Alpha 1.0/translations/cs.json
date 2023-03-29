@@ -10,5 +10,26 @@
       "2 (Female)": "žena",
       "3 (Other)": "jiné"
     }
+  },
+  "onset": {
+    "wakeup_stroke": { "label": "Pacient se s příznaky CMP probudil?" },
+    "patient_bed_time": { "label": "Kdy šel pacient spát?" },
+    "inhospital_stroke": {
+      "label": "CMP během hospitalizace",
+      "1 (Yes)": "ano",
+      "2 (No)": "ne",
+      "3 (Unknown)": "neznámé"
+    }
+  },
+  "admission": {
+    "first_attended": {
+      "label": "Místo prvního kontaktu s pacientem ve vaší nemocnici",
+      "1 (Direct to CT/MR imaging suite)": "CT/MR vyšetřovna",
+      "2 (Emergency department/Casualty)": "iktová jednotka nebo ARO",
+      "3 (Outpatient clinic/facility)": "pohotovost/urgentní příjem",
+      "4 (Other department)": "jinde"
+    },
+    "admission_timestamp": { "label": "Datum přijetí" },
+    "hospital_arrival_time": { "label": "Datum příjezdu do nemocnice (pokud není znám, uveďte nejpřesnější odhadovaný čas)" }
   }
 }

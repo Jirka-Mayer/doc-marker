@@ -6,9 +6,30 @@
     "age": { "label": "Age" },
     "gender": {
       "label": "Gender",
-      "1 (Male)": "male",
-      "2 (Female)": "female",
-      "3 (Other)": "other"
+      "1 (Male)": "Male",
+      "2 (Female)": "Female",
+      "3 (Other)": "Other"
     }
+  },
+  "onset": {
+    "wakeup_stroke": { "label": "Wakeup stroke" },
+    "patient_bed_time": { "label": "Time when patient went to bed" },
+    "inhospital_stroke": {
+      "label": "Stroke while already hospitalized",
+      "1 (Yes)": "Yes",
+      "2 (No)": "No",
+      "3 (Unknown)": "Unknown"
+    }
+  },
+  "admission": {
+    "first_attended": {
+      "label": "Where was the patient first attended to at your hospital?",
+      "1 (Direct to CT/MR imaging suite)": "Direct to CT/MR imaging suite",
+      "2 (Emergency department/Casualty)": "Emergency department/Casualty",
+      "3 (Outpatient clinic/facility)": "Outpatient clinic/facility",
+      "4 (Other department)": "Other department"
+    },
+    "admission_timestamp": { "label": "Date of admission" },
+    "hospital_arrival_time": { "label": "Arrival time to hospital (if unknown then please put the best estimate time)" }
   }
 }

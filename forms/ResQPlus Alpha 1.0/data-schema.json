@@ -22,6 +22,53 @@
         "age",
         "gender"
       ]
+    },
+    "onset": {
+      "type": "object",
+      "properties": {
+        "wakeup_stroke": {
+          "type": "boolean"
+        },
+        "patient_bed_time": {
+          "type": "string",
+          "format": "time"
+        },
+        "inhospital_stroke": {
+          "type": "string",
+          "enum": [
+            "1 (Yes)",
+            "2 (No)",
+            "3 (Unknown)"
+          ]
+        }
+      },
+      "required": [
+        "wakeup_stroke",
+        "patient_bed_time"
+      ]
+    },
+    "admission": {
+      "type": "object",
+      "properties": {
+        "admission_timestamp": {
+          "type": "string",
+          "format": "date"
+        },
+        "hospital_arrival_time": {
+          "type": "string",
+          "format": "time"
+        },
+        "first_attended": {
+          "type": "string",
+          "enum": [
+            "1 (Direct to CT/MR imaging suite)",
+            "2 (Emergency department/Casualty)",
+            "3 (Outpatient clinic/facility)",
+            "4 (Other department)"
+          ]
+        }
+      },
+      "required": []
     }
   }
 }
