@@ -11,6 +11,7 @@ import { resqTextControlTester, ResqTextControl } from "./resq-renderers"
 import { resqIntegerControlTester, ResqIntegerControl } from "./resq-renderers"
 import { resqBooleanControlTester, ResqBooleanControl } from "./resq-renderers"
 import { resqEnumControlTester, ResqEnumControl } from "./resq-renderers"
+import { resqDateTimeControlTester, ResqDateTimeControl } from "./resq-renderers"
 
 export const formRenderers = [
   // controls
@@ -22,6 +23,7 @@ export const formRenderers = [
   { tester: resqIntegerControlTester, renderer: ResqIntegerControl },
   { tester: resqBooleanControlTester, renderer: ResqBooleanControl },
   { tester: resqEnumControlTester, renderer: ResqEnumControl },
+  { tester: resqDateTimeControlTester, renderer: ResqDateTimeControl },
 
   // layouts
   { tester: resqGroupTester, renderer: ResqGroupLayout },

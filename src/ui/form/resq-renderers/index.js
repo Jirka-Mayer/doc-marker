@@ -37,6 +37,11 @@ import ResqEnumControl, {
   ResqEnumControl as ResqEnumControlUnwrapped
 } from "./ResqEnumControl"
 
+import ResqDateTimeControl, {
+  resqDateTimeControlTester,
+  ResqDateTimeControl as ResqDateTimeControlUnwrapped
+} from "./ResqDateTimeControl"
+
 
 // ========== Export ==========
 
@@ -44,7 +49,8 @@ export const Unwrapped = {
   ResqTextControl: ResqTextControlUnwrapped,
   ResqIntegerControl: ResqIntegerControlUnwrapped,
   ResqBooleanControl: ResqBooleanControlUnwrapped,
-  ResqEnumControl: ResqEnumControlUnwrapped
+  ResqEnumControl: ResqEnumControlUnwrapped,
+  ResqDateTimeControl: ResqDateTimeControlUnwrapped
 }
 
 export {
@@ -62,5 +68,7 @@ export {
   ResqBooleanControl,
   resqBooleanControlTester,
   ResqEnumControl,
-  resqEnumControlTester
+  resqEnumControlTester,
+  ResqDateTimeControl,
+  resqDateTimeControlTester
 }
