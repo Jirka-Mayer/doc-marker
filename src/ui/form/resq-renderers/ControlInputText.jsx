@@ -32,7 +32,7 @@ export function ControlInputText(props) {
       onFocus={onFocus}
       id={htmlId}
       fullWidth={true}
-      placeholder="Enter text..."
+      placeholder="Enter text..." // TODO: translate
     />
   )
 }
