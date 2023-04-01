@@ -13,6 +13,7 @@ import { quillExtended } from "../../../state/reportStore"
 import HideSourceIcon from '@mui/icons-material/HideSource';
 import { useState } from 'react';
 import { useEffect } from "react"
+import { useCallback } from "react"
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure
@@ -102,7 +103,7 @@ export function ResqInputControl(props) {
     return privateValue
   }
 
-  function privateHandleChange(p, v) {
+  const privateHandleChange = useCallback((p, v) => {
     if (p === path) {
       // remember
       setPrivateValue(v)
@@ -117,7 +118,7 @@ export function ResqInputControl(props) {
       // pass-thru
       publicHandleChange(p, v)
     }
-  }
+  }, [visible, isNullable, isNull])
 
   // makes sure the public value always stays consistent
   // (e.g. visibility may change without our knowledge, we need to react)
