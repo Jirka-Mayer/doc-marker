@@ -3,23 +3,60 @@
     "type": "HorizontalLayout",
     "elements": [
       {
-        "type": "HorizontalLayout",
-        "elements": [
-          {
-            "type": "Control",
-            "scope": "#/properties/admission/properties/medical_examination/properties/glucose",
-            "options": {
-              "format": "radio"
-            }
-          },
-          {
-            "type": "Control",
-            "scope": "#/properties/admission/properties/medical_examination/properties/cholesterol",
-            "options": {
-              "format": "radio"
-            }
-          }
-        ]
+        "type": "Control",
+        "scope": "#/properties/admission/properties/medical_examination/properties/glucose",
+        "options": {
+          "format": "radio"
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/admission/properties/medical_examination/properties/cholesterol",
+        "options": {
+          "format": "radio"
+        }
+      }
+    ]
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/admission/properties/medical_examination/properties/systolic_pressure"
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/admission/properties/medical_examination/properties/diastolic_pressure"
+      }
+    ]
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/admission/properties/medical_examination/properties/nihss"
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/anamnesis/properties/prestroke_mrs",
+        "options": {
+          "format": "radio"
+        }
+      }
+    ]
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/admission/properties/medical_examination/properties/inr_mode"
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/admission/properties/medical_examination/properties/gcs"
       }
     ]
   }

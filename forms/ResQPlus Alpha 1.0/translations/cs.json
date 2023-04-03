@@ -12,6 +12,10 @@
       "label": "Biologické pohlaví",
       "male": "muž",
       "female": "žena"
+    },
+    "prestroke_mrs": {
+      "label": "Stav funkční nezávislosti (mRS) před CMP",
+      "null": "neznámé"
     }
   },
   "onset": {
@@ -65,6 +69,32 @@
     },
     "transferred_from_hospital": {
       "label": "První nemocnice, kam byl pacient přijat"
+    },
+    "medical_examination": {
+      "systolic_pressure": {
+        "label": "Hodnota systolického tlaku (1. měření v nemocnici v mmHg)"
+      },
+      "diastolic_pressure": {
+        "label": "Hodnota diastolického tlaku (1. měření v nemocnici v mmHg)"
+      },
+      "cholesterol": {
+        "label": "Hladina LDL cholesterolu (1. měření v nemocnici)"
+      },
+      "glucose": {
+        "label": "Hladina glukózy (1. měření v nemocnici)"
+      },
+      "inr_mode": {
+        "label": "Bylo provedeno vstupní vyšetření INR?",
+        "device": "ano, přímo u lůžka",
+        "lab": "ano, vzorek odeslán do laboratoře",
+        "not_done": "neprovedeno"
+      },
+      "gcs": {
+        "label": "Glasgowská stupnice hloubky bezvědomí (GCS)"
+      },
+      "nihss": {
+        "label": "NIHSS při přijetí"
+      }
     }
   }
 }

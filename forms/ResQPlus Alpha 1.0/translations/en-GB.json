@@ -12,6 +12,10 @@
       "label": "Sex",
       "male": "Male",
       "female": "Female"
+    },
+    "prestroke_mrs": {
+      "label": "Modified Ranking Scale (mRS) before stroke",
+      "null": "not assessed"
     }
   },
   "onset": {
@@ -65,6 +69,32 @@
     },
     "transferred_from_hospital": {
       "label": "Name of the first hospital of admission"
+    },
+    "medical_examination": {
+      "systolic_pressure": {
+        "label": "Systolic blood pressure (first measurement in hosp. in mmHg)"
+      },
+      "diastolic_pressure": {
+        "label": "Diastolic blood pressure (first measurement in hosp. in mmHg)"
+      },
+      "cholesterol": {
+        "label": "LDL Cholesterol (first measurement in hosp.)"
+      },
+      "glucose": {
+        "label": "Glucose (first measurement in hosp.)"
+      },
+      "inr_mode": {
+        "label": "First INR testing done?",
+        "device": "Yes with point of care device",
+        "lab": "Yes sample sent to lab",
+        "not_done": "Not done"
+      },
+      "gcs": {
+        "label": "Glasgow coma scale (GCS)"
+      },
+      "nihss": {
+        "label": "NIHSS score"
+      }
     }
   }
 }

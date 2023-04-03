@@ -5,3 +5,9 @@ https://qualityregistry.eu/resq/InitialDataEntry?eventDefinitionCRFId=4840&study
 
 EN:
 https://qualityregistry.eu/resq/InitialDataEntry?eventDefinitionCRFId=4840&studyEventId=498559&subjectId=499229&eventCRFId=511386&exitTo=ViewStudySubject?id=498788
+
+
+Dotazy:
+
+Bylo provedeno vstupní vyšetření INR?
+--> chybí možnost "neznámé"

@@ -10,10 +10,16 @@
     "sex": {
       "type": "string",
       "enum": ["male", "female"]
+    },
+    "prestroke_mrs": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "maximum": 5
     }
   },
   "required": [
     "age",
-    "gender"
+    "gender",
+    "prestroke_mrs"
   ]
 }
