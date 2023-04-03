@@ -1,6 +1,7 @@
 {
   "group": {
-    "admission": "Admission data"
+    "admission": "Admission data",
+    "hospitalization": "Hospitalization data"
   },
   "anamnesis": {
     "age": {

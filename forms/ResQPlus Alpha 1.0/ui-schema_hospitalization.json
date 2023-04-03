@@ -1,0 +1,26 @@
+[
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "HorizontalLayout",
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/admission/properties/medical_examination/properties/glucose",
+            "options": {
+              "format": "radio"
+            }
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/admission/properties/medical_examination/properties/cholesterol",
+            "options": {
+              "format": "radio"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

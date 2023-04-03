@@ -48,53 +48,53 @@ export default {
     "transferred_from_hospital": {
       "type": "string"
     },
-    // "medical_examination": {
-    //   "type": "object",
-    //   "default": {},
-    //   "properties": {
-    //     "systolic_pressure": {
-    //       "type": "integer",
-    //       "minimum": 0,
-    //       "maximum": 299
-    //     },
-    //     "diastolic_pressure": {
-    //       "type": "integer",
-    //       "minimum": 0,
-    //       "maximum": 299
-    //     },
-    //     "cholesterol": {
-    //       "type": ["number", "null"]
-    //     },
-    //     "glucose": {
-    //       "type": ["number", "null"]
-    //     },
-    //     "inr_mode": {
-    //       "type": "string",
-    //       "enum": [
-    //         "device",
-    //         "lab",
-    //         "not_done"
-    //       ]
-    //     },
-    //     "gcs": {
-    //       "type": "integer",
-    //       "maximum": 15,
-    //       "minimum": 3
-    //     },
-    //     "nihss": {
-    //       "type": ["integer", "null"],
-    //       "maximum": 42,
-    //       "minimum": 0
-    //     }
-    //   },
-    //   "required": [
-    //     "systolic_pressure",
-    //     "diastolic_pressure",
-    //     "cholesterol",
-    //     "glucose",
-    //     "nihss"
-    //   ]
-    // }
+    "medical_examination": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "systolic_pressure": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 299
+        },
+        "diastolic_pressure": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 299
+        },
+        "cholesterol": {
+          "type": ["number", "null"]
+        },
+        "glucose": {
+          "type": ["number", "null"]
+        },
+        "inr_mode": {
+          "type": "string",
+          "enum": [
+            "device",
+            "lab",
+            "not_done"
+          ]
+        },
+        "gcs": {
+          "type": "integer",
+          "maximum": 15,
+          "minimum": 3
+        },
+        "nihss": {
+          "type": ["integer", "null"],
+          "maximum": 42,
+          "minimum": 0
+        }
+      },
+      "required": [
+        "systolic_pressure",
+        "diastolic_pressure",
+        "cholesterol",
+        "glucose",
+        "nihss"
+      ]
+    }
   },
   "required": [
     "hospitalized_in"

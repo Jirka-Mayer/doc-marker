@@ -1,6 +1,7 @@
 {
   "group": {
-    "admission": "Data při přijetí"
+    "admission": "Data při přijetí",
+    "hospitalization": "Data při hospitalizaci"
   },
   "anamnesis": {
     "age": {

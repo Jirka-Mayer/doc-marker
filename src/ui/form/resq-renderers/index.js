@@ -27,6 +27,11 @@ import ResqIntegerControl, {
   ResqIntegerControl as ResqIntegerControlUnwrapped
 } from "./ResqIntegerControl"
 
+import ResqNumberControl, {
+  resqNumberControlTester,
+  ResqNumberControl as ResqNumberControlUnwrapped
+} from "./ResqNumberControl"
+
 import ResqBooleanControl, {
   resqBooleanControlTester,
   ResqBooleanControl as ResqBooleanControlUnwrapped
@@ -48,6 +53,7 @@ import ResqDateTimeControl, {
 export const Unwrapped = {
   ResqTextControl: ResqTextControlUnwrapped,
   ResqIntegerControl: ResqIntegerControlUnwrapped,
+  ResqNumberControl: ResqNumberControlUnwrapped,
   ResqBooleanControl: ResqBooleanControlUnwrapped,
   ResqEnumControl: ResqEnumControlUnwrapped,
   ResqDateTimeControl: ResqDateTimeControlUnwrapped
@@ -65,6 +71,8 @@ export {
   resqTextControlTester,
   ResqIntegerControl,
   resqIntegerControlTester,
+  ResqNumberControl,
+  resqNumberControlTester,
   ResqBooleanControl,
   resqBooleanControlTester,
   ResqEnumControl,

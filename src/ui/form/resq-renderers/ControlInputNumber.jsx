@@ -1,10 +1,10 @@
 import { InputBase } from "@mui/material"
 import { useDebouncedChange } from "@jsonforms/material-renderers/src/util/debounce"
 
-const toNumber = (value) => value === '' ? undefined : parseInt(value, 10)
+const toNumber = (value) => value === '' ? undefined : parseFloat(value)
 const eventToValue = (e) => toNumber(e.target.value)
 
-export function ControlInputInteger(props) {
+export function ControlInputNumber(props) {
   const {
     // json forms
     data,
@@ -34,6 +34,7 @@ export function ControlInputInteger(props) {
       onFocus={onFocus}
       id={htmlId}
       fullWidth={true}
+      inputProps={{ step: "0.1" }}
       placeholder="Enter a number..." // TODO: translate
     />
   )
