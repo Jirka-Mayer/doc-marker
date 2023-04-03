@@ -199,7 +199,7 @@ export function ResqInputControl(props) {
               className={styles["field-unknown-button"]}
               value="check"
               size="small"
-              sx={{ mr: 2 }}
+              sx={{ mr: "10px" }}
               selected={isNull}
               onChange={() => {
                 setNull(!isNull)
@@ -223,7 +223,7 @@ export function ResqInputControl(props) {
 
         {/* Activity flag button */}
         <IconButton
-          onClick={toggleFieldActivity}
+          onClick={(e) => { e.stopPropagation(); toggleFieldActivity() }}
           sx={{ p: '10px' }}
           className={styles["field-flag-button"]}
         >

@@ -77,6 +77,14 @@
   :global(.MuiOutlinedInput-notchedOutline) {
     border: none;
   }
+
+  :global(.MuiInputAdornment-root) {
+    opacity: 0;
+
+    .field-row:hover & {
+      opacity: 1;
+    }
+  }
 }
 
 // ====================================================
