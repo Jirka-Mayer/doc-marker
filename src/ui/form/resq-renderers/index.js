@@ -47,6 +47,11 @@ import ResqDateTimeControl, {
   ResqDateTimeControl as ResqDateTimeControlUnwrapped
 } from "./ResqDateTimeControl"
 
+import ResqMultiselectGroup, {
+  resqMultiselectGroupTester,
+  ResqMultiselectGroup as ResqMultiselectGroupUnwrapped
+} from "./multiselect/ResqMultiselectGroup"
+
 
 // ========== Export ==========
 
@@ -56,7 +61,8 @@ export const Unwrapped = {
   ResqNumberControl: ResqNumberControlUnwrapped,
   ResqBooleanControl: ResqBooleanControlUnwrapped,
   ResqEnumControl: ResqEnumControlUnwrapped,
-  ResqDateTimeControl: ResqDateTimeControlUnwrapped
+  ResqDateTimeControl: ResqDateTimeControlUnwrapped,
+  ResqMultiselectGroup: ResqMultiselectGroupUnwrapped
 }
 
 export {
@@ -78,5 +84,7 @@ export {
   ResqEnumControl,
   resqEnumControlTester,
   ResqDateTimeControl,
-  resqDateTimeControlTester
+  resqDateTimeControlTester,
+  ResqMultiselectGroup,
+  resqMultiselectGroupTester
 }

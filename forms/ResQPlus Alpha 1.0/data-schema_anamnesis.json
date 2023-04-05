@@ -11,6 +11,169 @@
       "type": "string",
       "enum": ["male", "female"]
     },
+    "risk_factors": {
+      "type": "object",
+      "properties": {
+        "any_risk_factor": {
+          "type": ["boolean", "null"]
+        },
+        "hypertension": {
+          "type": ["boolean", "null"]
+        },
+        "diabetes": {
+          "type": ["boolean", "null"]
+        },
+        "hyperlypidemia": {
+          "type": ["boolean", "null"]
+        },
+        "active_smoker": {
+          "type": ["boolean", "null"]
+        },
+        "ischemic_stroke": {
+          "type": ["boolean", "null"]
+        },
+        "hermorrhage_stroke": {
+          "type": ["boolean", "null"]
+        },
+        "atrial_fibrillation": {
+          "type": ["boolean", "null"]
+        },
+        "coronary_artery": {
+          "type": ["boolean", "null"]
+        },
+        "heart_failure": {
+          "type": ["boolean", "null"]
+        },
+        "hiv": {
+          "type": ["boolean", "null"]
+        },
+        "covid_positive": {
+          "type": ["boolean", "null"]
+        }
+      },
+      "required": ["any_risk_factor"],
+      "if": {
+        "properties": {
+          "any_risk_factor": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "anyOf": [
+          {
+            "properties": {
+              "hypertension": {
+                "const": true
+              }
+            },
+            "required": [
+              "hypertension"
+            ]
+          },
+          {
+            "properties": {
+              "diabetes": {
+                "const": true
+              }
+            },
+            "required": [
+              "diabetes"
+            ]
+          },
+          {
+            "properties": {
+              "hyperlypidemia": {
+                "const": true
+              }
+            },
+            "required": [
+              "hyperlypidemia"
+            ]
+          },
+          {
+            "properties": {
+              "active_smoker": {
+                "const": true
+              }
+            },
+            "required": [
+              "active_smoker"
+            ]
+          },
+          {
+            "properties": {
+              "ischemic_stroke": {
+                "const": true
+              }
+            },
+            "required": [
+              "ischemic_stroke"
+            ]
+          },
+          {
+            "properties": {
+              "hermorrhage_stroke": {
+                "const": true
+              }
+            },
+            "required": [
+              "hermorrhage_stroke"
+            ]
+          },
+          {
+            "properties": {
+              "atrial_fibrillation": {
+                "const": true
+              }
+            },
+            "required": [
+              "atrial_fibrillation"
+            ]
+          },
+          {
+            "properties": {
+              "coronary_artery": {
+                "const": true
+              }
+            },
+            "required": [
+              "coronary_artery"
+            ]
+          },
+          {
+            "properties": {
+              "heart_failure": {
+                "const": true
+              }
+            },
+            "required": [
+              "heart_failure"
+            ]
+          },
+          {
+            "properties": {
+              "hiv": {
+                "const": true
+              }
+            },
+            "required": [
+              "hiv"
+            ]
+          },
+          {
+            "properties": {
+              "covid_positive": {
+                "const": true
+              }
+            },
+            "required": [
+              "covid_positive"
+            ]
+          }
+        ]
+      }
+    },
     "prestroke_mrs": {
       "type": ["integer", "null"],
       "minimum": 0,
@@ -19,7 +182,8 @@
   },
   "required": [
     "age",
-    "gender",
+    "sex",
+    "risk_factors",
     "prestroke_mrs"
   ]
 }
