@@ -13,6 +13,50 @@
       "male": "Male",
       "female": "Female"
     },
+    "risk_factors": {
+      "any_risk_factor": {
+        "label": "Is patient's previous medical history known?",
+        "yes": "Yes",
+        "no": "None of below",
+        "null": "Unknown",
+        "error": {
+          "multiselect": "Select at least one of following"
+        }
+      },
+      "hypertension": {
+        "label": "Hypertension (ICD-10: I10-I15)"
+      },
+      "diabetes": {
+        "label": "Diabetes (ICD-10: E10-E14)"
+      },
+      "hyperlypidemia": {
+        "label": "Hyperlypidemia (ICD-10: E78)"
+      },
+      "active_smoker": {
+        "label": "Active smoker in last 10 years (ICD-10: Z72.0)"
+      },
+      "ischemic_stroke": {
+        "label": "Previous ischemic stroke/TIA leading to hospitalization (ICD-10: I63, G45)"
+      },
+      "hermorrhage_stroke": {
+        "label": "Previous hemorrhage stroke leading to hospitalization (ICD-10: I60, I61)"
+      },
+      "atrial_fibrillation": {
+        "label": "Atrial fibrillation or flutter (paroxysmal/persistent/permanent) (ICD-10: I48)"
+      },
+      "coronary_artery": {
+        "label": "Coronary artery disease/previous myocardial infarction (ICD-10: I21, I25)"
+      },
+      "heart_failure": {
+        "label": "Congestive heart failure (ICD-10: I50.0)"
+      },
+      "hiv": {
+        "label": "HIV (ICD-10: B20-B24)"
+      },
+      "covid_positive": {
+        "label": "COVID positive in last 6 months (ICD-10: U07.1, U08, U09)"
+      }
+    },
     "prestroke_mrs": {
       "label": "Modified Ranking Scale (mRS) before stroke",
       "null": "not assessed"

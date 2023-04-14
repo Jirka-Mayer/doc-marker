@@ -38,8 +38,6 @@ export function ResqInputControl(props) {
   const fieldId = path // field ID is defined to be the path in the form data
   const htmlId = id + "-input"
 
-  const isEmpty = data === undefined
-
 
   // === field activity ===
 
@@ -95,7 +93,7 @@ export function ResqInputControl(props) {
   // NOTE: publicValue = data, setPublicValue = publicHandleChange
   const [privateValue, setPrivateValue] = useState(data)
 
-  function computePublicValue(_visible, _privateValue) {
+  function computePublicValue() {
     if (!visible)
       return undefined
     if (isNullable && isNull)
@@ -118,7 +116,7 @@ export function ResqInputControl(props) {
       // pass-thru
       publicHandleChange(p, v)
     }
-  }, [visible, isNullable, isNull])
+  }, [visible, isNullable, isNull, path])
 
   // makes sure the public value always stays consistent
   // (e.g. visibility may change without our knowledge, we need to react)

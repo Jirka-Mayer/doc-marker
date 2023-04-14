@@ -13,6 +13,50 @@
       "male": "muž",
       "female": "žena"
     },
+    "risk_factors": {
+      "any_risk_factor": {
+        "label": "Je známá anamnéza pacienta?",
+        "yes": "Ano",
+        "no": "Nic z níže uvedeného",
+        "null": "Neznámá",
+        "error": {
+          "multiselect": "Vyberte alespoň jednu z možností"
+        }
+      },
+      "hypertension": {
+        "label": "hypertenze (ICD-10: I10-I15)"
+      },
+      "diabetes": {
+        "label": "diabetes (ICD-10: E10-E14)"
+      },
+      "hyperlypidemia": {
+        "label": "hyperlypidémie (ICD-10: E78)"
+      },
+      "active_smoker": {
+        "label": "aktivní kuřák v posledních 10 letech (ICD-10: Z72.0)"
+      },
+      "ischemic_stroke": {
+        "label": "předchozí ischemická/TIA CMP vedoucí k hospitalizaci (ICD-10: I63, G45)"
+      },
+      "hermorrhage_stroke": {
+        "label": "předchozí hemoragická CMP vedoucí k hospitalizaci (ICD-10: I60, I61)"
+      },
+      "atrial_fibrillation": {
+        "label": "fibrilace nebo flutter síní (paroxysmální/přetrvávající/trvalé) (ICD-10: I48)"
+      },
+      "coronary_artery": {
+        "label": "onemocnění koronárních tepen/předchozí infarkt myokardu (ICD-10: I21, I25)"
+      },
+      "heart_failure": {
+        "label": "městnavé srdeční selhání (ICD-10: I50.0)"
+      },
+      "hiv": {
+        "label": "HIV (ICD-10: B20-B24)"
+      },
+      "covid_positive": {
+        "label": "COVID-19 pozitivní v posledních 6 měsících (ICD-10: U07.1, U08, U09)"
+      }
+    },
     "prestroke_mrs": {
       "label": "Stav funkční nezávislosti (mRS) před CMP",
       "null": "neznámé"
