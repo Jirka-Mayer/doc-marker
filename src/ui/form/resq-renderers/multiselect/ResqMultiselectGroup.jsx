@@ -5,6 +5,7 @@ import * as styles from "../renderers.module.scss"
 import { Divider, FormHelperText, InputLabel, Paper } from '@mui/material'
 import LeaderControl, { leaderControlTester } from "./LeaderControl"
 import BodyVerticalLayout, { bodyVerticalLayoutTester } from './BodyVerticalLayout'
+import BodyGroupLayout, { bodyGroupLayoutTester } from './BodyGroupLayout'
 import BodyCheckboxControl, { bodyCheckboxControlTester } from './BodyCheckboxControl'
 import { MultiselectGroupContext } from "./MultiselectGroupContext"
 import _ from "lodash"
@@ -23,10 +24,20 @@ function leaderScopeToLeaderKey(scope) {
 
 function allCheckboxesAreFalse(data, groupPath, leaderKey) {
   const groupData = _.get(data, groupPath)
+  
   for (const key in groupData) {
-    if (key === leaderKey) continue
-    if (groupData[key] === true) return false
+    if (key === leaderKey)
+      continue
+
+    if (typeof groupData[key] === "object") {
+      if (!allCheckboxesAreFalse(data, groupPath + "." + key, null))
+        return false
+    } else {
+      if (groupData[key] === true)
+        return false
+    }
   }
+
   return true
 }
 
@@ -86,6 +97,7 @@ function ResqMultiselectGroup(props) {
           enabled={enabled}
           renderers={[
             { tester: bodyVerticalLayoutTester, renderer: BodyVerticalLayout },
+            { tester: bodyGroupLayoutTester, renderer: BodyGroupLayout },
             { tester: bodyCheckboxControlTester, renderer: BodyCheckboxControl }
           ]}
           cells={[]}

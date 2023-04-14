@@ -57,6 +57,78 @@
         "label": "COVID-19 pozitivní v posledních 6 měsících (ICD-10: U07.1, U08, U09)"
       }
     },
+    "medication": {
+      "any_medication": {
+        "label": "Je známa léčba před vznikem CMP?",
+        "yes": "Ano",
+        "no": "Nic z níže uvedeného",
+        "null": "Neznámá",
+        "error":{
+          "multiselect": "Vyberte alespoň jednu z možností"
+        }
+      },
+      "antidiabetics": {
+        "label": "antidiabetika (ATC: A10)"
+      },
+      "antihypertensives": {
+        "label": "antihypertenzivní medikace (ATC: C02)"
+      },
+      "antiplatelets": {
+        "label": "antiplateleta (ATC: B01AC)"
+      },
+      "anticoagulants": {
+        "label": "antikoagulanty (ATC: B01AA, B01AB, B01AE, B01AF)"
+      },
+      "hormonal_contraception": {
+        "label": "hormonální antikoncepce (ATC: G03A)"
+      },
+      "statin": {
+        "label": "Statin (ATC: C10AA)"
+      },
+      "antiplatelet_substances": {
+        "asa": {
+          "label": "ASA (aspirin) (ATC: B01AC06)"
+        },
+        "cilostazol": {
+          "label": "Cilostazol (ATC: B01AC23)"
+        },
+        "clopidogrel": {
+          "label": "Clopidogrel (ATC: B01AC04)"
+        },
+        "ticagrelor": {
+          "label": "Ticagrelor (ATC: B01AC24)"
+        },
+        "ticlopidine": {
+          "label": "Ticlopidine (ATC: B01AC05)"
+        },
+        "prasugrel": {
+          "label": "Prasugrel (ATC: B01AC22)"
+        },
+        "dipyridamole": {
+          "label": "Dipyridamol, pomalé uvolňování (ATC: B01AC07)"
+        }
+      },
+      "anticoagulant_substances": {
+        "warfarin": {
+          "label": "antagonista vitamínu K, např. Warfarin (ATC: B01AA)"
+        },
+        "heparin": {
+          "label": " LMW heparin/heparin (ATC: B01AB)"
+        },
+        "dabigatran": {
+          "label": "Dabigatran (ATC: B01AE07)"
+        },
+        "rivaroxaban": {
+          "label": "Rivaroxaban (ATC: B01AF01)"
+        },
+        "apixaban": {
+          "label": "Apixaban (ATC: B01AF02)"
+        },
+        "edoxaban": {
+          "label": "Edoxaban (ATC: B01AF03)"
+        }
+      }
+    },
     "prestroke_mrs": {
       "label": "Stav funkční nezávislosti (mRS) před CMP",
       "null": "neznámé"
