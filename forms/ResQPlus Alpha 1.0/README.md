@@ -14,6 +14,16 @@ Dotazy
 Bylo provedeno vstupní vyšetření INR?
 --> chybí možnost "neznámé"
 
+V UI schématu je tohle 2x, asi chyba:
+#/properties/treatment/properties/thrombolysis/properties/transfer_timestamp
+
+no_thrombectomy_reasons
+nová hodnota "not_possible"? (Technically not possible)
+
+dvě nové kolonky pro detail transient_ischemic_stroke?
+#/properties/treatment/properties/transient_ischemic_stroke/properties/clinical_symptoms
+#/properties/treatment/properties/transient_ischemic_stroke/properties/symptoms_duration
+
 
 Multiselekty
 ------------

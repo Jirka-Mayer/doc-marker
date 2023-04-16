@@ -8,11 +8,16 @@ function renderLayoutElements(props, elements) {
     path,
     enabled,
     renderers,
-    cells
+    cells,
+    visible
   } = props
 
   return elements.map((child, index) => (
-    <div className={styles["vertical-layout__row"]} key={`${path}-${index}`}>
+    <div
+      key={`${path}-${index}`}  
+      className={styles["vertical-layout__row"]}
+      style={{ display: visible ? "block" : "none" }}
+    >
       <JsonFormsDispatch
         uischema={child}
         schema={schema}

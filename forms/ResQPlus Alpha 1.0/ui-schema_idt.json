@@ -1,0 +1,1024 @@
+[
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_type"
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_timestamp",
+        "rule": {
+          "effect": "HIDE",
+          "condition": {
+            "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_type",
+            "schema": {
+              "enum": [
+                "not_done"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "Group",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/diagnosis/properties/imaging/properties/old_infarcts/properties/any_infarct",
+        "label": "",
+        "options": {
+          "multiselect": true
+        }
+      },
+      {
+        "type": "VerticalLayout",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "SCHEMA",
+            "scope": "#/properties/diagnosis/properties/imaging/properties/old_infarcts/properties/any_infarct",
+            "schema": {
+              "const": true
+            }
+          }
+        },
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/diagnosis/properties/imaging/properties/old_infarcts/properties/cortical"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/diagnosis/properties/imaging/properties/old_infarcts/properties/subcortical"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/diagnosis/properties/imaging/properties/old_infarcts/properties/brainstem"
+          }
+        ]
+      }
+    ],
+    "rule": {
+      "effect": "HIDE",
+      "condition": {
+        "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_type",
+        "schema": {
+          "enum": [
+            "not_done"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "Control",
+    "scope": "#/properties/diagnosis/properties/stroke_type"
+  },
+  {
+    "type": "Control",
+    "scope": "#/properties/diagnosis/properties/imaging/properties/aspects_score",
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/diagnosis/properties/stroke_type",
+        "schema": {
+          "enum": [
+            "is"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "Group",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/any_occlusion",
+        "label": "",
+        "options": {
+          "multiselect": true
+        }
+      },
+      {
+        "type": "HorizontalLayout",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "SCHEMA",
+            "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/any_occlusion",
+            "schema": {
+              "const": true
+            }
+          }
+        },
+        "elements": [
+          {
+            "type": "VerticalLayout",
+            "elements": [
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/mca_m1_left"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/mca_m2_left"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/mca_m3_left"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/cerebral_artery_left"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/pca_p1_left"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/pca_p2_left"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/artery_extracranial_left"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/artery_intracranial_left"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/vertebral_artery"
+              }
+            ]
+          },
+          {
+            "type": "VerticalLayout",
+            "elements": [
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/mca_m1_right"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/mca_m2_right"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/mca_m3_right"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/cerebral_artery_right"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/pca_p1_right"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/pca_p2_right"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/artery_extracranial_right"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/artery_intracranial_right"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/basilar_artery"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "is"
+              ]
+            }
+          },
+          {
+            "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_type",
+            "schema": {
+              "enum": [
+                "cta",
+                "cta_perf",
+                "mra",
+                "mra_perf"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "options": {
+          "format": "radio"
+        },
+        "scope": "#/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "is",
+                "mimics"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/ischemic_stroke/properties/no_thrombolysis_reasons",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "AND",
+            "conditions": [
+              {
+                "scope": "#/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+                "schema": {
+                  "const": false
+                }
+              },
+              {
+                "scope": "#/properties/diagnosis/properties/stroke_type",
+                "schema": {
+                  "enum": [
+                    "is"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/thrombolysis/properties/drug",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/thrombolysis/properties/antidote_given",
+        "options": {
+          "format": "radio"
+        },
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "Control",
+    "scope": "#/properties/treatment/properties/thrombolysis/properties/transfer_timestamp",
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/treatment/properties/ischemic_stroke/properties/no_thrombolysis_reasons",
+        "schema": {
+          "enum": [
+            "transferred"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/thrombolysis/properties/drug_dose",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/thrombolysis/properties/bolus_timestamp",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "Control",
+    "scope": "#/properties/treatment/properties/thrombolysis/properties/application_department",
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "scope": "#/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+            "schema": {
+              "const": true
+            }
+          },
+          {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "is"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "options": {
+          "format": "radio"
+        },
+        "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "AND",
+            "conditions": [
+              {
+                "scope": "#/properties/diagnosis/properties/stroke_type",
+                "schema": {
+                  "enum": [
+                    "is"
+                  ]
+                }
+              },
+              {
+                "scope": "#/properties/diagnosis/properties/imaging/properties/occlusion/properties/any_occlusion",
+                "schema": {
+                  "const": true
+                }
+              },
+              {
+                "scope": "#/properties/treatment/properties/ischemic_stroke/properties/no_thrombolysis_reasons",
+                "schema": {
+                  "not": {
+                    "enum": [
+                      "transferred"
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/ischemic_stroke/properties/no_thrombectomy_reasons",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+            "schema": {
+              "const": false
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/ischemic_stroke/properties/puncture_timestamp",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/ischemic_stroke/properties/mtici_score",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/ischemic_stroke/properties/reperfusion_timestamp",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "AND",
+            "conditions": [
+              {
+                "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+                "schema": {
+                  "const": true
+                }
+              },
+              {
+                "scope": "#/properties/treatment/properties/ischemic_stroke/properties/mtici_score",
+                "schema": {
+                  "enum": [
+                    "1",
+                    "2A",
+                    "2B",
+                    "2C",
+                    "3",
+                    "not_confirmed"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "Group",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/ischemic_stroke/properties/mt_complications/properties/any_thrombectomy_complication",
+        "label": "",
+        "options": {
+          "multiselect": true
+        }
+      },
+      {
+        "type": "VerticalLayout",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "SCHEMA",
+            "scope": "#/properties/treatment/properties/ischemic_stroke/properties/mt_complications/properties/any_thrombectomy_complication",
+            "schema": {
+              "const": true
+            }
+          }
+        },
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/ischemic_stroke/properties/mt_complications/properties/perforation"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/ischemic_stroke/properties/mt_complications/properties/dissection"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/ischemic_stroke/properties/mt_complications/properties/embolization"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/ischemic_stroke/properties/mt_complications/properties/hematoma"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/ischemic_stroke/properties/mt_complications/properties/other"
+          }
+        ]
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+        "schema": {
+          "const": true
+        }
+      }
+    }
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_volume",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "const": "ich"
+            }
+          }
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/infratentorial_hemorrhage",
+        "options": {
+          "format": "radio"
+        },
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "ich"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/bleeding_source_found",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "ich",
+                "sah"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/intraventricular_hemorrhage",
+        "options": {
+          "format": "radio"
+        },
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "ich"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Group",
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/any_bleeding_reason",
+            "label": "",
+            "options": {
+              "multiselect": true
+            }
+          },
+          {
+            "type": "VerticalLayout",
+            "rule": {
+              "effect": "SHOW",
+              "condition": {
+                "type": "SCHEMA",
+                "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/any_bleeding_reason",
+                "schema": {
+                  "const": true
+                }
+              }
+            },
+            "elements": [
+              {
+                "type": "Control",
+                "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/hypertension"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/aneurysm"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/malformation"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/anticolagulant"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/angiopathy"
+              },
+              {
+                "type": "Control",
+                "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/other"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_antidote",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/bleeding_reason/properties/anticolagulant",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/diagnosis/properties/stroke_type",
+        "schema": {
+          "enum": [
+            "ich"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "Group",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/treatment/properties/any_treatment",
+        "label": "",
+        "options": {
+          "multiselect": true
+        }
+      },
+      {
+        "type": "VerticalLayout",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "SCHEMA",
+            "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/treatment/properties/any_treatment",
+            "schema": {
+              "const": true
+            }
+          }
+        },
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/treatment/properties/hematoma_evacuation"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/treatment/properties/ventricular_drainage"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/intracerebral_hemorrhage/properties/treatment/properties/craniectomy"
+          }
+        ]
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/diagnosis/properties/stroke_type",
+        "schema": {
+          "enum": [
+            "ich"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "Control",
+    "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/hunt_hess_score",
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/diagnosis/properties/stroke_type",
+        "schema": {
+          "enum": [
+            "sah"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "Group",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/treatment/properties/any_treatment",
+        "label": "",
+        "options": {
+          "multiselect": true
+        }
+      },
+      {
+        "type": "VerticalLayout",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "SCHEMA",
+            "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/treatment/properties/any_treatment",
+            "schema": {
+              "const": true
+            }
+          }
+        },
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/treatment/properties/coiling"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/treatment/properties/clipping"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/treatment/properties/drainage"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/treatment/properties/craniectomy"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/treatment/properties/other"
+          }
+        ]
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/diagnosis/properties/stroke_type",
+        "schema": {
+          "enum": [
+            "sah"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "Control",
+    "scope": "#/properties/treatment/properties/subarachnoid_hemorrhage/properties/nimodipine_treatment",
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/diagnosis/properties/stroke_type",
+        "schema": {
+          "enum": [
+            "sah"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/transient_ischemic_stroke/properties/clinical_symptoms",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "tia"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/transient_ischemic_stroke/properties/symptoms_duration",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "tia"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "Group",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/treatment/properties/cerebral_venous_thrombosis/properties/treatment/properties/any_treatment",
+        "label": "",
+        "options": {
+          "multiselect": true
+        }
+      },
+      {
+        "type": "VerticalLayout",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "SCHEMA",
+            "scope": "#/properties/treatment/properties/cerebral_venous_thrombosis/properties/treatment/properties/any_treatment",
+            "schema": {
+              "const": true
+            }
+          }
+        },
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/cerebral_venous_thrombosis/properties/treatment/properties/anticoagulation"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/cerebral_venous_thrombosis/properties/treatment/properties/thrombectomy"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/cerebral_venous_thrombosis/properties/treatment/properties/thrombolysis"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/treatment/properties/cerebral_venous_thrombosis/properties/treatment/properties/craniectomy"
+          }
+        ]
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/diagnosis/properties/stroke_type",
+        "schema": {
+          "enum": [
+            "cvt"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "Control",
+    "scope": "#/properties/treatment/properties/stroke_mimics/properties/diagnosis",
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/diagnosis/properties/stroke_type",
+        "schema": {
+          "enum": [
+            "mimics"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "Control",
+    "scope": "#/properties/diagnosis/properties/imaging/properties/perfusion/properties/perfusion_deficit",
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "scope": "#/properties/diagnosis/properties/imaging/properties/imaging_type",
+        "schema": {
+          "enum": [
+            "cta_perf",
+            "mra_perf",
+            "elsewhere"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/diagnosis/properties/imaging/properties/perfusion/properties/perfusion_core_volume",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/diagnosis/properties/imaging/properties/perfusion/properties/perfusion_deficit",
+            "schema": {
+              "enum": [
+                "medial",
+                "anterior",
+                "posterior",
+                "carotid"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/diagnosis/properties/imaging/properties/perfusion/properties/hypoperfusion_volume",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/diagnosis/properties/imaging/properties/perfusion/properties/perfusion_deficit",
+            "schema": {
+              "enum": [
+                "medial",
+                "anterior",
+                "posterior",
+                "carotid"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+]

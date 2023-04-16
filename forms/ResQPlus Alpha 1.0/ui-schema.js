@@ -1,5 +1,6 @@
 import admissionElements from "./ui-schema_admission.json"
 import hospitalizationElements from "./ui-schema_hospitalization.json"
+import idtElements from "./ui-schema_idt.json"
 
 export default {
   "type": "VerticalLayout",
@@ -13,6 +14,11 @@ export default {
       "type": "Group",
       "label": "group.hospitalization",
       "elements": hospitalizationElements
+    },
+    {
+      "type": "Group",
+      "label": "group.IDT",
+      "elements": idtElements
     }
   ]
 }

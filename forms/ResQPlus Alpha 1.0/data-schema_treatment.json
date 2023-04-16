@@ -1,0 +1,722 @@
+{
+  "type": "object",
+  "default": {},
+  "properties": {
+    "bleeding_source_found": {
+      "type": "boolean",
+      "default": false
+    },
+    "thrombolysis": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "thrombolysis_treatment": {
+          "type": "boolean"
+        },
+        "drug": {
+          "type": "string",
+          "enum": [
+            "alteplase",
+            "tenecteplase",
+            "streptokinase",
+            "staphylokinase"
+          ]
+        },
+        "antidote_given": {
+          "type": "boolean"
+        },
+        "drug_dose": {
+          "type": "integer"
+        },
+        "bolus_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "application_department": {
+          "type": "string",
+          "enum": [
+            "radiology",
+            "icu",
+            "emergency",
+            "other"
+          ]
+        },
+        "transfer_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "thrombolysis_treatment": {
+                "const": true
+              }
+            },
+            "required": [
+              "thrombolysis_treatment"
+            ]
+          },
+          "then": {
+            "required": [
+              "drug",
+              "drug_dose",
+              "bolus_timestamp",
+              "application_department"
+            ]
+          },
+          "else": {
+
+          }
+        }
+      ]
+    },
+    "ischemic_stroke": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "no_thrombolysis_reasons": {
+          "type": "string",
+          "enum": [
+            "already_done_elsewhere",
+            "time_window",
+            "mild_deficit",
+            "consent",
+            "cost",
+            "transferred",
+            "only_mt",
+            "no_drug",
+            "other"
+          ]
+        },
+        "no_thrombectomy_reasons": {
+          "type": "string",
+          "enum": [
+            "already_done_elsewhere",
+            "time_window",
+            "mild_deficit",
+            "no_lvo",
+            "disability",
+            "consent",
+            "cost",
+            "transferred",
+            "no_mt_facility",
+            "not_possible",
+            "other"
+          ]
+        },
+        "thrombectomy_treatment": {
+          "type": "boolean"
+        },
+        "puncture_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reperfusion_timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "mtici_score": {
+          "type": "string",
+          "enum": [
+            "0",
+            "1",
+            "2A",
+            "2B",
+            "2C",
+            "3",
+            "not_confirmed"
+          ]
+        },
+        "mt_complications": {
+          "type": "object",
+          "properties": {
+            "any_thrombectomy_complication": {
+              "type": "boolean"
+            },
+            "perforation": {
+              "type": "boolean"
+            },
+            "dissection": {
+              "type": "boolean"
+            },
+            "embolization": {
+              "type": "boolean"
+            },
+            "hematoma": {
+              "type": "boolean"
+            },
+            "other": {
+              "type": "boolean"
+            }
+          },
+          "required": ["any_thrombectomy_complication"],
+          "if": {
+            "properties": {
+              "any_risk_factor": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "anyOf": [
+              {
+                "properties": {
+                  "perforation": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "perforation"
+                ]
+              },
+              {
+                "properties": {
+                  "dissection": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "dissection"
+                ]
+              },
+              {
+                "properties": {
+                  "embolization": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "embolization"
+                ]
+              },
+              {
+                "properties": {
+                  "hematoma": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "hematoma"
+                ]
+              },
+              {
+                "properties": {
+                  "other": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "other"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "thrombectomy_treatment": {
+                "const": true
+              }
+            },
+            "required": [
+              "thrombectomy_treatment"
+            ]
+          },
+          "then": {
+            "required": [
+              "puncture_timestamp",
+              "reperfusion_timestamp",
+              "mtici_score"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "thrombectomy_treatment": {
+                "const": false
+              }
+            },
+            "required": [
+              "thrombectomy_treatment"
+            ]
+          },
+          "then": {
+            "required": [
+              "no_thrombectomy_reasons"
+            ]
+          }
+        }
+      ]
+    },
+    "intracerebral_hemorrhage": {
+      "type": "object",
+      "properties": {
+        "bleeding_volume": {
+          "type": "integer"
+        },
+        "infratentorial_hemorrhage": {
+          "type": "boolean"
+        },
+        "intraventricular_hemorrhage": {
+          "type": "boolean"
+        },
+        "bleeding_reason": {
+          "type": "object",
+          "properties": {
+            "any_bleeding_reason": {
+              "type": "boolean"
+            },
+            "hypertension": {
+              "type": "boolean"
+            },
+            "aneurysm": {
+              "type": "boolean"
+            },
+            "malformation": {
+              "type": "boolean"
+            },
+            "anticolagulant": {
+              "type": "boolean"
+            },
+            "angiopathy": {
+              "type": "boolean"
+            },
+            "other": {
+              "type": "boolean"
+            }
+          },
+          "if": {
+            "properties": {
+              "any_bleeding_reason": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "anyOf": [
+              {
+                "properties": {
+                  "hypertension": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "hypertension"
+                ]
+              },
+              {
+                "properties": {
+                  "aneurysm": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "aneurysm"
+                ]
+              },
+              {
+                "properties": {
+                  "malformation": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "malformation"
+                ]
+              },
+              {
+                "properties": {
+                  "anticolagulant": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "anticolagulant"
+                ]
+              },
+              {
+                "properties": {
+                  "angiopathy": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "angiopathy"
+                ]
+              },
+              {
+                "properties": {
+                  "other": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "other"
+                ]
+              }
+            ]
+          }
+        },
+        "treatment": {
+          "type": "object",
+          "properties": {
+            "any_treatment": {
+              "type": "boolean"
+            },
+            "hematoma_evacuation": {
+              "type": "boolean"
+            },
+            "ventricular_drainage": {
+              "type": "boolean"
+            },
+            "craniectomy": {
+              "type": "boolean"
+            }
+          },
+          "if": {
+            "properties": {
+              "any_treatment": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "anyOf": [
+              {
+                "properties": {
+                  "hematoma_evacuation": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "hematoma_evacuation"
+                ]
+              },
+              {
+                "properties": {
+                  "ventricular_drainage": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "ventricular_drainage"
+                ]
+              },
+              {
+                "properties": {
+                  "craniectomy": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "craniectomy"
+                ]
+              }
+            ]
+          }
+
+        },
+        "bleeding_antidote": {
+          "type": "string",
+          "enum": [
+            "andexanete",
+            "idarucizumab",
+            "plasma",
+            "prothrombin",
+            "other",
+            "none"
+          ]
+        }
+      },
+      "required": [
+        "bleeding_reason"
+      ]
+    },
+    "subarachnoid_hemorrhage": {
+      "type": "object",
+      "properties": {
+        "hunt_hess_score": {
+          "type": "string",
+          "enum": [
+            "1 (lucid; mild headache; slight neck stiffness)",
+            "2 (moderate to severe headache; neck stiffness; no neurologic deficit except cranial nerve palsy)",
+            "3 (drowsy; minimal neurologic deficit)",
+            "4 (stuporous; moderate to severe hemiparesis; possibly early decerebrate rigidity and vegetative disturbances)",
+            "5 (deep coma; severe neurological deficit)"
+          ]
+        },
+        "treatment": {
+          "type": "object",
+          "properties": {
+            "any_treatment": {
+              "type": "boolean"
+            },
+            "coiling": {
+              "type": "boolean"
+            },
+            "clipping": {
+              "type": "boolean"
+            },
+            "drainage": {
+              "type": "boolean"
+            },
+            "craniectomy": {
+              "type": "boolean"
+            },
+            "other": {
+              "type": "boolean"
+            }
+          },
+          "if": {
+            "properties": {
+              "any_treatment": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "anyOf": [
+              {
+                "properties": {
+                  "coiling": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "coiling"
+                ]
+              },
+              {
+                "properties": {
+                  "clipping": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "clipping"
+                ]
+              },
+              {
+                "properties": {
+                  "drainage": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "drainage"
+                ]
+              },
+              {
+                "properties": {
+                  "craniectomy": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "craniectomy"
+                ]
+              },
+              {
+                "properties": {
+                  "other": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "other"
+                ]
+              }
+            ]
+          }
+        },
+        "nimodipine_treatment": {
+          "type": "string",
+          "enum": [
+            "in_24h",
+            "after_24h",
+            "not_administered"
+          ]
+        }
+      }
+    },
+    "transient_ischemic_stroke": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "clinical_symptoms": {
+          "type": "string",
+          "enum": [
+            "weakness",
+            "speech_disturbance",
+            "other"
+          ]
+        },
+        "symptoms_duration": {
+          "type": "string",
+          "enum": [
+            "0to10",
+            "10to59",
+            "over60"
+          ]
+        }
+      }
+    },
+    "cerebral_venous_thrombosis": {
+      "type": "object",
+      "properties": {
+        "treatment": {
+          "type": "object",
+          "properties": {
+            "any_treatment": {
+              "type": "boolean"
+            },
+            "anticoagulation": {
+              "type": "boolean"
+            },
+            "thrombectomy": {
+              "type": "boolean"
+            },
+            "thrombolysis": {
+              "type": "boolean"
+            },
+            "craniectomy": {
+              "type": "boolean"
+            },
+            "none": {
+              "type": "boolean"
+            }
+          },
+          "if": {
+            "properties": {
+              "any_treatment": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "anyOf": [
+              {
+                "properties": {
+                  "anticoagulation": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "anticoagulation"
+                ]
+              },
+              {
+                "properties": {
+                  "thrombectomy": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "thrombectomy"
+                ]
+              },
+              {
+                "properties": {
+                  "thrombolysis": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "thrombolysis"
+                ]
+              },
+              {
+                "properties": {
+                  "craniectomy": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "craniectomy"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    },
+    "stroke_mimics": {
+      "type": "object",
+      "properties": {
+        "diagnosis": {
+          "type": "string",
+          "enum": [
+            "migraine",
+            "seizure",
+            "delirium",
+            "imbalance",
+            "disorder",
+            "other"
+          ]
+        }
+      },
+      "required": [
+        "diagnosis"
+      ]
+    }
+  },
+  "required": [
+    "bleeding_source_found"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "thrombolysis": {
+            "properties": {
+              "thrombolysis_treatment": {
+                "const": false
+              }
+            },
+            "required": ["thrombolysis_treatment"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "ischemic_stroke": {
+            "required": [
+              "no_thrombolysis_reasons"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "ischemic_stroke": {
+            "properties": {
+              "no_thrombolysis_reasons": {
+                "enum": [
+                  "transferred"
+                ]
+              }
+            },
+            "required": ["no_thrombolysis_reasons"]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "thrombolysis": {
+            "required": [
+              "transfer_timestamp"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

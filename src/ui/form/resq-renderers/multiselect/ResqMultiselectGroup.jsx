@@ -5,6 +5,7 @@ import * as styles from "../renderers.module.scss"
 import { Divider, FormHelperText, InputLabel, Paper } from '@mui/material'
 import LeaderControl, { leaderControlTester } from "./LeaderControl"
 import BodyVerticalLayout, { bodyVerticalLayoutTester } from './BodyVerticalLayout'
+import { materialHorizontalLayoutTester, MaterialHorizontalLayout } from "@jsonforms/material-renderers"
 import BodyGroupLayout, { bodyGroupLayoutTester } from './BodyGroupLayout'
 import BodyCheckboxControl, { bodyCheckboxControlTester } from './BodyCheckboxControl'
 import { MultiselectGroupContext } from "./MultiselectGroupContext"
@@ -97,6 +98,7 @@ function ResqMultiselectGroup(props) {
           enabled={enabled}
           renderers={[
             { tester: bodyVerticalLayoutTester, renderer: BodyVerticalLayout },
+            { tester: materialHorizontalLayoutTester, renderer: MaterialHorizontalLayout },
             { tester: bodyGroupLayoutTester, renderer: BodyGroupLayout },
             { tester: bodyCheckboxControlTester, renderer: BodyCheckboxControl }
           ]}
