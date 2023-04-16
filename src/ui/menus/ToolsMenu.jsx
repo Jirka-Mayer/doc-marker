@@ -47,7 +47,7 @@ export function ToolsMenu() {
         onClose={closeMenu}
       >
         <MenuList>
-          <MenuItem disabled={!isFileOpen} onClick={onNlpExtractionClick}>
+          <MenuItem disabled={true} onClick={onNlpExtractionClick}> {/* TODO: temporarily disabled */}
             <ListItemIcon>
               <SmartToyIcon />
             </ListItemIcon>

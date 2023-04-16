@@ -35,7 +35,7 @@ export function useFieldState(fieldId, isFieldActive) {
     fieldState, setFieldState,
     hasRobotValue,
     isVerified,
-    hasVerifiedAppearance,
+    hasVerifiedAppearance: false, // TODO: temporarily disabled
     toggleRobotVerified,
     updateFieldStateWithChange
   }
