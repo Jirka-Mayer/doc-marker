@@ -83,7 +83,7 @@ const deserializeFileAtom = atom(null, (get, set, appFile) => {
     return
   }
 
-  json = appFile.toJson()
+  const json = appFile.toJson()
 
   if (json["_version"] !== AppFile.CURRENT_VERSION)
     throw new Error("File to be deserialized must have the latest version number")

@@ -42,7 +42,7 @@ function allCheckboxesAreFalse(data, groupPath, leaderKey) {
   return true
 }
 
-function ResqMultiselectGroup(props) {
+export function ResqMultiselectGroup(props) {
   const {
     enabled,
     schema,
