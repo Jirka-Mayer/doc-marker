@@ -1,13 +1,25 @@
+import _ from "lodash"
+
 // This file is structured by UI - by the qualityregistry.eu form
 // "RES-Q 3.0 standard form CZ"
 
 export default function(data) {
   
-  function get() {} // TODO
+  function get(path) {
+    return _.get(data, path)
+  }
 
-  function int2str() {} // TODO
+  function int2str(value) {
+    return "" + value
+  }
 
-  function enumMap() {} // TODO
+  function enumMap(value, map) {
+    return map[value]
+  }
+
+  function boolMap(value, map) {
+    return map[value ? "true" : "false"]
+  }
 
   function time2HHMM() {} // TODO
 
