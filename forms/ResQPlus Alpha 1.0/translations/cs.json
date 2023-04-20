@@ -11,7 +11,8 @@
       "swallow": "Polykání",
       "rehabilitation": "Rehabilitace"
     },
-    "discharge": "Data při propuštění"
+    "discharge": "Data při propuštění",
+    "follow_up": "Monitoring po 3 měsících"
   },
   "anamnesis": {
     "age": {
@@ -1043,6 +1044,25 @@
       "yes": "ano",
       "no": "ne",
       "not_smoker": "nekuřák"
+    }
+  },
+  "post-discharge": {
+    "3_month_follow_up": {
+      "contact_mode": {
+        "label": "Způsob kontaktu",
+        "phone": "telefon/video (pacient nebo pečovatel)",
+        "visit": "návštěva v nemocnici",
+        "mobile": "mobilní aplikace",
+        "web": "webová aplikace",
+        "no_response": "pacient nebo opatrovník nereagoval na výzvu",
+        "not_contacted": "nebyl kontaktován"
+      },
+      "contact_date": {
+        "label": "Datum kontaktu"
+      },
+      "mrs_score": {
+        "label": "Hodnota 3-měsíční mRS"
+      }
     }
   }
 }

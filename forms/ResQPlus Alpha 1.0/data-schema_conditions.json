@@ -1,0 +1,422 @@
+[
+  {
+    "if": {
+      "properties": {
+        "onset": {
+          "properties": {
+            "inhospital_stroke": {
+              "const": false
+            }
+          }
+        }
+      }
+    },
+    "then": {
+      "properties": {
+        "admission": {
+          "required": [
+            "admission_timestamp",
+            "arrival_mode"
+          ]
+        }
+      }
+    }
+  },
+  {
+    "if": {
+      "properties": {
+        "diagnosis": {
+          "properties": {
+            "stroke_type": {
+              "enum": ["is"]
+            }
+          },
+          "required": ["stroke_type"]
+        }
+      }
+    },
+    "then": {
+      "properties": {
+        "treatment": {
+          "properties": {
+            "thrombolysis": {
+              "required": [
+                "thrombolysis_treatment"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "if": {
+      "properties": {
+        "diagnosis": {
+          "properties": {
+            "stroke_type": {
+              "enum": ["ich"]
+            }
+          },
+          "required": [
+            "stroke_type"
+          ]
+        }
+      },
+      "required": ["diagnosis"]
+    },
+    "then": {
+      "properties": {
+        "treatment": {
+          "properties": {
+            "intracerebral_hemorrhage": {
+              "properties": {
+                "bleeding_reason": {
+                  "required": [
+                    "any_bleeding_reason"
+                  ]
+                },
+                "treatment": {
+                  "required": [
+                    "any_treatment"
+                  ]
+                }
+              },
+              "required": [
+                "bleeding_volume"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "if": {
+      "properties": {
+        "diagnosis": {
+          "properties": {
+            "imaging": {
+              "properties": {
+                "occlusion": {
+                  "properties": {
+                    "any_occlusion": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "any_occlusion"
+                  ]
+                }
+              },
+              "required": [
+                "occlusion"
+              ]
+            }
+          },
+          "required": [
+            "imaging"
+          ]
+        }
+      },
+      "required": ["diagnosis"]
+    },
+    "then": {
+      "properties": {
+        "treatment": {
+          "properties": {
+            "ischemic_stroke": {
+              "required": [
+                "thrombectomy_treatment"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "if": {
+      "properties": {
+        "diagnosis": {
+          "properties": {
+            "stroke_type": {
+              "enum": ["sah"]
+            }
+          },
+          "required": ["stroke_type"]
+        }
+      }
+    },
+    "then": {
+      "properties": {
+        "treatment": {
+          "properties": {
+            "subarachnoid_hemorrhage": {
+              "properties": {
+                "treatment": {
+                  "required": [
+                    "any_treatment"
+                  ]
+                }
+              },
+              "required": [
+                "nimodipine_treatment"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "if": {
+      "properties": {
+        "diagnosis": {
+          "properties": {
+            "stroke_type": {
+              "enum": ["cvt"]
+            }
+          },
+          "required": ["stroke_type"]
+        }
+      }
+    },
+    "then": {
+      "properties": {
+        "treatment": {
+          "properties": {
+            "cerebral_venous_thrombosis": {
+              "properties": {
+                "treatment": {
+                  "required": [
+                    "any_treatment"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "if": {
+      "properties": {
+        "post_acute_care": {
+          "properties": {
+            "24_hour_hospitalized_time": {
+              "enum": [
+                "yes"
+              ]
+            }
+          },
+          "required": [
+            "24_hour_hospitalized_time"
+          ]
+        }
+      }
+    },
+    "then": {
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "diagnosis": {
+                "properties": {
+                  "stroke_type": {
+                    "enum": [
+                      "is",
+                      "tia",
+                      "undetermined"
+                    ]
+                  }
+                },
+                "required": ["stroke_type"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "post_acute_care": {
+                "required": [
+                  "atrial_fibrillation_or_flutter"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "diagnosis": {
+                "properties": {
+                  "stroke_type": {
+                    "enum": [
+                      "is",
+                      "tia"
+                    ]
+                  }
+                },
+                "required": ["stroke_type"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "post_acute_care": {
+                "properties": {
+                  "stroke_etiology": {
+                    "required": [
+                      "any_stroke_etiology"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "diagnosis": {
+                "properties": {
+                  "stroke_type": {
+                    "enum": [
+                      "is",
+                      "ich",
+                      "sah",
+                      "cvt",
+                      "undetermined"
+                    ]
+                  }
+                },
+                "required": ["stroke_type"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "post_acute_care": {
+                "properties": {
+                  "post_stroke_complication": {
+                    "required": [
+                      "any_post_stroke_complication"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "diagnosis": {
+                "properties": {
+                  "stroke_type": {
+                    "enum": [
+                      "is",
+                      "ich",
+                      "tia",
+                      "undetermined"
+                    ]
+                  }
+                },
+                "required": ["stroke_type"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "post_acute_care": {
+                "properties": {
+                  "swallow": {
+                    "required": [
+                      "swallowing_screening"
+                    ]
+                  },
+                  "fever": {
+                    "required": [
+                      "fever_diagnosed"
+                    ]
+                  },
+                  "hyperglycemia": {
+                    "required": [
+                      "hyperglycemia_diagnosed"
+                    ]
+                  }  
+                }               
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "diagnosis": {
+                "properties": {
+                  "stroke_type": {
+                    "enum": [
+                      "is",
+                      "ich",
+                      "tia",
+                      "cvt",
+                      "sah",
+                      "undetermined"
+                    ]
+                  }
+                },
+                "required": ["stroke_type"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "post_acute_care": {
+                "properties": {
+                  "rehabilitation": {
+                    "required": [
+                      "physiotherapy"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "diagnosis": {
+                "properties": {
+                  "stroke_type": {
+                    "enum": [
+                      "is",
+                      "ich",
+                      "undetermined"
+                    ]
+                  }
+                },
+                "required": ["stroke_type"]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "post_acute_care": {
+                "properties": {
+                  "vte": {
+                    "required": [
+                      "any_vte"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+]

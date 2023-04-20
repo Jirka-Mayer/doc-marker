@@ -5,6 +5,8 @@ import diagnosis from "./data-schema_diagnosis.json"
 import treatment from "./data-schema_treatment.json"
 import postAcuteCare from "./data-schema_post-acute-care.json"
 import discharge from "./data-schema_discharge.json"
+import postDischarge from "./data-schema_post-discharge.json"
+import conditions from "./data-schema_conditions.json"
 
 export default {
   "type": "object",
@@ -15,7 +17,8 @@ export default {
     "diagnosis": diagnosis,
     "treatment": treatment,
     "post_acute_care": postAcuteCare,
-    "discharge": discharge
+    "discharge": discharge,
+    "post-discharge": postDischarge
   },
   "required": [
     "anamnesis",
@@ -24,7 +27,5 @@ export default {
     "treatment",
     "post_acute_care"
   ],
-  /* TODO: put here all the constraints */
-  // "allOf": [
-  // ]
+  "allOf": conditions
 }

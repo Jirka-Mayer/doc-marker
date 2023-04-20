@@ -11,7 +11,8 @@
       "swallow": "Swallowing",
       "rehabilitation": "Rehabilitation"
     },
-    "discharge": "Discharge data"
+    "discharge": "Discharge data",
+    "follow_up": "Follow-up after 3 months"
   },
   "anamnesis": {
     "age": {
@@ -1043,6 +1044,25 @@
       "yes": "Yes",
       "no": "No",
       "not_smoker": "Not a smoker"
+    }
+  },
+  "post-discharge": {
+    "3_month_follow_up": {
+      "contact_mode": {
+        "label": "Mode of contact",
+        "phone": "Telephone/video (patient or caregiver)",
+        "visit": "Visiting the outpatient clinic",
+        "mobile": "Mobile application",
+        "web": "Web application",
+        "no_response": "Patient or caregiver didn't respond",
+        "not_contacted": "Not contacted"
+      },
+      "contact_date": {
+        "label": "Contact date"
+      },
+      "mrs_score": {
+        "label": "Modified Rankin Scale (mRS) score on discharge"
+      }
     }
   }
 }
