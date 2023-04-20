@@ -1,0 +1,275 @@
+{
+  "type": "object",
+  "default": {},
+  "properties": {
+    "destination": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "discharge_destination": {
+          "type": "string",
+          "enum": [
+            "home",
+            "same_center",
+            "another_center",
+            "social_care",
+            "dead"
+          ]
+        },
+        "same_center_department": {
+          "type": "string",
+          "enum": [
+            "rehab",
+            "post_care",
+            "another_department"
+          ]
+        },
+        "another_center_type": {
+          "type": "string",
+          "enum": [
+            "primary_center",
+            "comprehensive_center",
+            "standard_hospital"
+          ]
+        },
+        "another_center_department": {
+          "type": "string",
+          "enum": [
+            "rehab",
+            "post_care",
+            "neurology",
+            "another_department"
+          ]
+        }
+      }
+    },
+    "discharge_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "mrs_score": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 6
+    },
+    "nihss": {
+      "type": "integer",
+      "maximum": 42,
+      "minimum": 0
+    },
+    "medication": {
+      "type": "object",
+      "properties": {
+        "any_treatment_prescribed": {
+          "type": "boolean"
+        },
+        "antidiabetics": {
+          "type": "boolean"
+        },
+        "antihypertensives": {
+          "type": "boolean"
+        },
+        "antiplatelets": {
+          "type": "boolean"
+        },
+        "anticoagulants": {
+          "type": "boolean"
+        },
+        "anticoagulant_recommended": {
+          "type": "boolean"
+        },
+        "statin": {
+          "type": "boolean"
+        },
+        "other": {
+          "type": "boolean"
+        },
+        "antiplatelet_substances": {
+          "type": "object",
+          "properties": {
+            "asa": {
+              "type": "boolean"
+            },
+            "cilostazol": {
+              "type": "boolean"
+            },
+            "clopidogrel": {
+              "type": "boolean"
+            },
+            "ticagrelor": {
+              "type": "boolean"
+            },
+            "ticlopidine": {
+              "type": "boolean"
+            },
+            "prasugrel": {
+              "type": "boolean"
+            },
+            "dipyridamole": {
+              "type": "boolean"
+            }
+          }
+        },
+        "anticoagulant_substances": {
+          "type": "object",
+          "properties": {
+            "warfarin": {
+              "type": "boolean"
+            },
+            "heparin": {
+              "type": "boolean"
+            },
+            "dabigatran": {
+              "type": "boolean"
+            },
+            "rivaroxaban": {
+              "type": "boolean"
+            },
+            "apixaban": {
+              "type": "boolean"
+            },
+            "edoxaban": {
+              "type": "boolean"
+            }
+          }
+        }
+      },
+      
+      "if": {
+        "properties": {
+          "any_treatment_prescribed": {
+            "const": true
+          }
+        },
+        "required": ["any_treatment_prescribed"]
+      },
+      "then": {
+        "anyOf": [
+          {
+            "properties": {
+              "antidiabetics": {
+                "const": true
+              }
+            },
+            "required": [
+              "antidiabetics"
+            ]
+          },
+          {
+            "properties": {
+              "antihypertensives": {
+                "const": true
+              }
+            },
+            "required": [
+              "antihypertensives"
+            ]
+          },
+          {
+            "properties": {
+              "antiplatelets": {
+                "const": true
+              }
+            },
+            "required": [
+              "antiplatelets"
+            ]
+          },
+          {
+            "properties": {
+              "anticoagulants": {
+                "const": true
+              }
+            },
+            "required": [
+              "anticoagulants"
+            ]
+          },
+          {
+            "properties": {
+              "anticoagulant_recommended": {
+                "const": true
+              }
+            },
+            "required": [
+              "anticoagulant_recommended"
+            ]
+          },
+          {
+            "properties": {
+              "statin": {
+                "const": true
+              }
+            },
+            "required": [
+              "statin"
+            ]
+          },
+          {
+            "properties": {
+              "other": {
+                "const": true
+              }
+            },
+            "required": [
+              "other"
+            ]
+          }
+        ]
+      }
+    },
+    "stroke_management_appointment": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "recommended",
+        "no"
+      ]
+    },
+    "smoking_cessation_recommended": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no",
+        "not_smoker"
+      ]
+    }
+  },
+  "required": [
+    "discharge_date"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "discharge": {
+            "properties": {
+              "discharge_destination": {
+                "enum": [
+                  "home",
+                  "same_center",
+                  "another_center",
+                  "social_care"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "discharge": {
+            "required": [
+              "discharge_destination"
+            ]
+          },
+          "medication": {
+            "required": [
+              "any_treatment_prescribed"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

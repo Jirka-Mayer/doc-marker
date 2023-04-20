@@ -2,6 +2,7 @@ import admissionElements from "./ui-schema_admission.json"
 import hospitalizationElements from "./ui-schema_hospitalization.json"
 import idtElements from "./ui-schema_idt.json"
 import postAcuteElements from "./ui-schema_post-acute.json"
+import dischargeElements from "./ui-schema_discharge.json"
 
 export default {
   "type": "VerticalLayout",
@@ -25,6 +26,11 @@ export default {
       "type": "Group",
       "label": "group.post_acute.label",
       "elements": postAcuteElements
+    },
+    {
+      "type": "Group",
+      "label": "group.discharge",
+      "elements": dischargeElements
     }
   ]
 }

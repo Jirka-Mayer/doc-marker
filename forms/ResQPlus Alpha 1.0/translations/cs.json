@@ -10,7 +10,8 @@
       "hyperglycemia": "Hyperglykémie",
       "swallow": "Polykání",
       "rehabilitation": "Rehabilitace"
-    }
+    },
+    "discharge": "Data při propuštění"
   },
   "anamnesis": {
     "age": {
@@ -910,6 +911,138 @@
         "no": "ne",
         "not_required": "nebylo potřeba"
       }
+    }
+  },
+  "discharge": {
+    "destination": {
+      "discharge_destination": {
+        "label": "Místo, kam byl pacient propuštěn",
+        "home": "domů",
+        "same_center": "překlad v rámci stejného zdravotnického zařízení (ZZ)",
+        "another_center": "překlad do jiného zdravotnického zařízení (ZZ)",
+        "social_care": "zařízení sociální péče",
+        "dead": "zemřel"
+      },
+      "same_center_department": {
+        "label": "Překlad v rámci stejného zdravotnického zařízení (ZZ)",
+        "rehab": "oddělení akutní rehabilitace",
+        "post_care": "lůžko následné péče",
+        "another_department": "jiné oddělení"
+      },
+      "another_center_type": {
+        "label": "Překlad do jiného zdravotnického zařízení (ZZ)",
+        "primary_center": "primární iktové centrum",
+        "comprehensive_center": "komplexní cerebrovaskulární centrum",
+        "standard_hospital": "jiná nemocnice"
+      },
+      "another_center_department": {
+        "label": "Překlad do jiného zdravotnického zařízení - oddělení",
+        "rehab": "oddělení akutní rehabilitace",
+        "post_care": "lůžko následné péče",
+        "neurology": "neurologie",
+        "another_department": "jiné oddělení"
+      }
+    },
+    "discharge_date": {
+      "label": "Datum propuštění"
+    },
+    "mrs_score": {
+      "label": "mRS skóre při propuštění"
+    },
+    "nihss": {
+      "label": "NIHSS skóre při propuštění"
+    },
+    "medication": {
+      "any_treatment_prescribed": {
+        "label": "Léčba předepsaná při propuštění",
+        "yes": "Ano",
+        "no": "Ne",
+        "error":{
+          "multiselect": "Vyberte alespoň jednu z možností"
+        }
+      },
+      "antidiabetics": {
+        "label": "antidiabetika (ATC: A10)"
+      },
+      "antihypertensives": {
+        "label": "antihypertenzivní medikace (ATC: C02)"
+      },
+      "antiplatelets": {
+        "label": "antiplateleta (ATC: B01AC)"
+      },
+      "anticoagulants": {
+        "label": "antikoagulanty (ATC: B01AA, B01AB, B01AE, B01AF)"
+      },
+      "anticoagulant_recommended": {
+        "label": "antikoagulant nebyl předepsán, ale je plánován"
+      },
+      "statin": {
+        "label": "statin (ATC: C10AA)"
+      },
+      "other": {
+        "label": "jiné"
+      },
+      "antiplatelet_substances": {
+        "asa": {
+          "label": "ASA (aspirin) (ATC: B01AC06)"
+        },
+        "cilostazol": {
+          "label": "Cilostazol (ATC: B01AC23)"
+        },
+        "clopidogrel": {
+          "label": "Clopidogrel (ATC: B01AC04)"
+        },
+        "ticagrelor": {
+          "label": "Ticagrelor (ATC: B01AC24)"
+        },
+        "ticlopidine": {
+          "label": "Ticlopidine (ATC: B01AC05)"
+        },
+        "prasugrel": {
+          "label": "Prasugrel (ATC: B01AC22)"
+        },
+        "dipyridamole": {
+          "label": "Dipyridamol, pomalé uvolňování (ATC: B01AC07)"
+        },
+        "other_antiplatelet": {
+          "label": "Jiné antiplateletum"
+        }
+      },
+      "anticoagulant_substances": {
+        "warfarin": {
+          "label": "vitamin K antagonista (warfarin) (ATC: B01AA)"
+        },
+        "heparin": {
+          "label": " LMW heparin/heparin (ATC: B01AB)"
+        },
+        "dabigatran": {
+          "label": "Dabigatran (ATC: B01AE07)"
+        },
+        "rivaroxaban": {
+          "label": "Rivaroxaban (ATC: B01AF01)"
+        },
+        "apixaban": {
+          "label": "Apixaban (ATC: B01AF02)"
+        },
+        "edoxaban": {
+          "label": "Edoxaban (ATC: B01AF03)"
+        },
+        "other_anticoagualant": {
+          "label": "Jiný antikoagualant"
+        }
+      }
+    },
+    "stroke_management_appointment": {
+      "label": "Byl pacient objednán do cerebrovaskulární poradny?",
+      "yes": "Ano",
+      "recommended": "Ne, ale doporučeno",
+      "no": "Ne"
+    },
+    "smoking_cessation_recommended": {
+      "label": "Byla doporučena poradna pro odvykání kouření?",
+      "yes": "ano",
+      "no": "ne",
+      "not_smoker": "nekuřák"
     }
   }
 }
