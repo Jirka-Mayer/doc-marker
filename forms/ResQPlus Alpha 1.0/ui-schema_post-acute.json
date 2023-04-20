@@ -1,0 +1,821 @@
+[
+  {
+    "type": "Control",
+    "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time"
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/post_acute_care/properties/patient_ventilated",
+        "options": {
+          "format": "radio"
+        },
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "AND",
+            "conditions": [
+              {
+                "scope": "#/properties/diagnosis/properties/stroke_type",
+                "schema": {
+                  "enum": [
+                    "is",
+                    "ich",
+                    "tia",
+                    "sah",
+                    "cvt",
+                    "undetermined"
+                  ]
+                }
+              },
+              {
+                "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                "schema": {
+                  "enum": [
+                    "yes"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/post_acute_care/properties/craniectomy",
+        "options": {
+          "format": "radio"
+        },
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "AND",
+            "conditions": [
+              {
+                "scope": "#/properties/diagnosis/properties/stroke_type",
+                "schema": {
+                  "enum": [
+                    "is",
+                    "ich",
+                    "undetermined"
+                  ]
+                }
+              },
+              {
+                "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                "schema": {
+                  "enum": [
+                    "yes"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/post_acute_care/properties/carotid_arteries/properties/carotid_arteries_imaging",
+        "options": {
+          "format": "radio"
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/post_acute_care/properties/carotid_arteries/properties/carotid_stenosis",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/post_acute_care/properties/carotid_arteries/properties/carotid_arteries_imaging",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/post_acute_care/properties/carotid_arteries/properties/carotid_endarterectomy_within_2_weeks",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/post_acute_care/properties/carotid_arteries/properties/carotid_stenosis",
+            "schema": {
+              "enum": [
+                "50to70",
+                "over70"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "is",
+                "tia",
+                "undetermined"
+              ]
+            }
+          },
+          {
+            "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+            "schema": {
+              "enum": [
+                "yes"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "Control",
+    "scope": "#/properties/post_acute_care/properties/atrial_fibrillation_or_flutter",
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "is",
+                "tia",
+                "undetermined"
+              ]
+            }
+          },
+          {
+            "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+            "schema": {
+              "enum": [
+                "yes"
+              ]
+            }
+          },
+          {
+            "scope": "#/properties/anamnesis/properties/risk_factors/properties/atrial_fibrillation",
+            "schema": {
+              "not": {
+                "const": true
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "Group",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/post_acute_care/properties/stroke_etiology/properties/any_stroke_etiology",
+        "label": "",
+        "options": {
+          "multiselect": true
+        }
+      },
+      {
+        "type": "VerticalLayout",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "SCHEMA",
+            "scope": "#/properties/post_acute_care/properties/stroke_etiology/properties/any_stroke_etiology",
+            "schema": {
+              "const": true
+            }
+          }
+        },
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/stroke_etiology/properties/la_atherosclerosis"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/stroke_etiology/properties/cardioembolism"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/stroke_etiology/properties/cryptogenic_stroke"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/stroke_etiology/properties/lacunar"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/stroke_etiology/properties/other"
+          }
+        ]
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "is",
+                "tia"
+              ]
+            }
+          },
+          {
+            "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+            "schema": {
+              "enum": [
+                "yes"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "Group",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/post_acute_care/properties/vte/properties/any_vte",
+        "label": "",
+        "options": {
+          "multiselect": true
+        }
+      },
+      {
+        "type": "VerticalLayout",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "SCHEMA",
+            "scope": "#/properties/post_acute_care/properties/vte/properties/any_vte",
+            "schema": {
+              "const": true
+            }
+          }
+        },
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/vte/properties/ufh"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/vte/properties/lmwh"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/vte/properties/ipc"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/vte/properties/gcs"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/vte/properties/warfarin"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/vte/properties/vfp"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/vte/properties/xa_inhibitor"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/vte/properties/other"
+          }
+        ]
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "is",
+                "ich",
+                "undetermined"
+              ]
+            }
+          },
+          {
+            "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+            "schema": {
+              "enum": [
+                "yes"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "Group",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/any_post_stroke_complication",
+        "label": "",
+        "options": {
+          "multiselect": true
+        }
+      },
+      {
+        "type": "VerticalLayout",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "SCHEMA",
+            "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/any_post_stroke_complication",
+            "schema": {
+              "const": true
+            }
+          }
+        },
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/pneumonia"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/dvt"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/pulmonary_embolism"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/urinary_infection"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/pressure_sores"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/drip_site_sepsis"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/recurrence_or_extension"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_stroke_complications/properties/other"
+          }
+        ]
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "is",
+                "ich",
+                "sah",
+                "cvt",
+                "undetermined"
+              ]
+            }
+          },
+          {
+            "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+            "schema": {
+              "enum": [
+                "yes"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "HorizontalLayout",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/post_acute_care/properties/post_recanalization_imaging/properties/imaging_type",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "type": "OR",
+            "conditions": [
+              {
+                "type": "AND",
+                "conditions": [
+                  {
+                    "scope": "#/properties/treatment/properties/ischemic_stroke/properties/thrombectomy_treatment",
+                    "schema": {
+                      "const": true
+                    }
+                  },
+                  {
+                    "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                    "schema": {
+                      "enum": [
+                        "yes"
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "AND",
+                "conditions": [
+                  {
+                    "scope": "#/properties/treatment/properties/thrombolysis/properties/thrombolysis_treatment",
+                    "schema": {
+                      "const": true
+                    }
+                  },
+                  {
+                    "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+                    "schema": {
+                      "enum": [
+                        "yes"
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      {
+        "type": "Group",
+        "label": "group.post_acute.findings",
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_recanalization_imaging/properties/brain_infarct"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_recanalization_imaging/properties/no_bleeding"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_recanalization_imaging/properties/remote"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_recanalization_imaging/properties/bleeding_hi_1"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_recanalization_imaging/properties/bleeding_hi_2"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_recanalization_imaging/properties/bleeding_ph_1"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/post_recanalization_imaging/properties/bleeding_ph_2"
+          }
+        ],
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/post_acute_care/properties/post_recanalization_imaging/properties/imaging_type",
+            "schema": {
+              "enum": [
+                "ct",
+                "mr"
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "type": "Group",
+    "label": "group.post_acute.fever",
+    "elements": [
+      {
+        "type": "HorizontalLayout",
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/fever/properties/day_1_fever_checks",
+            "options": {
+              "format": "radio"
+            }
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/fever/properties/day_2_fever_checks",
+            "options": {
+              "format": "radio"
+            }
+          }
+        ]
+      },
+      {
+        "type": "HorizontalLayout",
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/fever/properties/day_3_fever_checks",
+            "options": {
+              "format": "radio"
+            }
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/fever/properties/fever_diagnosed",
+            "options": {
+              "format": "radio"
+            }
+          }
+        ]
+      },
+      {
+        "type": "HorizontalLayout",
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/fever/properties/paracetamol_on_fever"
+          }
+        ],
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/post_acute_care/properties/fever/properties/fever_diagnosed",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "is",
+                "ich",
+                "tia",
+                "undetermined"
+              ]
+            }
+          },
+          {
+            "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+            "schema": {
+              "enum": [
+                "yes"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "Group",
+    "label": "group.post_acute.hyperglycemia",
+    "elements": [
+      {
+        "type": "HorizontalLayout",
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/hyperglycemia/properties/day_1_hyperglycemia_checks",
+            "options": {
+              "format": "radio"
+            }
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/hyperglycemia/properties/day_2_hyperglycemia_checks",
+            "options": {
+              "format": "radio"
+            }
+          }
+        ]
+      },
+      {
+        "type": "HorizontalLayout",
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/hyperglycemia/properties/day_3_hyperglycemia_checks",
+            "options": {
+              "format": "radio"
+            }
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/hyperglycemia/properties/hyperglycemia_diagnosed",
+            "options": {
+              "format": "radio"
+            }
+          }
+        ]
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/post_acute_care/properties/hyperglycemia/properties/insulin_on_hyperglycemia",
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/post_acute_care/properties/hyperglycemia/properties/hyperglycemia_diagnosed",
+            "schema": {
+              "const": true
+            }
+          }
+        }
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "is",
+                "ich",
+                "tia",
+                "undetermined"
+              ]
+            }
+          },
+          {
+            "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+            "schema": {
+              "enum": [
+                "yes"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "Group",
+    "label": "group.post_acute.swallow",
+    "elements": [
+      {
+        "type": "Control",
+        "scope": "#/properties/post_acute_care/properties/swallow/properties/swallowing_screening"
+      },
+      {
+        "type": "HorizontalLayout",
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/swallow/properties/swallowing_screening_type"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/swallow/properties/swallowing_screening_performer"
+          }
+        ],
+        "rule": {
+          "effect": "SHOW",
+          "condition": {
+            "scope": "#/properties/post_acute_care/properties/swallow/properties/swallowing_screening",
+            "schema": {
+              "enum": [
+                "within_4h",
+                "4h_to_24h",
+                "after_24h"
+              ]
+            }
+          }
+        }
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "is",
+                "ich",
+                "tia",
+                "undetermined"
+              ]
+            }
+          },
+          {
+            "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+            "schema": {
+              "enum": [
+                "yes"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "Group",
+    "label": "group.post_acute.rehabilitation",
+    "elements": [
+      {
+        "type": "HorizontalLayout",
+        "elements": [
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/rehabilitation/properties/physiotherapy"
+          },
+          {
+            "type": "Control",
+            "scope": "#/properties/post_acute_care/properties/rehabilitation/properties/occup_therapy"
+          }
+        ]
+      },
+      {
+        "type": "Control",
+        "scope": "#/properties/post_acute_care/properties/rehabilitation/properties/speech_therapy"
+      }
+    ],
+    "rule": {
+      "effect": "SHOW",
+      "condition": {
+        "type": "AND",
+        "conditions": [
+          {
+            "scope": "#/properties/diagnosis/properties/stroke_type",
+            "schema": {
+              "enum": [
+                "is",
+                "ich",
+                "tia",
+                "cvt",
+                "sah",
+                "undetermined"
+              ]
+            }
+          },
+          {
+            "scope": "#/properties/post_acute_care/properties/24_hour_hospitalized_time",
+            "schema": {
+              "enum": [
+                "yes"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+]

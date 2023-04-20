@@ -2,7 +2,15 @@
   "group": {
     "admission": "Admission data",
     "hospitalization": "Hospitalization data",
-    "IDT": "Imaging, diagnosis and treatment"
+    "IDT": "Imaging, diagnosis and treatment",
+    "post_acute": {
+      "label": "Post-acute care",
+      "findings": "Findings on CT after IVT/MT",
+      "fever": "Fever",
+      "hyperglycemia": "Hyperglycemia",
+      "swallow": "Swallowing",
+      "rehabilitation": "Rehabilitation"
+    }
   },
   "anamnesis": {
     "age": {
@@ -611,6 +619,296 @@
         "imbalance": "Electrolyte or metabolic imbalance (ICD-10: E70-E90)",
         "disorder": "Functional disorder (ICD-10: various)",
         "other": "Other"
+      }
+    }
+  },
+  "post_acute_care": {
+    "24_hour_hospitalized_time": {
+      "label": "Patient hospitalized for more than 24 hours",
+      "yes": "Yes",
+      "died": "No, patient died",
+      "transferred": "No, patient was transferred",
+      "discharged": "No, patient was discharged home or to social care facility"
+    },
+    "patient_ventilated": {
+      "label": "Patient ventilated",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "craniectomy": {
+      "label": "Was decompressive craniectomy performed",
+      "yes": "Yes",
+      "no": "No"
+    },
+    "carotid_arteries": {
+      "carotid_arteries_imaging": {
+        "label": "Carotid arteries imaging done",
+        "yes": "Yes",
+        "no": "No"
+      },
+      "carotid_stenosis": {
+        "label": "Carotid stenosis",
+        "50to70": "50%-70%",
+        "over70": ">70%",
+        "no": "No",
+        "null": "Unknown"
+      },
+      "carotid_endarterectomy_within_2_weeks": {
+        "label": "Carotid endarterectomy performed or stenting within two weeks after the stroke",
+        "24h_to_2weeks": "Yes, later than 24 hours but sooner than 2 weeks",
+        "within_24h": "Yes, within the first 24 hours",
+        "no": "No",
+        "after_2weeks": "Yes, later than 2 weeks after the stroke"
+      }
+    },
+    "atrial_fibrillation_or_flutter": {
+      "label": "Atrial fibrillation/flutter (AF)",
+      "detected": "Detected during hospitalization",
+      "no_AF": "No AF detected",
+      "not_screened": "Not screened"
+    },
+    "stroke_etiology": {
+      "any_stroke_etiology": {
+        "label": "Is stroke etiology known?",
+        "yes": "Yes",
+        "no": "No",
+        "error": {
+          "multiselect": "Select at least one of following options"
+        }
+      },
+      "la_atherosclerosis": {
+        "label": "Large artery atherosclerosis (e.g. Carotid or basilar stenosis)"
+      },
+      "cardioembolism": {
+        "label": "Cardioembolism (e.g. AF/flutter/prosthetic heart valve)"
+      },
+      "other": {
+        "label": "Stroke of other determined etiology (dissection, vasculopathy or hematologic disorder)"
+      },
+      "cryptogenic_stroke": {
+        "label": "Cryptogenic stroke (stroke of undetermined etiology including ESUS)"
+      },
+      "lacunar": {
+        "label": "Small vessel disease/lacunar"
+      }
+    },
+    "vte": {
+      "any_vte": {
+        "label": "Was any thromboembolism intervention done?",
+        "yes": "Yes",
+        "no": "No",
+        "null": "Unknown",
+        "error": {
+          "multiselect": "Select at least one of following options"
+        }
+      },
+      "ufh": {
+        "label": "Low dose unfractionated heparin (UFH)"
+      },
+      "lmwh": {
+        "label": "Low molecular weight heparin (LMWH)"
+      },
+      "ipc": {
+        "label": "Intermitent pneumatic compression devices (IPC)"
+      },
+      "gcs": {
+        "label": "Graduated compression stockings (GCS)"
+      },
+      "warfarin": {
+        "label": "Warfarin prescribed for VTE only"
+      },
+      "vfp": {
+        "label": "Venous foot pumps (VFP)"
+      },
+      "xa_inhibitor": {
+        "label": "Oral factor Xa inhibitor prescribed for VTE only"
+      },
+      "other": {
+        "label": "Other"
+      }
+    },
+    "post_stroke_complications": {
+      "any_post_stroke_complication": {
+        "label": "Any post-stroke complication?",
+        "yes": "Yes",
+        "no": "No",
+        "null": "Unknown",
+        "error": {
+          "multiselect": "Select at least one of following options"
+        }
+      },
+      "pneumonia": {
+        "label": "Pneumonia"
+      },
+      "dvt": {
+        "label": "Deep vein thrombosis (DVT)"
+      },
+      "pulmonary_embolism": {
+        "label": "Pulmonary embolism"
+      },
+      "urinary_infection": {
+        "label": "Urinary tract infection"
+      },
+      "pressure_sores": {
+        "label": "Pressure sores"
+      },
+      "drip_site_sepsis": {
+        "label": "Drip site sepsis"
+      },
+      "recurrence_or_extension": {
+        "label": "Reccurence/Extension of stroke"
+      },
+      "other": {
+        "label": "Other"
+      }
+    },
+    "post_recanalization_imaging": {
+      "imaging_type": {
+        "label": "Was CT/MR performed after IVT/MT",
+        "ct": "Yes, CT",
+        "mr": "Yes, MR",
+        "no": "No"
+      },
+      "brain_infarct": {
+        "label": "Brain infarct"
+      },
+      "no_bleeding": {
+        "label": "No bleeding"
+      },
+      "remote": {
+        "label": "Remote bleeding in the brain"
+      },
+      "bleeding_hi_1": {
+        "label": "Bleeding at the site of infarction hemorrhage HI type 1"
+      },
+      "bleeding_hi_2": {
+        "label": "Bleeding at the site of infarction hemorrhage HI type 2"
+      },
+      "bleeding_ph_1": {
+        "label": "Bleeding at the site of infarction parenchymal hemorrhage PH type 1"
+      },
+      "bleeding_ph_2": {
+        "label": "Bleeding at the site of infarction parenchymal hemorrhage PH type 2"
+      }
+    },
+    "fever": {
+      "day_1_fever_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x or more",
+        "label": "Day 1 temperature checks (no. of times)"
+      },
+      "day_2_fever_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x or more",
+        "label": "Day 2 temperature checks (no. of times)"
+      },
+      "day_3_fever_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x or more",
+        "label": "Day 3 temperature checks (no. of times)"
+      },
+      "fever_diagnosed": {
+        "label": "In the first 72 hours of admission did patient develop fever of ≥ 37.5⁰C",
+        "yes": "Yes",
+        "no": "No",
+        "null": "Unknown"
+      },
+      "paracetamol_on_fever": {
+        "label": "Was paracetamol (or other antipyretic) administered for the first elevated temperature?",
+        "within_1h": "Yes, within 1 hour of the first elevated temperature",
+        "after_1h": "Yes, later than 1 hour after the first elevated temperature",
+        "no": "No",
+        "contraindicated": "Contraindicated"
+      }
+    },
+    "hyperglycemia": {
+      "day_1_hyperglycemia_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x or more",
+        "label": "Day 1 blood glucose level checks (no. of times)"
+      },
+      "day_2_hyperglycemia_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x or more",
+        "label": "Day 2 blood glucose level checks (no. of times)"
+      },
+      "day_3_hyperglycemia_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x or more",
+        "label": "Day 3 blood glucose level checks (no. of times)"
+      },
+      "hyperglycemia_diagnosed": {
+        "label": "In the first 48 hours following admission did the patient develop a glucose level of greater or equal 10 mmol/L (180 mg/dl)?",
+        "yes": "Yes",
+        "no": "No",
+        "null": "Unknown"
+      },
+      "insulin_on_hyperglycemia": {
+        "label": "Was insulin administered for the first elevated glucose (>=10 mmol/L [180 mg/dl])",
+        "within_1h": "Yes, within 1 hour of the first elevated glucose level",
+        "after_1h": "Yes, later than 1 hour after the first elevated glucose level",
+        "no": "No"
+      }
+    },
+    "swallow": {
+      "swallowing_screening": {
+        "label": "Swallowing screening performed?",
+        "within_4h": "Yes, within the first 4 hours",
+        "4h_to_24h": "Yes, later than the first 4 hours but before 24 hours after admission",
+        "after_24h": "Yes, later than 24 hours after admission",
+        "not_done": "Not done",
+        "not_applicable": "Not applicable (patient intubated, NGS etc.)"
+      },
+      "swallowing_screening_type": {
+        "label": "Swallowing screening test performed",
+        "guss": "GUSS test",
+        "assist": "ASSIST test",
+        "watertest": "Drinking watertest",
+        "other": "Other (gag reflex not be considered)"
+      },
+      "swallowing_screening_performer": {
+        "label": "Who performed swallowing screening",
+        "nurse": "Nurse",
+        "physician": "Physician",
+        "other": "Other"
+      }
+    },
+    "rehabilitation": {
+      "physiotherapy": {
+        "label": "Patient received physiotherapy?",
+        "yes": "Yes",
+        "no": "No",
+        "not_required": "Not required"
+      },
+      "occup_therapy": {
+        "label": "Patient received occupational therapy?",
+        "yes": "Yes",
+        "no": "No",
+        "not_required": "Not required"
+      },
+      "speech_therapy": {
+        "label": "Patient received speech therapy?",
+        "yes": "Yes",
+        "no": "No",
+        "not_required": "Not required"
       }
     }
   }

@@ -2,7 +2,15 @@
   "group": {
     "admission": "Data při přijetí",
     "hospitalization": "Data při hospitalizaci",
-    "IDT": "Zobrazovací metody, diagnóza a léčba"
+    "IDT": "Zobrazovací metody, diagnóza a léčba",
+    "post_acute": {
+      "label": "Po-akutní péče",
+      "findings": "Nález na CT po rekanalizaci",
+      "fever": "Horečka",
+      "hyperglycemia": "Hyperglykémie",
+      "swallow": "Polykání",
+      "rehabilitation": "Rehabilitace"
+    }
   },
   "anamnesis": {
     "age": {
@@ -611,6 +619,296 @@
         "imbalance": "elektrolytická nebo metabolická nerovnováha (ICD-10: E70-E90)",
         "disorder": "funkční porucha (ICD-10: různé)",
         "other": "jiná"
+      }
+    }
+  },
+  "post_acute_care": {
+    "24_hour_hospitalized_time": {
+      "label": "Pacient byl hospitalizován více než 24h",
+      "yes": "ano",
+      "died": "ne, pacient zemřel",
+      "transferred": "ne, pacient byl převezen",
+      "discharged": "ne, pacient byl propuštěn domů nebo do zařízení sociální péče"
+    },
+    "patient_ventilated": {
+      "label": "Pacient napojen na umělou plicní ventilaci?",
+      "yes": "Ano",
+      "no": "Ne"
+    },
+    "craniectomy": {
+      "label": "Byla provedena dekompresní kraniektomie?",
+      "yes": "Ano",
+      "no": "Ne"
+    },
+    "carotid_arteries": {
+      "carotid_arteries_imaging": {
+        "label": "Zobrazení karotid",
+        "yes": "Ano",
+        "no": "Ne"
+      },
+      "carotid_stenosis": {
+        "label": "Symptomatická stenóza karotid?",
+        "50to70": "50%-70%",
+        "over70": ">70%",
+        "no": "ne",
+        "null": "neznámé"
+      },
+      "carotid_endarterectomy_within_2_weeks": {
+        "label": "Byla provedena karotická endarterektomie nebo stenting během dvou týdnů po CMP",
+        "24h_to_2weeks": "ano, po 24 hodinách do 2 týdnů",
+        "within_24h": "ano, do 24 hod.",
+        "no": "ne",
+        "after_2weeks": "později než 2 týdny"
+      }
+    },
+    "atrial_fibrillation_or_flutter": {
+      "label": "Fibrilace/flutter síní (AF)",
+      "detected": "zjištěná během hospitalizace",
+      "no_AF": "AF nezjištěná",
+      "not_screened": "nevyšetřená"
+    },
+    "stroke_etiology": {
+      "any_stroke_etiology": {
+        "label": "Etiologie/příčina CMP",
+        "yes": "Ano",
+        "no": "Ne",
+        "error": {
+          "multiselect": "Vyberte alespoň jednu z možností"
+        }
+      },
+      "la_atherosclerosis": {
+        "label": "ateroskleróza velkých tepen (např. karotická nebo bazilární stenóza)"
+      },
+      "cardioembolism": {
+        "label": "kardioembolismus (např. AF/flutter/protetická srdeční chlopeň)"
+      },
+      "other": {
+        "label": "CMP jiné určené etiologie (disekce, vaskulopatie nebo hematologická porucha)"
+      },
+      "cryptogenic_stroke": {
+        "label": "kryptogenní cévní mozková příhoda (včetně ESUS)"
+      },
+      "lacunar": {
+        "label": "nemoc malých cév/lakunární"
+      }
+    },
+    "vte": {
+      "any_vte": {
+        "label": "Prevence tromboembolické nemoci (VTE)",
+        "yes": "Ano",
+        "no": "Ne",
+        "null": "Neznámé",
+        "error": {
+          "multiselect": "Vyberte alespoň jednu z možností"
+        }
+      },
+      "ufh": {
+        "label": "nízká dávka nefrakcionovaného heparinu (UFH)"
+      },
+      "lmwh": {
+        "label": "heparin s nízkou molekulární hmotností (LMWH)"
+      },
+      "ipc": {
+        "label": "přerušovaná pneumatická kompresní zařízení (IPC)"
+      },
+      "gcs": {
+        "label": "odstupňované kompresní punčochy (GCS)"
+      },
+      "warfarin": {
+        "label": "warfarin předepsán pouze kvůli VTE"
+      },
+      "vfp": {
+        "label": "žilní nožní pumpa (VFP)"
+      },
+      "xa_inhibitor": {
+        "label": "inhibitor orálního faktoru Xa předepsán pouze kvůli VTE"
+      },
+      "other": {
+        "label": "jiné"
+      }
+    },
+    "post_stroke_complications": {
+      "any_post_stroke_complication": {
+        "label": "Komplikace po CMP",
+        "yes": "Ano",
+        "no": "Ne",
+        "null": "Neznámé",
+        "error": {
+          "multiselect": "Vyberte alespoň jednu z možností"
+        }
+      },
+      "pneumonia": {
+        "label": "pneumonie"
+      },
+      "dvt": {
+        "label": "hluboká žilní trombóza (DVT)"
+      },
+      "pulmonary_embolism": {
+        "label": "plicní embolie"
+      },
+      "urinary_infection": {
+        "label": "infekce močových cest"
+      },
+      "pressure_sores": {
+        "label": "dekubity"
+      },
+      "drip_site_sepsis": {
+        "label": "sepse v místě kapání"
+      },
+      "recurrence_or_extension": {
+        "label": "recidiva CMP"
+      },
+      "other": {
+        "label": "jiné"
+      }
+    },
+    "post_recanalization_imaging": {
+      "imaging_type": {
+        "label": "Bylo provedeno kontrolní CT/MR po rekanalizaci?",
+        "ct": "ano, CT",
+        "mr": "ano, MR",
+        "no": "ne"
+      },
+      "brain_infarct": {
+        "label": "akutní infarkt"
+      },
+      "no_bleeding": {
+        "label": "bez krvácení"
+      },
+      "remote": {
+        "label": "krvácení mimo místo infarktu"
+      },
+      "bleeding_hi_1": {
+        "label": "krvácení v místě infarktu - Hemoragický infarkt I (HI I)"
+      },
+      "bleeding_hi_2": {
+        "label": "Krvácení v místě infarktu - Hemoragický infarkt II (HI II)"
+      },
+      "bleeding_ph_1": {
+        "label": "Krvácení v místě infarktu - Parenchymové krvácení I (PH I)"
+      },
+      "bleeding_ph_2": {
+        "label": "krvácení v místě infarktu - Parenchymové krvácení II (PH II)"
+      }
+    },
+    "fever": {
+      "day_1_fever_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x nebo víckrát",
+        "label": "Počet měření teploty 1. den"
+      },
+      "day_2_fever_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x nebo víckrát",
+        "label": "Počet měření teploty 2. den"
+      },
+      "day_3_fever_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x nebo víckrát",
+        "label": "Počet měření teploty 3. den"
+      },
+      "fever_diagnosed": {
+        "label": "Byla naměřena teplota nad 37.5˚C během prvních 72h?",
+        "yes": "ano",
+        "no": "ne",
+        "null": "neznámé"
+      },
+      "paracetamol_on_fever": {
+        "label": "Byl podán paracetamol nebo jiné antipyretikum při první zvýšené teplotě?",
+        "within_1h": "ano, do 1 hodiny od první zvýšené teploty",
+        "after_1h": "ano, po 1 hodině od první zvýšené teploty",
+        "no": "ne",
+        "contraindicated": "kontraindikováno"
+      }
+    },
+    "hyperglycemia": {
+      "day_1_hyperglycemia_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x nebo víckrát",
+        "label": "Počet měření glykémie 1. den"
+      },
+      "day_2_hyperglycemia_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x nebo víckrát",
+        "label": "Počet měření glykémie 2. den"
+      },
+      "day_3_hyperglycemia_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x nebo víckrát",
+        "label": "Počet měření glykémie 3. den"
+      },
+      "hyperglycemia_diagnosed": {
+        "label": "Měl pacient během prvních 48h hladinu glukózy vyšší než 10 mmol/L? (180 mg/dl)?",
+        "yes": "ano",
+        "no": "ne",
+        "null": "neznámé"
+      },
+      "insulin_on_hyperglycemia": {
+        "label": "Byl podán inzulín při první zvýšené hladině glukózy (nad 10 mmol/L) [180 mg/dl])?",
+        "within_1h": "ano, do 1 hodiny od první zvýšené hladiny glukózy",
+        "after_1h": "ano, po 1 hodině od první zvýšené hladiny glukózy",
+        "no": "ne"
+      }
+    },
+    "swallow": {
+      "swallowing_screening": {
+        "label": "Byl proveden test polykání?",
+        "within_4h": "ano, do 4 hodin",
+        "4h_to_24h": "ano, do 24 hodin po přijetí",
+        "after_24h": "ano, po 24 hodinách po přijetí",
+        "not_done": "neprovedeno",
+        "not_applicable": "nelze použít (pacient intubovaný, NGS atd.)"
+      },
+      "swallowing_screening_type": {
+        "label": "Který test polykání?",
+        "guss": "GUSS test",
+        "assist": "ASSIST test",
+        "watertest": "test pitnou vodou",
+        "other": "jiný (dávivý reflex se nebere v úvahu)"
+      },
+      "swallowing_screening_performer": {
+        "label": "Kdo provedl test polykání?",
+        "nurse": "sestra",
+        "physician": "lékař",
+        "other": "jiné"
+      }
+    },
+    "rehabilitation": {
+      "physiotherapy": {
+        "label": "Podstoupil pacient fyzioterapii?",
+        "yes": "ano",
+        "no": "ne",
+        "not_required": "nebylo potřeba"
+      },
+      "occup_therapy": {
+        "label": "Podstoupil pacient ergoterapii?",
+        "yes": "ano",
+        "no": "ne",
+        "not_required": "nebylo potřeba"
+      },
+      "speech_therapy": {
+        "label": "Podstoupil pacient logoterapii?",
+        "yes": "ano",
+        "no": "ne",
+        "not_required": "nebylo potřeba"
       }
     }
   }

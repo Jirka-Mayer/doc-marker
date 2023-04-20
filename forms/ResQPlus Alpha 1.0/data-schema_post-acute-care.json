@@ -1,0 +1,681 @@
+{
+  "type": "object",
+  "default": {},
+  "properties": {
+    "24_hour_hospitalized_time": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "died",
+        "transferred",
+        "discharged"
+      ]
+    },
+    "patient_ventilated": {
+      "type": "boolean"
+    },
+    "craniectomy": {
+      "type": "boolean"
+    },
+    "carotid_arteries": {
+      "type": "object",
+      "properties": {
+        "carotid_arteries_imaging": {
+          "type": "boolean"
+        },
+        "carotid_stenosis": {
+          "type": ["string", "null"],
+          "enum": [
+            "50to70",
+            "over70",
+            "no",
+            null
+          ]
+        },
+        "carotid_endarterectomy_within_2_weeks": {
+          "type": "string",
+          "enum": [
+            "24h_to_2weeks",
+            "within_24h",
+            "no",
+            "after_2weeks"
+          ]
+        }
+      }
+    },
+    "atrial_fibrillation_or_flutter": {
+      "type": "string",
+      "enum": [
+        "detected",
+        "no_AF",
+        "not_screened"
+      ]
+    },
+    "stroke_etiology": {
+      "type": "object",
+      "properties": {
+        "any_stroke_etiology": {
+          "type": "boolean"
+        },
+        "la_atherosclerosis": {
+          "type": "boolean"
+        },
+        "cardioembolism": {
+          "type": "boolean"
+        },
+        "other": {
+          "type": "boolean"
+        },
+        "cryptogenic_stroke": {
+          "type": "boolean"
+        },
+        "lacunar": {
+          "type": "boolean"
+        }
+      },
+      "if": {
+        "properties": {
+          "any_stroke_etiology": {
+            "const": true
+          }
+        },
+        "required": ["any_stroke_etiology"]
+      },
+      "then": {
+        "anyOf": [
+          {
+            "properties": {
+              "la_atherosclerosis": {
+                "const": true
+              }
+            },
+            "required": [
+              "la_atherosclerosis"
+            ]
+          },
+          {
+            "properties": {
+              "cardioembolism": {
+                "const": true
+              }
+            },
+            "required": [
+              "cardioembolism"
+            ]
+          },
+          {
+            "properties": {
+              "cardioembolism": {
+                "const": true
+              }
+            },
+            "required": [
+              "cardioembolism"
+            ]
+          },
+          {
+            "properties": {
+              "other": {
+                "const": true
+              }
+            },
+            "required": [
+              "other"
+            ]
+          },
+          {
+            "properties": {
+              "cryptogenic_stroke": {
+                "const": true
+              }
+            },
+            "required": [
+              "cryptogenic_stroke"
+            ]
+          },
+          {
+            "properties": {
+              "lacunar": {
+                "const": true
+              }
+            },
+            "required": [
+              "lacunar"
+            ]
+          }
+        ]
+      }
+    },
+    "vte": {
+      "type": "object",
+      "properties": {
+        "any_vte": {
+          "type": "boolean"
+        },
+        "ufh": {
+          "type": "boolean"
+        },
+        "lmwh": {
+          "type": "boolean"
+        },
+        "ipc": {
+          "type": "boolean"
+        },
+        "gcs": {
+          "type": "boolean"
+        },
+        "warfarin": {
+          "type": "boolean"
+        },
+        "vfp": {
+          "type": "boolean"
+        },
+        "xa_inhibitor": {
+          "type": "boolean"
+        },
+        "other": {
+          "type": "boolean"
+        }
+      },
+      "if": {
+        "properties": {
+          "any_vte": {
+            "const": true
+          }
+        },
+        "required": ["any_vte"]
+      },
+      "then": {
+        "anyOf": [
+          {
+            "properties": {
+              "ufh": {
+                "const": true
+              }
+            },
+            "required": [
+              "ufh"
+            ]
+          },
+          {
+            "properties": {
+              "lmwh": {
+                "const": true
+              }
+            },
+            "required": [
+              "lmwh"
+            ]
+          },
+          {
+            "properties": {
+              "ipc": {
+                "const": true
+              }
+            },
+            "required": [
+              "ipc"
+            ]
+          },
+          {
+            "properties": {
+              "gcs": {
+                "const": true
+              }
+            },
+            "required": [
+              "gcs"
+            ]
+          },
+          {
+            "properties": {
+              "warfarin": {
+                "const": true
+              }
+            },
+            "required": [
+              "warfarin"
+            ]
+          },
+          {
+            "properties": {
+              "vfp": {
+                "const": true
+              }
+            },
+            "required": [
+              "vfp"
+            ]
+          },
+          {
+            "properties": {
+              "xa_inhibitor": {
+                "const": true
+              }
+            },
+            "required": [
+              "xa_inhibitor"
+            ]
+          },
+          {
+            "properties": {
+              "other": {
+                "const": true
+              }
+            },
+            "required": [
+              "other"
+            ]
+          }
+        ]
+      }
+    },
+    "post_stroke_complications": {
+      "type": "object",
+      "properties": {
+        "any_post_stroke_complication": {
+          "type": ["boolean", "null"]
+        },
+        "pneumonia": {
+          "type": ["boolean", "null"]
+        },
+        "dvt": {
+          "type": ["boolean", "null"]
+        },
+        "pulmonary_embolism": {
+          "type": ["boolean", "null"]
+        },
+        "urinary_infection": {
+          "type": ["boolean", "null"]
+        },
+        "pressure_sores": {
+          "type": ["boolean", "null"]
+        },
+        "drip_site_sepsis": {
+          "type": ["boolean", "null"]
+        },
+        "recurrence_or_extension": {
+          "type": ["boolean", "null"]
+        },
+        "other": {
+          "type": ["boolean", "null"]
+        }
+      },
+      
+      "if": {
+        "properties": {
+          "any_post_stroke_complication": {
+            "const": true
+          }
+        },
+        "required": ["any_post_stroke_complication"]
+      },
+      "then": {
+        "anyOf": [
+          {
+            "properties": {
+              "pneumonia": {
+                "const": true
+              }
+            },
+            "required": [
+              "pneumonia"
+            ]
+          },
+          {
+            "properties": {
+              "dvt": {
+                "const": true
+              }
+            },
+            "required": [
+              "dvt"
+            ]
+          },
+          {
+            "properties": {
+              "pulmonary_embolism": {
+                "const": true
+              }
+            },
+            "required": [
+              "pulmonary_embolism"
+            ]
+          },
+          {
+            "properties": {
+              "urinary_infection": {
+                "const": true
+              }
+            },
+            "required": [
+              "urinary_infection"
+            ]
+          },
+          {
+            "properties": {
+              "pressure_sores": {
+                "const": true
+              }
+            },
+            "required": [
+              "pressure_sores"
+            ]
+          },
+          {
+            "properties": {
+              "drip_site_sepsis": {
+                "const": true
+              }
+            },
+            "required": [
+              "drip_site_sepsis"
+            ]
+          },
+          {
+            "properties": {
+              "recurrence_or_extension": {
+                "const": true
+              }
+            },
+            "required": [
+              "recurrence_or_extension"
+            ]
+          },
+          {
+            "properties": {
+              "other": {
+                "const": true
+              }
+            },
+            "required": [
+              "other"
+            ]
+          }
+        ]
+      }
+    },
+    "post_recanalization_imaging": {
+      "type": "object",
+      "properties": {
+        "imaging_type": {
+          "type": "string",
+          "enum": [
+            "ct",
+            "mr",
+            "no"
+          ]
+        },
+        "brain_infarct": {
+          "type": "boolean",
+          "default": false
+        },
+        "no_bleeding": {
+          "type": "boolean",
+          "default": false
+        },
+        "remote": {
+          "type": "boolean",
+          "default": false
+        },
+        "bleeding_hi_1": {
+          "type": "boolean",
+          "default": false
+        },
+        "bleeding_hi_2": {
+          "type": "boolean",
+          "default": false
+        },
+        "bleeding_ph_1": {
+          "type": "boolean",
+          "default": false
+        },
+        "bleeding_ph_2": {
+          "type": "boolean",
+          "default": false
+        }
+      },
+      "anyOf": [
+        {
+          "properties": {
+            "brain_infarct": {
+              "const": true
+            }
+          },
+          "required": [
+            "brain_infarct"
+          ]
+        },
+        {
+          "properties": {
+            "no_bleeding": {
+              "const": true
+            }
+          },
+          "required": [
+            "no_bleeding"
+          ]
+        },
+        {
+          "properties": {
+            "remote": {
+              "const": true
+            }
+          },
+          "required": [
+            "remote"
+          ]
+        },
+        {
+          "properties": {
+            "bleeding_hi_1": {
+              "const": true
+            }
+          },
+          "required": [
+            "bleeding_hi_1"
+          ]
+        },
+        {
+          "properties": {
+            "bleeding_hi_2": {
+              "const": true
+            }
+          },
+          "required": [
+            "bleeding_hi_2"
+          ]
+        },
+        {
+          "properties": {
+            "bleeding_ph_1": {
+              "const": true
+            }
+          },
+          "required": [
+            "bleeding_ph_1"
+          ]
+        },
+        {
+          "properties": {
+            "bleeding_ph_2": {
+              "const": true
+            }
+          },
+          "required": [
+            "bleeding_ph_2"
+          ]
+        }
+      ]
+    },
+    "fever": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "day_1_fever_checks": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "day_2_fever_checks": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "day_3_fever_checks": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "fever_diagnosed": {
+          "type": ["boolean", "null"]
+        },
+        "paracetamol_on_fever": {
+          "type": "string",
+          "enum": [
+            "within_1h",
+            "after_1h",
+            "no",
+            "contraindicated"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "fever_diagnosed": {
+                "const": true
+              }
+            },
+            "required": [
+              "fever_diagnosed"
+            ]
+          },
+          "then": {
+            "required": [
+              "paracetamol_on_fever"
+            ]
+          }
+        }
+      ]
+    },
+    "hyperglycemia": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "day_1_hyperglycemia_checks": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "day_2_hyperglycemia_checks": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "day_3_hyperglycemia_checks": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "hyperglycemia_diagnosed": {
+          "type": ["boolean", "null"]
+        },
+        "insulin_on_hyperglycemia": {
+          "type": "string",
+          "enum": [
+            "within_1h",
+            "after_1h",
+            "no"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "hyperglycemia_diagnosed": {
+                "const": true
+              }
+            },
+            "required": [
+              "hyperglycemia_diagnosed"
+            ]
+          },
+          "then": {
+            "required": [
+              "insulin_on_hyperglycemia"
+            ]
+          }
+        }
+      ]
+    },
+    "swallow": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "swallowing_screening": {
+          "type": "string",
+          "enum": [
+            "within_4h",
+            "4h_to_24h",
+            "after_24h",
+            "not_done",
+            "not_applicable"
+          ]
+        },
+        "swallowing_screening_type": {
+          "type": "string",
+          "enum": [
+            "guss",
+            "assist",
+            "watertest",
+            "other"
+          ]
+        },
+        "swallowing_screening_performer": {
+          "type": "string",
+          "enum": [
+            "nurse",
+            "physician",
+            "other"
+          ]
+        }
+      }
+    },
+    "rehabilitation": {
+      "type": "object",
+      "default": {},
+      "properties": {
+        "physiotherapy": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "not_required"
+          ]
+        },
+        "occup_therapy": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "not_required"
+          ]
+        },
+        "speech_therapy": {
+          "type": "string",
+          "enum": [
+            "yes",
+            "no",
+            "not_required"
+          ]
+        }
+      }
+    }
+  },
+  "required": [
+    "24_hour_hospitalized_time"
+  ]
+}
