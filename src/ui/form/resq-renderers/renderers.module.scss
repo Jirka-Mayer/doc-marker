@@ -1,8 +1,16 @@
+/////////////
+// Layouts //
+/////////////
+
+
 .vertical-layout__row {
   margin-bottom: 16px;
 }
 
-// ====================================================
+
+////////////
+// Fields //
+////////////
 
 .field-label {
   padding: 4px 8px !important;
@@ -47,6 +55,7 @@
 }
 
 .field-select-container {
+  width: 50px; // needed so that overflow works, flex 1 will stretch this out
   flex: 1;
 
   :global(.MuiInput-root):before {
@@ -83,68 +92,6 @@
 
     .field-row:hover & {
       opacity: 1;
-    }
-  }
-}
-
-// ====================================================
-// probably legacy and can be removed:
-
-.paper {
-  overflow: hidden;
-
-  .label {
-    padding: 4px 8px;
-    white-space: normal;
-  }
-
-  .input {
-    padding: 10px 13px;
-  }
-
-  .row {
-    display: flex;
-    align-items: center;
-    padding: 2px 4px;
-  }
-
-  .helper-text {
-    margin: 0;
-    padding: 4px 8px;
-    background: #f5e7e7;
-  }
-}
-
-.highlights {
-  width: 50px; // and then flex-grow to full width
-  flex: 1;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  margin-right: 5px;
-
-  .highlight {
-    display: block;
-    margin: 2px;
-    padding: 2px;
-    color: rgba(black, 0.7);
-
-    cursor: pointer;
-
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 400;
-    font-size: 12px;
-
-    &:hover, .is-field-active &:hover {
-      background: #00800036;
-    }
-
-    .is-field-active & {
-      background: #0080001a;
     }
   }
 }

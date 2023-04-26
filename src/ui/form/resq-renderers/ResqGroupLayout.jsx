@@ -5,12 +5,17 @@ import ResqVerticalLayout from "./ResqVerticalLayout"
 
 function ResqGroupLayout(props) {
   const {
-    label
+    label,
+    visible
   } = props
 
   return (
     <>
-      <Typography variant="h3" gutterBottom>
+      <Typography
+        variant="h3"
+        gutterBottom
+        sx={{ display: visible ? "block" : "none" }}
+      >
         {label || "[missing group label]"}
       </Typography>
       <ResqVerticalLayout {...props} />

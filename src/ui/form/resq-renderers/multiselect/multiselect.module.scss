@@ -8,3 +8,13 @@
     padding-left: 35px;
   }
 }
+
+.checkbox-row {
+  padding-left: 0 !important;
+  
+  // fix wide text layout issues
+  label {
+    width: 100px; // flex 1 will stretch this out and this fixes text overflow
+    flex: 1;
+  }
+}

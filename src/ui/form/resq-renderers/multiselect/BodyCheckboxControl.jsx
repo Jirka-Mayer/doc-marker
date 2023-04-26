@@ -1,9 +1,10 @@
 import { rankWith, isBooleanControl } from '@jsonforms/core'
 import { withJsonFormsControlProps } from '@jsonforms/react'
-import { Checkbox, FormControlLabel, IconButton } from '@mui/material'
+import { Checkbox, FormControlLabel, IconButton, Typography } from '@mui/material'
 import { useContext, useState, useCallback, useEffect } from 'react'
 import { MultiselectGroupContext } from './MultiselectGroupContext'
 import * as styles from "../renderers.module.scss"
+import * as multiselectStyles from "./multiselect.module.scss"
 import { useFieldActivity } from '../../useFieldActivity'
 import { useFieldState } from '../../useFieldState'
 import { useFieldHighlights } from '../../useFieldHighlights'
@@ -123,24 +124,21 @@ export function BodyCheckboxControl(props) {
       className={[
         styles["field-row"],
         isFieldActive ? styles["field-row--active"] : "",
-        hasVerifiedAppearance ? styles["field-row--verified"] : ""
+        hasVerifiedAppearance ? styles["field-row--verified"] : "",
+        multiselectStyles["checkbox-row"]
       ].join(" ")}
       onClick={() => setFieldActive()}
     >
-      <FormControlLabel
-        control={
-          <Checkbox
-            id={htmlId}
-            checked={data === true}
-            onChange={privateHandleChange}
-            color={hasVerifiedAppearance ? "success" : "primary"}
-            onFocus={onFocus}
-          />
-        }
-        label={label || fieldId}
+      <Checkbox
+        id={htmlId}
+        checked={data === true}
+        onChange={privateHandleChange}
+        color={hasVerifiedAppearance ? "success" : "primary"}
+        onFocus={onFocus}
       />
-
-      <div style={{ flex: "1" }}></div>
+      <Typography component="label" variant="body1">
+        {label || fieldId}
+      </Typography>
 
       {/* Activity flag button */}
       <IconButton
