@@ -1,0 +1,17 @@
+{
+  "shortcut": {
+    "space": "Space",
+    "ctrlSpace": "Ctrl + Space"
+  },
+
+  "createPairing": "Create pairing",
+  "replacePairing": "Replace other pairings",
+  "addPairing": "Add new pairing",
+  "addMorePairingsExplainer_one": "This field already has one other pairing. You can either replace it or add new one.",
+  "addMorePairingsExplainer_other": "This field already has {{ count }} other pairings. You can either replace them or add new one.",
+
+  "removePairing": "Remove this pairing",
+  "removeAllPairings": "Remove all pairings",
+  "removeAllPairingsExplainer_one": "There is one other pairing, besides this one.",
+  "removeAllPairingsExplainer_other": "There are {{ count }} other pairings, besides this one."
+}

@@ -3,6 +3,12 @@ import { quillExtended } from "../../state/reportStore"
 import { AppMode } from "../../state/editor/AppMode"
 import { useAtom } from "jotai"
 import { activeFieldIdAtom, appModeAtom } from "../../state/editorStore"
+import {
+  openMenuAtom as openAfterClickMenuAtom
+} from "./annotation/AfterClickMenu"
+import {
+  openMenuAtom as openAfterDragMenuAtom
+} from "./annotation/AfterDragMenu"
 
 /**
  * Controls report-related UI in the annotation mode
@@ -10,9 +16,16 @@ import { activeFieldIdAtom, appModeAtom } from "../../state/editorStore"
 export function useAnnotationController() {
   const [appMode] = useAtom(appModeAtom)
   const [activeFieldId] = useAtom(activeFieldIdAtom)
+  const [,openAfterClickMenu] = useAtom(openAfterClickMenuAtom)
+  const [,openAfterDragMenu] = useAtom(openAfterDragMenuAtom)
   
   const onSelectionChange = useCallback((range, oldRange, source) => {
-    handleSelectionChange(range, activeFieldId)
+    handleSelectionChange(
+      range,
+      activeFieldId,
+      openAfterClickMenu,
+      openAfterDragMenu
+    )
   }, [activeFieldId])
   
   function attach() {
@@ -36,7 +49,12 @@ export function useAnnotationController() {
   }, [appMode, activeFieldId])
 }
 
-function handleSelectionChange(range, activeFieldId) {
+function handleSelectionChange(
+  range,
+  activeFieldId,
+  openAfterClickMenu,
+  openAfterDragMenu
+) {
   // if no field is active, do nothing
   if (activeFieldId === null)
       return
@@ -46,13 +64,13 @@ function handleSelectionChange(range, activeFieldId) {
     return
 
   if (range.length === 0) {
-    handleClick(range.index, activeFieldId)
+    handleClick(range.index, activeFieldId, openAfterClickMenu)
   } else {
-    handleDrag(range, activeFieldId)
+    handleDrag(range, openAfterDragMenu)
   }
 }
 
-function handleClick(index, activeFieldId) {
+function handleClick(index, activeFieldId, openAfterClickMenu) {
   // ignore clicks around the text
   if (!quillExtended.isClickInsideText(index))
     return
@@ -64,19 +82,11 @@ function handleClick(index, activeFieldId) {
   if (highlightRange === null)
     return
 
-  // remove the highlight
-  quillExtended.highlightText(
-    highlightRange.index,
-    highlightRange.length,
-    activeFieldId,
-    false
-  )
+  // show the context menu
+  openAfterClickMenu(highlightRange)
 }
 
-function handleDrag(range, activeFieldId) {
-  // highlight the text
-  quillExtended.highlightText(range.index, range.length, activeFieldId)
-
-  // clear selection silently (to not trigger the click event above)
-  quillExtended.setSelection(range.index, 0, "silent")
+function handleDrag(range, openAfterDragMenu) {
+  // open the context menu that asks whether to add a new highlight range
+  openAfterDragMenu(range)
 }
