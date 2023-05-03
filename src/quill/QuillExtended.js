@@ -1,4 +1,5 @@
 import Quill from "quill"
+import Delta from "quill-delta"
 import { AppMode } from "../state/editor/AppMode"
 import { defineAnonymizationAttributor } from "./anonymization/defineAnonymizationAttributor"
 import {
@@ -15,6 +16,7 @@ import { EventForwarder } from "./EventForwarder"
 import { AnonymizationApi } from "./AnonymizationApi"
 import { HighlightsApi } from "./HighlightsApi"
 import { getInlineFormatRange } from "./utils/getInlineFormatRange"
+import { htmlTableToDelta } from "./htmlTableToDelta"
 
 // extend Quill with custom attributors
 defineAnonymizationAttributor()
@@ -41,6 +43,7 @@ export class QuillExtended {
 
     // create the inner quill instance
     this.quill = this._constructQuillInstance()
+    this._addClipboardMatchers()
 
     // allocators
     this.highlightsAllocator = new IdToNumberAllocator(
@@ -107,6 +110,12 @@ export class QuillExtended {
         ...allHighlightFormatNames
       ]
     })
+  }
+
+  _addClipboardMatchers() {
+    this.quill.clipboard.addMatcher("table", function (node, delta) {
+      return htmlTableToDelta(node)
+    });
   }
 
   ///////////////
