@@ -234,13 +234,13 @@ export function ResqInputControl(props) {
         ) }
 
         {/* Activity flag button */}
-        <IconButton
+        {/* <IconButton
           onClick={(e) => { e.stopPropagation(); toggleFieldActivity() }}
           sx={{ p: '10px' }}
           className={styles["field-flag-button"]}
         >
           {isFieldActive ? <FlagIcon /> : <EmojiFlagsIcon />}
-        </IconButton>
+        </IconButton> */}
 
         {/* Highlight pin button */}
         { hasHighlights ?
