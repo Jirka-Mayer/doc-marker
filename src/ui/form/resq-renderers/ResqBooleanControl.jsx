@@ -8,6 +8,7 @@ export function ResqBooleanControl(props) {
   return (
     <ResqInputControl
       {...props}
+      ignoreNullability={true}
       controlInput={ControlInputBoolean}
     />
   )

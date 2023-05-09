@@ -33,6 +33,7 @@ export function ResqInputControl(props) {
     visible,
     path,
     t,
+    ignoreNullability,
     handleChange: publicHandleChange,
     controlInput: InnerComponent,
   } = props
@@ -73,7 +74,8 @@ export function ResqInputControl(props) {
   // Nullability //
   /////////////////
 
-  const isNullable = Array.isArray(schema.type)
+  const isNullable = ignoreNullability !== true
+    && Array.isArray(schema.type)
     && schema.type.indexOf("null") !== -1;
 
   const [isNull, setNull] = useState(data === null)
