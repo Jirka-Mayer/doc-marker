@@ -1,6 +1,24 @@
 {
+  "text": {
+    "placeholder": "Zadejte text..."
+  },
+  "integer": {
+    "placeholder": "Zadejte číslo..."
+  },
+  "number": {
+    "placeholder": "Zadejte číslo..."
+  },
   "enum": {
     "none": "Vyberte možnost..."
+  },
+  "boolean": {
+    "true": "Ano",
+    "false": "Ne",
+    "null": "Neznámé"
+  },
+  "unknown": {
+    "value": "Neznámé",
+    "tooltip": "Nastavit jako neznámé"
   },
   "error": {
     "required": "je povinná položka"

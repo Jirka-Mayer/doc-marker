@@ -18,6 +18,7 @@ import { ViewMenu } from "./menus/ViewMenu"
 import { Toolbar } from "./Toolbar"
 import { ToolsMenu } from "./menus/ToolsMenu"
 import { appModeAtom } from "../state/editorStore"
+import { useTranslation } from "react-i18next";
 
 const logoImageUrl = new URL(
   "resq-logo.png",
@@ -25,6 +26,8 @@ const logoImageUrl = new URL(
 );
 
 export function AppBar() {
+  const { t } = useTranslation("appbar")
+
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
   const [appMode, setAppMode] = useAtom(appModeAtom)
   const [fileName] = useAtom(fileStore.fileNameAtom)
@@ -59,7 +62,7 @@ export function AppBar() {
                 component="span"
                 variant="body1"
               >
-                No file open
+                { t("noFileOpen") }
               </Typography>
             ) }
           </div>
@@ -80,13 +83,16 @@ export function AppBar() {
             onChange={(e, newMode) => {setAppMode(newMode)}}
           >
             <ToggleButton value={AppMode.EDIT_TEXT}>
-              <ReadMoreIcon fontSize="small" sx={{ mr: 1 }} /> Edit text
+              <ReadMoreIcon fontSize="small" sx={{ mr: 1 }} />
+              { t("mode.edit") }
             </ToggleButton>
             <ToggleButton value={AppMode.ANONYMIZE}>
-              <ContentCutIcon fontSize="small" sx={{ mr: 1 }} /> Anonymize
+              <ContentCutIcon fontSize="small" sx={{ mr: 1 }} />
+              { t("mode.anonymize") }
             </ToggleButton>
             <ToggleButton value={AppMode.ANNOTATE_HIGHLIGHTS}>
-              <LocationOnIcon fontSize="small" sx={{ mr: 1 }} /> Annotate
+              <LocationOnIcon fontSize="small" sx={{ mr: 1 }} />
+              { t("mode.annotate") }
             </ToggleButton>
           </ToggleButtonGroup>
         </div>

@@ -1,5 +1,6 @@
+import React from "react"
 import { isBooleanControl, rankWith } from "@jsonforms/core"
-import { withJsonFormsControlProps } from "@jsonforms/react"
+import { withJsonFormsControlProps, withTranslateProps } from "@jsonforms/react"
 import { ResqInputControl } from "./ResqInputControl"
 import { ControlInputBoolean } from "./ControlInputBoolean"
 
@@ -16,4 +17,8 @@ export const resqBooleanControlTester = rankWith(
   2, isBooleanControl
 )
 
-export default withJsonFormsControlProps(ResqBooleanControl)
+export default withJsonFormsControlProps(
+  withTranslateProps( // passes in the "t" prop
+    React.memo(ResqBooleanControl)
+  )
+)

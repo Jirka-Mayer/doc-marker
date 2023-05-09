@@ -4,6 +4,7 @@ import formGlobal from "./formGlobal.json"
 import annotationContextMenus from "./annotationContextMenus.json"
 import quill from "./quill.json"
 import menus from "./menus.json"
+import appbar from "./appbar.json"
 
 import "moment/locale/cs"
 
@@ -13,5 +14,6 @@ export {
   formGlobal,
   annotationContextMenus,
   quill,
-  menus
+  menus,
+  appbar
 }

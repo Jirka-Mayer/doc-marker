@@ -1,5 +1,6 @@
 import { InputBase } from "@mui/material"
 import { useDebouncedChange } from "@jsonforms/material-renderers/src/util/debounce"
+import { useMemo } from "react"
 
 const toNumber = (value) => value === '' ? undefined : parseFloat(value)
 const eventToValue = (e) => toNumber(e.target.value)
@@ -10,6 +11,9 @@ export function ControlInputNumber(props) {
     data,
     path,
     handleChange,
+    schema,
+    uischema,
+    t,
 
     // resq
     htmlId,
@@ -26,6 +30,12 @@ export function ControlInputNumber(props) {
     onChange(e)
   }
 
+  const placeholder = useMemo(() => t(
+    "number.placeholder",
+    "Enter a number...",
+    { schema, uischema, path}
+  ), [t, schema, uischema, path])
+
   return (
     <InputBase
       type="number"
@@ -35,7 +45,7 @@ export function ControlInputNumber(props) {
       id={htmlId}
       fullWidth={true}
       inputProps={{ step: "0.1" }}
-      placeholder="Enter a number..." // TODO: translate
+      placeholder={placeholder}
     />
   )
 }

@@ -1,4 +1,5 @@
 import { ToggleButton, ToggleButtonGroup } from "@mui/material"
+import { useMemo } from "react"
 
 export function ControlInputBoolean(props) {
   const {
@@ -6,6 +7,9 @@ export function ControlInputBoolean(props) {
     data,
     path,
     handleChange,
+    schema,
+    uischema,
+    t,
 
     // resq
     htmlId,
@@ -24,6 +28,24 @@ export function ControlInputBoolean(props) {
     handleChange(path, newValue)
   }
 
+  const trueLabel = useMemo(() => t(
+    "boolean.true",
+    "Yes",
+    { schema, uischema, path}
+  ), [t, schema, uischema, path])
+
+  const falseLabel = useMemo(() => t(
+    "boolean.false",
+    "No",
+    { schema, uischema, path}
+  ), [t, schema, uischema, path])
+
+  const nullLabel = useMemo(() => t(
+    "boolean.null",
+    "Unknown",
+    { schema, uischema, path}
+  ), [t, schema, uischema, path])
+
   return (
     <>
       <ToggleButtonGroup
@@ -40,10 +62,10 @@ export function ControlInputBoolean(props) {
         }
       >
         <ToggleButton sx={{px: 2}} value={true}>
-          yes
+          { trueLabel }
         </ToggleButton>
         <ToggleButton sx={{px: 2}} value={false}>
-          no
+          { falseLabel }
         </ToggleButton>
       </ToggleButtonGroup>
       <div style={{flex: 1}}></div>

@@ -346,7 +346,7 @@
     },
     "stroke_type": {
       "label": "Druh CMP",
-      "is": "ischemická CMP (ICD-10: I63 except I63.6)",
+      "is": "ischemická CMP (ICD-10: I63 kromě I63.6)",
       "ich": "intracerebrální krvácení (ICD-10: I61)",
       "tia": "tranzitorní ischemická ataka (TIA) (ICD-10: G45)",
       "sah": "subarachnoidální krvácení (ICD-10: I60)",

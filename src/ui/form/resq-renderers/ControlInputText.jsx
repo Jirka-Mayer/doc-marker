@@ -1,5 +1,6 @@
 import { InputBase } from "@mui/material"
 import { useDebouncedChange } from "@jsonforms/material-renderers/src/util/debounce"
+import { useMemo } from "react"
 
 const eventToValue = (e) => e.target.value === "" ? undefined : e.target.value
 
@@ -9,6 +10,9 @@ export function ControlInputText(props) {
     data,
     path,
     handleChange,
+    schema,
+    uischema,
+    t,
 
     // resq
     htmlId,
@@ -25,6 +29,12 @@ export function ControlInputText(props) {
     onChange(e)
   }
 
+  const placeholder = useMemo(() => t(
+    "text.placeholder",
+    "Enter text...",
+    { schema, uischema, path}
+  ), [t, schema, uischema, path])
+
   return (
     <InputBase
       value={inputValue}
@@ -32,7 +42,7 @@ export function ControlInputText(props) {
       onFocus={onFocus}
       id={htmlId}
       fullWidth={true}
-      placeholder="Enter text..." // TODO: translate
+      placeholder={placeholder}
     />
   )
 }

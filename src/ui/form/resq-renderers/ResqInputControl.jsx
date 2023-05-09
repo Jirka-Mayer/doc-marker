@@ -12,6 +12,7 @@ import { useFieldHighlights } from "../useFieldHighlights"
 import { quillExtended } from "../../../state/reportStore"
 import HideSourceIcon from '@mui/icons-material/HideSource';
 import { useState } from 'react';
+import { useMemo } from 'react';
 import { useEffect } from "react"
 import { useCallback } from "react"
 
@@ -31,6 +32,7 @@ export function ResqInputControl(props) {
     uischema,
     visible,
     path,
+    t,
     handleChange: publicHandleChange,
     controlInput: InnerComponent,
   } = props
@@ -171,6 +173,18 @@ export function ResqInputControl(props) {
   // Rendering //
   ///////////////
 
+  const unknownValueLabel = useMemo(() => t(
+    "unknown.value",
+    "Unknown",
+    { schema, uischema, path}
+  ), [t, schema, uischema, path])
+
+  const unknownTooltipLabel = useMemo(() => t(
+    "unknown.tooltip",
+    "Set as unknown",
+    { schema, uischema, path}
+  ), [t, schema, uischema, path])
+
   return (
     <Paper
       sx={{ display: visible ? "block" : "none" }}
@@ -190,7 +204,7 @@ export function ResqInputControl(props) {
         {/* Nullability */}
         { isNullable ? (
           <Tooltip
-            title="Set as unknown" // TODO: translate
+            title={unknownTooltipLabel}
             disableInteractive
           >
             <ToggleButton
@@ -212,7 +226,7 @@ export function ResqInputControl(props) {
         {/* The child or "unknown" */}
         { (isNullable & isNull) ? (
           <InputBase
-            value="Unknown" // TODO: translate
+            value={unknownValueLabel}
             fullWidth={true}
           />
         ) : (

@@ -1,6 +1,24 @@
 {
+  "text": {
+    "placeholder": "Enter text..."
+  },
+  "integer": {
+    "placeholder": "Enter a number..."
+  },
+  "number": {
+    "placeholder": "Enter a number..."
+  },
   "enum": {
     "none": "Select an option..."
+  },
+  "boolean": {
+    "true": "Yes",
+    "false": "No",
+    "null": "Unknown"
+  },
+  "unknown": {
+    "value": "Unknown",
+    "tooltip": "Set as unknown"
   },
   "error": {}
 }
