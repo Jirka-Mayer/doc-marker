@@ -1,9 +1,4 @@
 {
-  "shortcut": {
-    "space": "Space",
-    "ctrlSpace": "Ctrl + Space"
-  },
-
   "createPairing": "Create pairing",
   "replacePairing": "Replace other pairings",
   "addPairing": "Add new pairing",

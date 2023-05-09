@@ -62,78 +62,87 @@ export function AfterDragMenu() {
     addHighlight()
   }
 
-  useEffect(() => {
-    function handleKeydown(e) {
-      if (anchorTextRange === null)
-        return
+  function handleKeydown(e) {
+    if (anchorTextRange === null)
+      return
 
-      if (e.code === "Space" && !e.ctrlKey) {
+    if (alreadyHasHighlight) {
+      if (e.code === "KeyD" && e.shiftKey) {
         replaceHighlight()
-        return true
+        e.preventDefault()
       }
-      if (e.code === "Space" && e.ctrlKey) {
+      if (e.code === "KeyD" && e.ctrlKey) {
         addHighlight()
-        return true
+        e.preventDefault()
+      }
+    } else {
+      if (e.code === "KeyD") {
+        replaceHighlight()
+        e.preventDefault()
       }
     }
-
-    document.addEventListener("keydown", handleKeydown)
-    return () => {
-      document.removeEventListener("keydown", handleKeydown)
-    }
-  })
+  }
   
   return (
     <>
       <Menu
+        id="annotation-after-drag-context-menu"
         anchorReference="anchorPosition"
         anchorPosition={anchorPosition}
         open={anchorPosition !== null}
         onClose={closeMenu}
+        onKeyDown={handleKeydown}
       >
-        <MenuList>
-
+        { alreadyHasHighlight ? (
           <MenuItem onClick={replaceHighlight}>
             <ListItemIcon>
               <LocationOnIcon />
             </ListItemIcon>
             <ListItemText>
-              {
-                alreadyHasHighlight
-                  ? t("replacePairing")
-                  : t("createPairing")
-              }
+              { t("replacePairing") }
             </ListItemText>
             <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
-              { t("shortcut.space") }
+              Shift + D
             </Typography>
           </MenuItem>
-
-          { alreadyHasHighlight ? (
-            <MenuItem onClick={addHighlight}>
-              <ListItemIcon>
-                <AddLocationIcon />
-              </ListItemIcon>
-              <ListItemText>
-                { t("addPairing") }
-              </ListItemText>
-              <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
-              { t("shortcut.ctrlSpace") }
-              </Typography>
-            </MenuItem>
-          ) : null }
-
-          { alreadyHasHighlight ? (
-            <Divider />
-          ) : null }
-
-          { alreadyHasHighlight ? (
-            <Typography variant="body2" sx={{ px: 2, pt: 1 }}>
-              { t("addMorePairingsExplainer", { count: activeFieldHighlights.length }) }
+        ) : (
+          <MenuItem onClick={replaceHighlight}>
+            <ListItemIcon>
+              <LocationOnIcon />
+            </ListItemIcon>
+            <ListItemText>
+              { t("createPairing") }
+            </ListItemText>
+            <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
+              D
             </Typography>
-          ) : null }
+          </MenuItem>
+        ) }
 
-        </MenuList>
+        { alreadyHasHighlight ? (
+          <MenuItem onClick={addHighlight}>
+            <ListItemIcon>
+              <AddLocationIcon />
+            </ListItemIcon>
+            <ListItemText>
+              { t("addPairing") }
+            </ListItemText>
+            <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
+              Ctrl + D
+            </Typography>
+          </MenuItem>
+        ) : null }
+
+        { alreadyHasHighlight ? (
+          <Divider />
+        ) : null }
+
+        { alreadyHasHighlight ? (
+          <Typography variant="body2" sx={{ px: 2 }}>
+            { t("addMorePairingsExplainer", { count: activeFieldHighlights.length }) }
+          </Typography>
+        ) : null }
+
       </Menu>
     </>
   )

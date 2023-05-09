@@ -40,52 +40,51 @@ export function ViewMenu() {
         onClick={onMenuClick}
       >View</Button>
       <Menu
+        id="view-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={closeMenu}
+        variant="menu"
       >
-        <MenuList>
+        <MenuItem
+          onClick={() => setAppMode(AppMode.EDIT_TEXT)}
+          selected={appMode === AppMode.EDIT_TEXT}
+          disabled={!isFileOpen}
+        >
+          <ListItemIcon>
+            <ReadMoreIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Text editing mode</Typography>
+        </MenuItem>
+        <MenuItem
+          onClick={() => setAppMode(AppMode.ANONYMIZE)}
+          selected={appMode === AppMode.ANONYMIZE}
+          disabled={!isFileOpen}
+        >
+          <ListItemIcon>
+            <ContentCutIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Anonymization mode</Typography>
+        </MenuItem>
+        <MenuItem
+          onClick={() => setAppMode(AppMode.ANNOTATE_HIGHLIGHTS)}
+          selected={appMode === AppMode.ANNOTATE_HIGHLIGHTS}
+          disabled={!isFileOpen}
+        >
+          <ListItemIcon>
+            <LocationOnIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Annotation mode</Typography>
+        </MenuItem>
+        
+        <Divider />
 
-          <MenuItem
-            onClick={() => setAppMode(AppMode.EDIT_TEXT)}
-            selected={appMode === AppMode.EDIT_TEXT}
-            disabled={!isFileOpen}
-          >
-            <ListItemIcon>
-              <ReadMoreIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Text editing mode</Typography>
-          </MenuItem>
-          <MenuItem
-            onClick={() => setAppMode(AppMode.ANONYMIZE)}
-            selected={appMode === AppMode.ANONYMIZE}
-            disabled={!isFileOpen}
-          >
-            <ListItemIcon>
-              <ContentCutIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Anonymization mode</Typography>
-          </MenuItem>
-          <MenuItem
-            onClick={() => setAppMode(AppMode.ANNOTATE_HIGHLIGHTS)}
-            selected={appMode === AppMode.ANNOTATE_HIGHLIGHTS}
-            disabled={!isFileOpen}
-          >
-            <ListItemIcon>
-              <LocationOnIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Annotation mode</Typography>
-          </MenuItem>
-          
-          <Divider />
-
-          <MenuItem selected={displayDebugInfo} onClick={onDisplayDebugInfoClick}>
-            <ListItemIcon>
-              <BugReportIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Display debug info</Typography>
-          </MenuItem>
-        </MenuList>
+        <MenuItem selected={displayDebugInfo} onClick={onDisplayDebugInfoClick}>
+          <ListItemIcon>
+            <BugReportIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Display debug info</Typography>
+        </MenuItem>
       </Menu>
     </>
   )

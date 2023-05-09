@@ -58,74 +58,79 @@ export function AfterClickMenu() {
     closeMenu()
   }
 
-  useEffect(() => {
-    function handleKeydown(e) {
-      if (anchorTextRange === null)
-        return
+  function handleKeydown(e) {
+    if (anchorTextRange === null)
+      return
 
-      if (e.code === "Space" && !e.ctrlKey) {
+    if (hasMultipleHighlights) {
+      if (e.code === "KeyD" && e.shiftKey) {
         removeHighlightMarking()
-        return true
+        e.preventDefault()
       }
-      if (e.code === "Space" && e.ctrlKey) {
+      if (e.code === "KeyD" && e.ctrlKey) {
         removeAllHighlightMarkings()
-        return true
+        e.preventDefault()
+      }
+    } else {
+      if (e.code === "KeyD") {
+        removeHighlightMarking()
+        e.preventDefault()
       }
     }
-
-    document.addEventListener("keydown", handleKeydown)
-    return () => {
-      document.removeEventListener("keydown", handleKeydown)
-    }
-  })
+  }
   
   return (
     <>
       <Menu
+        id="annotation-after-click-context-menu"
         anchorReference="anchorPosition"
         anchorPosition={anchorPosition}
         open={anchorPosition !== null}
         onClose={closeMenu}
+        onKeyDown={handleKeydown}
       >
-        <MenuList>
+        <MenuItem onClick={removeHighlightMarking}>
+          <ListItemIcon>
+            <WrongLocationIcon />
+          </ListItemIcon>
+          <ListItemText>
+            { t("removePairing") }
+          </ListItemText>
+          { hasMultipleHighlights ? (
+            <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
+              Shift + D
+            </Typography>
+          ) : (
+            <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
+              D
+            </Typography>
+          )}
+        </MenuItem>
 
-          <MenuItem onClick={removeHighlightMarking}>
+        { hasMultipleHighlights ? (
+          <MenuItem onClick={removeAllHighlightMarkings}>
             <ListItemIcon>
-              <WrongLocationIcon />
+              <LocationOffIcon />
             </ListItemIcon>
             <ListItemText>
-              { t("removePairing") }
+              { t("removeAllPairings") }
             </ListItemText>
             <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
-              { t("shortcut.space") }
+              Ctrl + D
             </Typography>
           </MenuItem>
+        ) : null }
 
-          { hasMultipleHighlights ? (
-            <MenuItem onClick={removeAllHighlightMarkings}>
-              <ListItemIcon>
-                <LocationOffIcon />
-              </ListItemIcon>
-              <ListItemText>
-                { t("removeAllPairings") }
-              </ListItemText>
-              <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
-              { t("shortcut.ctrlSpace") }
-              </Typography>
-            </MenuItem>
-          ) : null }
+        { hasMultipleHighlights ? (
+          <Divider />
+        ) : null }
 
-          { hasMultipleHighlights ? (
-            <Divider />
-          ) : null }
+        { hasMultipleHighlights ? (
+          <Typography variant="body2" sx={{ px: 2 }}>
+            { t("removeAllPairingsExplainer", { count: activeFieldHighlights.length - 1 }) }
+          </Typography>
+        ) : null }
 
-          { hasMultipleHighlights ? (
-            <Typography variant="body2" sx={{ px: 2, pt: 1 }}>
-              { t("removeAllPairingsExplainer", { count: activeFieldHighlights.length - 1 }) }
-            </Typography>
-          ) : null }
-
-        </MenuList>
       </Menu>
     </>
   )

@@ -1,13 +1,9 @@
 {
-  "shortcut": {
-    "space": "Mezerník",
-    "ctrlSpace": "Ctrl + Mezerník"
-  },
-
   "createPairing": "Vytvořit párování",
   "replacePairing": "Nahradit ostatní párování",
   "addPairing": "Přidat další párování",
   "addMorePairingsExplainer_one": "Toto políčko už jedno párování má. Můžete ho buďto nahradit, nebo vytvořit další.",
+  "addMorePairingsExplainer_few": "Toto políčko už má {{ count }} párování. Můžete ho buďto nahradit, nebo vytvořit další.",
   "addMorePairingsExplainer_other": "Toto políčko už má {{ count }} párování. Můžete je buďto nahradit, nebo vytvořit další.",
 
   "removePairing": "Odstranit párování",

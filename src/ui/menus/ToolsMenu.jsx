@@ -42,24 +42,24 @@ export function ToolsMenu() {
         onClick={onMenuClick}
       >Tools</Button>
       <Menu
+        id="tools-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={closeMenu}
+        variant="menu"
       >
-        <MenuList>
-          <MenuItem disabled={true} onClick={onNlpExtractionClick}> {/* TODO: temporarily disabled */}
-            <ListItemIcon>
-              <SmartToyIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Fill out form automatically</Typography>
-          </MenuItem>
-          <MenuItem disabled={!isFileOpen} onClick={onExportToResqClick}>
-            <ListItemIcon>
-              <LocalShippingIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Export to RES-Q registry</Typography>
-          </MenuItem>
-        </MenuList>
+        <MenuItem disabled={true} onClick={onNlpExtractionClick}> {/* TODO: temporarily disabled */}
+          <ListItemIcon>
+            <SmartToyIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Fill out form automatically</Typography>
+        </MenuItem>
+        <MenuItem disabled={!isFileOpen} onClick={onExportToResqClick}>
+          <ListItemIcon>
+            <LocalShippingIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Export to RES-Q registry</Typography>
+        </MenuItem>
       </Menu>
     </>
   )

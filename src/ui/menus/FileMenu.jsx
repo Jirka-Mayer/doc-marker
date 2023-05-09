@@ -68,60 +68,60 @@ export function FileMenu() {
         onClick={onMenuClick}
       >File</Button>
       <Menu
+        id="file-menu"
         anchorEl={anchorEl}
         open={open}
         onClose={closeMenu}
+        variant="menu"
       >
-        <MenuList>
-          <MenuItem onClick={onNewEmptyFileClick}>
-            <ListItemIcon>
-              <NoteAddIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">New empty file</Typography>
-          </MenuItem>
-          <MenuItem disabled={true}>
-            <ListItemIcon>
-              <UploadFileIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">New from uploaded document</Typography>
-          </MenuItem>
-          <MenuItem onClick={onSaveFileClick} disabled={!isFileOpen}>
-            <ListItemIcon>
-              <SaveIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Save file</Typography>
-          </MenuItem>
-          
-          <Divider/>
+        <MenuItem onClick={onNewEmptyFileClick}>
+          <ListItemIcon>
+            <NoteAddIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">New empty file</Typography>
+        </MenuItem>
+        <MenuItem disabled={true}>
+          <ListItemIcon>
+            <UploadFileIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">New from uploaded document</Typography>
+        </MenuItem>
+        <MenuItem onClick={onSaveFileClick} disabled={!isFileOpen}>
+          <ListItemIcon>
+            <SaveIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Save file</Typography>
+        </MenuItem>
+        
+        <Divider/>
 
-          <MenuItem onClick={onDownloadFileClick} disabled={!isFileOpen}>
-            <ListItemIcon>
-              <DownloadIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Download file</Typography>
-          </MenuItem>
-          <MenuItem disabled={true}>
-            <ListItemIcon>
-              <InfoIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Details</Typography>
-          </MenuItem>
-          <MenuItem onClick={onChangeLanguageClick}>
-            <ListItemIcon>
-              <LanguageIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Language</Typography>
-          </MenuItem>
+        <MenuItem onClick={onDownloadFileClick} disabled={!isFileOpen}>
+          <ListItemIcon>
+            <DownloadIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Download file</Typography>
+        </MenuItem>
+        <MenuItem disabled={true}>
+          <ListItemIcon>
+            <InfoIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Details</Typography>
+        </MenuItem>
+        <MenuItem onClick={onChangeLanguageClick}>
+          <ListItemIcon>
+            <LanguageIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Language</Typography>
+        </MenuItem>
 
-          <Divider/>
-          
-          <MenuItem onClick={onCloseFileClick} disabled={!isFileOpen}>
-            <ListItemIcon>
-              <CloseIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Close file</Typography>
-          </MenuItem>
-        </MenuList>
+        <Divider/>
+        
+        <MenuItem onClick={onCloseFileClick} disabled={!isFileOpen}>
+          <ListItemIcon>
+            <CloseIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Close file</Typography>
+        </MenuItem>
       </Menu>
     </>
   )

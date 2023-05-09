@@ -43,30 +43,29 @@ export function AfterClickMenu() {
   return (
     <>
       <Menu
+        id="anonymization-after-click-context-menu"
         anchorReference="anchorPosition"
         anchorPosition={anchorPosition}
         open={anchorPosition !== null}
         onClose={closeMenu}
+        MenuListProps={{
+          subheader: <ListSubheader>{ kindId }</ListSubheader>
+        }}
       >
-        <MenuList
-          subheader={<ListSubheader>{ kindId }</ListSubheader>}
-        >
+        <MenuItem onClick={removeAnonymizationMarking}>
+          <ListItemIcon>
+            <WrongLocationIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Remove anonymization marking</Typography>
+        </MenuItem>
 
-          <MenuItem onClick={removeAnonymizationMarking}>
-            <ListItemIcon>
-              <WrongLocationIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Remove anonymization marking</Typography>
-          </MenuItem>
+        <MenuItem onClick={forgetText}>
+          <ListItemIcon>
+            <PasswordIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Forget text now</Typography>
+        </MenuItem>
 
-          <MenuItem onClick={forgetText}>
-            <ListItemIcon>
-              <PasswordIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Forget text now</Typography>
-          </MenuItem>
-
-        </MenuList>
       </Menu>
     </>
   )

@@ -35,49 +35,46 @@ export function AfterDragMenu() {
   return (
     <>
       <Menu
+        id="anonymization-after-drag-context-menu"
         anchorReference="anchorPosition"
         anchorPosition={anchorPosition}
         open={anchorPosition !== null}
         onClose={closeMenu}
       >
-        <MenuList>
+        <MenuItem onClick={() => kindSelected("name-person")}>
+          <ListItemIcon>
+            <PersonIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Person name</Typography>
+        </MenuItem>
 
-          <MenuItem onClick={() => kindSelected("name-person")}>
-            <ListItemIcon>
-              <PersonIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Person name</Typography>
-          </MenuItem>
+        <MenuItem onClick={() => kindSelected("name-organization")}>
+          <ListItemIcon>
+            <AccountBalanceIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Organization name</Typography>
+        </MenuItem>
 
-          <MenuItem onClick={() => kindSelected("name-organization")}>
-            <ListItemIcon>
-              <AccountBalanceIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Organization name</Typography>
-          </MenuItem>
+        <MenuItem onClick={() => kindSelected("personalInformation")}>
+          <ListItemIcon>
+            <CreditCardIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Personal information</Typography>
+        </MenuItem>
 
-          <MenuItem onClick={() => kindSelected("personalInformation")}>
-            <ListItemIcon>
-              <CreditCardIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Personal information</Typography>
-          </MenuItem>
+        <MenuItem onClick={() => kindSelected("contactInformation")}>
+          <ListItemIcon>
+            <CallIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Contact information</Typography>
+        </MenuItem>
 
-          <MenuItem onClick={() => kindSelected("contactInformation")}>
-            <ListItemIcon>
-              <CallIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Contact information</Typography>
-          </MenuItem>
-
-          <MenuItem onClick={() => kindSelected("other")}>
-            <ListItemIcon>
-              <StarIcon />
-            </ListItemIcon>
-            <Typography variant="inherit">Other</Typography>
-          </MenuItem>
-
-        </MenuList>
+        <MenuItem onClick={() => kindSelected("other")}>
+          <ListItemIcon>
+            <StarIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">Other</Typography>
+        </MenuItem>
       </Menu>
     </>
   )
