@@ -6,6 +6,7 @@ import { activeFieldIdAtom, appModeAtom } from "../../state/editorStore"
 import { displayDebugInfoAtom } from "../../state/userPreferencesStore"
 import { useAnnotationController } from "./useAnnotationController"
 import { useAnonymizationController } from "./useAnonymizationController"
+import { useTranslation } from "react-i18next";
 import {
   AfterClickMenu as AnonymizationAfterClickMenu
 } from "./anonymization/AfterClickMenu"
@@ -23,6 +24,8 @@ import {
  * Binds the quill instance with the DOM as a react component
  */
 export function QuillBinder() {
+  const { t } = useTranslation("quill")
+
   const [appMode] = useAtom(appModeAtom)
   const [activeFieldId] = useAtom(activeFieldIdAtom)
   const [displayDebugInfo] = useAtom(displayDebugInfoAtom)
@@ -46,6 +49,11 @@ export function QuillBinder() {
   useEffect(() => {
     quillExtended.renderFieldActivity(activeFieldId)
   }, [activeFieldId])
+
+  // placeholder text according to the language
+  useEffect(() => {
+    quillExtended.quill.root.dataset.placeholder = t("placeholder")
+  }, [t])
 
   // app mode controllers
   useAnonymizationController()

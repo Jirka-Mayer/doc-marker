@@ -97,7 +97,7 @@ export class QuillExtended {
       modules: {
         toolbar: false
       },
-      placeholder: "Paste discharge report here...",
+      placeholder: "Paste source text in here...",
       formats: [
         // inline
         "bold", "italic", "underline", "strike", "script",
