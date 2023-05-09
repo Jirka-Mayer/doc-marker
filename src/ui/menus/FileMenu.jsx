@@ -12,8 +12,11 @@ import * as fileStore from "../../state/fileStore"
 import { AppFile } from "../../state/file/AppFile";
 import { isOpenAtom as isLocaleDialogOpenAtom } from "../dialogs/ChangeLocaleDialog"
 import { FormDefinition } from "../../../forms/FormDefinition";
+import { useTranslation } from "react-i18next";
 
 export function FileMenu() {
+  const { t } = useTranslation("menus")
+
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   function onMenuClick(e) {
@@ -66,7 +69,7 @@ export function FileMenu() {
       <Button
         size="small"
         onClick={onMenuClick}
-      >File</Button>
+      >{ t("file.headButton") }</Button>
       <Menu
         id="file-menu"
         anchorEl={anchorEl}
@@ -78,19 +81,25 @@ export function FileMenu() {
           <ListItemIcon>
             <NoteAddIcon />
           </ListItemIcon>
-          <Typography variant="inherit">New empty file</Typography>
+          <Typography variant="inherit">
+            { t("file.newEmptyFile") }
+          </Typography>
         </MenuItem>
         <MenuItem disabled={true}>
           <ListItemIcon>
             <UploadFileIcon />
           </ListItemIcon>
-          <Typography variant="inherit">New from uploaded document</Typography>
+          <Typography variant="inherit">
+            { t("file.newFileFromUploaded") }
+          </Typography>
         </MenuItem>
         <MenuItem onClick={onSaveFileClick} disabled={!isFileOpen}>
           <ListItemIcon>
             <SaveIcon />
           </ListItemIcon>
-          <Typography variant="inherit">Save file</Typography>
+          <Typography variant="inherit">
+            { t("file.saveFile") }
+          </Typography>
         </MenuItem>
         
         <Divider/>
@@ -99,19 +108,25 @@ export function FileMenu() {
           <ListItemIcon>
             <DownloadIcon />
           </ListItemIcon>
-          <Typography variant="inherit">Download file</Typography>
+          <Typography variant="inherit">
+            { t("file.downloadFile") }
+          </Typography>
         </MenuItem>
         <MenuItem disabled={true}>
           <ListItemIcon>
             <InfoIcon />
           </ListItemIcon>
-          <Typography variant="inherit">Details</Typography>
+          <Typography variant="inherit">
+            { t("file.details") }
+          </Typography>
         </MenuItem>
         <MenuItem onClick={onChangeLanguageClick}>
           <ListItemIcon>
             <LanguageIcon />
           </ListItemIcon>
-          <Typography variant="inherit">Language</Typography>
+          <Typography variant="inherit">
+            { t("file.language") }
+          </Typography>
         </MenuItem>
 
         <Divider/>
@@ -120,7 +135,9 @@ export function FileMenu() {
           <ListItemIcon>
             <CloseIcon />
           </ListItemIcon>
-          <Typography variant="inherit">Close file</Typography>
+          <Typography variant="inherit">
+            { t("file.closeFile") }
+          </Typography>
         </MenuItem>
       </Menu>
     </>

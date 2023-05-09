@@ -1,0 +1,32 @@
+{
+  "file": {
+    "headButton": "Soubor",
+    
+    "newEmptyFile": "Nový prázdný",
+    "newFileFromUploaded": "Nový z nahraného dokumentu",
+    "saveFile": "Uložit",
+
+    "downloadFile": "Stáhnout",
+    "details": "Detaily",
+    "language": "Jazyk",
+
+    "closeFile": "Zavřít soubor"
+  },
+
+  "view": {
+    "headButton": "Zobrazit",
+
+    "textEditingMode": "Režim editace textu",
+    "anonymizationMode": "Režim anonymizace",
+    "annotationMode": "Režim anotování",
+
+    "displayDebugInfo": "Zobrazit ladící informace"
+  },
+
+  "tools": {
+    "headButton": "Nástroje",
+
+    "fillOutAutomatically": "Vyplnit formulář automaticky",
+    "exportToResq": "Exportovat do registru RES-Q"
+  }
+}

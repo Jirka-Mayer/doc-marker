@@ -6,8 +6,11 @@ import { useAtom } from "jotai"
 import { isFileOpenAtom } from "../../state/fileStore";
 import { runAutomaticExtraction } from "../../state/editor/runAutomaticExtraction";
 import { isOpenAtom as isResqExportDialogOpenAtom } from "../dialogs/ResqExportDialog";
+import { useTranslation } from "react-i18next";
 
 export function ToolsMenu() {
+  const { t } = useTranslation("menus")
+
   const [,setResqExportDialogIsOpen] = useAtom(isResqExportDialogOpenAtom)
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -40,7 +43,7 @@ export function ToolsMenu() {
       <Button
         size="small"
         onClick={onMenuClick}
-      >Tools</Button>
+      >{ t("tools.headButton") }</Button>
       <Menu
         id="tools-menu"
         anchorEl={anchorEl}
@@ -52,13 +55,17 @@ export function ToolsMenu() {
           <ListItemIcon>
             <SmartToyIcon />
           </ListItemIcon>
-          <Typography variant="inherit">Fill out form automatically</Typography>
+          <Typography variant="inherit">
+            { t("tools.fillOutAutomatically") }
+          </Typography>
         </MenuItem>
         <MenuItem disabled={!isFileOpen} onClick={onExportToResqClick}>
           <ListItemIcon>
             <LocalShippingIcon />
           </ListItemIcon>
-          <Typography variant="inherit">Export to RES-Q registry</Typography>
+          <Typography variant="inherit">
+          { t("tools.exportToResq") }
+          </Typography>
         </MenuItem>
       </Menu>
     </>

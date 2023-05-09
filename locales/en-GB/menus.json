@@ -1,0 +1,32 @@
+{
+  "file": {
+    "headButton": "File",
+    
+    "newEmptyFile": "New empty file",
+    "newFileFromUploaded": "New from uploaded document",
+    "saveFile": "Save file",
+
+    "downloadFile": "Download file",
+    "details": "Details",
+    "language": "Language",
+
+    "closeFile": "Close file"
+  },
+
+  "view": {
+    "headButton": "View",
+
+    "textEditingMode": "Text editing mode",
+    "anonymizationMode": "Anonymization mode",
+    "annotationMode": "Annotation mode",
+
+    "displayDebugInfo": "Display debug info"
+  },
+
+  "tools": {
+    "headButton": "Tools",
+
+    "fillOutAutomatically": "Fill out form automatically",
+    "exportToResq": "Export to RES-Q registry"
+  }
+}

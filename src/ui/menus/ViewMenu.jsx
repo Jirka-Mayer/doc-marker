@@ -9,8 +9,11 @@ import { displayDebugInfoAtom } from "../../state/userPreferencesStore";
 import { appModeAtom } from "../../state/editorStore";
 import { AppMode } from "../../state/editor/AppMode";
 import { isFileOpenAtom } from "../../state/fileStore";
+import { useTranslation } from "react-i18next";
 
 export function ViewMenu() {
+  const { t } = useTranslation("menus")
+
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   function onMenuClick(e) {
@@ -38,7 +41,7 @@ export function ViewMenu() {
       <Button
         size="small"
         onClick={onMenuClick}
-      >View</Button>
+      >{ t("view.headButton") }</Button>
       <Menu
         id="view-menu"
         anchorEl={anchorEl}
@@ -54,7 +57,9 @@ export function ViewMenu() {
           <ListItemIcon>
             <ReadMoreIcon />
           </ListItemIcon>
-          <Typography variant="inherit">Text editing mode</Typography>
+          <Typography variant="inherit">
+            { t("view.textEditingMode") }
+          </Typography>
         </MenuItem>
         <MenuItem
           onClick={() => setAppMode(AppMode.ANONYMIZE)}
@@ -64,7 +69,9 @@ export function ViewMenu() {
           <ListItemIcon>
             <ContentCutIcon />
           </ListItemIcon>
-          <Typography variant="inherit">Anonymization mode</Typography>
+          <Typography variant="inherit">
+            { t("view.anonymizationMode") }
+          </Typography>
         </MenuItem>
         <MenuItem
           onClick={() => setAppMode(AppMode.ANNOTATE_HIGHLIGHTS)}
@@ -74,7 +81,9 @@ export function ViewMenu() {
           <ListItemIcon>
             <LocationOnIcon />
           </ListItemIcon>
-          <Typography variant="inherit">Annotation mode</Typography>
+          <Typography variant="inherit">
+            { t("view.annotationMode") }
+          </Typography>
         </MenuItem>
         
         <Divider />
@@ -83,7 +92,9 @@ export function ViewMenu() {
           <ListItemIcon>
             <BugReportIcon />
           </ListItemIcon>
-          <Typography variant="inherit">Display debug info</Typography>
+          <Typography variant="inherit">
+            { t("view.displayDebugInfo") }
+          </Typography>
         </MenuItem>
       </Menu>
     </>
