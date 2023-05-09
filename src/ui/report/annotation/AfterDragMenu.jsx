@@ -99,7 +99,7 @@ export function AfterDragMenu() {
               <LocationOnIcon />
             </ListItemIcon>
             <ListItemText>
-              { t("replacePairing") }
+              { t("replaceHighlight") }
             </ListItemText>
             <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
               Shift + D
@@ -111,7 +111,7 @@ export function AfterDragMenu() {
               <LocationOnIcon />
             </ListItemIcon>
             <ListItemText>
-              { t("createPairing") }
+              { t("createHighlight") }
             </ListItemText>
             <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
               D
@@ -125,7 +125,7 @@ export function AfterDragMenu() {
               <AddLocationIcon />
             </ListItemIcon>
             <ListItemText>
-              { t("addPairing") }
+              { t("addHighlight") }
             </ListItemText>
             <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
               Ctrl + D
@@ -139,7 +139,7 @@ export function AfterDragMenu() {
 
         { alreadyHasHighlight ? (
           <Typography variant="body2" sx={{ px: 2 }}>
-            { t("addMorePairingsExplainer", { count: activeFieldHighlights.length }) }
+            { t("addMoreHighlightsExplainer", { count: activeFieldHighlights.length }) }
           </Typography>
         ) : null }
 

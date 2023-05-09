@@ -94,7 +94,7 @@ export function AfterClickMenu() {
             <WrongLocationIcon />
           </ListItemIcon>
           <ListItemText>
-            { t("removePairing") }
+            { t("removeHighlight") }
           </ListItemText>
           { hasMultipleHighlights ? (
             <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
@@ -113,7 +113,7 @@ export function AfterClickMenu() {
               <LocationOffIcon />
             </ListItemIcon>
             <ListItemText>
-              { t("removeAllPairings") }
+              { t("removeAllHighlights") }
             </ListItemText>
             <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
               Ctrl + D
@@ -127,7 +127,7 @@ export function AfterClickMenu() {
 
         { hasMultipleHighlights ? (
           <Typography variant="body2" sx={{ px: 2 }}>
-            { t("removeAllPairingsExplainer", { count: activeFieldHighlights.length - 1 }) }
+            { t("removeAllHighlightsExplainer", { count: activeFieldHighlights.length - 1 }) }
           </Typography>
         ) : null }
 

@@ -1,12 +1,12 @@
 {
-  "createPairing": "Create pairing",
-  "replacePairing": "Replace other pairings",
-  "addPairing": "Add new pairing",
-  "addMorePairingsExplainer_one": "This field already has one other pairing. You can either replace it or add new one.",
-  "addMorePairingsExplainer_other": "This field already has {{ count }} other pairings. You can either replace them or add new one.",
+  "createHighlight": "Create link",
+  "replaceHighlight": "Replace other links",
+  "addHighlight": "Add new link",
+  "addMoreHighlightsExplainer_one": "This field already has one other link. You can either replace it or add new one.",
+  "addMoreHighlightsExplainer_other": "This field already has {{ count }} other links. You can either replace them or add new one.",
 
-  "removePairing": "Remove this pairing",
-  "removeAllPairings": "Remove all pairings",
-  "removeAllPairingsExplainer_one": "There is one other pairing, besides this one.",
-  "removeAllPairingsExplainer_other": "There are {{ count }} other pairings, besides this one."
+  "removeHighlight": "Remove this link",
+  "removeAllHighlights": "Remove all links",
+  "removeAllHighlightsExplainer_one": "There is one other link, besides this one.",
+  "removeAllHighlightsExplainer_other": "There are {{ count }} other links, besides this one."
 }

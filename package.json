@@ -5,7 +5,7 @@
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build --public-url ./",
+    "build": "rm -rf dist .parcel-cache && parcel build --public-url ./",
     "dockerBuild": "docker build --tag jirkamayer/resqplus-client:$npm_package_version .",
     "dockerPush": "docker push jirkamayer/resqplus-client:$npm_package_version",
     "dockerRun": "docker run --rm -it -p 1234:80 jirkamayer/resqplus-client:$npm_package_version"

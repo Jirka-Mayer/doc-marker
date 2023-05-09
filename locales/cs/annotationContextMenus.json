@@ -1,14 +1,14 @@
 {
-  "createPairing": "Vytvořit párování",
-  "replacePairing": "Nahradit ostatní párování",
-  "addPairing": "Přidat další párování",
-  "addMorePairingsExplainer_one": "Toto políčko už jedno párování má. Můžete ho buďto nahradit, nebo vytvořit další.",
-  "addMorePairingsExplainer_few": "Toto políčko už má {{ count }} párování. Můžete ho buďto nahradit, nebo vytvořit další.",
-  "addMorePairingsExplainer_other": "Toto políčko už má {{ count }} párování. Můžete je buďto nahradit, nebo vytvořit další.",
+  "createHighlight": "Vytvořit párování",
+  "replaceHighlight": "Nahradit ostatní párování",
+  "addHighlight": "Přidat další párování",
+  "addMoreHighlightsExplainer_one": "Toto políčko už jedno párování má. Můžete ho buďto nahradit, nebo vytvořit další.",
+  "addMoreHighlightsExplainer_few": "Toto políčko už má {{ count }} párování. Můžete ho buďto nahradit, nebo vytvořit další.",
+  "addMoreHighlightsExplainer_other": "Toto políčko už má {{ count }} párování. Můžete je buďto nahradit, nebo vytvořit další.",
 
-  "removePairing": "Odstranit párování",
-  "removeAllPairings": "Odstranit všechna párování",
-  "removeAllPairingsExplainer_one": "Toto políčko má ještě jedno další párování.",
-  "removeAllPairingsExplainer_few": "Toto políčko má ještě {{ count }} další párování.",
-  "removeAllPairingsExplainer_other": "Toto políčko má ještě {{ count }} dalších párování."
+  "removeHighlight": "Odstranit párování",
+  "removeAllHighlights": "Odstranit všechna párování",
+  "removeAllHighlightsExplainer_one": "Toto políčko má ještě jedno další párování.",
+  "removeAllHighlightsExplainer_few": "Toto políčko má ještě {{ count }} další párování.",
+  "removeAllHighlightsExplainer_other": "Toto políčko má ještě {{ count }} dalších párování."
 }
