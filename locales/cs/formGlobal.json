@@ -21,6 +21,8 @@
     "tooltip": "Nastavit jako neznámé"
   },
   "error": {
-    "required": "je povinná položka"
+    "required": "je povinná položka",
+    "minimum": "musí být ≥ {{ error.params.limit }}",
+    "maximum": "musí být ≤ {{ error.params.limit }}"
   }
 }
