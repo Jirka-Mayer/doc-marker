@@ -34,6 +34,14 @@ export class WordSelector {
     if (range.length === 0)
       return false
 
+    // if the range ends on space, make the range one char shorter
+    // (doubleclick on some systems selects a word with its trailing space)
+    if (range.length > 1
+      && this.quill.getText(range.index + range.length - 1, 1) === " "
+    ) {
+      range.length -= 1
+    }
+
     // intercepting selection drag
     const grownRange = this.growRangeToContainWords(range)
     if (grownRange.index === range.index && grownRange.length === range.length) {
