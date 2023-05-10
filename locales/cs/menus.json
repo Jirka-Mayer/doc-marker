@@ -14,7 +14,7 @@
   },
 
   "edit": {
-    "headButton": "Editovat"
+    "headButton": "Upravit"
   },
 
   "view": {
@@ -28,7 +28,7 @@
   },
 
   "format": {
-    "headButton": "Formátovat"
+    "headButton": "Formát"
   },
 
   "tools": {
