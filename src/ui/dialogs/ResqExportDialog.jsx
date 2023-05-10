@@ -48,7 +48,7 @@ export function ResqExportDialog() {
         </Button>
 
         <Typography>
-          Vytvořte v RES-Q nového pacienta (nebo otevřte existujícího)
+          Vytvořte v RES-Q záznam nového pacienta (nebo otevřete existujícího)
           a zkopírujte sem jeho RES-Q identifikátor:
         </Typography>
 

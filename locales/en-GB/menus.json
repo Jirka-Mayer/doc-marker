@@ -13,6 +13,10 @@
     "closeFile": "Close file"
   },
 
+  "edit": {
+    "headButton": "Edit"
+  },
+
   "view": {
     "headButton": "View",
 
@@ -21,6 +25,10 @@
     "annotationMode": "Annotation mode",
 
     "displayDebugInfo": "Display debug info"
+  },
+
+  "format": {
+    "headButton": "Format"
   },
 
   "tools": {

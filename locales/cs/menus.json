@@ -13,6 +13,10 @@
     "closeFile": "Zavřít soubor"
   },
 
+  "edit": {
+    "headButton": "Editovat"
+  },
+
   "view": {
     "headButton": "Zobrazit",
 
@@ -21,6 +25,10 @@
     "annotationMode": "Režim anotování",
 
     "displayDebugInfo": "Zobrazit ladící informace"
+  },
+
+  "format": {
+    "headButton": "Formátovat"
   },
 
   "tools": {
