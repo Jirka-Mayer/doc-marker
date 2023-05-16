@@ -136,6 +136,15 @@ export const deleteFileAtom = atom(null, (get, set, uuid) => {
   set(refreshFileListAtom)
 })
 
+/**
+ * Stores the file into the file storage,
+ * ovewriting any existing file with the same UUID
+ */
+ export const storeFileAtom = atom(null, (get, set, appFile) => {
+  FileStorage.storeFile(appFile)
+  set(refreshFileListAtom)
+})
+
 
 /////////////////////////////
 // Current File Operations //

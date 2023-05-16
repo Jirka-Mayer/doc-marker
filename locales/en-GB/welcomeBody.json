@@ -31,5 +31,15 @@
     "lastModified": "Last modified: {{timestamp, MOMENT_CALENDAR}}",
     "cancel": "Cancel",
     "delete": "Delete"
+  },
+
+  "uploadDialog": {
+    "title": "Upload file",
+    "explanation": "A version of the uploaded file already exists in this application. Do you want to continue with the upload and overwrite the existing file?",
+    "uploadedFile": "Uploaded file",
+    "existingFile": "Existing file",
+    "lastModified": "Last modified: {{timestamp, MOMENT_CALENDAR}}",
+    "cancel": "Cancel",
+    "overwrite": "Overwrite"
   }
 }

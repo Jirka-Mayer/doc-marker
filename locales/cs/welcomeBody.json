@@ -25,5 +25,15 @@
     "lastModified": "Naposledy upravený: {{timestamp, MOMENT_CALENDAR}}",
     "cancel": "Zrušit",
     "delete": "Smazat"
+  },
+
+  "uploadDialog": {
+    "title": "Nahrát file",
+    "explanation": "Verze nahrávaného souboru již existuje v této aplikaci. Chcete pokračovat a současný soubor přepsat?",
+    "uploadedFile": "Nahrávaný soubor",
+    "existingFile": "Současný soubor",
+    "lastModified": "Naposledy upravený: {{timestamp, MOMENT_CALENDAR}}",
+    "cancel": "Zrušit",
+    "overwrite": "Přepsat"
   }
 }

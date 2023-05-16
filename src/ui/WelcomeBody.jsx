@@ -12,6 +12,7 @@ import moment from "moment"
 
 import packageJson from "../../package.json"
 import { useTranslation } from "react-i18next"
+import { FileStorage } from "../state/file/FileStorage"
 const VERSION = packageJson.version
 
 export function WelcomeBody(props) {
@@ -26,20 +27,49 @@ export function WelcomeBody(props) {
   const [,openFile] = useAtom(fileStore.openFileAtom)
   const [,deleteFile] = useAtom(fileStore.deleteFileAtom)
   const [,downloadFile] = useAtom(fileStore.downloadFileAtom)
+  const [,storeFile] = useAtom(fileStore.storeFileAtom)
 
+  // deleting state
   const [recordToDelete, setRecordToDelete] = useState(null)
+  
+  // uploading state
+  const [fileToUpload, setFileToUpload] = useState(null)
+  const [fileToOverwrite, setFileToOverwrite] = useState(null)
 
-  async function uploadFile(input) {
+  async function handleFileUpload(input) {
+    // get the uploaded file as an AppFile instance
     if (input.files.length === 0)
       return
-
-    const json = await input.files[0].text()
+    const uploadedJson = await input.files[0].text()
     input.value = null
+    const uploadedAppFile = new AppFile(JSON.parse(uploadedJson))
 
-    // TODO: handle UUID collisions
-    const body = JSON.parse(json)
-    const file = new AppFile(body)
-    // applicationOpenFile(file)
+    // check if there is the same file already uploaded
+    const existingAppFile = FileStorage.loadFile(uploadedAppFile.uuid)
+    if (existingAppFile !== null
+      && existingAppFile.updatedAtString !== uploadedAppFile.updatedAtString
+    ) {
+      // open the dialog
+      setFileToUpload(uploadedAppFile)
+      setFileToOverwrite(existingAppFile)
+    } else {
+      // store and open
+      storeFile(uploadedAppFile)
+      openFile(uploadedAppFile.uuid)
+    }
+  }
+
+  function closeUploadFileDialog() {
+    setFileToUpload(null)
+    setFileToOverwrite(null)
+  }
+
+  function finishFileUpload() {
+    // store and open
+    storeFile(fileToUpload)
+    openFile(fileToUpload.uuid)
+    
+    closeUploadFileDialog()
   }
 
   return (
@@ -137,18 +167,18 @@ export function WelcomeBody(props) {
             <Button
               variant="outlined"
               component="label"
-              disabled={true}
             >
               { t("uploadFile") }
               <input
                 hidden
                 accept="application/json"
                 type="file"
-                onChange={e => uploadFile(e.target)}
+                onChange={e => handleFileUpload(e.target)}
               />
             </Button>
           </Stack>
 
+          {/* Delete file dialog */}
           <Dialog open={recordToDelete !== null} onClose={() => setRecordToDelete(null)}>
             <DialogTitle>{ t("deleteDialog.title") }</DialogTitle>
             <DialogContent>
@@ -176,6 +206,44 @@ export function WelcomeBody(props) {
                   setRecordToDelete(null)
                 }}
               >{ t("deleteDialog.delete") }</Button>
+            </DialogActions>
+          </Dialog>
+
+          {/* Upload file dialog */}
+          <Dialog open={fileToUpload !== null} onClose={closeUploadFileDialog}>
+            <DialogTitle>{ t("uploadDialog.title") }</DialogTitle>
+            <DialogContent>
+              <DialogContentText gutterBottom>
+                { t("uploadDialog.explanation") }
+              </DialogContentText>
+              <div style={{height: "20px"}}></div>
+              <Typography variant="button" gutterBottom>
+                { t("uploadDialog.uploadedFile") }
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                { fileToUpload ?
+                  t("uploadDialog.lastModified", { timestamp: fileToUpload.updatedAtString })
+                : "" }
+              </Typography>
+              <div style={{height: "20px"}}></div>
+              <Typography variant="button" gutterBottom>
+                { t("uploadDialog.existingFile") }
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                { fileToOverwrite ?
+                  t("uploadDialog.lastModified", { timestamp: fileToOverwrite.updatedAtString })
+                : "" }
+              </Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                variant="outlined"
+                onClick={closeUploadFileDialog}
+              >{ t("uploadDialog.cancel") }</Button>
+              <Button
+                variant="outlined" color="error"
+                onClick={finishFileUpload}
+              >{ t("uploadDialog.overwrite") }</Button>
             </DialogActions>
           </Dialog>
         </Paper>
