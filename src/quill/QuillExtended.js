@@ -17,6 +17,7 @@ import { AnonymizationApi } from "./AnonymizationApi"
 import { HighlightsApi } from "./HighlightsApi"
 import { getInlineFormatRange } from "./utils/getInlineFormatRange"
 import { htmlTableToDelta } from "./htmlTableToDelta"
+import { contentsToHighlights } from "./highlights/contentsToHighlights"
 
 // extend Quill with custom attributors
 defineAnonymizationAttributor()
@@ -190,14 +191,18 @@ export class QuillExtended {
   // MISSING: insertText
 
   setContents(delta, source = "api") {
-    // reset allocators
-    this.highlightsAllocator.reset()
-
     // import content
     const internalDelta = this.deltaMapper.import(delta)
     this.quill.setContents(internalDelta, source)
 
-    // re-render active highlight (due to the allocator reset)
+    // release unused allocator numbers
+    const newExternalContents = this.getContents()
+    let newHighlights = contentsToHighlights(newExternalContents)
+    this.highlightsAllocator.releaseUnlistedIds(
+      Object.keys(newHighlights)
+    )
+
+    // re-render active highlight (due to the allocator release)
     this.stateRenderer.refresh()
   }
 

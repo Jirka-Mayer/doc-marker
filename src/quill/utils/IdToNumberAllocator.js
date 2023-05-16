@@ -42,6 +42,25 @@ export class IdToNumberAllocator {
     this.freeNumbers.delete(number)
   }
 
+  /**
+   * Frees up unused IDs, if the given array contains all the used IDs
+   * @param {*} keepIds IDs to keep (used IDs)
+   */
+  releaseUnlistedIds(keepIds) {
+    keepIds = new Set(keepIds)
+    const removeIds = [...this.knownIds].filter(id => !keepIds.has(id))
+
+    for (const id of removeIds) {
+      const number = this.idToNumber.get(id)
+      
+      this.idToNumber.delete(id)
+      this.numberToId.delete(number)
+
+      this.knownIds.delete(id)
+      this.freeNumbers.add(number)
+    }
+  }
+
   /////////////////
   // Primary API //
   /////////////////
