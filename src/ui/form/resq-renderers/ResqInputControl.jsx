@@ -11,10 +11,9 @@ import { useFieldState } from "../useFieldState"
 import { useFieldHighlights } from "../useFieldHighlights"
 import { quillExtended } from "../../../state/reportStore"
 import HideSourceIcon from '@mui/icons-material/HideSource';
-import { useState } from 'react';
 import { useMemo } from 'react';
-import { useEffect } from "react"
-import { useCallback } from "react"
+import { useVisibilityMiddleware } from "../useVisibilityMiddleware"
+import { useNullabilityMiddleware } from "../useNullabilityMiddleware"
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure
@@ -34,7 +33,7 @@ export function ResqInputControl(props) {
     path,
     t,
     ignoreNullability,
-    handleChange: publicHandleChange,
+    handleChange,
     controlInput: InnerComponent,
   } = props
 
@@ -70,65 +69,34 @@ export function ResqInputControl(props) {
   } = useFieldHighlights(fieldId)
 
 
-  /////////////////
-  // Nullability //
-  /////////////////
+  // === visibility ===
+
+  const {
+    privateValue: visibilityPrivateValue,
+    privateHandleChange: visibilityPrivateHandleChange
+  } = useVisibilityMiddleware({
+    publicValue: data,
+    publicHandleChange: handleChange,
+    path,
+    visible
+  })
+
+
+  // === nullability ===
 
   const isNullable = ignoreNullability !== true
     && Array.isArray(schema.type)
     && schema.type.indexOf("null") !== -1;
 
-  const [isNull, setNull] = useState(data === null)
-
-
-  /////////////////////////////////////
-  // Private-public value separation //
-  /////////////////////////////////////
-
-  /*
-    The control separates the value it holds internally, from the value it
-    shows to the world publicly. This is so that we can make the value unknown
-    or missing to the public, while still remembering the original value.
-
-    The separation is done by remembering both values and intercepting/emitting
-    the handleChange events accordingly.
-  */
-
-  // NOTE: publicValue = data, setPublicValue = publicHandleChange
-  const [privateValue, setPrivateValue] = useState(data)
-
-  function computePublicValue() {
-    if (!visible)
-      return undefined
-    if (isNullable && isNull)
-      return null
-    return privateValue
-  }
-
-  const privateHandleChange = useCallback((p, v) => {
-    if (p === path) {
-      // remember
-      setPrivateValue(v)
-
-      // pass through only if having as usual (visible & not null)
-      // (no need to be perfect, the useEffect below ensures consistency,
-      // this is just to save some re-renders)
-      if (visible && !(isNullable && isNull)) {
-        publicHandleChange(p, v)
-      }
-    } else {
-      // pass-thru
-      publicHandleChange(p, v)
-    }
-  }, [visible, isNullable, isNull, path])
-
-  // makes sure the public value always stays consistent
-  // (e.g. visibility may change without our knowledge, we need to react)
-  useEffect(() => {
-    const computedPublicValue = computePublicValue()
-    if (computedPublicValue !== data) {
-      publicHandleChange(path, computedPublicValue)
-    }
+  const {
+    privateValue: nullabilityPrivateValue,
+    privateHandleChange: nullabilityPrivateHandleChange,
+    isNull, setNull
+  } = useNullabilityMiddleware({
+    publicValue: visibilityPrivateValue,
+    publicHandleChange: visibilityPrivateHandleChange,
+    path,
+    isNullable
   })
 
 
@@ -158,8 +126,8 @@ export function ResqInputControl(props) {
     ...props,
 
     // intercepted jsonforms props
-    handleChange: privateHandleChange,
-    data: privateValue,
+    handleChange: nullabilityPrivateHandleChange,
+    data: nullabilityPrivateValue,
 
     // doc-marker
     fieldId,
