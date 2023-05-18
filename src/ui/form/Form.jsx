@@ -1,7 +1,6 @@
 import { formRenderers, formCells } from "./formRenderersAndCells"
 import { materialRenderers } from "@jsonforms/material-renderers"
 import { JsonForms } from "@jsonforms/react"
-import { DesigningControls } from "./DesigningControls"
 import { useAtom } from "jotai"
 import { useCallback, useEffect, useState } from "react"
 import { FormDefinition } from "../../../forms/FormDefinition"
@@ -113,8 +112,6 @@ export function Form() {
         <pre>States: { JSON.stringify(fieldStates, null, 2) }</pre>
         <pre>Errors: { JSON.stringify(formErrors, null, 2) }</pre>
       </> : null}
-
-      {/* <DesigningControls /> */}
 
     </div>
   )
