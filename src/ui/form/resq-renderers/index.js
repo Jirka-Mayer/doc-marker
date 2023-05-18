@@ -52,6 +52,11 @@ import ResqMultiselectGroup, {
   ResqMultiselectGroup as ResqMultiselectGroupUnwrapped
 } from "./multiselect/ResqMultiselectGroup"
 
+import ResqPostAcuteFindingsGroup, {
+  resqPostAcuteFindingsGroupTester,
+  ResqPostAcuteFindingsGroup as ResqPostAcuteFindingsGroupUnwrapped
+} from "./post-acute-findings/PostAcuteFindingsGroup"
+
 
 // ========== Export ==========
 
@@ -62,7 +67,8 @@ export const Unwrapped = {
   ResqBooleanControl: ResqBooleanControlUnwrapped,
   ResqEnumControl: ResqEnumControlUnwrapped,
   ResqDateTimeControl: ResqDateTimeControlUnwrapped,
-  ResqMultiselectGroup: ResqMultiselectGroupUnwrapped
+  ResqMultiselectGroup: ResqMultiselectGroupUnwrapped,
+  ResqPostAcuteFindingsGroup: ResqPostAcuteFindingsGroupUnwrapped
 }
 
 export {
@@ -86,5 +92,7 @@ export {
   ResqDateTimeControl,
   resqDateTimeControlTester,
   ResqMultiselectGroup,
-  resqMultiselectGroupTester
+  resqMultiselectGroupTester,
+  ResqPostAcuteFindingsGroup,
+  resqPostAcuteFindingsGroupTester
 }

@@ -14,6 +14,7 @@ import { resqBooleanControlTester, ResqBooleanControl } from "./resq-renderers"
 import { resqEnumControlTester, ResqEnumControl } from "./resq-renderers"
 import { resqDateTimeControlTester, ResqDateTimeControl } from "./resq-renderers"
 import { resqMultiselectGroupTester, ResqMultiselectGroup } from "./resq-renderers"
+import { resqPostAcuteFindingsGroupTester, ResqPostAcuteFindingsGroup } from "./resq-renderers"
 
 export const formRenderers = [
   // controls
@@ -28,6 +29,7 @@ export const formRenderers = [
   { tester: resqEnumControlTester, renderer: ResqEnumControl },
   { tester: resqDateTimeControlTester, renderer: ResqDateTimeControl },
   { tester: resqMultiselectGroupTester, renderer: ResqMultiselectGroup },
+  // { tester: resqPostAcuteFindingsGroupTester, renderer: ResqPostAcuteFindingsGroup },
 
   // layouts
   { tester: resqGroupTester, renderer: ResqGroupLayout },
