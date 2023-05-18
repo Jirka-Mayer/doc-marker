@@ -13,6 +13,8 @@ import FlagIcon from '@mui/icons-material/Flag'
 import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags'
 import { quillExtended } from "../../../../state/reportStore"
 import { useVisibilityMiddleware } from '../../useVisibilityMiddleware'
+import { usePrevious } from '../../../../utils/usePrevious'
+import { useDebouncedChange } from '@jsonforms/material-renderers'
 
 export function BodyCheckboxControl(props) {
   const {
@@ -61,18 +63,78 @@ export function BodyCheckboxControl(props) {
   } = useFieldHighlights(fieldId)
 
 
+  /////////////////////////////////////
+  // Public-private value separation //
+  /////////////////////////////////////
+
+  const publicValue = data
+  const setPublicValue = useCallback((v) => {
+    // console.log("SET", path, v)
+    handleChange(path, v)
+  }, [path, handleChange])
+
+  // ------
+
+  const bodyVisible = (leaderValue === true) // invisible if the leader isn't true
+
+  const [cache, setCache] = useState(false)
+  const [isCached, setIsCached] = useState(false)
+
+  // ------
+
+  const privateValue = isCached ? cache : publicValue
+  const setPrivateValue = useCallback((v) => {
+    if (isCached) {
+      setCache(v)
+    } else {
+      setPublicValue(v)
+    }
+  }, [isCached, setCache, setPublicValue])
+
+  // ------
+
+  useEffect(() => {
+    if (!isCached && !bodyVisible) {
+      // console.log("CACHING", path, publicValue)
+      setCache(publicValue)
+      setPublicValue(leaderValue)
+      setIsCached(true)
+    }
+
+    if (isCached && bodyVisible) {
+      if (publicValue === leaderValue) {
+        // console.log("RESTORING", path, publicValue)
+        setPublicValue(cache)
+        setIsCached(false)
+      } else {
+        // console.log("RESTORING", path, "SKIPPED RESTORATION")
+        setIsCached(false)
+      }
+    }
+
+    if (isCached && !bodyVisible && leaderValue !== publicValue) {
+      // console.log("ALIGN", path, leaderValue)
+      setPublicValue(leaderValue)
+    }
+  })
+
+  // console.log("PUBLIC", publicValue, "<->", privateValue, "PRIVATE", path)
+
+
   // === visibility ===
 
-  const {
-    privateValue: visibilityPrivateValue,
-    privateHandleChange: visibilityPrivateHandleChange
-  } = useVisibilityMiddleware({
-    publicValue: data,
-    publicHandleChange: handleChange,
-    path,
-    visible: leaderValue === true, // invisible if the leader isn't true
-    publicValueWhenInvisible: leaderValue // same value as the leader
-  })
+
+  // const {
+  //   privateValue: visibilityPrivateValue,
+  //   privateHandleChange: visibilityPrivateHandleChange
+  // } = useVisibilityMiddleware({
+  //   publicValue: data,
+  //   publicHandleChange: handleChange,
+  //   path,
+  //   visible: bodyVisible,
+  //   // when the body is invisible, the pretend values are aligned with the leader
+  //   publicValueWhenInvisible: bodyVisible ? undefined : leaderValue
+  // })
 
   const privateHandleChange = useCallback((e) => {
     const isChecked = e.target.checked
@@ -80,10 +142,11 @@ export function BodyCheckboxControl(props) {
     // "observeChange" (treat false as empty)
     updateFieldStateWithChange(isChecked ? true : undefined)
     
-    visibilityPrivateHandleChange(path, isChecked)
-  }, [visibilityPrivateHandleChange, path])
+    //visibilityPrivateHandleChange(path, isChecked)
+    setPrivateValue(isChecked)
+  }, [setPrivateValue, /*visibilityPrivateHandleChange*/, path])
 
-  const privateValue = visibilityPrivateValue
+  // const privateValue = visibilityPrivateValue
 
 
   /////////////

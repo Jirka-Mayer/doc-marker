@@ -34,7 +34,8 @@ export function useVisibilityMiddleware(options) {
   const cache = useRef(publicValue)
 
   // is the middleware pretending or not?
-  const state = useRef(visible ? STATE_TRANSPARENT : STATE_PRETENDING)
+  // const state = useRef(visible ? STATE_TRANSPARENT : STATE_PRETENDING)
+  const state = useRef(STATE_TRANSPARENT)
 
   const startPretending = useCallback(() => {
     if (state.current === STATE_PRETENDING) {
@@ -42,11 +43,11 @@ export function useVisibilityMiddleware(options) {
       return
     }
 
+    // console.log("START PRETEND", path, "Caching:", publicValue)
+
     state.current = STATE_PRETENDING // update state
     cache.current = publicValue // cache value
     setPublicValue(publicValueWhenInvisible) // set pretend public value
-
-    // console.log("START PRETEND", path, "Cached:", publicValue)
   }, [publicValue, setPublicValue, publicValueWhenInvisible])
 
   const stopPretending = useCallback(() => {
@@ -56,10 +57,18 @@ export function useVisibilityMiddleware(options) {
     }
 
     state.current = STATE_TRANSPARENT // update state
-    setPublicValue(cache.current) // restore public value from cache
 
-    // console.log("STOP PRETEND", path, "Restored:", cache.current)
-  }, [setPublicValue])
+    // restore public value from cache
+    // (but only if the current public value is the pretended value)
+    // (because in such case, the form as a whole has been probably set)
+    // console.log("(PVWI)", path, publicValueWhenInvisible)
+    if (publicValue === publicValueWhenInvisible) {
+      // console.log("STOP PRETEND", path, "Restoring:", cache.current)
+      setPublicValue(cache.current)
+    } else {
+      // console.log("STOP PRETEND", path, "No restoration")
+    }
+  }, [publicValue, setPublicValue, publicValueWhenInvisible])
 
   useEffect(() => {
     // we should be pretending, when not visible
