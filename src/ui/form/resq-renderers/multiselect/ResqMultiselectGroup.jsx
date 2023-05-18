@@ -1,3 +1,4 @@
+import React from "react"
 import { rankWith, toDataPath, toDataPathSegments } from '@jsonforms/core'
 import { JsonFormsDispatch, withJsonFormsLayoutProps, withTranslateProps } from '@jsonforms/react'
 import { isMultiselectGroup } from './isMultiselectGroup'
@@ -123,5 +124,7 @@ export const resqMultiselectGroupTester = rankWith(
 )
 
 export default withJsonFormsLayoutProps(
-  withTranslateProps(ResqMultiselectGroup)
+  withTranslateProps(
+    React.memo(ResqMultiselectGroup)
+  )
 )

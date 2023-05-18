@@ -1,21 +1,27 @@
 import { atom } from "jotai"
 
 /**
- * Contains the filled-out data of the form,
- * null means the form is completely empty and has not been even touched yet,
- * otherwise an empty form is represented by an empty json object
+ * Contains the ID of the currently used form
  */
-export const formDataAtom = atom(null)
+export const formIdAtom = atom(null)
 
 /**
  * Contains the set of errors in the form data
  */
 export const formErrorsAtom = atom(null)
 
-/**
- * Contains the ID of the currently used form
- */
-export const formIdAtom = atom(null)
+
+///////////////
+// Form Data //
+///////////////
+
+import * as formDataStore from "./form/formDataStore"
+
+export const formDataAtom = formDataStore.formDataAtom;
+export const getExportedFormData = formDataStore.getExportedFormData;
+export const exportValue = formDataStore.exportValue;
+export const getExportedValue = formDataStore.getExportedValue;
+export const clearExportedFormData = formDataStore.clearExportedFormData;
 
 
 //////////////////

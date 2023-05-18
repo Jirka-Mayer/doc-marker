@@ -1,3 +1,4 @@
+import React from "react"
 import * as styles from "../renderers.module.scss"
 import { rankWith, isBooleanControl } from '@jsonforms/core'
 import { withJsonFormsControlProps, withTranslateProps } from '@jsonforms/react'
@@ -10,7 +11,7 @@ import FlagIcon from '@mui/icons-material/Flag'
 import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags'
 import StreamIcon from '@mui/icons-material/Stream'
 import { quillExtended } from "../../../../state/reportStore"
-import { useVisibilityMiddleware } from "../../useVisibilityMiddleware"
+import { exportValue } from "../../../../state/formStore"
 
 function stringifyValue(value) {
   if (value === true) return "yes"
@@ -81,24 +82,11 @@ function LeaderControl(props) {
   } = useFieldHighlights(fieldId)
 
 
-  // === visibility ===
+  // === value export ===
 
-  const {
-    privateValue: visibilityPrivateValue,
-    privateHandleChange: visibilityPrivateHandleChange
-  } = useVisibilityMiddleware({
-    publicValue: data,
-    publicHandleChange: handleChange,
-    path,
-    visible
-  })
-
-  const privateHandleChange = useCallback((e) => {
-    const newValue = parseValue(e.target.value)
-    visibilityPrivateHandleChange(path, newValue)
-  }, [path, visibilityPrivateHandleChange])
-
-  const privateValue = visibilityPrivateValue
+  exportValue(path,
+    visible ? data : undefined
+  )
 
 
   /////////////
@@ -111,6 +99,11 @@ function LeaderControl(props) {
 
   function onHighlightPinClick() {
     quillExtended.scrollHighlightIntoView(fieldId)
+  }
+
+  function onRadioButtonChange(e) {
+    const newValue = parseValue(e.target.value)
+    handleChange(path, newValue)
   }
 
 
@@ -151,8 +144,8 @@ function LeaderControl(props) {
       >
         <RadioGroup
           name={htmlId}
-          value={stringifyValue(privateValue)}
-          onChange={privateHandleChange}
+          value={stringifyValue(data)}
+          onChange={onRadioButtonChange}
           onFocus={onFocus}
         >
           <FormControlLabel value="yes" control={<Radio />} label={labelYes} />
@@ -165,13 +158,13 @@ function LeaderControl(props) {
         <div style={{ flex: "1" }}></div>
 
         {/* Reset to empty button */}
-        { (privateValue !== undefined) &&
+        { (data !== undefined) &&
           <Tooltip
             title={forgetTooltipLabel}
             disableInteractive
           >
             <IconButton
-              onClick={() => visibilityPrivateHandleChange(path, undefined)}
+              onClick={() => handleChange(path, undefined)}
               sx={{ p: '10px' }}
             >
               <StreamIcon />
@@ -216,5 +209,7 @@ export const leaderControlTester = rankWith(
 )
 
 export default withJsonFormsControlProps(
-  withTranslateProps(LeaderControl)
+  withTranslateProps(
+    React.memo(LeaderControl)
+  )
 )

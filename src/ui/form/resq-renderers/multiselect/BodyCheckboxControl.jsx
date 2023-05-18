@@ -1,3 +1,4 @@
+import React from "react"
 import { rankWith, isBooleanControl } from '@jsonforms/core'
 import { withJsonFormsControlProps } from '@jsonforms/react'
 import { Checkbox, FormControlLabel, IconButton, Typography } from '@mui/material'
@@ -12,9 +13,9 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'
 import FlagIcon from '@mui/icons-material/Flag'
 import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags'
 import { quillExtended } from "../../../../state/reportStore"
-import { useVisibilityMiddleware } from '../../useVisibilityMiddleware'
 import { usePrevious } from '../../../../utils/usePrevious'
 import { useDebouncedChange } from '@jsonforms/material-renderers'
+import { exportValue } from '../../../../state/form/formDataStore'
 
 export function BodyCheckboxControl(props) {
   const {
@@ -63,90 +64,13 @@ export function BodyCheckboxControl(props) {
   } = useFieldHighlights(fieldId)
 
 
-  /////////////////////////////////////
-  // Public-private value separation //
-  /////////////////////////////////////
+  // === value export ===
 
-  const publicValue = data
-  const setPublicValue = useCallback((v) => {
-    // console.log("SET", path, v)
-    handleChange(path, v)
-  }, [path, handleChange])
-
-  // ------
-
-  const bodyVisible = (leaderValue === true) // invisible if the leader isn't true
-
-  const [cache, setCache] = useState(false)
-  const [isCached, setIsCached] = useState(false)
-
-  // ------
-
-  const privateValue = isCached ? cache : publicValue
-  const setPrivateValue = useCallback((v) => {
-    if (isCached) {
-      setCache(v)
-    } else {
-      setPublicValue(v)
-    }
-  }, [isCached, setCache, setPublicValue])
-
-  // ------
-
-  useEffect(() => {
-    if (!isCached && !bodyVisible) {
-      // console.log("CACHING", path, publicValue)
-      setCache(publicValue)
-      setPublicValue(leaderValue)
-      setIsCached(true)
-    }
-
-    if (isCached && bodyVisible) {
-      if (publicValue === leaderValue) {
-        // console.log("RESTORING", path, publicValue)
-        setPublicValue(cache)
-        setIsCached(false)
-      } else {
-        // console.log("RESTORING", path, "SKIPPED RESTORATION")
-        setIsCached(false)
-      }
-    }
-
-    if (isCached && !bodyVisible && leaderValue !== publicValue) {
-      // console.log("ALIGN", path, leaderValue)
-      setPublicValue(leaderValue)
-    }
-  })
-
-  // console.log("PUBLIC", publicValue, "<->", privateValue, "PRIVATE", path)
-
-
-  // === visibility ===
-
-
-  // const {
-  //   privateValue: visibilityPrivateValue,
-  //   privateHandleChange: visibilityPrivateHandleChange
-  // } = useVisibilityMiddleware({
-  //   publicValue: data,
-  //   publicHandleChange: handleChange,
-  //   path,
-  //   visible: bodyVisible,
-  //   // when the body is invisible, the pretend values are aligned with the leader
-  //   publicValueWhenInvisible: bodyVisible ? undefined : leaderValue
-  // })
-
-  const privateHandleChange = useCallback((e) => {
-    const isChecked = e.target.checked
-    
-    // "observeChange" (treat false as empty)
-    updateFieldStateWithChange(isChecked ? true : undefined)
-    
-    //visibilityPrivateHandleChange(path, isChecked)
-    setPrivateValue(isChecked)
-  }, [setPrivateValue, /*visibilityPrivateHandleChange*/, path])
-
-  // const privateValue = visibilityPrivateValue
+  exportValue(path,
+    leaderValue === true
+      ? !!data
+      : leaderValue
+  )
 
 
   /////////////
@@ -160,6 +84,15 @@ export function BodyCheckboxControl(props) {
   function onHighlightPinClick() {
     quillExtended.scrollHighlightIntoView(fieldId)
   }
+
+  const privateHandleChange = useCallback((e) => {
+    const isChecked = e.target.checked
+    
+    // "observeChange" (treat false as empty)
+    updateFieldStateWithChange(isChecked ? true : undefined)
+    
+    handleChange(path, isChecked)
+  }, [handleChange, path])
 
 
   ///////////////
@@ -178,7 +111,7 @@ export function BodyCheckboxControl(props) {
     >
       <Checkbox
         id={htmlId}
-        checked={privateValue === true}
+        checked={data === true}
         onChange={privateHandleChange}
         color={hasVerifiedAppearance ? "success" : "primary"}
         onFocus={onFocus}
@@ -215,4 +148,6 @@ export const bodyCheckboxControlTester = rankWith(
   2, isBooleanControl
 )
 
-export default withJsonFormsControlProps(BodyCheckboxControl)
+export default withJsonFormsControlProps(
+  React.memo(BodyCheckboxControl)
+)

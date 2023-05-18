@@ -1,3 +1,4 @@
+import React from "react"
 import { rankWith, uiTypeIs } from '@jsonforms/core'
 import { JsonFormsDispatch, withJsonFormsLayoutProps } from '@jsonforms/react'
 
@@ -35,4 +36,6 @@ export const bodyVerticalLayoutTester = rankWith(
   1, uiTypeIs("VerticalLayout")
 )
 
-export default withJsonFormsLayoutProps(BodyVerticalLayout)
+export default withJsonFormsLayoutProps(
+  React.memo(BodyVerticalLayout)
+)

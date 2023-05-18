@@ -63,7 +63,7 @@ const serializeFileAtom = atom(get => {
     "_updatedAt": new Date().toISOString(),
     
     "_formId": get(formStore.formIdAtom),
-    "_formData": get(formStore.formDataAtom),
+    "_formData": formStore.getExportedFormData(),
     
     "_reportDelta": get(reportStore.contentAtom),
     "_reportText": reportStore.quillExtended.getText(),
@@ -94,6 +94,7 @@ const deserializeFileAtom = atom(null, (get, set, appFile) => {
 
   set(formStore.formIdAtom, json["_formId"])
   set(formStore.formDataAtom, json["_formData"])
+  formStore.clearExportedFormData()
 
   reportStore.quillExtended.setContents(json["_reportDelta"])
   // _reportText and _highlights are ignored, since they are computable from delta

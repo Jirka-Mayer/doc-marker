@@ -12,8 +12,8 @@ import { useFieldHighlights } from "../useFieldHighlights"
 import { quillExtended } from "../../../state/reportStore"
 import HideSourceIcon from '@mui/icons-material/HideSource';
 import { useMemo } from 'react';
-import { useVisibilityMiddleware } from "../useVisibilityMiddleware"
 import { useNullabilityMiddleware } from "../useNullabilityMiddleware"
+import { exportValue } from "../../../state/formStore"
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure
@@ -69,17 +69,11 @@ export function ResqInputControl(props) {
   } = useFieldHighlights(fieldId)
 
 
-  // === visibility ===
+  // === export value ===
 
-  const {
-    privateValue: visibilityPrivateValue,
-    privateHandleChange: visibilityPrivateHandleChange
-  } = useVisibilityMiddleware({
-    publicValue: data,
-    publicHandleChange: handleChange,
-    path,
-    visible
-  })
+  exportValue(path,
+    visible ? data : undefined
+  )
 
 
   // === nullability ===
@@ -93,8 +87,8 @@ export function ResqInputControl(props) {
     privateHandleChange: nullabilityPrivateHandleChange,
     isNull, setNull
   } = useNullabilityMiddleware({
-    publicValue: visibilityPrivateValue,
-    publicHandleChange: visibilityPrivateHandleChange,
+    publicValue: data,
+    publicHandleChange: handleChange,
     path,
     isNullable
   })
