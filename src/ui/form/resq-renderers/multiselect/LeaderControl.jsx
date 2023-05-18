@@ -1,14 +1,16 @@
 import * as styles from "../renderers.module.scss"
 import { rankWith, isBooleanControl } from '@jsonforms/core'
 import { withJsonFormsControlProps, withTranslateProps } from '@jsonforms/react'
-import { Divider, IconButton, FormControlLabel, InputLabel, Radio, RadioGroup } from '@mui/material'
+import { FormHelperText, Divider, IconButton, FormControlLabel, InputLabel, Radio, RadioGroup, Tooltip } from '@mui/material'
 import { useState, useCallback, useMemo, useEffect } from "react"
 import { useFieldActivity } from '../../useFieldActivity'
 import { useFieldHighlights } from '../../useFieldHighlights'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import FlagIcon from '@mui/icons-material/Flag'
 import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags'
+import StreamIcon from '@mui/icons-material/Stream'
 import { quillExtended } from "../../../../state/reportStore"
+import { useVisibilityMiddleware } from "../../useVisibilityMiddleware"
 
 function stringifyValue(value) {
   if (value === true) return "yes"
@@ -41,11 +43,9 @@ function LeaderControl(props) {
     data,
     visible,
     t,
-    handleChange: publicHandleChange
+    errors,
+    handleChange
   } = props
-
-  // the leader should never really be "empty", since it's a radio button group
-  const DEFAULT_VALUE = true
 
   const fieldId = path // field ID is defined to be the path in the form data
   const htmlId = id + "-input"
@@ -67,8 +67,7 @@ function LeaderControl(props) {
   /*
     I guess it doesn't make sense for the leader to have field state.
     Automatic extraction will be performed for individual checkboxes
-    and this value is then extracted from that?
-    Also the default value really messes this logic up...
+    and this value is then extracted from that, I guess?
   */
 
   const hasVerifiedAppearance = false
@@ -82,44 +81,24 @@ function LeaderControl(props) {
   } = useFieldHighlights(fieldId)
 
 
-  /////////////////////////////////////
-  // Private-public value separation //
-  /////////////////////////////////////
+  // === visibility ===
 
-  // NOTE: publicValue = data, setPublicValue = publicHandleChange
-  const [privateValue, setPrivateValue] = useState(data)
-
-  function computePublicValue() {
-    if (!visible)
-      return undefined
-    
-    // the leader should not be "empty", set it to default instead (true)
-    if (privateValue === undefined)
-      return DEFAULT_VALUE
-
-    return privateValue
-  }
+  const {
+    privateValue: visibilityPrivateValue,
+    privateHandleChange: visibilityPrivateHandleChange
+  } = useVisibilityMiddleware({
+    publicValue: data,
+    publicHandleChange: handleChange,
+    path,
+    visible
+  })
 
   const privateHandleChange = useCallback((e) => {
     const newValue = parseValue(e.target.value)
+    visibilityPrivateHandleChange(path, newValue)
+  }, [path, visibilityPrivateHandleChange])
 
-    // remember
-    setPrivateValue(newValue)
-
-    // pass through only if we are visible
-    if (visible) {
-      publicHandleChange(path, newValue)
-    }    
-  }, [visible, path])
-
-  // makes sure the public value always stays consistent
-  // (e.g. visibility may change without our knowledge, we need to react)
-  useEffect(() => {
-    const computedPublicValue = computePublicValue()
-    if (computedPublicValue !== data) {
-      publicHandleChange(path, computedPublicValue)
-    }
-  })
+  const privateValue = visibilityPrivateValue
 
 
   /////////////
@@ -149,6 +128,12 @@ function LeaderControl(props) {
     path + ".null", "Unknown", { schema, uischema, path}
   ), [t, schema, uischema, path])
 
+  const forgetTooltipLabel = useMemo(() => t(
+    "multiselect.forget",
+    "Forget value",
+    { schema, uischema, path}
+  ), [t, schema, uischema, path])
+
   return (
     <div onClick={() => setFieldActive()}>
       <InputLabel
@@ -166,7 +151,7 @@ function LeaderControl(props) {
       >
         <RadioGroup
           name={htmlId}
-          value={stringifyValue(data)}
+          value={stringifyValue(privateValue)}
           onChange={privateHandleChange}
           onFocus={onFocus}
         >
@@ -178,6 +163,21 @@ function LeaderControl(props) {
         </RadioGroup>
 
         <div style={{ flex: "1" }}></div>
+
+        {/* Reset to empty button */}
+        { (privateValue !== undefined) &&
+          <Tooltip
+            title={forgetTooltipLabel}
+            disableInteractive
+          >
+            <IconButton
+              onClick={() => visibilityPrivateHandleChange(path, undefined)}
+              sx={{ p: '10px' }}
+            >
+              <StreamIcon />
+            </IconButton>
+          </Tooltip>
+        }
 
         {/* Activity flag button */}
         {/* <IconButton
@@ -199,7 +199,14 @@ function LeaderControl(props) {
         : ""}
 
         {/* NOTE: robot validation button is missing because field state is missing */}
+
       </div>
+      { (errors !== "") &&
+        <FormHelperText
+          className={styles["field-error-message"]}
+          error={true}
+        >{errors}</FormHelperText>
+      }
     </div>
   )
 }

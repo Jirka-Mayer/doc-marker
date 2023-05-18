@@ -20,6 +20,9 @@
     "value": "Neznámé",
     "tooltip": "Nastavit jako neznámé"
   },
+  "multiselect": {
+    "forget": "Zapomenout hodnotu"
+  },
   "error": {
     "required": "je povinná položka",
     "minimum": "musí být ≥ {{ error.params.limit }}",

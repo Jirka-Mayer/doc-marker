@@ -12,6 +12,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'
 import FlagIcon from '@mui/icons-material/Flag'
 import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags'
 import { quillExtended } from "../../../../state/reportStore"
+import { useVisibilityMiddleware } from '../../useVisibilityMiddleware'
 
 export function BodyCheckboxControl(props) {
   const {
@@ -21,7 +22,7 @@ export function BodyCheckboxControl(props) {
     data,
     visible,
     id,
-    handleChange: publicHandleChange
+    handleChange
   } = props
 
   const {
@@ -60,46 +61,29 @@ export function BodyCheckboxControl(props) {
   } = useFieldHighlights(fieldId)
 
 
-  /////////////////////////////////////
-  // Private-public value separation //
-  /////////////////////////////////////
+  // === visibility ===
 
-  // NOTE: publicValue = data, setPublicValue = publicHandleChange
-  const [privateValue, setPrivateValue] = useState(!!data) // enforce boolean
-
-  function computePublicValue() {
-    if (leaderValue === false)
-      return false
-    if (leaderValue === null)
-      return null
-    if (leaderValue === undefined)
-      return undefined
-    return !!privateValue // enforce boolean
-  }
+  const {
+    privateValue: visibilityPrivateValue,
+    privateHandleChange: visibilityPrivateHandleChange
+  } = useVisibilityMiddleware({
+    publicValue: data,
+    publicHandleChange: handleChange,
+    path,
+    visible: leaderValue === true, // invisible if the leader isn't true
+    publicValueWhenInvisible: leaderValue // same value as the leader
+  })
 
   const privateHandleChange = useCallback((e) => {
     const isChecked = e.target.checked
-
+    
     // "observeChange" (treat false as empty)
     updateFieldStateWithChange(isChecked ? true : undefined)
+    
+    visibilityPrivateHandleChange(path, isChecked)
+  }, [visibilityPrivateHandleChange, path])
 
-    // remember
-    setPrivateValue(isChecked)
-
-    // pass through only if the leader is "yes"
-    if (leaderValue === true) {
-      publicHandleChange(path, isChecked)
-    }
-  }, [leaderValue, path])
-
-  // makes sure the public value always stays consistent
-  // (e.g. leader value may change without our knowledge, we need to react)
-  useEffect(() => {
-    const computedPublicValue = computePublicValue()
-    if (computedPublicValue !== data) {
-      publicHandleChange(path, computedPublicValue)
-    }
-  })
+  const privateValue = visibilityPrivateValue
 
 
   /////////////
@@ -131,7 +115,7 @@ export function BodyCheckboxControl(props) {
     >
       <Checkbox
         id={htmlId}
-        checked={data === true}
+        checked={privateValue === true}
         onChange={privateHandleChange}
         color={hasVerifiedAppearance ? "success" : "primary"}
         onFocus={onFocus}

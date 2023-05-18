@@ -20,5 +20,8 @@
     "value": "Unknown",
     "tooltip": "Set as unknown"
   },
+  "multiselect": {
+    "forget": "Forget value"
+  },
   "error": {}
 }
