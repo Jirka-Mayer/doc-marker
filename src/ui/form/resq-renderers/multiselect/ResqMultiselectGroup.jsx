@@ -43,6 +43,18 @@ function allCheckboxesAreFalse(data, groupPath, leaderKey) {
   return true
 }
 
+const leaderRenderers = [
+  { tester: leaderControlTester, renderer: LeaderControl }
+]
+const leaderCells = []
+const bodyRenderers = [
+  { tester: bodyVerticalLayoutTester, renderer: BodyVerticalLayout },
+  { tester: materialHorizontalLayoutTester, renderer: MaterialHorizontalLayout },
+  { tester: bodyGroupLayoutTester, renderer: BodyGroupLayout },
+  { tester: bodyCheckboxControlTester, renderer: BodyCheckboxControl }
+]
+const bodyCells = []
+
 export function ResqMultiselectGroup(props) {
   const {
     enabled,
@@ -85,35 +97,30 @@ export function ResqMultiselectGroup(props) {
           uischema={leaderUischema}
           schema={schema}
           enabled={enabled}
-          renderers={[
-            { tester: leaderControlTester, renderer: LeaderControl }
-          ]}
-          cells={[]}
+          renderers={leaderRenderers}
+          cells={leaderCells}
         />
 
-        { leaderValue === true ? <Divider /> : null }
+        { (leaderValue === true) &&
+          <Divider />
+        }
 
         <JsonFormsDispatch
           uischema={bodyUischema}
           schema={schema}
           enabled={enabled}
-          renderers={[
-            { tester: bodyVerticalLayoutTester, renderer: BodyVerticalLayout },
-            { tester: materialHorizontalLayoutTester, renderer: MaterialHorizontalLayout },
-            { tester: bodyGroupLayoutTester, renderer: BodyGroupLayout },
-            { tester: bodyCheckboxControlTester, renderer: BodyCheckboxControl }
-          ]}
-          cells={[]}
+          renderers={bodyRenderers}
+          cells={bodyCells}
         />
         
         {/* <pre>{ JSON.stringify(_.get(data, groupPath), null, 2) }</pre> */}
 
-        { errors === "" ? "" : (
+        { (errors !== "") &&
           <FormHelperText
             className={styles["field-error-message"]}
             error={true}
           >{errors}</FormHelperText>
-        )}
+        }
       </Paper>
     </MultiselectGroupContext.Provider>
   )
