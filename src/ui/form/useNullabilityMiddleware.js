@@ -24,6 +24,14 @@ export function useNullabilityMiddleware(options) {
     }
   }
 
+  // makes sure we won't store null in cache
+  // (this would make the field get stuck in the null position)
+  function sanitizeCacheValue(v) {
+    if (v === null)
+      return undefined
+    return v
+  }
+
   const setPublicValue = useCallback((v) => {
     publicHandleChange(path, v)
   }, [publicHandleChange, path])
@@ -34,19 +42,20 @@ export function useNullabilityMiddleware(options) {
   const isNull = publicValue === null
 
   // cache remembers the value when null
-  const cache = useRef(publicValue)
+  const cache = useRef(sanitizeCacheValue(publicValue))
 
   // keep cache synced with the public value when not null
   // (public value changes with external updates but also with internal)
   if (!isNull && publicValue !== cache.current) {
-    cache.current = publicValue
+    cache.current = sanitizeCacheValue(publicValue)
   }
 
   let privateValue = isNull ? cache.current : publicValue
 
   const setPrivateValue = useCallback((v) => {
     if (isNull) {
-      cache.current = v // keep cache synced with the private value when null
+      // keep cache synced with the private value when null
+      cache.current = sanitizeCacheValue(v)
     } else {
       setPublicValue(v) // propagate to public value when not null
     }
@@ -55,7 +64,7 @@ export function useNullabilityMiddleware(options) {
   const setNull = useCallback((v) => {
     if (v) {
       // cache value & set null
-      cache.current = publicValue
+      cache.current = sanitizeCacheValue(publicValue)
       setPublicValue(null)
     } else {
       // restore value
