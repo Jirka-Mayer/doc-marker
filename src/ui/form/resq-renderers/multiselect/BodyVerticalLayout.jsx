@@ -1,17 +1,36 @@
-import React from "react"
+import React, { useContext } from "react"
 import { rankWith, uiTypeIs } from '@jsonforms/core'
 import { JsonFormsDispatch, withJsonFormsLayoutProps } from '@jsonforms/react'
+import { MultiselectGroupContext } from "./MultiselectGroupContext"
 
 function BodyVerticalLayout(props) {
   const {
     uischema,
     schema,
     path,
-    enabled,
     renderers,
-    cells,
-    visible
+    cells
   } = props
+
+  const {
+    leaderValue
+  } = useContext(MultiselectGroupContext)
+
+
+  // === visible ===
+
+  let visible = false
+
+  if (leaderValue === undefined) {
+    visible = true
+  }
+
+  if (leaderValue === true) {
+    visible = true
+  }
+
+  
+  // === rendering ===
 
   const elements = uischema.elements
 
@@ -24,7 +43,7 @@ function BodyVerticalLayout(props) {
         uischema={child}
         schema={schema}
         path={path}
-        enabled={enabled}
+        enabled={true} // checkboxes handle that on their own
         renderers={renderers}
         cells={cells}
       />

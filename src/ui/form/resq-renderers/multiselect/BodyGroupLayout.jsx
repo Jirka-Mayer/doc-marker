@@ -11,10 +11,8 @@ function BodyGroupLayout(props) {
     uischema,
     schema,
     path,
-    enabled,
     renderers,
     cells,
-    visible,
     data
   } = props
 
@@ -32,8 +30,24 @@ function BodyGroupLayout(props) {
   const leaderPath = toDataPath(leaderScope)
   const leaderValue = getExportedValue(leaderPath)
 
-  return (<>
-    <MultiselectGroupContext.Provider value={{ leaderValue }}>
+
+  // === visible ===
+
+  let visible = false
+
+  if (leaderValue === true) {
+    visible = true
+  }
+
+
+  // === rendering ===
+
+  return (
+    <MultiselectGroupContext.Provider value={{
+      leaderValue: leaderValue,
+      leaderPath: leaderPath,
+      inSubGroup: true
+    }}>
       { elements.map((child, index) => (
         <div
           key={`${path}-${index}`}
@@ -44,14 +58,14 @@ function BodyGroupLayout(props) {
             uischema={child}
             schema={schema}
             path={path}
-            enabled={enabled}
+            enabled={true} // checkboxes handle that on their own
             renderers={renderers}
             cells={cells}
           />
         </div>
       )) }
     </MultiselectGroupContext.Provider>
-  </>)
+  )
 }
 
 export const bodyGroupLayoutTester = rankWith(

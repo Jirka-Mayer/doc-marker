@@ -23,13 +23,14 @@ export function BodyCheckboxControl(props) {
     uischema,
     label,
     data,
-    visible,
     id,
     handleChange
   } = props
 
   const {
-    leaderValue
+    leaderValue,
+    leaderPath,
+    inSubGroup
   } = useContext(MultiselectGroupContext)
 
   const fieldId = path // field ID is defined to be the path in the form data
@@ -92,6 +93,11 @@ export function BodyCheckboxControl(props) {
     updateFieldStateWithChange(isChecked ? true : undefined)
     
     handleChange(path, isChecked)
+
+    // when we set the checkbox to true and the leader is not checked, we check it
+    if (isChecked && leaderValue !== true) {
+      handleChange(leaderPath, true)
+    }
   }, [handleChange, path])
 
 
@@ -99,6 +105,12 @@ export function BodyCheckboxControl(props) {
   // Rendering //
   ///////////////
   
+  const enabled = (leaderValue !== undefined)
+
+  const checked = enabled
+    ? (data === true) // enabled --> display the "data" value
+    : false // disabled --> display as empty
+
   return (
     <div
       className={[
@@ -111,14 +123,18 @@ export function BodyCheckboxControl(props) {
     >
       <Checkbox
         id={htmlId}
-        checked={data === true}
+        checked={checked}
         onChange={privateHandleChange}
+        disabled={!enabled}
         color={hasVerifiedAppearance ? "success" : "primary"}
         onFocus={onFocus}
       />
-      <Typography component="label" variant="body1">
-        {label || fieldId}
-      </Typography>
+      <FormControlLabel
+        control={<span></span>} // not the checkbox to disable "click label to check"
+        label={label || fieldId}
+        disabled={!enabled}
+        style={{ marginLeft: 0 }}
+      />
 
       {/* Activity flag button */}
       {/* <IconButton

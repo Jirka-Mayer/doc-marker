@@ -57,7 +57,6 @@ const bodyCells = []
 
 export function ResqMultiselectGroup(props) {
   const {
-    enabled,
     schema,
     uischema,
     visible,
@@ -91,12 +90,16 @@ export function ResqMultiselectGroup(props) {
   }
 
   return (
-    <MultiselectGroupContext.Provider value={{ leaderValue }}>
+    <MultiselectGroupContext.Provider value={{
+      leaderValue: leaderValue,
+      leaderPath: leaderPath,
+      inSubGroup: false
+    }}>
       <Paper sx={{ display: visible ? "block" : "none" }}>
         <JsonFormsDispatch
           uischema={leaderUischema}
           schema={schema}
-          enabled={enabled}
+          enabled={true} // we do not support being disabled
           renderers={leaderRenderers}
           cells={leaderCells}
         />
@@ -108,7 +111,7 @@ export function ResqMultiselectGroup(props) {
         <JsonFormsDispatch
           uischema={bodyUischema}
           schema={schema}
-          enabled={enabled}
+          enabled={true} // checkboxes handle that on their own
           renderers={bodyRenderers}
           cells={bodyCells}
         />
