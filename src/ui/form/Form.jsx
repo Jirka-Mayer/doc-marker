@@ -8,6 +8,7 @@ import * as formStore from "../../state/formStore"
 import * as userPreferencesStore from "../../state/userPreferencesStore"
 import { useTranslation } from "react-i18next"
 import { CircularProgress } from "@mui/material"
+import { usePreventScrollOverNumberFields } from "./usePreventScrollOverNumberFields"
 
 export function Form() {
   const [isLoading, setLoading] = useState(false)
@@ -22,6 +23,8 @@ export function Form() {
   const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom)
 
   const { i18n } = useTranslation()
+
+  usePreventScrollOverNumberFields()
 
 
   // === Reloading ===

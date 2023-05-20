@@ -38,6 +38,11 @@ export function ControlInputNumber(props) {
 
   return (
     <InputBase
+      slotProps={{
+        input: {
+          className: "noscroll" // see usePreventScrollOverNumberFields
+        }
+      }}
       type="number"
       value={inputValue}
       onChange={onChangeInterceptor}
