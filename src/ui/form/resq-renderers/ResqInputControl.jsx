@@ -1,19 +1,14 @@
 import * as styles from "./renderers.module.scss"
-import { FormHelperText, InputLabel, Divider, Paper, IconButton, ToggleButton, InputBase, Tooltip } from "@mui/material"
+import { FormHelperText, InputLabel, Divider, Paper, ToggleButton, InputBase, Tooltip } from "@mui/material"
 import SmartToyIcon from '@mui/icons-material/SmartToy'
 import CheckIcon from '@mui/icons-material/Check'
-import FlagIcon from '@mui/icons-material/Flag'
-import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags'
-import NotListedLocationIcon from '@mui/icons-material/NotListedLocation'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
 import { useFieldActivity } from "../useFieldActivity"
 import { useFieldState } from "../useFieldState"
-import { useFieldHighlights } from "../useFieldHighlights"
-import { quillExtended } from "../../../state/reportStore"
 import HideSourceIcon from '@mui/icons-material/HideSource';
 import { useMemo } from 'react';
 import { useNullabilityMiddleware } from "../useNullabilityMiddleware"
 import { exportValue } from "../../../state/formStore"
+import { useHighlightPinButton } from "../useHighlightPinButton"
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure
@@ -63,10 +58,10 @@ export function ResqInputControl(props) {
 
   // === field highlights ===
 
-  const {
-    highlightsRanges,
-    hasHighlights
-  } = useFieldHighlights(fieldId)
+  const { HighlightPinButton } = useHighlightPinButton({
+    ...props,
+    fieldId
+  })
 
 
   // === export value ===
@@ -105,10 +100,6 @@ export function ResqInputControl(props) {
 
   function onFocus() {
     setFieldActive()
-  }
-
-  function onHighlightPinClick() {
-    quillExtended.scrollHighlightIntoView(fieldId)
   }
 
 
@@ -181,6 +172,7 @@ export function ResqInputControl(props) {
                 setNull(!isNull)
                 setFieldActive()
               }}
+              tabIndex={-1}
             >
               <HideSourceIcon />
             </ToggleButton>
@@ -197,24 +189,7 @@ export function ResqInputControl(props) {
           <InnerComponent {...controlInputProps} />
         ) }
 
-        {/* Activity flag button */}
-        {/* <IconButton
-          onClick={(e) => { e.stopPropagation(); toggleFieldActivity() }}
-          sx={{ p: '10px' }}
-          className={styles["field-flag-button"]}
-        >
-          {isFieldActive ? <FlagIcon /> : <EmojiFlagsIcon />}
-        </IconButton> */}
-
-        {/* Highlight pin button */}
-        { hasHighlights ?
-          <IconButton
-            onClick={onHighlightPinClick}
-            sx={{ p: '10px' }}
-          >
-            <LocationOnIcon />
-          </IconButton>
-        : ""}
+        <HighlightPinButton/>
 
         {/* Robot value verification button */}
         { hasRobotValue ? (

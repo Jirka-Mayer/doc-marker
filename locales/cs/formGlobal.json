@@ -18,7 +18,10 @@
   },
   "unknown": {
     "value": "Neznámé",
-    "tooltip": "Nastavit jako neznámé"
+    "tooltip": "Nastavit na neznámé"
+  },
+  "highlightPin": {
+    "tooltip": "Ukázat párování"
   },
   "multiselect": {
     "forget": "Zapomenout hodnotu"

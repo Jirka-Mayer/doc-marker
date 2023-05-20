@@ -3,15 +3,11 @@ import * as styles from "../renderers.module.scss"
 import { rankWith, isBooleanControl } from '@jsonforms/core'
 import { withJsonFormsControlProps, withTranslateProps } from '@jsonforms/react'
 import { FormHelperText, Divider, IconButton, FormControlLabel, InputLabel, Radio, RadioGroup, Tooltip } from '@mui/material'
-import { useState, useCallback, useMemo, useEffect } from "react"
+import { useMemo } from "react"
 import { useFieldActivity } from '../../useFieldActivity'
-import { useFieldHighlights } from '../../useFieldHighlights'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
-import FlagIcon from '@mui/icons-material/Flag'
-import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags'
 import StreamIcon from '@mui/icons-material/Stream'
-import { quillExtended } from "../../../../state/reportStore"
 import { exportValue } from "../../../../state/formStore"
+import { useHighlightPinButton } from "../../useHighlightPinButton"
 
 function stringifyValue(value) {
   if (value === true) return "yes"
@@ -76,10 +72,10 @@ function LeaderControl(props) {
 
   // === field highlights ===
 
-  const {
-    highlightsRanges,
-    hasHighlights
-  } = useFieldHighlights(fieldId)
+  const { HighlightPinButton } = useHighlightPinButton({
+    ...props,
+    fieldId
+  })
 
 
   // === value export ===
@@ -95,10 +91,6 @@ function LeaderControl(props) {
 
   function onFocus() {
     setFieldActive()
-  }
-
-  function onHighlightPinClick() {
-    quillExtended.scrollHighlightIntoView(fieldId)
   }
 
   function onRadioButtonChange(e) {
@@ -172,24 +164,7 @@ function LeaderControl(props) {
           </Tooltip>
         }
 
-        {/* Activity flag button */}
-        {/* <IconButton
-          onClick={(e) => { e.stopPropagation(); toggleFieldActivity() }}
-          sx={{ p: '10px' }}
-          className={styles["field-flag-button"]}
-        >
-          {isFieldActive ? <FlagIcon /> : <EmojiFlagsIcon />}
-        </IconButton> */}
-
-        {/* Highlight pin button */}
-        { hasHighlights ?
-          <IconButton
-            onClick={onHighlightPinClick}
-            sx={{ p: '10px' }}
-          >
-            <LocationOnIcon />
-          </IconButton>
-        : ""}
+        <HighlightPinButton/>
 
         {/* NOTE: robot validation button is missing because field state is missing */}
 

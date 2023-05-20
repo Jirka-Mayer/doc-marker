@@ -18,7 +18,10 @@
   },
   "unknown": {
     "value": "Unknown",
-    "tooltip": "Set as unknown"
+    "tooltip": "Set to unknown"
+  },
+  "highlightPin": {
+    "tooltip": "Show link"
   },
   "multiselect": {
     "forget": "Forget value"

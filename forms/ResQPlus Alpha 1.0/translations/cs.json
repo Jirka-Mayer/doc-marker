@@ -261,7 +261,7 @@
         "any_infarct": {
           "label": "Jsou na snímcích patrná starší ischemická ložiska?",
           "yes": "Ano",
-          "no": "ne",
+          "no": "Ne",
           "error": {
             "multiselect": "Vyberte alespoň jednu z možností"
           }

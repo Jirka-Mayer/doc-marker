@@ -14,6 +14,10 @@ export class HighlightsApi {
 
     /** @type {IdToNumberAllocator} */
     this.highlightsAllocator = highlightsAllocator
+
+    // scroll into view state
+    this.lastScrollIntoViewFieldId = null
+    this.lastScrollIntoViewElementIndex = -1
   }
 
   /**
@@ -41,16 +45,48 @@ export class HighlightsApi {
     )
   }
 
+  /**
+   * Scrolls the first highlight for the given fieldId into view.
+   * If there are multiple highlights, then calling this function
+   * repeatedly loops over them.
+   */
   scrollHighlightIntoView(fieldId) {
+    // get highlight span elements
     const highlightNumber = this.highlightsAllocator.getNumber(fieldId)
-    let element = this.quillElement.querySelector(
+    let elements = Array.from(this.quillElement.querySelectorAll(
       "." + styles[`highlight-${highlightNumber}-yes`]
-    )
+    ))
 
-    if (!element)
+    if (elements.length === 0) {
       return
-      
-    element.scrollIntoView({
+    }
+
+    // "group" elements that are close together
+    // (by removing those that are too close)
+    let position = elements[0].getBoundingClientRect().top
+    let threshold = 100 // pixels
+    for (let i = 1; i < elements.length; i++) {
+      let p = elements[i].getBoundingClientRect().top
+      if (p < position + threshold) {
+        elements.splice(i, 1)
+        i -= 1
+      } else {
+        position = p
+      }
+    }
+
+    // get the next element index to sroll to
+    let index = 0
+    if (this.lastScrollIntoViewFieldId === fieldId) {
+      index = (this.lastScrollIntoViewElementIndex + 1) % elements.length
+    }
+
+    // store the state
+    this.lastScrollIntoViewFieldId = fieldId
+    this.lastScrollIntoViewElementIndex = index
+    
+    // scroll
+    elements[index].scrollIntoView({
       behavior: "smooth",
       block: "center"
     })

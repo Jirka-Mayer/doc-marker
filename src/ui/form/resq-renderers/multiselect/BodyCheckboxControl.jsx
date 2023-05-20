@@ -1,21 +1,15 @@
 import React from "react"
 import { rankWith, isBooleanControl } from '@jsonforms/core'
-import { withJsonFormsControlProps } from '@jsonforms/react'
-import { Checkbox, FormControlLabel, IconButton, Typography } from '@mui/material'
-import { useContext, useState, useCallback, useEffect } from 'react'
+import { withJsonFormsControlProps, withTranslateProps } from '@jsonforms/react'
+import { Checkbox, FormControlLabel } from '@mui/material'
+import { useContext, useCallback } from 'react'
 import { MultiselectGroupContext } from './MultiselectGroupContext'
 import * as styles from "../renderers.module.scss"
 import * as multiselectStyles from "./multiselect.module.scss"
 import { useFieldActivity } from '../../useFieldActivity'
 import { useFieldState } from '../../useFieldState'
-import { useFieldHighlights } from '../../useFieldHighlights'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
-import FlagIcon from '@mui/icons-material/Flag'
-import EmojiFlagsIcon from '@mui/icons-material/EmojiFlags'
-import { quillExtended } from "../../../../state/reportStore"
-import { usePrevious } from '../../../../utils/usePrevious'
-import { useDebouncedChange } from '@jsonforms/material-renderers'
 import { exportValue } from '../../../../state/form/formDataStore'
+import { useHighlightPinButton } from "../../useHighlightPinButton"
 
 export function BodyCheckboxControl(props) {
   const {
@@ -59,10 +53,10 @@ export function BodyCheckboxControl(props) {
 
   // === field highlights ===
 
-  const {
-    highlightsRanges,
-    hasHighlights
-  } = useFieldHighlights(fieldId)
+  const { HighlightPinButton } = useHighlightPinButton({
+    ...props,
+    fieldId
+  })
 
 
   // === value export ===
@@ -80,10 +74,6 @@ export function BodyCheckboxControl(props) {
 
   function onFocus() {
     setFieldActive()
-  }
-
-  function onHighlightPinClick() {
-    quillExtended.scrollHighlightIntoView(fieldId)
   }
 
   const privateHandleChange = useCallback((e) => {
@@ -136,24 +126,7 @@ export function BodyCheckboxControl(props) {
         style={{ marginLeft: 0 }}
       />
 
-      {/* Activity flag button */}
-      {/* <IconButton
-        onClick={(e) => { e.stopPropagation(); toggleFieldActivity() }}
-        sx={{ p: '10px' }}
-        className={styles["field-flag-button"]}
-      >
-        {isFieldActive ? <FlagIcon /> : <EmojiFlagsIcon />}
-      </IconButton> */}
-
-      {/* Highlight pin button */}
-      { hasHighlights ?
-        <IconButton
-          onClick={onHighlightPinClick}
-          sx={{ p: '10px' }}
-        >
-          <LocationOnIcon />
-        </IconButton>
-      : ""}
+      <HighlightPinButton/>
 
       {/* TODO: robot validation button */}
     </div>
@@ -165,5 +138,7 @@ export const bodyCheckboxControlTester = rankWith(
 )
 
 export default withJsonFormsControlProps(
-  React.memo(BodyCheckboxControl)
+  withTranslateProps(
+    React.memo(BodyCheckboxControl)
+  )
 )
