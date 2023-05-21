@@ -2,30 +2,30 @@ import React from "react"
 import { rankWith, isBooleanControl } from '@jsonforms/core'
 import { withJsonFormsControlProps, withTranslateProps } from '@jsonforms/react'
 import { Checkbox, FormControlLabel } from '@mui/material'
-import { useContext, useCallback } from 'react'
-import { MultiselectGroupContext } from './MultiselectGroupContext'
+import { useCallback } from 'react'
 import * as styles from "../renderers.module.scss"
-import * as multiselectStyles from "./multiselect.module.scss"
+import * as multiselectStyles from "../multiselect/multiselect.module.scss"
 import { useFieldActivity } from '../../useFieldActivity'
 import { useFieldState } from '../../useFieldState'
 import { exportValue } from '../../../../state/form/formDataStore'
 import { useHighlightPinButton } from "../../useHighlightPinButton"
+import { useContext } from "react"
+import { PostAcuteFindingsContext } from "./PostAcuteFindingsContext"
 
-export function BodyCheckboxControl(props) {
+export function CheckboxControl(props) {
   const {
     path,
-    uischema,
     label,
     data,
     id,
-    handleChange
+    handleChange,
+    visible,
+    uischema
   } = props
 
   const {
-    leaderValue,
-    leaderPath,
-    inSubGroup
-  } = useContext(MultiselectGroupContext)
+    groupVisible
+  } = useContext(PostAcuteFindingsContext)
 
   const fieldId = path // field ID is defined to be the path in the form data
   const htmlId = id + "-input"
@@ -62,9 +62,9 @@ export function BodyCheckboxControl(props) {
   // === value export ===
 
   exportValue(path,
-    leaderValue === true
+    groupVisible
       ? !!data
-      : leaderValue
+      : undefined
   )
 
 
@@ -90,12 +90,6 @@ export function BodyCheckboxControl(props) {
   // Rendering //
   ///////////////
   
-  const enabled = (leaderValue !== undefined)
-
-  const checked = enabled
-    ? (data === true) // enabled --> display the "data" value
-    : false // disabled --> display as empty
-
   return (
     <div
       className={[
@@ -108,16 +102,14 @@ export function BodyCheckboxControl(props) {
     >
       <Checkbox
         id={htmlId}
-        checked={checked}
+        checked={data === true}
         onChange={privateHandleChange}
-        disabled={!enabled}
         color={hasVerifiedAppearance ? "success" : "primary"}
         onFocus={onFocus}
       />
       <FormControlLabel
         control={<span></span>} // not the checkbox to disable "click label to check"
         label={label || fieldId}
-        disabled={!enabled}
         style={{ marginLeft: 0 }}
       />
 
@@ -128,12 +120,12 @@ export function BodyCheckboxControl(props) {
   )
 }
 
-export const bodyCheckboxControlTester = rankWith(
+export const checkboxControlTester = rankWith(
   2, isBooleanControl
 )
 
 export default withJsonFormsControlProps(
   withTranslateProps(
-    React.memo(BodyCheckboxControl)
+    React.memo(CheckboxControl)
   )
 )

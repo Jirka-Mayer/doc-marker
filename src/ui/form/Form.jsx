@@ -2,13 +2,14 @@ import { formRenderers, formCells } from "./formRenderersAndCells"
 import { materialRenderers } from "@jsonforms/material-renderers"
 import { JsonForms } from "@jsonforms/react"
 import { useAtom } from "jotai"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { FormDefinition } from "../../../forms/FormDefinition"
 import * as formStore from "../../state/formStore"
 import * as userPreferencesStore from "../../state/userPreferencesStore"
 import { useTranslation } from "react-i18next"
 import { CircularProgress } from "@mui/material"
 import { usePreventScrollOverNumberFields } from "./usePreventScrollOverNumberFields"
+import { createAjv } from "@jsonforms/core"
 
 export function Form() {
   const [isLoading, setLoading] = useState(false)
@@ -87,8 +88,17 @@ export function Form() {
     )
   }
 
+  // const validate = createAjv().compile(dataSchema)
+  // validate(formStore.getExportedFormData())
+  // const myErrors = validate.errors
+
   return (
     <div>
+      {/* <pre>My Errors: { JSON.stringify(myErrors, [
+        "instancePath", "schemaPath", "keyword", "params", "message",
+        // "schema", "parentSchema", "data"
+      ], 2) }</pre> */}
+
       { formId === null ? null : (
         <JsonForms
           schema={dataSchema}
@@ -113,7 +123,10 @@ export function Form() {
         <pre>Exported data: { JSON.stringify(formStore.getExportedFormData(), null, 2) }</pre>
         <pre>Form data: { JSON.stringify(formData, null, 2) }</pre>
         <pre>States: { JSON.stringify(fieldStates, null, 2) }</pre>
-        <pre>Errors: { JSON.stringify(formErrors, null, 2) }</pre>
+        <pre>Errors: { JSON.stringify(formErrors, [
+          "instancePath", "schemaPath", "keyword", "params", "message",
+          // "schema", "parentSchema", "data"
+        ], 2) }</pre>
       </> : null}
 
     </div>

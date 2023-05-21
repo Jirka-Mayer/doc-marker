@@ -1,41 +1,55 @@
 import React from "react"
 import { rankWith } from "@jsonforms/core"
-import { withJsonFormsLayoutProps, withTranslateProps } from "@jsonforms/react"
+import { JsonFormsDispatch, withJsonFormsLayoutProps, withTranslateProps } from "@jsonforms/react"
 import { isPostAcuteFindings } from "./isPostAcuteFindings"
-import { Paper } from "@mui/material"
+import { Divider, InputLabel, Paper } from "@mui/material"
+import * as styles from "../renderers.module.scss"
+import CheckboxControl, { checkboxControlTester } from "./CheckboxControl"
+import { PostAcuteFindingsContext } from "./PostAcuteFindingsContext"
+
+const bodyRenderers = [
+  { tester: checkboxControlTester, renderer: CheckboxControl }
+]
+const bodyCells = []
 
 export function ResqPostAcuteFindingsGroup(props) {
   const {
+    label,
     enabled,
     schema,
     uischema,
-    visible,
-    data,
-    t,
+    visible
   } = props
+
+  const elements = uischema.elements
   
   ///////////////
   // Rendering //
   ///////////////
 
   return (
-    <Paper sx={{ display: visible ? "block" : "none" }}>
-      <div>POST ACUTE CARE FINDINGS!</div>
+    <PostAcuteFindingsContext.Provider value={{
+      groupVisible: visible
+    }}>
+      <Paper sx={{ display: visible ? "block" : "none" }}>
+        <InputLabel
+          className={styles["field-label"]}
+        >{ label || "[missing group label]" }</InputLabel>
+        <Divider />
+        
+        { elements.map((child, index) => (
+          <JsonFormsDispatch
+            key={"" + index}
+            uischema={child}
+            schema={schema}
+            enabled={enabled}
+            renderers={bodyRenderers}
+            cells={bodyCells}
+          />
+        )) }
 
-      {/* TODO: continue here */}
-      {/* <JsonFormsDispatch
-          uischema={bodyUischema}
-          schema={schema}
-          enabled={enabled}
-          renderers={[
-            { tester: bodyVerticalLayoutTester, renderer: BodyVerticalLayout },
-            { tester: materialHorizontalLayoutTester, renderer: MaterialHorizontalLayout },
-            { tester: bodyGroupLayoutTester, renderer: BodyGroupLayout },
-            { tester: bodyCheckboxControlTester, renderer: BodyCheckboxControl }
-          ]}
-          cells={[]}
-        /> */}
-    </Paper>
+      </Paper>
+    </PostAcuteFindingsContext.Provider>
   )
 }
 
@@ -44,7 +58,5 @@ export const resqPostAcuteFindingsGroupTester = rankWith(
 )
 
 export default withJsonFormsLayoutProps(
-  withTranslateProps( // passes in the "t" prop
-    React.memo(ResqPostAcuteFindingsGroup)
-  )
+  React.memo(ResqPostAcuteFindingsGroup)
 )

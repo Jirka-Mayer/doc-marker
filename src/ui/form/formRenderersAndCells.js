@@ -29,7 +29,7 @@ export const formRenderers = [
   { tester: resqEnumControlTester, renderer: ResqEnumControl },
   { tester: resqDateTimeControlTester, renderer: ResqDateTimeControl },
   { tester: resqMultiselectGroupTester, renderer: ResqMultiselectGroup },
-  // { tester: resqPostAcuteFindingsGroupTester, renderer: ResqPostAcuteFindingsGroup },
+  { tester: resqPostAcuteFindingsGroupTester, renderer: ResqPostAcuteFindingsGroup },
 
   // layouts
   { tester: resqGroupTester, renderer: ResqGroupLayout },
