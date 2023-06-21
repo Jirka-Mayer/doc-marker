@@ -1,10 +1,40 @@
 import { atom } from "jotai"
 import { AppMode } from "./editor/AppMode"
+import { EventEmitter } from "../utils/EventEmitter"
+
+/**
+ * Emits events related to the editor store
+ */
+ export const eventEmitter = new EventEmitter()
+
+
+//////////////////////
+// Application mode //
+//////////////////////
+
+const appModeBaseAtom = atom(AppMode.EDIT_TEXT)
 
 /**
  * What operational mode is the application currently in
  */
-export const appModeAtom = atom(AppMode.EDIT_TEXT)
+export const appModeAtom = atom(
+  (get) => get(appModeBaseAtom),
+  (get, set, value) => {
+    // allow only valid values
+    if (value === AppMode.EDIT_TEXT
+      || value === AppMode.ANONYMIZE
+      || value === AppMode.ANNOTATE_HIGHLIGHTS)
+    {
+      const oldMode = get(appModeBaseAtom)
+      set(appModeBaseAtom, value)
+
+      eventEmitter.emit("appModeChanged", {
+        oldMode: oldMode,
+        newMode: value
+      })
+    }
+  }
+)
 
 
 ////////////////////

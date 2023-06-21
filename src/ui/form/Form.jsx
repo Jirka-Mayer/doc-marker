@@ -40,14 +40,14 @@ export function Form() {
     
     // the asynchronous form reload
     setLoading(true);
-    (async function() {
+    setTimeout(async function() {
       const form = await FormDefinition.load(formId)
       await form.loadTranslation(i18n)
       
       setDataSchema(form.dataSchema)
       setUiSchema(form.uiSchema)
       setLoading(false)
-    })();
+    }, 100) // delay so that the spinner has time to appear
   }, [formId, i18n.language]) // reload on form or language change
 
 

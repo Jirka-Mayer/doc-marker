@@ -45,6 +45,7 @@ export class QuillExtended {
     // create the inner quill instance
     this.quill = this._constructQuillInstance()
     this._addClipboardMatchers()
+    this._preventDefaultOnHistoryShortcuts()
 
     // allocators
     this.highlightsAllocator = new IdToNumberAllocator(
@@ -96,7 +97,8 @@ export class QuillExtended {
     return new Quill(this.quillElement, {
       theme: false,
       modules: {
-        toolbar: false
+        toolbar: false,
+        history: false
       },
       placeholder: "Paste source text in here...",
       formats: [
@@ -117,6 +119,23 @@ export class QuillExtended {
     this.quill.clipboard.addMatcher("table", function (node, delta) {
       return htmlTableToDelta(node)
     });
+  }
+
+  _preventDefaultOnHistoryShortcuts() {
+    // ctrl+z/y normally perform undo/redo on the "contenteditable" elements
+    // inside quill. We will capture the events on their propagation down the
+    // hierarchy and prevent their default behaviour.
+    //
+    // they will be caught when bubbling back up on the document listener
+    // belonging to the history system
+    this.quillElement.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() === "z" && e.ctrlKey) {
+        e.preventDefault()
+      }
+      if (e.key.toLowerCase() === "y" && e.ctrlKey) {
+        e.preventDefault()
+      }
+    }, { capture: true })
   }
 
   ///////////////

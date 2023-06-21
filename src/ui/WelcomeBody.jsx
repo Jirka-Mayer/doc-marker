@@ -72,6 +72,14 @@ export function WelcomeBody(props) {
     closeUploadFileDialog()
   }
 
+  // this removes the content from DOM, which makes sure the tooltips
+  // don't complain warnings about their anchor not being in DOM and visible
+  if (!isOpen) {
+    return (
+      <div className={`${styles["welcome-body"]} ${isOpen ? "" : styles["welcome-body--closed"]}`}></div>
+    )
+  }
+
   return (
     <div className={`${styles["welcome-body"]} ${isOpen ? "" : styles["welcome-body--closed"]}`}>
       <div className={styles["centering-container"]}>

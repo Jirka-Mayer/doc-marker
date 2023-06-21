@@ -5,6 +5,7 @@ import { FileStorage } from "./file/FileStorage"
 import * as reportStore from "./reportStore"
 import * as formStore from "./formStore"
 import * as editorStore from "./editorStore"
+import * as historyStore from "./historyStore"
 
 
 ///////////////////////////
@@ -96,7 +97,7 @@ const deserializeFileAtom = atom(null, (get, set, appFile) => {
   set(formStore.formDataAtom, json["_formData"])
   formStore.initiateExportRefresh()
 
-  reportStore.quillExtended.setContents(json["_reportDelta"])
+  reportStore.quillExtended.setContents(json["_reportDelta"], "api")
   // _reportText and _highlights are ignored, since they are computable from delta
 
   set(patientIdAtom, json["patientId"])
@@ -159,6 +160,7 @@ export const deleteFileAtom = atom(null, (get, set, uuid) => {
 export const createNewFileAtom = atom(null, (get, set, formId) => {
   set(saveCurrentFileAtom)
   set(deserializeFileAtom, AppFile.createNewEmpty(formId))
+  set(historyStore.clearAtom)
 })
 
 /**
@@ -189,11 +191,13 @@ export const saveCurrentFileAtom = atom(null, (get, set) => {
 export const openFileAtom = atom(null, (get, set, uuid) => {
   const appFile = FileStorage.loadFile(uuid)
   set(deserializeFileAtom, appFile)
-
+  
   if (get(formStore.formDataAtom) === null)
-    set(editorStore.appModeAtom, AppMode.EDIT_TEXT)
+  set(editorStore.appModeAtom, AppMode.EDIT_TEXT)
   else
-    set(editorStore.appModeAtom, AppMode.ANNOTATE_HIGHLIGHTS)
+  set(editorStore.appModeAtom, AppMode.ANNOTATE_HIGHLIGHTS)
+  
+  set(historyStore.clearAtom)
 })
 
 /**
