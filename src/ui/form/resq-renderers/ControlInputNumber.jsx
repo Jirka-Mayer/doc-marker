@@ -1,5 +1,5 @@
 import { InputBase } from "@mui/material"
-import { useDebouncedChange } from "@jsonforms/material-renderers/src/util/debounce"
+import { useDebouncedChange } from "../useDebounceChangeWithCancel"
 import { useMemo } from "react"
 
 const toNumber = (value) => value === '' ? undefined : parseFloat(value)
