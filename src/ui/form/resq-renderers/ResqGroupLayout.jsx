@@ -1,7 +1,7 @@
 import { rankWith, uiTypeIs } from '@jsonforms/core'
 import { withJsonFormsLayoutProps } from '@jsonforms/react'
 import { Typography } from '@mui/material'
-import ResqVerticalLayout from "./ResqVerticalLayout"
+import ResqLinearLayout from "./ResqLinearLayout"
 
 function ResqGroupLayout(props) {
   const {
@@ -18,7 +18,7 @@ function ResqGroupLayout(props) {
       >
         {label || "[missing group label]"}
       </Typography>
-      <ResqVerticalLayout {...props} />
+      <ResqLinearLayout {...props} />
     </>
   )
 }
