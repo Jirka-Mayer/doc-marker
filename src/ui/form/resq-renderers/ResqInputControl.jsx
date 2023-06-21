@@ -7,7 +7,7 @@ import { useFieldState } from "../useFieldState"
 import HideSourceIcon from '@mui/icons-material/HideSource';
 import { useMemo } from 'react';
 import { useNullabilityMiddleware } from "../useNullabilityMiddleware"
-import { exportValue } from "../../../state/formStore"
+import { useExportValue } from "../../../state/formStore"
 import { useHighlightPinButton } from "../useHighlightPinButton"
 
 /**
@@ -66,7 +66,7 @@ export function ResqInputControl(props) {
 
   // === export value ===
 
-  exportValue(path,
+  useExportValue(path,
     visible ? data : undefined
   )
 

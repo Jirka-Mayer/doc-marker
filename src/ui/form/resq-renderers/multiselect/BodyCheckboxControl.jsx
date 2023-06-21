@@ -8,7 +8,7 @@ import * as styles from "../renderers.module.scss"
 import * as multiselectStyles from "./multiselect.module.scss"
 import { useFieldActivity } from '../../useFieldActivity'
 import { useFieldState } from '../../useFieldState'
-import { exportValue } from '../../../../state/form/formDataStore'
+import { useExportValue } from '../../../../state/form/formDataStore'
 import { useHighlightPinButton } from "../../useHighlightPinButton"
 
 export function BodyCheckboxControl(props) {
@@ -61,7 +61,7 @@ export function BodyCheckboxControl(props) {
 
   // === value export ===
 
-  exportValue(path,
+  useExportValue(path,
     leaderValue === true
       ? !!data
       : leaderValue

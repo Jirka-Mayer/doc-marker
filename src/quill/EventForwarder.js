@@ -1,5 +1,5 @@
 import { DeltaMapper } from "./DeltaMapper";
-import { EventEmitter } from "./utils/EventEmitter";
+import { EventEmitter } from "../utils/EventEmitter";
 import { WordSelector } from "./WordSelector"
 
 export class EventForwarder {

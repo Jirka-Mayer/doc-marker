@@ -1,4 +1,10 @@
 import { atom } from "jotai"
+import { EventEmitter } from "../utils/EventEmitter"
+
+/**
+ * Emits events related to the form store
+ */
+export const eventEmitter = new EventEmitter()
 
 /**
  * Contains the ID of the currently used form
@@ -17,11 +23,19 @@ export const formErrorsAtom = atom(null)
 
 import * as formDataStore from "./form/formDataStore"
 
+// bind events to the emitter
+for (let eventName in formDataStore.eventHandlers) {
+  formDataStore.eventHandlers[eventName] = (...args) => {
+    eventEmitter.emit(eventName, ...args)
+  }
+}
+
 export const formDataAtom = formDataStore.formDataAtom;
+export const formDataRenderingAtom = formDataStore.formDataRenderingAtom;
 export const getExportedFormData = formDataStore.getExportedFormData;
-export const exportValue = formDataStore.exportValue;
-export const getExportedValue = formDataStore.getExportedValue;
-export const clearExportedFormData = formDataStore.clearExportedFormData;
+export const useExportValue = formDataStore.useExportValue;
+export const useGetExportedValue = formDataStore.useGetExportedValue;
+export const initiateExportRefresh = formDataStore.initiateExportRefresh;
 
 
 //////////////////

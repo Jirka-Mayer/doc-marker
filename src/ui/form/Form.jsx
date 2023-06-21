@@ -19,7 +19,7 @@ export function Form() {
   const [uiSchema, setUiSchema] = useState({})
 
   const [formErrors, setFormErrors] = useAtom(formStore.formErrorsAtom)
-  const [formData, setFormData] = useAtom(formStore.formDataAtom)
+  const [formData, setFormData] = useAtom(formStore.formDataRenderingAtom)
   const [fieldStates] = useAtom(formStore.allFieldStatesAtom)
   const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom)
 

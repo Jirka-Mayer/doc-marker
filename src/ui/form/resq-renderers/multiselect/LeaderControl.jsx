@@ -6,7 +6,7 @@ import { FormHelperText, Divider, IconButton, FormControlLabel, InputLabel, Radi
 import { useMemo } from "react"
 import { useFieldActivity } from '../../useFieldActivity'
 import StreamIcon from '@mui/icons-material/Stream'
-import { exportValue } from "../../../../state/formStore"
+import { useExportValue } from "../../../../state/formStore"
 import { useHighlightPinButton } from "../../useHighlightPinButton"
 
 function stringifyValue(value) {
@@ -80,7 +80,7 @@ function LeaderControl(props) {
 
   // === value export ===
 
-  exportValue(path,
+  useExportValue(path,
     visible ? data : undefined
   )
 

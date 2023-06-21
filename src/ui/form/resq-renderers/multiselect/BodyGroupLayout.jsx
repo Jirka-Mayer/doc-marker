@@ -4,7 +4,7 @@ import { JsonFormsDispatch, withJsonFormsLayoutProps } from '@jsonforms/react'
 import * as multiselectStyles from "./multiselect.module.scss"
 import _ from "lodash"
 import { MultiselectGroupContext } from './MultiselectGroupContext'
-import { getExportedValue } from '../../../../state/form/formDataStore'
+import { useGetExportedValue } from '../../../../state/form/formDataStore'
 
 function BodyGroupLayout(props) {
   const {
@@ -21,14 +21,9 @@ function BodyGroupLayout(props) {
   if (elements.length === 0)
     return null
 
-  // NOTE: This implementation could break in some cases
-  // (beacuse it uses exported values),
-  // If the leader renders after this group, it will get a delayed value.
-  // You can fix this, by also exporting during leader value change
-  // and not only during leader re-render.
   const leaderScope = uischema?.rule?.condition?.scope
   const leaderPath = toDataPath(leaderScope)
-  const leaderValue = getExportedValue(leaderPath)
+  const leaderValue = useGetExportedValue(leaderPath)
 
 
   // === visible ===

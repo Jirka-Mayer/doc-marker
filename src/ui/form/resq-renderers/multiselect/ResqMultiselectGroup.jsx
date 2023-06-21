@@ -12,6 +12,7 @@ import BodyCheckboxControl, { bodyCheckboxControlTester } from './BodyCheckboxCo
 import { MultiselectGroupContext } from "./MultiselectGroupContext"
 import _ from "lodash"
 import { useMemo } from 'react'
+import { useGetExportedValue } from "../../../../state/form/formDataStore"
 
 function leaderScopeToGroupPath(scope) {
   const segments = toDataPathSegments(scope)
@@ -68,7 +69,7 @@ export function ResqMultiselectGroup(props) {
   const leaderPath = toDataPath(leaderUischema.scope) // foo.bar.medication_any
   const leaderKey = leaderScopeToLeaderKey(leaderUischema.scope) // medication_any
   const groupPath = leaderScopeToGroupPath(leaderUischema.scope) // foo.bar
-  const leaderValue = _.get(data, leaderPath)
+  const leaderValue = useGetExportedValue(leaderPath)
 
   const bodyUischema = uischema.elements[1]
   

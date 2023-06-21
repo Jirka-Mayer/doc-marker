@@ -1,5 +1,5 @@
 /**
- * Implements the event functionality for the extended quill
+ * Implements event functionality for any system
  */
 export class EventEmitter {
   constructor() {
