@@ -6,9 +6,9 @@
 
 // ========== Layouts ==========
 
-import ResqVerticalLayout, {
-  resqVerticalLayoutTester
-} from "./ResqVerticalLayout"
+import ResqLinearLayout, {
+  resqLinearLayoutTester
+} from "./ResqLinearLayout"
 
 import ResqGroupLayout, {
   resqGroupTester
@@ -73,8 +73,8 @@ export const Unwrapped = {
 
 export {
   // layouts
-  ResqVerticalLayout,
-  resqVerticalLayoutTester,
+  ResqLinearLayout,
+  resqLinearLayoutTester,
   ResqGroupLayout,
   resqGroupTester,
 

@@ -1,11 +1,11 @@
 import * as styles from "./renderers.module.scss"
-import { rankWith, uiTypeIs } from '@jsonforms/core'
+import { rankWith, uiTypeIs, or } from '@jsonforms/core'
 import { JsonFormsDispatch, withJsonFormsLayoutProps } from '@jsonforms/react'
+import { Grid } from "@mui/material"
 
 function renderLayoutElements(props, elements) {
   const {
     schema,
-    path,
     enabled,
     renderers,
     cells,
@@ -13,40 +13,49 @@ function renderLayoutElements(props, elements) {
   } = props
 
   return elements.map((child, index) => (
-    <div
-      key={`${path}-${index}`}  
-      className={styles["vertical-layout__row"]}
-      style={{ display: visible ? "block" : "none" }}
+    <Grid
+      item
+      key={`${index}`}
+      xs
     >
       <JsonFormsDispatch
         uischema={child}
         schema={schema}
-        path={path}
         enabled={enabled}
         renderers={renderers}
         cells={cells}
       />
-    </div>
+    </Grid>
   ))
 }
 
-function ResqVerticalLayout(props) {
+function ResqLinearLayout(props) {
   const {
-    uischema
+    uischema,
+    visible
   } = props
 
   const elements = uischema.elements
+  const direction = (uischema.type === "HorizontalLayout") ? "row" : "column"
 
   if (elements.length === 0)
     return null
 
   return (
-     <>
+    <Grid
+      container
+      direction={direction}
+      spacing={2}
+      style={{ display: visible ? undefined : "none" }}
+    >
       {renderLayoutElements(props, elements)}
-     </>
+    </Grid>
   )
 }
 
-export default withJsonFormsLayoutProps(ResqVerticalLayout)
+export default withJsonFormsLayoutProps(ResqLinearLayout)
 
-export const resqVerticalLayoutTester = rankWith(1, uiTypeIs("VerticalLayout"))
+export const resqLinearLayoutTester = rankWith(
+  1,
+  or(uiTypeIs("VerticalLayout"), uiTypeIs("HorizontalLayout"))
+)
