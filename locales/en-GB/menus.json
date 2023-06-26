@@ -14,7 +14,10 @@
   },
 
   "edit": {
-    "headButton": "Edit"
+    "headButton": "Edit",
+
+    "undo": "Undo",
+    "redo": "Redo"
   },
 
   "view": {

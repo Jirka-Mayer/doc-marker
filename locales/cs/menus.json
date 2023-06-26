@@ -14,7 +14,10 @@
   },
 
   "edit": {
-    "headButton": "Upravit"
+    "headButton": "Upravit",
+
+    "undo": "Zpět",
+    "redo": "Znovu"
   },
 
   "view": {

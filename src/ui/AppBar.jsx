@@ -14,6 +14,7 @@ import { AppMode } from "../state/editor/AppMode"
 import { useAtom } from "jotai"
 import * as fileStore from "../state/fileStore"
 import { FileMenu } from "./menus/FileMenu"
+import { EditMenu } from "./menus/EditMenu"
 import { ViewMenu } from "./menus/ViewMenu"
 import { Toolbar } from "./Toolbar"
 import { ToolsMenu } from "./menus/ToolsMenu"
@@ -68,9 +69,7 @@ export function AppBar() {
           </div>
           <div className={styles["appbar__menubar"]}>
             <FileMenu />
-            <Button disabled={true} size="small">
-              { t("menus:edit.headButton") }
-            </Button>
+            <EditMenu />
             <ViewMenu />
             <Button disabled={true} size="small">
             { t("menus:format.headButton") }
