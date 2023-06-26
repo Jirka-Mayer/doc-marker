@@ -17,6 +17,8 @@ export class Locale {
     (id, definition) => new Locale(id, definition)
   )
 
+  static FALLBACK_LOCALE = "en-GB"
+
   constructor(id, definition) {
     this.id = id
     this.title = definition.title
@@ -36,12 +38,17 @@ export class Locale {
    * Load and set this locale on a given i18next instance
    */
   async applyTo(i18n) {
-    // load language resources
-    const namespaces = await this.importer()
-
-    // add all namespaces
-    for (let ns in namespaces) {
-      i18n.addResourceBundle(this.id, ns, namespaces[ns])
+    // load language resources only if it's not the fallback language
+    // (the fallback language is loaded always during startup and re-loading
+    // it causes errors in the console)
+    if (this.id !== Locale.FALLBACK_LOCALE) {
+      // load language resources
+      const namespaces = await this.importer()
+  
+      // add all namespaces
+      for (let ns in namespaces) {
+        i18n.addResourceBundle(this.id, ns, namespaces[ns])
+      }
     }
 
     // change the language to trigger re-render

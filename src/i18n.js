@@ -8,12 +8,13 @@ i18n.use(initReactI18next)
 
 i18n.init({
   debug: false,
-  fallbackLng: "en-GB",
+  fallbackLng: Locale.FALLBACK_LOCALE,
   interpolation: {
     escapeValue: false // not needed, as react escapes by default
   },
   resources: {
-    "en-GB": en_gb // english is always loaded, because it's the fallback language
+    // english is always loaded, because it's the fallback language
+    [Locale.FALLBACK_LOCALE]: en_gb
   }
 })
 

@@ -2,7 +2,7 @@ import * as uuid from "uuid"
 import * as packageJson from "../../../package.json"
 import { AppMode } from "../editor/AppMode"
 
-DOC_MARKER_VERSION = packageJson.version
+const DOC_MARKER_VERSION = packageJson.version
 
 /**
  * Represents the file that is loaded and edited by the application

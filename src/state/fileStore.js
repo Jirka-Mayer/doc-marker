@@ -8,7 +8,7 @@ import * as editorStore from "./editorStore"
 import * as historyStore from "./historyStore"
 import * as packageJson from "../../package.json"
 
-DOC_MARKER_VERSION = packageJson.version
+const DOC_MARKER_VERSION = packageJson.version
 
 
 ///////////////////////////
