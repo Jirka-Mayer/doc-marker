@@ -44,6 +44,5 @@ npm run dockerPush
 To build for a static website:
 
 ```
-rm -rf dist
-npm run build --public-url ./
+npm run build
 ```
