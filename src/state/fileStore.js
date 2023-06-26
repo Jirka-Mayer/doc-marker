@@ -66,6 +66,8 @@ const serializeFileAtom = atom(get => {
     "_uuid": get(fileUuidAtom),
     "_createdAt": get(fileCreatedAtBaseAtom).toISOString(),
     "_updatedAt": new Date().toISOString(),
+
+    "_appMode": get(editorStore.appModeAtom),
     
     "_formId": get(formStore.formIdAtom),
     "_formData": formStore.getExportedFormData(),
@@ -96,6 +98,8 @@ const deserializeFileAtom = atom(null, (get, set, appFile) => {
   set(fileUuidBaseAtom, json["_uuid"])
   set(fileCreatedAtBaseAtom, new Date(json["_createdAt"]))
   // _updatedAt is ignored, since it's overwritten during save anyways
+
+  set(editorStore.appModeAtom, json["_appMode"])
 
   set(formStore.formIdAtom, json["_formId"])
   set(formStore.formDataAtom, json["_formData"])
@@ -195,12 +199,6 @@ export const saveCurrentFileAtom = atom(null, (get, set) => {
 export const openFileAtom = atom(null, (get, set, uuid) => {
   const appFile = FileStorage.loadFile(uuid)
   set(deserializeFileAtom, appFile)
-  
-  if (get(formStore.formDataAtom) === null)
-  set(editorStore.appModeAtom, AppMode.EDIT_TEXT)
-  else
-  set(editorStore.appModeAtom, AppMode.ANNOTATE_HIGHLIGHTS)
-  
   set(historyStore.clearAtom)
 })
 

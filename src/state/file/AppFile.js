@@ -1,5 +1,6 @@
 import * as uuid from "uuid"
 import * as packageJson from "../../../package.json"
+import { AppMode } from "../editor/AppMode"
 
 DOC_MARKER_VERSION = packageJson.version
 
@@ -39,6 +40,8 @@ export class AppFile {
       "_uuid": this.generateNewUuid(),
       "_createdAt": now.toISOString(),
       "_updatedAt": now.toISOString(),
+
+      "_appMode": AppMode.EDIT_TEXT,
       
       "_formId": formId,
       "_formData": null,
