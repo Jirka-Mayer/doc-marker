@@ -1,4 +1,7 @@
 import * as uuid from "uuid"
+import * as packageJson from "../../../package.json"
+
+DOC_MARKER_VERSION = packageJson.version
 
 /**
  * Represents the file that is loaded and edited by the application
@@ -31,6 +34,7 @@ export class AppFile {
     const now = new Date()
     return AppFile.fromJson({
       "_version": AppFile.CURRENT_VERSION,
+      "_docMarkerVersion": DOC_MARKER_VERSION,
     
       "_uuid": this.generateNewUuid(),
       "_createdAt": now.toISOString(),

@@ -8,7 +8,7 @@ import _ from "lodash"
 /**
  * Emits events related to the report store
  */
- export const eventEmitter = new EventEmitter()
+export const eventEmitter = new EventEmitter()
 
 
 /////////////

@@ -6,6 +6,9 @@ import * as reportStore from "./reportStore"
 import * as formStore from "./formStore"
 import * as editorStore from "./editorStore"
 import * as historyStore from "./historyStore"
+import * as packageJson from "../../package.json"
+
+DOC_MARKER_VERSION = packageJson.version
 
 
 ///////////////////////////
@@ -58,6 +61,7 @@ const serializeFileAtom = atom(get => {
 
   return AppFile.fromJson({
     "_version": AppFile.CURRENT_VERSION,
+    "_docMarkerVersion": DOC_MARKER_VERSION,
     
     "_uuid": get(fileUuidAtom),
     "_createdAt": get(fileCreatedAtBaseAtom).toISOString(),
