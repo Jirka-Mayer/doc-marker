@@ -6,7 +6,7 @@ import * as styles from "../renderers.module.scss"
 import { Divider, FormHelperText, InputLabel, Paper } from '@mui/material'
 import LeaderControl, { leaderControlTester } from "./LeaderControl"
 import BodyVerticalLayout, { bodyVerticalLayoutTester } from './BodyVerticalLayout'
-import { materialHorizontalLayoutTester, MaterialHorizontalLayout } from "@jsonforms/material-renderers"
+import { resqLinearLayoutTester, ResqLinearLayout } from "../index"
 import BodyGroupLayout, { bodyGroupLayoutTester } from './BodyGroupLayout'
 import BodyCheckboxControl, { bodyCheckboxControlTester } from './BodyCheckboxControl'
 import { MultiselectGroupContext } from "./MultiselectGroupContext"
@@ -49,8 +49,14 @@ const leaderRenderers = [
 ]
 const leaderCells = []
 const bodyRenderers = [
+  // special vertical layout, because the checkboxes are closer together
+  // than in normal layout
   { tester: bodyVerticalLayoutTester, renderer: BodyVerticalLayout },
-  { tester: materialHorizontalLayoutTester, renderer: MaterialHorizontalLayout },
+  // for horizontal layout, use the resq linear layout
+  // Do not use material layout, because it does some smart non-rendering
+  // of invisible items, which breaks the form data exporting system.
+  { tester: resqLinearLayoutTester, renderer: ResqLinearLayout },
+  
   { tester: bodyGroupLayoutTester, renderer: BodyGroupLayout },
   { tester: bodyCheckboxControlTester, renderer: BodyCheckboxControl }
 ]

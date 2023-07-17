@@ -52,7 +52,7 @@ function BodyVerticalLayout(props) {
 }
 
 export const bodyVerticalLayoutTester = rankWith(
-  1, uiTypeIs("VerticalLayout")
+  2, uiTypeIs("VerticalLayout")
 )
 
 export default withJsonFormsLayoutProps(
