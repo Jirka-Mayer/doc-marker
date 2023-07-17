@@ -23,11 +23,6 @@ export function WelcomeBody(props) {
   const { t } = useTranslation("welcomeBody")
 
   const [fileList] = useAtom(fileStore.fileListAtom)
-  const [,createNewFile] = useAtom(fileStore.createNewFileAtom)
-  const [,openFile] = useAtom(fileStore.openFileAtom)
-  const [,deleteFile] = useAtom(fileStore.deleteFileAtom)
-  const [,downloadFile] = useAtom(fileStore.downloadFileAtom)
-  const [,storeFile] = useAtom(fileStore.storeFileAtom)
 
   // deleting state
   const [recordToDelete, setRecordToDelete] = useState(null)
@@ -54,8 +49,8 @@ export function WelcomeBody(props) {
       setFileToOverwrite(existingAppFile)
     } else {
       // store and open
-      storeFile(uploadedAppFile)
-      openFile(uploadedAppFile.uuid)
+      fileStore.storeFile(uploadedAppFile)
+      fileStore.openFile(uploadedAppFile.uuid)
     }
   }
 
@@ -66,8 +61,8 @@ export function WelcomeBody(props) {
 
   function finishFileUpload() {
     // store and open
-    storeFile(fileToUpload)
-    openFile(fileToUpload.uuid)
+    fileStore.storeFile(fileToUpload)
+    fileStore.openFile(fileToUpload.uuid)
     
     closeUploadFileDialog()
   }
@@ -118,7 +113,7 @@ export function WelcomeBody(props) {
                           <Button
                             variant="text"
                             size="small"
-                            onClick={() => openFile(record.uuid)}
+                            onClick={() => fileStore.openFile(record.uuid)}
                           >
                             { record.constructFileName() }
                           </Button>
@@ -154,7 +149,7 @@ export function WelcomeBody(props) {
                           <IconButton
                             size="small"
                             className={styles["file-list__action-button"]}
-                            onClick={() => downloadFile(record.uuid)}
+                            onClick={() => fileStore.downloadFile(record.uuid)}
                           >
                             <DownloadIcon fontSize="inherit" />
                           </IconButton>
@@ -170,7 +165,7 @@ export function WelcomeBody(props) {
           <Stack direction="row" spacing={2} className={styles["new-file-actions"]}>
             <Button
               variant="contained"
-              onClick={() => createNewFile(FormDefinition.DEFAULT_FORM_ID)}
+              onClick={() => fileStore.createNewFile(FormDefinition.DEFAULT_FORM_ID)}
             >{ t("createNewFile") }</Button>
             <Button
               variant="outlined"
@@ -210,7 +205,7 @@ export function WelcomeBody(props) {
               <Button
                 variant="contained" color="error"
                 onClick={() => {
-                  deleteFile(recordToDelete.uuid)
+                  fileStore.deleteFile(recordToDelete.uuid)
                   setRecordToDelete(null)
                 }}
               >{ t("deleteDialog.delete") }</Button>

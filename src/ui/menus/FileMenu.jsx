@@ -29,33 +29,27 @@ export function FileMenu() {
   // === used state ===
 
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
-
-  const [,createNewFile] = useAtom(fileStore.createNewFileAtom)
-  const [,saveCurrentFile] = useAtom(fileStore.saveCurrentFileAtom)
-  const [,closeFile] = useAtom(fileStore.closeFileAtom)
-  const [,downloadCurrentFile] = useAtom(fileStore.downloadCurrentFileAtom)
-
   const [,setLocaleDialogOpen] = useAtom(isLocaleDialogOpenAtom)
 
   // === click handlers ===
 
   function onNewEmptyFileClick() {
-    createNewFile(FormDefinition.DEFAULT_FORM_ID)
+    fileStore.createNewFile(FormDefinition.DEFAULT_FORM_ID)
     closeMenu()
   }
 
   function onSaveFileClick() {
-    saveCurrentFile()
+    fileStore.saveCurrentFile()
     closeMenu()
   }
 
   function onDownloadFileClick() {
-    downloadCurrentFile()
+    fileStore.downloadCurrentFile()
     closeMenu()
   }
 
   function onCloseFileClick() {
-    closeFile()
+    fileStore.closeFile()
     closeMenu()
   }
 

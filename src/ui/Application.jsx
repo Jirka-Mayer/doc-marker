@@ -12,12 +12,11 @@ import useUnload from "../utils/useUnload"
 
 export function Application() {
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
-  const [,closeFile] = useAtom(fileStore.closeFileAtom)
 
   // save current file when closing the browser window
   useUnload(e => {
     if (isFileOpen) {
-      closeFile()
+      fileStore.closeFile()
     }
   });
 

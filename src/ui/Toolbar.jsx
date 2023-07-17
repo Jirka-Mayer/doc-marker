@@ -3,18 +3,17 @@ import { useAtom } from "jotai"
 import { displayDebugInfoAtom } from "../state/userPreferencesStore"
 import DownloadIcon from '@mui/icons-material/Download'
 import BugReportIcon from '@mui/icons-material/BugReport'
-import { downloadFileAtom } from "../state/fileStore"
+import * as fileStore from "../state/fileStore"
 
 export function Toolbar() {
   const [displayDebugInfo, setDisplayDebugInfo] = useAtom(displayDebugInfoAtom)
-  const [,downloadFile] = useAtom(downloadFileAtom)
 
   return (
     <>
       <IconButton
         color="default"
         sx={{ p: '10px' }}
-        onClick={() => downloadFile()}
+        onClick={() => fileStore.downloadFile()}
       >
         <DownloadIcon />
       </IconButton>

@@ -216,10 +216,14 @@ export function useGetExportedValue(path) {
  * a couple of rendering frames.
  */
 export function initiateExportRefresh() {
+  // console.log("CLEARING EXPORTED VALUES...")
+  
   // set all atoms to undefined
   for (const key in exportedValueBaseAtoms.atoms) {
     writeAtom(exportedValueBaseAtoms.atoms[key], undefined)
   }
+
+  // console.log("RE-EXPORTING FORM VALUES...")
 
   // trigger export for all components,
   // even those whose value won't change when new form data is set

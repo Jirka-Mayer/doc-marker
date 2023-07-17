@@ -1,4 +1,4 @@
-import { atom } from "jotai"
+import { atom, getDefaultStore } from "jotai"
 import { AppFile } from "../state/file/AppFile"
 import { AppMode } from "./editor/AppMode"
 import { FileStorage } from "./file/FileStorage"
@@ -9,6 +9,9 @@ import * as historyStore from "./historyStore"
 import * as packageJson from "../../package.json"
 
 const DOC_MARKER_VERSION = packageJson.version
+
+// lets us manipulate atoms from the non-jotai/react code
+const jotaiStore = getDefaultStore()
 
 
 ///////////////////////////
@@ -52,41 +55,42 @@ export const fileNameAtom = atom(
 ////////////////////////
 
 /**
- * Reading this atom will serialize the currently open file
+ * Executing this function will serialize the currently open file
  * to an AppFile instance, or to null if no file is open
  */
-const serializeFileAtom = atom(get => {
-  if (!get(isFileOpenAtom))
+function serializeToFile() {
+  if (!jotaiStore.get(isFileOpenAtom))
     return null
 
   return AppFile.fromJson({
     "_version": AppFile.CURRENT_VERSION,
     "_docMarkerVersion": DOC_MARKER_VERSION,
     
-    "_uuid": get(fileUuidAtom),
-    "_createdAt": get(fileCreatedAtBaseAtom).toISOString(),
+    "_uuid": jotaiStore.get(fileUuidAtom),
+    "_createdAt": jotaiStore.get(fileCreatedAtBaseAtom).toISOString(),
     "_updatedAt": new Date().toISOString(),
 
-    "_appMode": get(editorStore.appModeAtom),
+    "_appMode": jotaiStore.get(editorStore.appModeAtom),
     
-    "_formId": get(formStore.formIdAtom),
+    "_formId": jotaiStore.get(formStore.formIdAtom),
     "_formData": formStore.getExportedFormData(),
     
-    "_reportDelta": get(reportStore.contentAtom),
+    "_reportDelta": jotaiStore.get(reportStore.contentAtom),
     "_reportText": reportStore.quillExtended.getText(),
-    "_highlights": get(reportStore.highlightsAtom),
+    "_highlights": jotaiStore.get(reportStore.highlightsAtom),
 
-    "patientId": get(patientIdAtom),
+    "patientId": jotaiStore.get(patientIdAtom),
   })
-})
+}
 
 /**
- * Writing this atom will deserialize the given app file into the
+ * Calling this function will deserialize the given app file into the
  * application state. Providing null will reset the editor to "no file" state.
+ * @param {AppFile} appFile 
  */
-const deserializeFileAtom = atom(null, (get, set, appFile) => {
+function deserializeFromFile(appFile) {
   if (appFile === null) {
-    set(fileUuidBaseAtom, null)
+    jotaiStore.set(fileUuidBaseAtom, null)
     return
   }
 
@@ -95,21 +99,21 @@ const deserializeFileAtom = atom(null, (get, set, appFile) => {
   if (json["_version"] !== AppFile.CURRENT_VERSION)
     throw new Error("File to be deserialized must have the latest version number")
 
-  set(fileUuidBaseAtom, json["_uuid"])
-  set(fileCreatedAtBaseAtom, new Date(json["_createdAt"]))
+  jotaiStore.set(fileUuidBaseAtom, json["_uuid"])
+  jotaiStore.set(fileCreatedAtBaseAtom, new Date(json["_createdAt"]))
   // _updatedAt is ignored, since it's overwritten during save anyways
 
-  set(editorStore.appModeAtom, json["_appMode"])
+  jotaiStore.set(editorStore.appModeAtom, json["_appMode"])
 
-  set(formStore.formIdAtom, json["_formId"])
-  set(formStore.formDataAtom, json["_formData"])
+  jotaiStore.set(formStore.formIdAtom, json["_formId"])
+  jotaiStore.set(formStore.formDataAtom, json["_formData"])
   formStore.initiateExportRefresh()
 
   reportStore.quillExtended.setContents(json["_reportDelta"], "api")
   // _reportText and _highlights are ignored, since they are computable from delta
 
-  set(patientIdAtom, json["patientId"])
-})
+  jotaiStore.set(patientIdAtom, json["patientId"])
+}
 
 
 //////////////////
@@ -126,34 +130,34 @@ export const fileListAtom = atom(get => get(fileListBaseAtom))
 /**
  * Call to refresh the list of stored files from the local storage
  */
-export const refreshFileListAtom = atom(null, (get, set, _) => {
-  set(fileListBaseAtom, FileStorage.listFiles())
-})
+export function refreshFileListAtom() {
+  jotaiStore.set(fileListBaseAtom, FileStorage.listFiles())
+}
 
 /**
  * Downloads a stored file, given its UUID
  */
- export const downloadFileAtom = atom(null, (get, set, uuid) => {
+export function downloadFile(uuid) {
   const appFile = FileStorage.loadFile(uuid)
   appFile.download()
-})
+}
 
 /**
  * Deletes a file from the browser storage, given its UUID
  */
-export const deleteFileAtom = atom(null, (get, set, uuid) => {
+export function deleteFile(uuid) {
   FileStorage.deleteFile(uuid)
-  set(refreshFileListAtom)
-})
+  refreshFileListAtom()
+}
 
 /**
  * Stores the file into the file storage,
  * ovewriting any existing file with the same UUID
  */
- export const storeFileAtom = atom(null, (get, set, appFile) => {
+export function storeFile(appFile) {
   FileStorage.storeFile(appFile)
-  set(refreshFileListAtom)
-})
+  refreshFileListAtom()
+}
 
 
 /////////////////////////////
@@ -161,51 +165,50 @@ export const deleteFileAtom = atom(null, (get, set, uuid) => {
 /////////////////////////////
 
 /**
- * Call to open a new file.
- * If a file is already openned, it will be saved.
- * The only required argument is the form ID to use.
+ * Creates a new file and opens it.
+ * If a file is already open, it will save and close
+ * that file and only then open the new file.
  */
-export const createNewFileAtom = atom(null, (get, set, formId) => {
-  set(saveCurrentFileAtom)
-  set(deserializeFileAtom, AppFile.createNewEmpty(formId))
-  set(historyStore.clearAtom)
-})
+export function createNewFile(formId) {
+  saveCurrentFile()
+  deserializeFromFile(AppFile.createNewEmpty(formId))
+  jotaiStore.set(historyStore.clearAtom)
+}
 
 /**
- * Call to close the current file.
- * It will also be saved.
+ * Saves and closes the currently open file.
  */
-export const closeFileAtom = atom(null, (get, set) => {
-  set(saveCurrentFileAtom)
-  set(fileUuidBaseAtom, null)
-})
+export function closeFile() {
+  saveCurrentFile()
+  jotaiStore.set(fileUuidBaseAtom, null)
+}
 
 /**
- * Call to save the current file.
- * Does nothing if no file is open.
+ * Saves the currently open file to local storage
+ * (or does nothing if no file is open)
  */
-export const saveCurrentFileAtom = atom(null, (get, set) => {
-  if (!get(isFileOpenAtom))
+export function saveCurrentFile() {
+  if (!jotaiStore.get(isFileOpenAtom))
     return
   
-  const appFile = get(serializeFileAtom)
+  const appFile = serializeToFile()
   FileStorage.storeFile(appFile)
-  set(refreshFileListAtom)
-})
+  refreshFileListAtom()
+}
 
 /**
- * Call to open a stored file. You need to provide its UUID
+ * Opens a file from the local storage based on the given UUID
  */
-export const openFileAtom = atom(null, (get, set, uuid) => {
+export function openFile(uuid) {
   const appFile = FileStorage.loadFile(uuid)
-  set(deserializeFileAtom, appFile)
-  set(historyStore.clearAtom)
-})
+  deserializeFromFile(appFile)
+  jotaiStore.set(historyStore.clearAtom)
+}
 
 /**
  * Downloads the currently open file
  */
-export const downloadCurrentFileAtom = atom(null, (get, set) => {
-  const appFile = get(serializeFileAtom)
+export function downloadCurrentFile() {
+  const appFile = serializeToFile()
   appFile.download()
-})
+}
