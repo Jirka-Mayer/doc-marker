@@ -25,8 +25,6 @@ export function EditMenu() {
 
   const [canUndo] = useAtom(historyStore.canUndoAtom)
   const [canRedo] = useAtom(historyStore.canRedoAtom)
-  const [,performUndo] = useAtom(historyStore.undoAtom)
-  const [,performRedo] = useAtom(historyStore.redoAtom)
 
   // === click handlers ===
 
@@ -34,7 +32,7 @@ export function EditMenu() {
     if (!isFileOpen) {
       return
     }
-    performUndo()
+    historyStore.performUndo()
     // closeMenu() // let's keep the menu open for repeated clicks
   }
 
@@ -42,7 +40,7 @@ export function EditMenu() {
     if (!isFileOpen) {
       return
     }
-    performRedo()
+    historyStore.performRedo()
     // closeMenu() // let's keep the menu open for repeated clicks
   }
 

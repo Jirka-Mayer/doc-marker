@@ -1,5 +1,4 @@
-import { atom } from "jotai"
-import { readAtom, writeAtom } from "../utils/JotaiNexus"
+import { atom, getDefaultStore } from "jotai"
 import * as formStore from "./formStore"
 import * as reportStore from "./reportStore"
 import * as editorStore from "./editorStore"
@@ -8,6 +7,9 @@ import * as editorStore from "./editorStore"
 
 const MAX_STACK_SIZE = 100
 const DELAY_MS = 1000
+
+// lets us manipulate atoms from the non-jotai/react code
+const jotaiStore = getDefaultStore()
 
 // disables state change listening when undo/redo triggers state changes
 let isStateChangeHandlingEnabled = true
@@ -35,14 +37,14 @@ class HistorySnapshot {
     this.takenAt = new Date()
   }
 
-  static takeNow(get, eventName = null) {
+  static takeNow(eventName = null) {
     return new HistorySnapshot({
       eventName: eventName,
-      formData: get(formStore.formDataAtom),
-      reportDelta: get(reportStore.contentAtom),
+      formData: jotaiStore.get(formStore.formDataAtom),
+      reportDelta: jotaiStore.get(reportStore.contentAtom),
       reportSelection: reportStore.quillExtended.getSelection(),
-      appMode: get(editorStore.appModeAtom),
-      activeFieldId: get(editorStore.activeFieldIdAtom)
+      appMode: jotaiStore.get(editorStore.appModeAtom),
+      activeFieldId: jotaiStore.get(editorStore.activeFieldIdAtom)
     })
   }
 
@@ -57,14 +59,14 @@ class HistorySnapshot {
     })
   }
 
-  restore(set) {
+  restore() {
     try
     {
       // disable state change handling, because we are about to change state
       isStateChangeHandlingEnabled = false
 
       // essential state
-      set(formStore.formDataAtom, this.formData)
+      jotaiStore.set(formStore.formDataAtom, this.formData)
       reportStore.quillExtended.setContents(this.reportDelta, "api")
 
       // surrounding state
@@ -76,9 +78,9 @@ class HistorySnapshot {
         )
       }
       if (this.appMode) {
-        set(editorStore.appModeAtom, this.appMode)
+        jotaiStore.set(editorStore.appModeAtom, this.appMode)
       }
-      set(editorStore.activeFieldIdAtom, this.activeFieldId)
+      jotaiStore.set(editorStore.activeFieldIdAtom, this.activeFieldId)
     } finally {
       // enable state change handling again
       isStateChangeHandlingEnabled = true
@@ -111,27 +113,27 @@ export const canUndoAtom = atom((get) => {
 /**
  * Set this atom to execute the "undo" operation
  */
-export const undoAtom = atom(null, (get, set) => {
-  if (!get(canUndoAtom)) {
+export function performUndo() {
+  if (!jotaiStore.get(canUndoAtom)) {
     return
   }
 
   // read
-  let stackPointer = get(stackPointerAtom)
-  const stack = get(stackAtom)
+  let stackPointer = jotaiStore.get(stackPointerAtom)
+  const stack = jotaiStore.get(stackAtom)
   
   // decrement stack pointer
   stackPointer -= 1
 
   // restore state
   const state = stack[stackPointer]
-  state.restore(set)
+  state.restore()
 
   // write
-  set(stackPointerAtom, stackPointer)
+  jotaiStore.set(stackPointerAtom, stackPointer)
 
-  // console.log("UNDO!", get(stackPointerAtom), get(stackAtom))
-})
+  // console.log("UNDO!", jotaiStore.get(stackPointerAtom), jotaiStore.get(stackAtom))
+}
 
 /**
  * True if the redo operation can be performed
@@ -145,38 +147,38 @@ export const undoAtom = atom(null, (get, set) => {
 /**
  * Set this atom to execute the "redo" operation
  */
-export const redoAtom = atom(null, (get, set) => {
-  if (!get(canRedoAtom)) {
+export function performRedo() {
+  if (!jotaiStore.get(canRedoAtom)) {
     return
   }
 
   // read
-  let stackPointer = get(stackPointerAtom)
-  const stack = get(stackAtom)
+  let stackPointer = jotaiStore.get(stackPointerAtom)
+  const stack = jotaiStore.get(stackAtom)
   
   // increment stack pointer
   stackPointer += 1
 
   // restore state
   const state = stack[stackPointer]
-  state.restore(set)
+  state.restore()
 
   // write
-  set(stackPointerAtom, stackPointer)
+  jotaiStore.set(stackPointerAtom, stackPointer)
 
-  // console.log("REDO!", get(stackPointerAtom), get(stackAtom))
-})
+  // console.log("REDO!", jotaiStore.get(stackPointerAtom), jotaiStore.get(stackAtom))
+}
 
 /**
  * Set this atom to clear the history stack
  */
 export const clearAtom = atom(null, (get, set) => {
-  const now = HistorySnapshot.takeNow(get, "clearHistory")
+  const now = HistorySnapshot.takeNow("clearHistory")
   
-  set(stackAtom, [now])
-  set(stackPointerAtom, 0)
+  jotaiStore.set(stackAtom, [now])
+  jotaiStore.set(stackPointerAtom, 0)
 
-  // console.log("CLEAR!", get(stackPointerAtom), get(stackAtom))
+  // console.log("CLEAR!", jotaiStore.get(stackPointerAtom), jotaiStore.get(stackAtom))
 })
 
 function handleStateChange({
@@ -187,9 +189,9 @@ function handleStateChange({
   }
 
   // read
-  let stackPointer = readAtom(stackPointerAtom)
-  let stack = [...readAtom(stackAtom)] // create array copy
-  const now = HistorySnapshot.takeNow(readAtom, eventName)
+  let stackPointer = jotaiStore.get(stackPointerAtom)
+  let stack = [...jotaiStore.get(stackAtom)] // create array copy
+  const now = HistorySnapshot.takeNow(eventName)
   const lastItem = stack[stackPointer] || now
 
   // clear stack after the pointer
@@ -224,8 +226,8 @@ function handleStateChange({
   stackPointer = stack.length - 1
 
   // write
-  writeAtom(stackPointerAtom, stackPointer)
-  writeAtom(stackAtom, stack)
+  jotaiStore.set(stackPointerAtom, stackPointer)
+  jotaiStore.set(stackAtom, stack)
 
   // DEBUG LOG
   // if (performReplacement)
