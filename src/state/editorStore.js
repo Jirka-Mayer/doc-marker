@@ -5,7 +5,7 @@ import { EventEmitter } from "../utils/EventEmitter"
 /**
  * Emits events related to the editor store
  */
- export const eventEmitter = new EventEmitter()
+export const eventEmitter = new EventEmitter()
 
 
 //////////////////////

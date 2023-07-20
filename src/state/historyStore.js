@@ -1,4 +1,5 @@
 import { atom, getDefaultStore } from "jotai"
+import { EventEmitter } from "../utils/EventEmitter"
 import * as formStore from "./formStore"
 import * as reportStore from "./reportStore"
 import * as editorStore from "./editorStore"
@@ -11,12 +12,18 @@ const DELAY_MS = 1000
 // lets us manipulate atoms from the non-jotai/react code
 const jotaiStore = getDefaultStore()
 
+/**
+ * Emits events related to the history store
+ */
+export const eventEmitter = new EventEmitter()
+
 // disables state change listening when undo/redo triggers state changes
 let isStateChangeHandlingEnabled = true
 
 class HistorySnapshot {
   constructor({
     eventName,
+    cosmeticChange,
     formData,
     reportDelta,
     reportSelection,
@@ -34,13 +41,16 @@ class HistorySnapshot {
 
     // metadata
     this.eventName = eventName
+    this.cosmeticChange = cosmeticChange
     this.takenAt = new Date()
   }
 
-  static takeNow(eventName = null) {
+  static takeNow(eventName = null, cosmeticChange = false) {
     return new HistorySnapshot({
       eventName: eventName,
-      formData: jotaiStore.get(formStore.formDataAtom),
+      cosmeticChange: cosmeticChange,
+      // making a copy helps bust react caching and force re-renders on undo/redo
+      formData: { ...jotaiStore.get(formStore.formDataAtom) },
       reportDelta: jotaiStore.get(reportStore.contentAtom),
       reportSelection: reportStore.quillExtended.getSelection(),
       appMode: jotaiStore.get(editorStore.appModeAtom),
@@ -51,6 +61,7 @@ class HistorySnapshot {
   static empty() {
     return new HistorySnapshot({
       eventName: null,
+      cosmeticChange: false,
       formData: null,
       reportDelta: { ops:[] },
       reportSelection: null,
@@ -121,6 +132,7 @@ export function performUndo() {
   // read
   let stackPointer = jotaiStore.get(stackPointerAtom)
   const stack = jotaiStore.get(stackAtom)
+  const oldState = stack[stackPointer]
   
   // decrement stack pointer
   stackPointer -= 1
@@ -133,6 +145,11 @@ export function performUndo() {
   jotaiStore.set(stackPointerAtom, stackPointer)
 
   // console.log("UNDO!", jotaiStore.get(stackPointerAtom), jotaiStore.get(stackAtom))
+
+  eventEmitter.emit("change", {
+    snapshot: state,
+    cosmeticChange: oldState.cosmeticChange
+  })
 }
 
 /**
@@ -167,31 +184,38 @@ export function performRedo() {
   jotaiStore.set(stackPointerAtom, stackPointer)
 
   // console.log("REDO!", jotaiStore.get(stackPointerAtom), jotaiStore.get(stackAtom))
+
+  eventEmitter.emit("change", {
+    snapshot: state,
+    cosmeticChange: state.cosmeticChange
+  })
 }
 
 /**
  * Set this atom to clear the history stack
  */
-export const clearAtom = atom(null, (get, set) => {
-  const now = HistorySnapshot.takeNow("clearHistory")
+export function clear() {
+  const now = HistorySnapshot.takeNow("clearHistory", false)
   
   jotaiStore.set(stackAtom, [now])
   jotaiStore.set(stackPointerAtom, 0)
 
   // console.log("CLEAR!", jotaiStore.get(stackPointerAtom), jotaiStore.get(stackAtom))
-})
+
+  eventEmitter.emit("clear", { snapshot: now, cosmeticChange: false })
+}
 
 function handleStateChange({
-  eventName
+  eventName, cosmeticChange
 }) {
   if (!isStateChangeHandlingEnabled) {
-    return
+    return null
   }
 
   // read
   let stackPointer = jotaiStore.get(stackPointerAtom)
   let stack = [...jotaiStore.get(stackAtom)] // create array copy
-  const now = HistorySnapshot.takeNow(eventName)
+  const now = HistorySnapshot.takeNow(eventName, cosmeticChange)
   const lastItem = stack[stackPointer] || now
 
   // clear stack after the pointer
@@ -234,19 +258,25 @@ function handleStateChange({
   //   console.log("REPLACE", stackPointer, stack)
   // else
   //   console.log("APPEND", stackPointer, stack)
+
+  eventEmitter.emit("change", {
+    snapshot: now,
+    cosmeticChange: now.cosmeticChange
+  })
+
+  return now
 }
 
 // === handle change events ===
 
 formStore.eventEmitter.on("formDataChanged", (e) => {
-  handleStateChange({ eventName: "formDataChanged" })
+  handleStateChange({ eventName: "formDataChanged", cosmeticChange: false })
 })
 
 reportStore.eventEmitter.on("reportDeltaChanged", (e) => {
-  handleStateChange({ eventName: "reportDeltaChanged" })
+  handleStateChange({ eventName: "reportDeltaChanged", cosmeticChange: false })
 })
 
 editorStore.eventEmitter.on("appModeChanged", (e) => {
-  // TODO: this is only a cosmetic change, this does not mark the file as modified
-  handleStateChange({ eventName: "appModeChanged" })
+  handleStateChange({ eventName: "appModeChanged", cosmeticChange: true })
 })

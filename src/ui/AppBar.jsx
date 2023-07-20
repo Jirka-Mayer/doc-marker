@@ -11,6 +11,8 @@ import {
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
+import SyncIcon from '@mui/icons-material/Sync'
+import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone'
 import { AppMode } from "../state/editor/AppMode"
 import { useAtom } from "jotai"
 import * as fileStore from "../state/fileStore"
@@ -23,6 +25,7 @@ import { appModeAtom } from "../state/editorStore"
 import { useTranslation } from "react-i18next";
 import { useState } from "react"
 import { AppFile } from "../state/file/AppFile"
+import * as autosaveStore from "../state/autosaveStore"
 
 const logoImageUrl = new URL(
   "resq-logo.png",
@@ -36,6 +39,7 @@ export function AppBar() {
   const [appMode, setAppMode] = useAtom(appModeAtom)
   const [fileName, setFileName] = useAtom(fileStore.fileNameAtom)
   const [fileUuid] = useAtom(fileStore.fileUuidAtom)
+  const [isFileDirty] = useAtom(autosaveStore.isDirtyAtom)
 
   return (
     <Paper elevation={1} square className={styles["appbar"]}>
@@ -50,14 +54,37 @@ export function AppBar() {
         </div>
         <div className={styles["appbar__center"]}>
           <div className={styles["appbar__header"]}>
-            { isFileOpen ? (
-              <InputBase
-                className={styles["appbar__file-name"]}
-                value={ fileName }
-                onChange={(e) => { setFileName(e.target.value) }}
-                placeholder={ AppFile.constructUuidFileName(fileUuid) }
-              />
-            ) : (
+            { isFileOpen ? <>
+              <div className={styles["appbar__file-name"]}>
+                <div className={styles["appbar__file-name-width-driver"]}>
+                  { AppFile.constructFileName(fileName, fileUuid) }
+                </div>
+                <InputBase
+                  className={styles["appbar__file-name-field"]}
+                  value={ fileName }
+                  onChange={(e) => {
+                    setFileName(e.target.value)
+                    autosaveStore.setDirty()
+                  }}
+                  placeholder={ AppFile.constructUuidFileName(fileUuid) }
+                />
+              </div>
+
+              <Typography
+                sx={{ ml: 1, mb: 0.5 }}
+                className={styles["appbar__autosave-text"]}
+                component="span"
+                variant="body2"
+              >
+                { isFileDirty ? <>
+                  <SyncIcon fontSize="small" sx={{ mr: 1 }}/>
+                  Saving...
+                </> : <>
+                  <FileDownloadDoneIcon fontSize="small" sx={{ mr: 1 }}/>
+                  Saved.
+                </> }
+              </Typography>
+            </> : (
               <Typography
                 sx={{ ml: 1 }}
                 className={styles["appbar__no-file-open"]}

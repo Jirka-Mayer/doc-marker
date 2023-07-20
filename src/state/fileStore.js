@@ -2,6 +2,7 @@ import { atom, getDefaultStore } from "jotai"
 import { AppFile } from "../state/file/AppFile"
 import { AppMode } from "./editor/AppMode"
 import { FileStorage } from "./file/FileStorage"
+import { EventEmitter } from "../utils/EventEmitter"
 import * as reportStore from "./reportStore"
 import * as formStore from "./formStore"
 import * as editorStore from "./editorStore"
@@ -12,6 +13,11 @@ const DOC_MARKER_VERSION = packageJson.version
 
 // lets us manipulate atoms from the non-jotai/react code
 const jotaiStore = getDefaultStore()
+
+/**
+ * Emits events related to the file store
+ */
+ export const eventEmitter = new EventEmitter()
 
 
 ///////////////////////////
@@ -161,16 +167,18 @@ export function storeFile(appFile) {
  * that file and only then open the new file.
  */
 export function createNewFile(formId) {
-  saveCurrentFile()
+  closeFile()
   deserializeFromFile(AppFile.createNewEmpty(formId))
-  jotaiStore.set(historyStore.clearAtom)
+  historyStore.clear()
 }
 
 /**
- * Saves and closes the currently open file.
+ * Closes the currently open file.
+ * (which may trigger save via event handler in the autosave store)
  */
 export function closeFile() {
-  saveCurrentFile()
+  eventEmitter.emit("beforeFileClose", {})
+
   jotaiStore.set(fileUuidBaseAtom, null)
 }
 
@@ -185,6 +193,8 @@ export function saveCurrentFile() {
   const appFile = serializeToFile()
   FileStorage.storeFile(appFile)
   refreshFileListAtom()
+
+  eventEmitter.emit("fileSaved", { appFile })
 }
 
 /**
@@ -193,7 +203,7 @@ export function saveCurrentFile() {
 export function openFile(uuid) {
   const appFile = FileStorage.loadFile(uuid)
   deserializeFromFile(appFile)
-  jotaiStore.set(historyStore.clearAtom)
+  historyStore.clear()
 }
 
 /**
