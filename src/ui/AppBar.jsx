@@ -78,10 +78,10 @@ export function AppBar() {
               >
                 { isFileDirty ? <>
                   <SyncIcon fontSize="small" sx={{ mr: 1 }}/>
-                  Saving...
+                  { t("saving") }
                 </> : <>
                   <FileDownloadDoneIcon fontSize="small" sx={{ mr: 1 }}/>
-                  Saved.
+                  { t("saved") }
                 </> }
               </Typography>
             </> : (

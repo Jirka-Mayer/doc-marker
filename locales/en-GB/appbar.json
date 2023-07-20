@@ -1,6 +1,8 @@
 {
   "noFileOpen": "No file open",
-
+  "saving": "Saving...",
+  "saved": "Saved.",
+  
   "mode": {
     "edit": "Edit",
     "anonymize": "Anonymize",
