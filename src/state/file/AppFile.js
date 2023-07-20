@@ -38,6 +38,7 @@ export class AppFile {
       "_docMarkerVersion": DOC_MARKER_VERSION,
     
       "_uuid": this.generateNewUuid(),
+      "_fileName": "",
       "_createdAt": now.toISOString(),
       "_updatedAt": now.toISOString(),
 
@@ -49,8 +50,6 @@ export class AppFile {
       "_reportDelta": { ops: [] },
       "_reportText": "",
       "_highlights": {},
-
-      "patientId": null,
     })
   }
 
@@ -109,8 +108,8 @@ export class AppFile {
     return new Date(this.body["_updatedAt"])
   }
 
-  get patientId() {
-    return this.body["patientId"]
+  get fileName() {
+    return this.body["_fileName"]
   }
 
 
@@ -119,23 +118,31 @@ export class AppFile {
   ///////////
 
   /**
-   * Returns the desired file name as string
+   * Returns file name that is never empty
    */
-  static constructFileName(patientId, uuid) {
-    if (patientId) {
-      return patientId
+  static constructFileName(fileName, uuid) {
+    if (fileName) {
+      return fileName
     }
     if (uuid) {
-      return "draft-file_" + uuid.substring(0, 8)
+      return AppFile.constructUuidFileName(uuid)
     }
     return null
   }
 
   /**
-   * Returns the desired file name as string
+   * Returns the default file name is only the UUID is known
+   * (user has not specified any other file name)
+   */
+  static constructUuidFileName(uuid) {
+    return "file-" + uuid.substring(0, 8)
+  }
+
+  /**
+   * Returns file name that is never empty
    */
   constructFileName() {
-    return AppFile.constructFileName(this.patientId, this.uuid)
+    return AppFile.constructFileName(this.fileName, this.uuid)
   }
 
   /**

@@ -30,8 +30,15 @@
   color: rgba(black, 0.6);
 }
 
-.appbar__file-name {
+.appbar__file-name input {
+  padding: 8px;
   color: rgba(black, 0.7);
+  text-overflow: ellipsis;
+
+  &:focus {
+    outline: 2px solid rgba(black, 0.2);
+    outline-offset: -4px;
+  }
 }
 
 .appbar__menubar {

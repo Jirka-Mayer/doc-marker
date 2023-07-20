@@ -30,24 +30,17 @@ export const fileUuidAtom = atom(get => get(fileUuidBaseAtom))
  */
 export const isFileOpenAtom = atom(get => get(fileUuidBaseAtom) !== null)
 
+/**
+ * Holds the user-specified file name
+ */
+export const fileNameAtom = atom("")
+
 const fileCreatedAtBaseAtom = atom(null)
 
 /**
  * When was the openned file created, as a Date instance
  */
 export const fileCreatedAtAtom = atom(get => get(fileCreatedAtBaseAtom))
-
-/**
- * Returns the assigned patient ID of the file, or null if none was assigned yet
- */
-export const patientIdAtom = atom(null)
-
-/**
- * Returns the name of the file
- */
-export const fileNameAtom = atom(
-  get => AppFile.constructFileName(get(patientIdAtom), get(fileUuidAtom))
-)
 
 
 ////////////////////////
@@ -67,6 +60,7 @@ function serializeToFile() {
     "_docMarkerVersion": DOC_MARKER_VERSION,
     
     "_uuid": jotaiStore.get(fileUuidAtom),
+    "_fileName": jotaiStore.get(fileNameAtom),
     "_createdAt": jotaiStore.get(fileCreatedAtBaseAtom).toISOString(),
     "_updatedAt": new Date().toISOString(),
 
@@ -78,8 +72,6 @@ function serializeToFile() {
     "_reportDelta": jotaiStore.get(reportStore.contentAtom),
     "_reportText": reportStore.quillExtended.getText(),
     "_highlights": jotaiStore.get(reportStore.highlightsAtom),
-
-    "patientId": jotaiStore.get(patientIdAtom),
   })
 }
 
@@ -100,6 +92,7 @@ function deserializeFromFile(appFile) {
     throw new Error("File to be deserialized must have the latest version number")
 
   jotaiStore.set(fileUuidBaseAtom, json["_uuid"])
+  jotaiStore.set(fileNameAtom, json["_fileName"])
   jotaiStore.set(fileCreatedAtBaseAtom, new Date(json["_createdAt"]))
   // _updatedAt is ignored, since it's overwritten during save anyways
 
@@ -111,8 +104,6 @@ function deserializeFromFile(appFile) {
 
   reportStore.quillExtended.setContents(json["_reportDelta"], "api")
   // _reportText and _highlights are ignored, since they are computable from delta
-
-  jotaiStore.set(patientIdAtom, json["patientId"])
 }
 
 

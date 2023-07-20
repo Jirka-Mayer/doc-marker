@@ -14,15 +14,15 @@ const imageUrl_browserConsole = new URL(
 )
 
 export function ResqExportDialog() {
-  const [patientId, setPatientId] = useAtom(fileStore.patientIdAtom)
+  const [fileName, setFileName] = useAtom(fileStore.fileNameAtom)
   const [isOpen, setIsOpen] = useAtom(isOpenAtom)
   const [isSnackbarOpen, setSnackbarOpen] = useState(false)
 
-  function handlePatientIdChange(event) {
+  function handleFileNameChange(event) {
     let value = event.target.value.trim()
     if (!value)
       value = null
-    setPatientId(value)
+    setFileName(value)
   }
 
   function handleCopyCodeClick() {
@@ -60,8 +60,8 @@ export function ResqExportDialog() {
           size="medium"
           variant="outlined"
           fullWidth
-          value={patientId || ""}
-          onChange={handlePatientIdChange}
+          value={fileName || ""}
+          onChange={handleFileNameChange}
           sx={{ my: 2 }}
         />
 

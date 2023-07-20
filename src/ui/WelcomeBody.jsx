@@ -1,6 +1,6 @@
 import * as styles from "./WelcomeBody.module.scss"
 import Typography from '@mui/material/Typography'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Paper, Stack, Table, TableBody, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip } from "@mui/material"
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Paper, Stack, Table, TableBody, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Link } from "@mui/material"
 import { useState } from "react"
 import { useAtom } from "jotai"
 import { AppFile } from "../state/file/AppFile"
@@ -81,10 +81,6 @@ export function WelcomeBody(props) {
         <Paper className={styles["paper"]} square>
 
           <Typography variant="h3">{ t("title") }</Typography>
-          <Typography variant="h5" gutterBottom sx={{ opacity: 0.5 }}>[v{VERSION}]</Typography>
-          
-          {/* <Typography variant="h5" gutterBottom>&nbsp;</Typography> */}
-
 
           <Typography variant="h5" gutterBottom>
             { t("browserFiles.title") }
@@ -110,13 +106,15 @@ export function WelcomeBody(props) {
                     <TableRow key={ record.uuid }>
                       <TableCell>
                         <Tooltip title={t("browserFiles.tip.open")} disableInteractive>
-                          <Button
-                            variant="text"
-                            size="small"
-                            onClick={() => fileStore.openFile(record.uuid)}
+                          <Link
+                            href="#"
+                            onClick={(e) => {
+                              e.preventDefault()
+                              fileStore.openFile(record.uuid)
+                            }}
                           >
                             { record.constructFileName() }
-                          </Button>
+                          </Link>
                         </Tooltip>
                       </TableCell>
                       <TableCell>
@@ -180,6 +178,11 @@ export function WelcomeBody(props) {
               />
             </Button>
           </Stack>
+
+          {/* Footer with the version string */}
+          <Typography variant="body2" gutterBottom sx={{ color: "#888", paddingTop: 1 }}>
+            DocMarker version v{VERSION}
+          </Typography>
 
           {/* Delete file dialog */}
           <Dialog open={recordToDelete !== null} onClose={() => setRecordToDelete(null)}>

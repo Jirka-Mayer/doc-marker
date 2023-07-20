@@ -6,6 +6,7 @@ import {
   Typography,
   ToggleButtonGroup,
   ToggleButton,
+  InputBase,
 } from "@mui/material"
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import ReadMoreIcon from '@mui/icons-material/ReadMore'
@@ -20,6 +21,8 @@ import { Toolbar } from "./Toolbar"
 import { ToolsMenu } from "./menus/ToolsMenu"
 import { appModeAtom } from "../state/editorStore"
 import { useTranslation } from "react-i18next";
+import { useState } from "react"
+import { AppFile } from "../state/file/AppFile"
 
 const logoImageUrl = new URL(
   "resq-logo.png",
@@ -31,7 +34,8 @@ export function AppBar() {
 
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
   const [appMode, setAppMode] = useAtom(appModeAtom)
-  const [fileName] = useAtom(fileStore.fileNameAtom)
+  const [fileName, setFileName] = useAtom(fileStore.fileNameAtom)
+  const [fileUuid] = useAtom(fileStore.fileUuidAtom)
 
   return (
     <Paper elevation={1} square className={styles["appbar"]}>
@@ -47,14 +51,12 @@ export function AppBar() {
         <div className={styles["appbar__center"]}>
           <div className={styles["appbar__header"]}>
             { isFileOpen ? (
-              <Typography
-                sx={{ ml: 1 }}
+              <InputBase
                 className={styles["appbar__file-name"]}
-                component="span"
-                variant="button"
-              >
-                { fileName }
-              </Typography>
+                value={ fileName }
+                onChange={(e) => { setFileName(e.target.value) }}
+                placeholder={ AppFile.constructUuidFileName(fileUuid) }
+              />
             ) : (
               <Typography
                 sx={{ ml: 1 }}

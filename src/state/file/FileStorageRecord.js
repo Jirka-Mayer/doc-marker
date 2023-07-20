@@ -5,7 +5,7 @@ export class FileStorageRecord {
     this.uuid = json.uuid || null
     this.createdAt = new Date(json.createdAt)
     this.updatedAt = new Date(json.updatedAt)
-    this.patientId = json.patientId || null
+    this.fileName = json.fileName || ""
 
     if (this.uuid === null)
       throw new Error("File storage record must have a UUID set")
@@ -20,7 +20,7 @@ export class FileStorageRecord {
       uuid: appFile.uuid,
       createdAt: appFile.createdAtString,
       updatedAt: appFile.updatedAtString,
-      patientId: appFile.patientId
+      fileName: appFile.fileName
     })
   }
 
@@ -29,14 +29,14 @@ export class FileStorageRecord {
       uuid: this.uuid,
       createdAt: this.createdAt.toISOString(),
       updatedAt: this.updatedAt.toISOString(),
-      patientId: this.patientId
+      fileName: this.fileName
     }
   }
 
   /**
-   * Returns the desired file name as string
+   * Returns a non-empty file name
    */
   constructFileName() {
-    return AppFile.constructFileName(this.patientId, this.uuid)
+    return AppFile.constructFileName(this.fileName, this.uuid)
   }
 }

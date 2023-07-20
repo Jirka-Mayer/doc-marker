@@ -69,10 +69,4 @@ RES-Q+ Extension
 
 Here, the RES-Q+ specific fields are described.
 
-The RES-Q+ file has the following additional fields:
-
-```json
-{
-  "patientId": "doc_marker_2023-03-15_104"
-}
-```
+RES-Q+ currently has no additional files.
