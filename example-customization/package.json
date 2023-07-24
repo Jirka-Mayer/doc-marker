@@ -1,0 +1,15 @@
+{
+  "name": "example-custom-doc-marker",
+  "version": "1.0.0",
+  "source": "src/index.html",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "scripts": {
+    "start": "rm -rf dist .parcel-cache && parcel",
+    "build": "rm -rf dist .parcel-cache && parcel build --public-url ./"
+  },
+  "devDependencies": {
+    "doc-marker": "https://github.com/Jirka-Mayer/doc-marker",
+    "parcel": "^2.8.0",
+    "@parcel/transformer-sass": "^2.8.2"
+  }
+}

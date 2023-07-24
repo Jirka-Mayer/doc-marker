@@ -1,48 +1,12 @@
-DocMarker for RES-Q+
-====================
+DocMarker
+=========
 
-Try it out at: https://ufallab.ms.mff.cuni.cz/~mayer/resq-doc-marker/
+DocMarker is an annotation tool for creating training data for the text-to-form information retrieval NLP task. You have a free-form text file and you want to fill out a structured form based on the information in that text. This tool lets you record and annotate this process.
 
-After cloning the repo:
+DocMarker is meant to be extended with your own forms (or even custom logic). Therefore this repository holds the generic version of the tool. To see a specific extension, check out:
 
-```
-npm install
-```
+- [RES-Q+ DocMarker](https://github.com/Jirka-Mayer/resq-doc-marker)
 
-To start the development server:
+The customization works by treating this repository as an NPM library that you include in your project. You then use this library in a simple HTML file, providing a configuration object that specifies any overrides. You build the whole system using [Parcel](https://parceljs.org/), which produces your final single-page web application.
 
-```
-npm run start
-```
-
-To add new dependency:
-
-```
-npm install --save-dev XYZ
-```
-
-Developed on node `v16.14.0`.
-
-To build the docker image:
-
-```
-npm run dockerBuild
-```
-
-To run the docker image:
-
-```
-npm run dockerRun
-```
-
-To push the docker image to Docker Hub:
-
-```
-npm run dockerPush
-```
-
-To build for a static website:
-
-```
-npm run build
-```
+For more information on how to create your own customization see the folder [`example-customization`](example-customization).

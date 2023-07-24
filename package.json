@@ -1,16 +1,16 @@
 {
-  "name": "resqplus-client",
-  "version": "0.4.0",
-  "source": "src/index.html",
-  "browserslist": "> 0.5%, last 2 versions, not dead",
-  "scripts": {
-    "start": "parcel",
-    "build": "rm -rf dist .parcel-cache && parcel build --public-url ./",
-    "dockerBuild": "docker build --tag jirkamayer/resqplus-client:$npm_package_version .",
-    "dockerPush": "docker push jirkamayer/resqplus-client:$npm_package_version",
-    "dockerRun": "docker run --rm -it -p 1234:80 jirkamayer/resqplus-client:$npm_package_version"
+  "name": "doc-marker",
+  "version": "0.5.0-dev",
+  "description": "Annotation tool for creating training data for the text-to-form information retrieval NLP task",
+  "author": "Jiří Mayer <mayer@ufal.mff.cuni.cz> (https://ufal.mff.cuni.cz/jiri-mayer)",
+  "engines": {
+    "parcel": "2.x"
   },
-  "devDependencies": {
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@jsonforms/core": "^3.0.0",
@@ -19,12 +19,10 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.3",
     "@mui/x-date-pickers": "^6.0.4",
-    "@parcel/transformer-sass": "^2.8.2",
     "buffer": "^6.0.3",
     "i18next": "^23.2.3",
     "jotai": "^2.2.1",
     "moment": "^2.29.4",
-    "parcel": "^2.8.0",
     "process": "^0.11.10",
     "quill": "^1.3.6",
     "react": "^18.2.0",
