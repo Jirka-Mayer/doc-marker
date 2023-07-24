@@ -1,0 +1,1084 @@
+{
+  "group": {
+    "admission": "DANE DOT. PRZYJĘCIA DO SZPITALA",
+    "hospitalization": "DANE DOT. HOSPITALIZACJI",
+    "IDT": "OBRAZOWANIE, DIAGNOSTYKA I LECZENIE",
+    "post_acute": {
+      "main": "OPIEKA W FAZIE PODOSTREJ",
+      "findings": "Kontrolna TK mózgu po rtPA/trombektomii",
+      "fever": "Gorączka",
+      "hyperglycemia": "Hiperglikemia",
+      "swallow": "Zaburzenia połykania",
+      "rehabilitation": "Rehabilitacja"
+    },
+    "discharge": {
+      "main": "DANE DOT. WYPISU ZE SZPITALA"
+    },
+    "follow_up": "KONTROLA PO 3 MIESIĄCACH"
+  },
+  "anamnesis": {
+    "age": {
+      "label": "Wiek:",
+      "description": "wprowadź wiek (0-120)"
+    },
+    "sex": {
+      "label": "Płeć:",
+      "male": "Mężczyzna",
+      "female": "Kobieta",
+      "null": "Nieznana"
+    },
+    "risk_factors": {
+      "any_risk_factor": {
+        "label": "Informacje z wywiadu",
+        "yes": "Tak",
+        "no": "Żadne z poniższych",
+        "null": "Nieznane",
+        "error": {
+          "multiselect": "Zaznacz co najmniej jeden"
+        }
+      },
+      "hypertension": {
+        "label": "Nadciśnienie tętnicze"
+      },
+      "diabetes": {
+        "label": "Cukrzyca"
+      },
+      "hyperlypidemia": {
+        "label": "Hiperlipidemia"
+      },
+      "active_smoker": {
+        "label": "Aktywny palacz w ciągu ostatnich 10 lat"
+      },
+      "ischemic_stroke": {
+        "label": "Przebyty udar niedokrwienny/TIA prowadzący do hospitalizacji"
+      },
+      "hermorrhage_stroke": {
+        "label": "Przebyty krwotok śródmózgowy prowadzący do hospitalizacji"
+      },
+      "atrial_fibrillation": {
+        "label": "Migotanie lub trzepotanie przedsionków (napadowe/przetrwałe/utrwalone)"
+      },
+      "coronary_artery": {
+        "label": "Choroba wieńcowa/Przebyty zawał serca"
+      },
+      "heart_failure": {
+        "label": "Zastoinowa niewydolność serca"
+      },
+      "hiv": {
+        "label": "HIV"
+      },
+      "covid_positive": {
+        "label": "Przebyty COVID-19 w ciągu ostatnich 6 mies."
+      }
+    },
+    "medication": {
+      "any_medication": {
+        "label": "Leczenie przed przyjęciem do szpitala/wystąpieniem udaru:",
+        "yes": "Tak",
+        "no": "Żadne z poniższych",
+        "null": "Nieznane",
+        "error": {
+          "multiselect": "Zaznacz co najmniej jeden"
+        }
+      },
+      "antidiabetics": {
+        "label": "Leki przeciwcukrzycowe"
+      },
+      "antihypertensives": {
+        "label": "Leki przeciwnadciśnieniowe"
+      },
+      "antiplatelets": {
+        "label": "Leki przeciwpłytkowe"
+      },
+      "anticoagulants": {
+        "label": "Antykoagulanty"
+      },
+      "hormonal_contraception": {
+        "label": "Antykoncepcja hormonalna"
+      },
+      "statin": {
+        "label": "Statyna"
+      },
+      "antiplatelet_substances": {
+        "asa": {
+          "label": "ASA (kwas acetylosalicylowy)"
+        },
+        "cilostazol": {
+          "label": "Cylostazol"
+        },
+        "clopidogrel": {
+          "label": "Klopidogrel"
+        },
+        "ticagrelor": {
+          "label": "Tikagrelor"
+        },
+        "ticlopidine": {
+          "label": "Tiklopidyna"
+        },
+        "prasugrel": {
+          "label": "Prasugrel"
+        },
+        "dipyridamole": {
+          "label": "Dipirydamol"
+        },
+        "other": {
+          "label": "Inny lek przeciwpłytkowy"
+        }
+      },
+      "anticoagulant_substances": {
+        "warfarin": {
+          "label": "Antagonista wit. K (np. warfaryna)"
+        },
+        "heparin": {
+          "label": "Heparyna drobnocząsteczkowa/heparyna"
+        },
+        "dabigatran": {
+          "label": "Dabigatran"
+        },
+        "rivaroxaban": {
+          "label": "Rywaroksaban"
+        },
+        "apixaban": {
+          "label": "Apiksaban"
+        },
+        "edoxaban": {
+          "label": "Edoksaban"
+        },
+        "other": {
+          "label": "Inny antykoagualnt"
+        }
+      }
+    },
+    "prestroke_mrs": {
+      "label": "Zmodyfikowana Skala Rankina (mRS) przed udarem:",
+      "null": "nie oceniono"
+    }
+  },
+  "onset": {
+    "wakeup_stroke": {
+      "label": "Udar typu \"wake-up\":"
+    },
+    "sleep_timestamp": {
+      "label": "Moment, w którym pacjent zasnął bez objawów:"
+    },
+    "inhospital_stroke": {
+      "label": "Udar w trakcie hospitalizacji:"
+    },
+    "onset_timestamp": {
+      "label": "Data wystąpienia objawów udaru:"
+    }
+  },
+  "admission": {
+    "admission_timestamp": {
+      "label": "Moment przyjęcia do szpitala (przekroczenie drzwi szpitala):",
+      "description": "w przypadku braku dokładnej informacji - czas oszacowany"
+    },
+    "arrival_mode": {
+      "label": "Pacjent został przywieziony do Państwa szpitala z",
+      "ems": "Przywieziony przez Zespół Pogotowia",
+      "private": "Przywieziony transportem prywatnym ",
+      "hospital": "Z innego szpitala",
+      "stroke_center": "Z innego ośrodka udarowego"
+    },
+    "ems_prenotification": {
+      "label": "Czy szpital został powiadomiony przez Zespół Pogotowia przed przyjazdem (prenotyfikacja)?"
+    },
+    "hospitalized_in": {
+      "label": "Miejsce pobytu w 1. dobie hospitalizacji:",
+      "icu": "OIOM/Oddział udarowy",
+      "telemetry_bed": "Inne łóżko monitorowane z telemetrią",
+      "standard_bed": "Łóżko standardowe/niemonitorowane"
+    },
+    "admission_department": {
+      "label": "Do jakiego oddziału został przyjęty pacjent?",
+      "neurology": "Oddział neurologiczny",
+      "neurosurgery": "Oddział neurochirurgiczny",
+      "critical_care": "Intensywna opieka/Anestezjologia",
+      "internal_medicine": "Interna",
+      "other": "Inny oddział"
+    },
+    "first_contact_place": {
+      "label": "W której komórce szpitala dokonano pierwszej oceny pacjenta?",
+      "direct_CT/MR": "Bezpośrednio w pracowni TK/MR",
+      "emergency": "SOR/Izba Przyjęć",
+      "outpatient_clinic": "Poradnia ambulatoryjna",
+      "other_department": "Inny oddział"
+    },
+    "transferred_from_hospital": {
+      "label": "Nazwa pierwszy szpital, do którego został przywieziony/zgłosił się pacjent:"
+    },
+    "medical_examination": {
+      "systolic_pressure": {
+        "label": "Skurczowe ciśnienie tętnicze krwi (pierwszy pomiar w szpitalu w mmHg):"
+      },
+      "diastolic_pressure": {
+        "label": "Rozkurczowe ciśnienie tętnicze krwi (pierwszy pomiar w szpitalu w mmHg):"
+      },
+      "cholesterol": {
+        "label": "Cholesterol LDL w mmol/l (pierwszy pomiar w szpitalu; ew. miejsce dziesiętne oddzielone kropką):"
+      },
+      "glucose": {
+        "label": "Glukoza w mmol/l (pierwszy pomiar w szpitalu; ew. miejsce dziesiętne oddzielone kropką):"
+      },
+      "inr_mode": {
+        "label": "Czy oznaczono INR?",
+        "device": "Tak, aparatem przyłóżkowym",
+        "lab": "Tak, próbka wysłana do laboratorium",
+        "not_done": "Nie wykonano"
+      },
+      "gcs": {
+        "label": "Skala śpiączki Glasgow (GCS):"
+      },
+      "nihss": {
+        "label": "Wynik NIHSS:"
+      }
+    }
+  },
+  "diagnosis": {
+    "imaging": {
+      "imaging_type": {
+        "label": "Obrazowanie mózgu",
+        "ct": "TK bez kontrastu",
+        "cta": "TK bez kontrastu + angio-TK",
+        "cta_perf": "TK bez kontrastu + angio-TK + perfuzja TK",
+        "mr": "MR DWI/FLAIR",
+        "mra": "MR DWI/FLAIR + angio-MR",
+        "mra_perf": "MR DWI/FLAIR + angio-MR + perfuzja MR",
+        "elsewhere": "Obrazowanie wykonane w innym szpitalu",
+        "not_done": "Nie wykonano obraowania"
+      },
+      "imaging_timestamp": {
+        "label": "Kiedy wykonano obrazowanie?"
+      },
+      "aspects_score": {
+        "label": "Punktacja w ASPECTS:"
+      },
+      "perfusion": {
+        "perfusion_deficit": {
+          "label": "Upośledzenie perfuzji TK/MR:",
+          "medial": "Środkowa",
+          "anterior": "Przednia",
+          "posterior": "Tylna",
+          "carotid": "Szyjna",
+          "bilateral_stenosis": "Nie, analiza nie jest wiarygodna z powodu obustronnego zwężenia",
+          "no_deficit": "Brak deficytu"
+        },
+        "perfusion_core_volume": {
+          "label": "Objętość ogniska zawałowego w TK/MR (w ml):"
+        },
+        "hypoperfusion_volume": {
+          "label": "Objętość hipoperfuzji w TK/MR (w ml):"
+        }
+      },
+      "old_infarcts": {
+        "any_infarct": {
+          "label": "Obecność starego ogniska zawałowego w obrazowaniu?",
+          "yes": "Tak",
+          "no": "Nie",
+          "error": {
+            "multiselect": "Zaznacz co najmniej jedną z poniższych"
+          }
+        },
+        "cortical": {
+          "label": "Korowa"
+        },
+        "subcortical": {
+          "label": "Podkorowa (jądra podstawne, torebka wewnętrzna)"
+        },
+        "brainstem": {
+          "label": "Pień mózgu"
+        }
+      },
+      "occlusion": {
+        "any_occlusion": {
+          "label": "Jeśli występuje niedrożność/krytyczne zwężenie tętnicy, wybierz lokalizację (zaznacz wszystkie pasujące):",
+          "yes": "Tak",
+          "no": "Nie",
+          "error": {
+            "multiselect": "Zaznacz co najmniej jedną z poniższych"
+          }
+        },
+        "mca_m1_left": {
+          "label": "MCA M1 – tętnica środkowa mózgu M1 (LEWA)"
+        },
+        "mca_m2_left": {
+          "label": "MCA M2 – tętnica środkowa mózgu M2 (LEWA)"
+        },
+        "mca_m3_left": {
+          "label": "MCA M3 – tętnica środkowa mózgu M3 (LEWA)"
+        },
+        "cerebral_artery_left": {
+          "label": "Tętnica przednia mózgu (LEWA)"
+        },
+        "pca_p1_left": {
+          "label": "PCA P1 – tętnica tylna mózgu P1 (LEWA)"
+        },
+        "pca_p2_left": {
+          "label": "PCA P2 – tętnica tylna mózgu P2 (LEWA)"
+        },
+        "artery_extracranial_left": {
+          "label": "ICA - tętnica szyjna wewnętrzna zewnątrzczaszkowo (LEWA)"
+        },
+        "artery_intracranial_left": {
+          "label": "ICA - tętnica szyjna wewnętrzna wewnątrzczaszkowo (LEWA)"
+        },
+        "mca_m1_right": {
+          "label": "MCA M1 – tętnica środkowa mózgu M1 (PRAWA)"
+        },
+        "mca_m2_right": {
+          "label": "MCA M2 – tętnica środkowa mózgu M2 (PRAWA)"
+        },
+        "mca_m3_right": {
+          "label": "MCA M3 – tętnica środkowa mózgu M3 (PRAWA)"
+        },
+        "cerebral_artery_right": {
+          "label": "Tętnica przednia mózgu (PRAWA)"
+        },
+        "pca_p1_right": {
+          "label": "PCA P1 – tętnica tylna mózgu P1 (PRAWA)"
+        },
+        "pca_p2_right": {
+          "label": "PCA P2 – tętnica tylna mózgu P2 (PRAWA)"
+        },
+        "artery_extracranial_right": {
+          "label": "ICA - tętnica szyjna wewnętrzna zewnątrzczaszkowo (PRAWA)"
+        },
+        "artery_intracranial_right": {
+          "label": "ICA - tętnica szyjna wewnątrzna wewnątrzczaszkowo (PRAWA)"
+        },
+        "basilar_artery": {
+          "label": "Tętnica podstawna"
+        },
+        "vertebral_artery": {
+          "label": "Tętnica kręgowa"
+        }
+      }
+    },
+    "stroke_type": {
+      "label": "Rodzaj udaru:",
+      "is": "Udar niedokrwienny",
+      "ich": "Krwotok śródmózgowy",
+      "tia": "TIA",
+      "sah": "Krwotok podpajęczynówkowy",
+      "cvt": "Zakrzepica żylna wewnątrzczaszkowa",
+      "mimics": "Patologia imitująca udar mózgu",
+      "undetermined": "Nieokreślony (nieznany typ udaru)"
+    }
+  },
+  "treatment": {
+    "bleeding_source_found": {
+      "label": "Znaleziono źródło krwawienia:"
+    },
+    "thrombolysis": {
+      "thrombolysis_treatment": {
+        "label": "Czy pacjent otrzymał dożylne leczenie trombolityczne w Państwa szpitalu?",
+        "yes": "Tak",
+        "no": "Nie"
+      },
+      "drug": {
+        "label": "Zastosowany lek:",
+        "alteplase": "Alteplaza",
+        "tenecteplase": "Tenekteplaza",
+        "streptokinase": "Streptokinaza",
+        "staphylokinase": "Stafylokinaza"
+      },
+      "antidote_given": {
+        "label": "Podano antidotum dla antykoagulanta:",
+        "yes": "Tak",
+        "no": "Nie"
+      },
+      "drug_dose": {
+        "label": "Dawka leku (w mg):"
+      },
+      "bolus_timestamp": {
+        "label": "Czas bolusa:"
+      },
+      "application_department": {
+        "label": "Bolus alteplazy podany w:",
+        "radiology": "Pracownia TK/MR",
+        "icu": "OIOM/Oddział udarowy",
+        "emergency": "SOR/Izba Przyjęć",
+        "other": "Inne"
+      },
+      "transfer_timestamp": {
+        "label": "Czas opuszczenia szpitala celem transferu do ośrodka trombektomijnego (door-out):"
+      }
+    },
+    "ischemic_stroke": {
+      "no_thrombolysis_reasons": {
+        "label": "Proszę wybrać główny powód odstąpienia od trombolizy:",
+        "already_done_elsewhere": "Leczenie trombolityczne przeprowadzono już w innym szpitalu",
+        "time_window": "Przekroczone okno czasowe",
+        "mild_deficit": "Niewielki deficyt neurlogiczny",
+        "consent": "Brak zgody na leczenie",
+        "cost": "Koszt leku",
+        "transferred": "Przeniesiono do innego szpitala  celem leczenia trombolitycznego",
+        "only_mt": "Preferowana pierwotna mechaniczna trombektomia z pominięciem trombolizy",
+        "no_drug": "Brak leku trombolitycznego",
+        "other": "Inne"
+      },
+      "no_thrombectomy_reasons": {
+        "label": "Wybierz główny powód niewykonania trombektomii:",
+        "already_done_elsewhere": "Trombektomia wykonana w innym szpitalu",
+        "time_window": "Przekroczone okno czasowe",
+        "mild_deficit": "Niewielki deficyt neurologiczny",
+        "no_lvo": "Brak niedrożności dużego naczynia",
+        "disability": "Niesprawność przed udarem",
+        "consent": "Brak zgody na leczenie",
+        "cost": "Koszt leczenia",
+        "transferred": "Przeniesiony do innego szpitala celem trombektomii",
+        "no_mt_facility": "Brak dostępu do centrum trombektomijnego",
+        "not_possible": "Trombektomia niemożliwa z przyczyn technicznych",
+        "other": "Inne"
+      },
+      "thrombectomy_transfer_timestamp": {
+        "label": "Czas rozpoczęcia transferu do ośrodka trombektomijnego (door-out):"
+      },
+      "thrombectomy_treatment": {
+        "label": "Czy pacjent był leczony trombektomią w Twoim szpitalu?",
+        "yes": "Tak",
+        "no": "Nie"
+      },
+      "puncture_timestamp": {
+        "label": "Czas nakłucia pachwiny:"
+      },
+      "reperfusion_timestamp": {
+        "label": "Czas uzyskania reperfuzji:"
+      },
+      "mtici_score": {
+        "label": "Wynik mTICI:",
+        "not_confirmed": "Nie potwierdzono niedrożności"
+      },
+      "mt_complications": {
+        "any_thrombectomy_complication": {
+          "label": "Powikłania okołozabiegowe ",
+          "yes": "Tak",
+          "no": "Nie",
+          "error": {
+            "multiselect": "Wybierz co najmniej jedno z poniższych"
+          }
+        },
+        "perforation": {
+          "label": "Perforacja naczynia"
+        },
+        "dissection": {
+          "label": "Rozwarstwienie naczynia"
+        },
+        "embolization": {
+          "label": "Embolizacja do innego obszaru naczyniowego"
+        },
+        "hematoma": {
+          "label": "Krwiak w pachwinie wymagający przetoczenia krwi"
+        },
+        "other": {
+          "label": "Inne"
+        }
+      }
+    },
+    "intracerebral_hemorrhage": {
+      "bleeding_volume": {
+        "label": "Objętość wynaczynionej krwi (w ml):"
+      },
+      "infratentorial_hemorrhage": {
+        "label": "Podnamiotowe źródło krwawienia:",
+        "yes": "Tak",
+        "no": "Nie"
+      },
+      "intraventricular_hemorrhage": {
+        "label": "Krwotok do komór mózgu (IVH):",
+        "yes": "Tak",
+        "no": "Nie"
+      },
+      "bleeding_reason": {
+        "any_bleeding_reason": {
+          "label": "Przyczyną krwawienia było (zaznacz wszystkie pasujące):",
+          "yes": "Tak",
+          "no": "Nie",
+          "error": {
+            "multiselect": "Wybierz co najmniej jedno z poniższych"
+          }
+        },
+        "hypertension": {
+          "label": "Nadciśnienie tętnicze"
+        },
+        "aneurysm": {
+          "label": "Tętniak"
+        },
+        "malformation": {
+          "label": "Malformacje tętniczo-żylne"
+        },
+        "anticolagulant": {
+          "label": "Leczenie przeciwkrzepliwe"
+        },
+        "angiopathy": {
+          "label": "Angiopatia amyloidowa"
+        },
+        "other": {
+          "label": "Inne / Nieznane"
+        }
+      },
+      "treatment": {
+        "any_treatment": {
+          "label": "Czy przeprowadzono zabieg neurochirurgiczny?",
+          "yes": "Tak",
+          "no": "Nie",
+          "error": {
+            "multiselect": "Wybierz co najmniej jedno z poniższych"
+          }
+        },
+        "hematoma_evacuation": {
+          "label": "Ewakuacja krwiaka śródczaszkowego"
+        },
+        "ventricular_drainage": {
+          "label": "Drenaż komorowy"
+        },
+        "craniectomy": {
+          "label": "Kraniektomia odbarczająca"
+        }
+      },
+      "bleeding_antidote": {
+        "label": "Jakie antidotum dla antykoagulanta zastosowano?",
+        "andexanete": "Andeksanet",
+        "idarucizumab": "Idarucizumab",
+        "plasma": "Świeżo mrożone osocze",
+        "prothrombin": "Koncentrat czynników zespołu protrombiny",
+        "other": "Inne",
+        "none": "Żadne"
+      }
+    },
+    "subarachnoid_hemorrhage": {
+      "hunt_hess_score": {
+        "1": "1 (przytomny; ból głowy łagodny; sztywność karku niewielka)",
+        "2": "2 (ból głowy umiarkowany do silnego; sztywność karku; deficyt neurologiczny nieobecny z wyjątkiem porażenia nerwów czaszkowych)",
+        "3": "3 (senność; minimalny deficyt neurologiczny)",
+        "4": "4 (stupor; umiarkowany do ciężkiego niedowład połowiczy; prawdopodobnie wczesna sztywność osmóżdżeniowa i zaburzenia wegetatywne)",
+        "5": "5 (głęboka śpiączka; ciężki deficyt neurologiczny)",
+        "label": "Wynik w skali Hunta-Hessa:"
+      },
+      "treatment": {
+        "any_treatment": {
+          "label": "Czy zastosowano leczenie zabiegowe?",
+          "yes": "Tak",
+          "no": "Nie",
+          "error": {
+            "multiselect": "Wybierz co najmniej jedno z poniższych"
+          }
+        },
+        "coiling": {
+          "label": "Leczenie wewnątrznaczyniowe (zamknięcie sprężynkami)"
+        },
+        "clipping": {
+          "label": "Leczenie neurochirurgiczne (klipsowanie)"
+        },
+        "drainage": {
+          "label": "Drenaż komorowy"
+        },
+        "craniectomy": {
+          "label": "Kraniektomia odbarczająca"
+        },
+        "other": {
+          "label": "Inne"
+        }
+      },
+      "nimodipine_treatment": {
+        "label": "Czy zastosowano leczenie nimodypiną?",
+        "in_24h": "Tak, rozpoczęto w ciągu 24 godzin od przyjęcia",
+        "after_24h": "Tak, rozpoczęto po 24 godzinach od przyjęcia",
+        "not_administered": "Nie zastosowano"
+      }
+    },
+    "cerebral_venous_thrombosis": {
+      "treatment": {
+        "any_treatment": {
+          "label": "Czy zastosowano jakiekolwiek leczenie specyficzne?",
+          "yes": "Tak",
+          "no": "Nie",
+          "error": {
+            "multiselect": "Wybierz co najmniej jedno z poniższych"
+          }
+        },
+        "anticoagulation": {
+          "label": "Leczenie przeciwkrzepliwe"
+        },
+        "thrombectomy": {
+          "label": "Interwencja wewnątrznaczyniowa - trombektomia"
+        },
+        "thrombolysis": {
+          "label": "Interwencja wewnątrznaczyniowa - tromboliza miejscowa"
+        },
+        "craniectomy": {
+          "label": "Leczenie neurochirurgiczne (kraniektomia odbarczająca)"
+        }
+      }
+    },
+    "transient_ischemic_stroke": {
+      "clinical_symptoms": {
+        "label": "Kliniczne objawy TIA",
+        "weakness": "Niedowład połowiczy",
+        "speech_disturbance": "Zaburzenia mowy bez niedowładu",
+        "other": "Inne objawy"
+      },
+      "symptoms_duration": {
+        "label": "Czas trwania objawów",
+        "0to10": "<10 minut",
+        "10to59": "10-59 minut",
+        "over60": "≥ 60 minut"
+      }
+    },
+    "stroke_mimics": {
+      "diagnosis": {
+        "label": "Ostateczne rozpoznanie:",
+        "migraine": "Migrena",
+        "seizure": "Napad padaczkowy",
+        "delirium": "Majaczenie",
+        "imbalance": "Zaburzenia równowagi elektrolitowej lub metabolicznej",
+        "disorder": "Zaburzenia czynnościowe",
+        "other": "Inne"
+      }
+    }
+  },
+  "post_acute_care": {
+    "24_hour_hospitalized_time": {
+      "label": "Pacjent był hospitalizowany przez ponad 24 godziny",
+      "yes": "Tak",
+      "died": "Nie, pacjent zmarł",
+      "transferred": "Nie, pacjent został przeniesiony do innego szpitala/oddziału",
+      "discharged": "Nie, pacjent został wypisany do domu lub ośrodka opiekuńczego"
+    },
+    "patient_ventilated": {
+      "label": "Pacjent wentylowany mechanicznie (respirator):",
+      "yes": "Tak",
+      "no": "Nie"
+    },
+    "craniectomy": {
+      "label": "Czy wykonano kraniektomię odbarczającą?",
+      "yes": "Tak",
+      "no": "Nie"
+    },
+    "carotid_arteries": {
+      "carotid_arteries_imaging": {
+        "label": "Obrazowanie tętnic szyjnych:",
+        "yes": "Tak",
+        "no": "Nie"
+      },
+      "carotid_stenosis": {
+        "label": "Zwężenie tętnicy szyjnej",
+        "50to70": "50% - 70%",
+        "over70": ">70%",
+        "no": "Nie",
+        "null": "Nieznane"
+      },
+      "carotid_endarterectomy_within_2_weeks": {
+        "label": "Wykonano endarterektomię lub angioplastykę z implantacją stentu w ciągu 2 tygodni po udarze:",
+        "24h_to_2weeks": "Tak, w oknie 24 godziny do 2 tygodni",
+        "within_24h": "Tak, w ciągu pierwszych 24 godzin",
+        "no": "Nie",
+        "after_2weeks": "Tak, ale później niż w ciągu pierwszych 2 tygodni od zachorowania"
+      }
+    },
+    "atrial_fibrillation_or_flutter": {
+      "label": "Migotanie/trzepotanie przedsionków (AF):",
+      "detected": "Wykryte podczas hospitalizacji",
+      "no_AF": "Migotania przedsionków nie wykryto",
+      "not_screened": "Nie poszukiwano migotania przedsionków"
+    },
+    "stroke_etiology": {
+      "any_stroke_etiology": {
+        "label": "Etiologia/przyczyna udaru (zaznacz wszystkie pasujące):",
+        "yes": "Tak",
+        "no": "Nie",
+        "error": {
+          "multiselect": "Wybierz co najmniej jedną z poniższych"
+        }
+      },
+      "la_atherosclerosis": {
+        "label": "Miażdżyca dużych tętnic (np. zwężenie tętnicy szyjnej lub podstawnej)"
+      },
+      "cardioembolism": {
+        "label": "Zator sercopochodny (np. AF/trzepotanie/sztuczna zastawka serca)"
+      },
+      "other": {
+        "label": "Udar o innej określonej etiologii (rozwarstwienie, waskulopatia lub choroba hematologiczna)"
+      },
+      "cryptogenic_stroke": {
+        "label": "Udar kryptogenny (udar o nieokreślonej etiologii, w tym ESUS)"
+      },
+      "lacunar": {
+        "label": "Choroba małych naczyń/udar lakunarny"
+      }
+    },
+    "vte": {
+      "any_vte": {
+        "label": "Postępowanie odnoszące się do żylnej choroby zakrzepowo-zatorowej (VTE) (zaznacz wszystkie pasujące):",
+        "yes": "Tak",
+        "no": "Nie",
+        "null": "Nieznana",
+        "error": {
+          "multiselect": "Wybierz co najmniej jedną z poniższych"
+        }
+      },
+      "ufh": {
+        "label": "Niska dawka heparyny niefrakcjonowanej (UFH)"
+      },
+      "lmwh": {
+        "label": "Heparyna drobnocząsteczkowa (LMWH)"
+      },
+      "ipc": {
+        "label": "Pneumatyczne urządzenia do przerywanego ucisku (IPC)"
+      },
+      "gcs": {
+        "label": "Pończochy o stopniowanym ucisku (GCS)"
+      },
+      "warfarin": {
+        "label": "Warfaryna przepisany tylko dla VTE"
+      },
+      "vfp": {
+        "label": "Nożne pompy żylne (VFP)"
+      },
+      "xa_inhibitor": {
+        "label": "Doustny inhibitor czynnika Xa przepisany tylko dla VTE"
+      },
+      "other": {
+        "label": "Inne"
+      }
+    },
+    "post_stroke_complications": {
+      "any_post_stroke_complication": {
+        "label": "Powikłania po udarze (zaznacz wszystkie pasujące):",
+        "yes": "Tak",
+        "no": "Nie",
+        "null": "Nie wiadomo",
+        "error": {
+          "multiselect": "Wybierz co najmniej jedno z poniższych"
+        }
+      },
+      "pneumonia": {
+        "label": "Zapalenie płuc"
+      },
+      "dvt": {
+        "label": "Zakrzepica żył głębokich (ZŻG)"
+      },
+      "pulmonary_embolism": {
+        "label": "Zatorowość płucna"
+      },
+      "urinary_infection": {
+        "label": "Zakażenie dróg moczowych"
+      },
+      "pressure_sores": {
+        "label": "Odleżyny"
+      },
+      "drip_site_sepsis": {
+        "label": "Zakażenie w miejscu wkłucia dożylnego"
+      },
+      "recurrence_or_extension": {
+        "label": "Nawrót/progresja udaru"
+      },
+      "other": {
+        "label": "Inne"
+      }
+    },
+    "post_recanalization_imaging": {
+      "imaging_type": {
+        "label": "Czy wykonano kontrolne badanie TK/MR po trombolizie/trombektomii",
+        "ct": "Tak, TK",
+        "mr": "Tak, MR",
+        "no": "Nie"
+      },
+      "brain_infarct": {
+        "label": "Ognisko zawałowe"
+      },
+      "no_bleeding": {
+        "label": "Brak krwawienia"
+      },
+      "remote": {
+        "label": "Odległe krwawienie śrómózgowe"
+      },
+      "bleeding_hi_1": {
+        "label": "Krwawienie do ogniska zawałowego typu HI 1"
+      },
+      "bleeding_hi_2": {
+        "label": "Krwawienie do ogniska zawałowego typu HI 2"
+      },
+      "bleeding_ph_1": {
+        "label": "Krwawienie do ogniska zawałowego typu PH 1"
+      },
+      "bleeding_ph_2": {
+        "label": "Krwawienie do ogniska zawałowego typu PH 2"
+      }
+    },
+    "fever": {
+      "day_1_fever_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x lub więcej",
+        "label": "Kontrola ciepłoty ciała w 1. dobie pobytu (liczba pomiarów):"
+      },
+      "day_2_fever_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x lub więcej",
+        "label": "Kontrola ciepłoty ciała w 2. dobie pobytu (liczba pomiarów):"
+      },
+      "day_3_fever_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x lub więcej",
+        "label": "Kontrola ciepłoty ciała w 3. dobie pobytu (liczba pomiarów):"
+      },
+      "fever_diagnosed": {
+        "label": "Czy w ciągu pierwszych 72 godzin od przyjęcia wystąpiła gorączka ≥ 37,5°C:",
+        "yes": "Tak",
+        "no": "Nie",
+        "null": "Nie wiadomo"
+      },
+      "paracetamol_on_fever": {
+        "label": "Czy w związku z odnotowaną po raz pierwszy podwyższoną ciepłotą ciała podano paracetamol lub inny lek przeciwgorączkowy?",
+        "within_1h": "Tak, w ciągu 1 godziny od pierwszego pomiaru z podwyższoną temperaturą",
+        "after_1h": "Tak, ale później niż w ciągu 1 godzinie od pierwszego pomiaru z podwyższoną temperaturą",
+        "no": "Nie",
+        "contraindicated": "Podanie leku przeciwwskazane"
+      }
+    },
+    "hyperglycemia": {
+      "day_1_hyperglycemia_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x lub więcej",
+        "label": "Kontrola glikemii w 1. dobie pobytu (liczba pomiarów):"
+      },
+      "day_2_hyperglycemia_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x lub więcej",
+        "label": "Kontrola glikemii w 2. dobie pobytu (liczba pomiarów):"
+      },
+      "day_3_hyperglycemia_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x lub więcej",
+        "label": "Kontrola glikemii w 3. dobie pobytu (liczba pomiarów):"
+      },
+      "hyperglycemia_diagnosed": {
+        "label": "Czy w ciągu pierwszych 48 godzin po przyjęciu obserwowano glikemię większą lub równą 180 mg/dl (10 mmol/l)?",
+        "yes": "Tak",
+        "no": "Nie",
+        "null": "Nie wiadomo"
+      },
+      "insulin_on_hyperglycemia": {
+        "label": "Czy podano insulinę przy pierwszym pomiarze glikemii ≥ 180 mg/dl (≥ 10 mmol/l)?",
+        "within_1h": "Tak, w ciągu 1 godziny od pierwszego pomiaru z podwyższoną glikemią",
+        "after_1h": "Tak, ale później niż w ciągu 1 godziny od pierwszego pomiaru z podwyższoną glikemią",
+        "no": "Nie"
+      }
+    },
+    "swallow": {
+      "swallowing_screening": {
+        "label": "Czy wykonano przesiewowy test zaburzeń połykania?",
+        "within_4h": "Tak, w ciągu pierwszych 4 godzin od przyjęcia",
+        "4h_to_24h": "Tak, między 4. a 24. godziną od przyjęcia",
+        "after_24h": "Tak, ale później niż w ciągu pierwszych 24 godzin od przyjęcia",
+        "not_done": "Nie wykonano",
+        "not_applicable": "Nie dotyczy (pacjent zaintubowany, zgłębnik nosowo-żołądkowy itp.)"
+      },
+      "swallowing_screening_type": {
+        "label": "Wykonano przesiewowy test zaburzeń połykania",
+        "guss": "Test GUSS",
+        "assist": "Test ASSIST",
+        "watertest": "Test picia wody",
+        "other": "Inne (nie uwzględniając badania odruchu wymiotnego)"
+      },
+      "swallowing_screening_performer": {
+        "label": "Kto przeprowadził przesiewowy test zaburzeń połykania?",
+        "nurse": "Pielęgniarka",
+        "physician": "Lekarz",
+        "other": "Inna osoba"
+      }
+    },
+    "rehabilitation": {
+      "physiotherapy": {
+        "label": "Czy wdrożono fizjoterapię?",
+        "yes": "Tak",
+        "no": "Nie",
+        "not_required": "Nie była potrzebna"
+      },
+      "occup_therapy": {
+        "label": "Czy wdrożono terapię zajęciową?",
+        "yes": "Tak",
+        "no": "Nie",
+        "not_required": "Nie była potrzebna"
+      },
+      "speech_therapy": {
+        "label": "Czy wdrożono terapię logopedyczną?",
+        "yes": "Tak",
+        "no": "Nie",
+        "not_required": "Nie była potrzebna"
+      }
+    }
+  },
+  "discharge": {
+    "destination": {
+      "discharge_destination": {
+        "label": "Miejsce, do którego wypisano pacjenta ze szpitala:",
+        "home": "Dom",
+        "same_center": "Przeniesienie w obrębie tej samej placówki",
+        "another_center": "Przeniesienie do innej placówki",
+        "social_care": "ZOL/Dom opieki",
+        "dead": "Pacjent zmarł"
+      },
+      "same_center_department": {
+        "label": "Przeniesienie w obrębie tej samej placówki",
+        "rehab": "Wczesna rehabilitacja",
+        "post_care": "Łóżko niemonitorowane",
+        "another_department": "Inny oddział szpitalny"
+      },
+      "another_center_type": {
+        "label": "Przeniesienie do innego szpitala",
+        "primary_center": "Podstawowy oddział udarowy",
+        "comprehensive_center": "Ośrodek kompleksowego leczenia udarów mózgu",
+        "standard_hospital": "Inny szpital podstawowy"
+      },
+      "another_center_department": {
+        "label": "Przeniesienie do podstawowego oddziału udarowego w innym szpitalu",
+        "rehab": "Wczesna rehabilitacja",
+        "post_care": "Łóżko niemonitorowane",
+        "neurology": "Oddział neurologiczny",
+        "another_department": "Inny oddział szpitalny"
+      }
+    },
+    "discharge_date": {
+      "label": "Data wypisu:"
+    },
+    "mrs_score": {
+      "label": "Wynik w zmodyfikowanej skali Rankina (mRS) przy wypisie:"
+    },
+    "nihss": {
+      "label": "Wynik NIHSS przy wypisie:"
+    },
+    "medication": {
+      "any_treatment_prescribed": {
+        "label": "Czy zalecono leczenie farmakologiczne przy wypisie?",
+        "yes": "Tak",
+        "no": "Nie",
+        "error": {
+          "multiselect": "Wybierz co najmniej jedno z poniższych"
+        }
+      },
+      "antidiabetics": {
+        "label": "Leki przeciwcukrzycowe"
+      },
+      "antihypertensives": {
+        "label": "Leki przeciwnadciśnieniowe"
+      },
+      "antiplatelets": {
+        "label": "Leki przeciwpłytkowe"
+      },
+      "anticoagulants": {
+        "label": "Antykoagulanty"
+      },
+      "anticoagulant_recommended": {
+        "label": "Recepta na antykoagulant nie została wystawiona, ale leczenie jest planowane w przyszłości"
+      },
+      "statin": {
+        "label": "Statyna"
+      },
+      "other": {
+        "label": "Inne"
+      },
+      "antiplatelet_substances": {
+        "asa": {
+          "label": "ASA (kwas acetylosalicylowy)"
+        },
+        "cilostazol": {
+          "label": "Cylostazol"
+        },
+        "clopidogrel": {
+          "label": "Klopidogrel"
+        },
+        "ticagrelor": {
+          "label": "Tikagrelor"
+        },
+        "ticlopidine": {
+          "label": "Tiklopidyna"
+        },
+        "prasugrel": {
+          "label": "Prasugrel"
+        },
+        "dipyridamole": {
+          "label": "Dipirydamol"
+        },
+        "other": {
+          "label": "Inny lek przeciwpłytkowy"
+        }
+      },
+      "anticoagulant_substances": {
+        "warfarin": {
+          "label": "Antagonista wit. K (np. warfaryna)"
+        },
+        "heparin": {
+          "label": "Heparyna drobnocząsteczkowa/heparyna"
+        },
+        "dabigatran": {
+          "label": "Dabigatran"
+        },
+        "rivaroxaban": {
+          "label": "Rywaroksaban"
+        },
+        "apixaban": {
+          "label": "Apiksaban"
+        },
+        "edoxaban": {
+          "label": "Edoksaban"
+        },
+        "other": {
+          "label": "Inny antykoagualnt"
+        }
+      }
+    },
+    "stroke_management_appointment": {
+      "label": "Czy zaplanowana została kontrolna wizyta poudarowa w Twoim szpitalu?",
+      "yes": "Tak",
+      "recommended": "Nie, ale zaleca się jej zaplanowanie",
+      "no": "Nie"
+    },
+    "smoking_cessation_recommended": {
+      "label": "Jeśli pacjent był palaczem, czy otrzymał zalecenie wzięcia udziału w programie zaprzestania palenia?",
+      "yes": "Tak",
+      "no": "Nie",
+      "not_smoker": "Pacjent nie jest palaczem"
+    }
+  },
+  "post-discharge": {
+    "3_month_follow_up": {
+      "contact_mode": {
+        "label": "Sposób kontaktu",
+        "phone": "Telefon/wideorozmowa (pacjent lub opiekun)",
+        "visit": "Wizyta w przychodni",
+        "mobile": "Aplikacja mobilna",
+        "web": "Aplikacja internetowa",
+        "no_response": "Pacjent nie odpowiedział na próbę kontaktu",
+        "not_contacted": "Nie podjęto próby kontaktu"
+      },
+      "contact_date": {
+        "label": "Data kontaktu:"
+      },
+      "mrs_score": {
+        "label": "mRS po 3 miesiącach od zachorowania:"
+      }
+    }
+  },
+  "error": {
+    "required": "pole obowiązkowe"
+  }
+}

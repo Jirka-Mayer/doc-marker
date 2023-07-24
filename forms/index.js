@@ -1,6 +1,19 @@
 // This file exports form importers for all form IDs
 
 export default {
+
+  /**
+   * Official ResQ 3.1.1
+   */
+  "Official ResQ 3.1.1": async () => { return {
+    dataSchema: await import("./Official ResQ 3.1.1/schema.json"),
+    uiSchema: await import("./Official ResQ 3.1.1/uischema.json"),
+    translationImporters: {
+      "cs": async () => await import("./Official ResQ 3.1.1/dictionary_cz.json"),
+      "en-GB": async () => await import("./Official ResQ 3.1.1/dictionary_en.json"),
+      // en-US falls back on en-GB
+    }
+  }},
   
   /**
    * ResQPlus Alpha 1.0

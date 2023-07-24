@@ -1,0 +1,1084 @@
+{
+  "group": {
+    "admission": "Data prezentării",
+    "hospitalization": "Data internării",
+    "IDT": "Imagistică, diagnostic și tratament",
+    "post_acute": {
+      "main": "Îngrijire post-acută",
+      "findings": "Aspect CT după tromboliză/trombectomie mecanică",
+      "fever": "Febră",
+      "hyperglycemia": "Hiperglicemie",
+      "swallow": "Deglutiție",
+      "rehabilitation": "Reabilitare"
+    },
+    "discharge": {
+      "main": "Data externării"
+    },
+    "follow_up": "Urmărire la 3 luni"
+  },
+  "anamnesis": {
+    "age": {
+      "label": "Vârstă la debutul simptomelor:",
+      "description": "Introduceți vârsta 0-120 ani"
+    },
+    "sex": {
+      "label": "Sex:",
+      "male": "Masculin",
+      "female": "Feminin",
+      "null": "Necunoscut"
+    },
+    "risk_factors": {
+      "any_risk_factor": {
+        "label": "Istoricul medical cunoscut anterior (selectați tot ce se aplică):",
+        "yes": "Da",
+        "no": "Niciunul de mai jos",
+        "null": "Necunoscut",
+        "error": {
+          "multiselect": "Selectați cel puțin unul dintre următoarele"
+        }
+      },
+      "hypertension": {
+        "label": "Hipertensiune arterială"
+      },
+      "diabetes": {
+        "label": "diabet zaharat"
+      },
+      "hyperlypidemia": {
+        "label": "hiperlipidemie"
+      },
+      "active_smoker": {
+        "label": "fumător activ în ultimii 10 ani"
+      },
+      "ischemic_stroke": {
+        "label": "Accident vascular cerebral ischemic/AIT în antecedente care a dus la spitalizare"
+      },
+      "hermorrhage_stroke": {
+        "label": "Accident vascular cerebral hemoragic în antecedente care a dus la  spitalizare"
+      },
+      "atrial_fibrillation": {
+        "label": "Fibrilație sau flutter atrial (paroxistic/persistent/permanent)"
+      },
+      "coronary_artery": {
+        "label": "Boală coronariană/infarct miocardic în antecedente"
+      },
+      "heart_failure": {
+        "label": "insuficiență cardiacă"
+      },
+      "hiv": {
+        "label": "HIV"
+      },
+      "covid_positive": {
+        "label": "Infecție COVID-19 în ultimele 6 luni"
+      }
+    },
+    "medication": {
+      "any_medication": {
+        "label": "Tratament înainte de internare/eveniment (selectați toate cele aplicabile):",
+        "yes": "Yes",
+        "no": "Niciunul de mai jos",
+        "null": "Necunoscut",
+        "error": {
+          "multiselect": "Selectați cel puțin unul dintre următoarele"
+        }
+      },
+      "antidiabetics": {
+        "label": "Antidiabetice"
+      },
+      "antihypertensives": {
+        "label": "Antihipertensive"
+      },
+      "antiplatelets": {
+        "label": "Antiagregante"
+      },
+      "anticoagulants": {
+        "label": "Anticoagulante"
+      },
+      "hormonal_contraception": {
+        "label": "Contracepție hormonală"
+      },
+      "statin": {
+        "label": "Statine"
+      },
+      "antiplatelet_substances": {
+        "asa": {
+          "label": "AAS (aspirină)"
+        },
+        "cilostazol": {
+          "label": "Cilostazol"
+        },
+        "clopidogrel": {
+          "label": "Clopidogrel"
+        },
+        "ticagrelor": {
+          "label": "Ticagrelor"
+        },
+        "ticlopidine": {
+          "label": "Ticlopidină"
+        },
+        "prasugrel": {
+          "label": "Prasugrel"
+        },
+        "dipyridamole": {
+          "label": "Dipiridamol, eliberare lentă"
+        },
+        "other": {
+          "label": "Alte antiagregante"
+        }
+      },
+      "anticoagulant_substances": {
+        "warfarin": {
+          "label": "Antagonisti ai vitaminei K (Warfarina)"
+        },
+        "heparin": {
+          "label": "Heparină/Heparină cu greutate moleculară mică"
+        },
+        "dabigatran": {
+          "label": "Dabigatran"
+        },
+        "rivaroxaban": {
+          "label": "Rivaroxaban"
+        },
+        "apixaban": {
+          "label": "Apixaban"
+        },
+        "edoxaban": {
+          "label": "Edoxaban"
+        },
+        "other": {
+          "label": "Alte anticoagulante"
+        }
+      }
+    },
+    "prestroke_mrs": {
+      "label": "Scala Rankin de dizabilitate modificată (mRS) înainte de accidentul vascular cerebral:",
+      "null": "Necunoscut"
+    }
+  },
+  "onset": {
+    "wakeup_stroke": {
+      "label": "Accident vascular cerebral observat la trezire:"
+    },
+    "sleep_timestamp": {
+      "label": "Ora la care pacientul s-a culcat:"
+    },
+    "inhospital_stroke": {
+      "label": "Accident vascular cerebral în timp ce era deja internat în spital:"
+    },
+    "onset_timestamp": {
+      "label": "Data și ora apariției simptomelor de accident vascular cerebral:"
+    }
+  },
+  "admission": {
+    "admission_timestamp": {
+      "label": "Data și ora prezentării la spital",
+      "description": "Dacă nu este cunoscut, treceți în formular cea mai probabilă estimare"
+    },
+    "arrival_mode": {
+      "label": "Pacientul a ajuns la spitalul dumneavoastră de la?",
+      "ems": "De la domiciliu/alte locații, adus prin serviciul de ambulanta",
+      "private": "De la domiciliu/alte locații, adus cu un mijloc de transport propriu",
+      "hospital": "De la oricare alt spital (în afară de centre dedicate de AVC)",
+      "stroke_center": "De la alt centru de tratare a AVC"
+    },
+    "ems_prenotification": {
+      "label": "A fost spitalul prenotificat în prealabil de către serviciul de ambulanță?"
+    },
+    "hospitalized_in": {
+      "label": "Pacientul a fost internat în (ziua 1):",
+      "icu": "Unitate de tratament accident vascular cerebral sau ATI",
+      "telemetry_bed": "alt tip de pat monitorizat cu telemetrie (dar nu în ATI/unitate AVC)",
+      "standard_bed": "Pat standard"
+    },
+    "admission_department": {
+      "label": "În ce secție a fost internat pacientul?",
+      "neurology": "Neurologie",
+      "neurosurgery": "Neurochirurgie",
+      "critical_care": "Terapie intensivă/anestezie",
+      "internal_medicine": "Medicină internă",
+      "other": "altele"
+    },
+    "first_contact_place": {
+      "label": "Unde a fost prima data tratat pacientul în spitalul dumneavoastră?",
+      "direct_CT/MR": "Direct la departamentul de imagistică CT/IRM",
+      "emergency": "UPU / Camera de gardă",
+      "outpatient_clinic": "clinică/unitatea de ambulatoriu",
+      "other_department": "alt departament"
+    },
+    "transferred_from_hospital": {
+      "label": "Numele primului spital în care a fost internat:"
+    },
+    "medical_examination": {
+      "systolic_pressure": {
+        "label": "Tensiunea arterială sistolică (prima măsurare în spital în mmHg):"
+      },
+      "diastolic_pressure": {
+        "label": "Tensiunea arterială diastolică (prima măsurare în spital în mmHg):"
+      },
+      "cholesterol": {
+        "label": "Colesterol LDL măsurat în mmol/l (prima măsurătoare în spital; introduceți un număr cu sau fără virgulă zecimală) :"
+      },
+      "glucose": {
+        "label": "Glicemie măsurată în mmol/l (prima măsurătoare în spital; introduceți un număr cu sau fără virgulă zecimală):"
+      },
+      "inr_mode": {
+        "label": "Prima dozare INR a fost efectuată?",
+        "device": "Da, cu dispozitiv rapid",
+        "lab": "Da, proba trimisa la laborator",
+        "not_done": "Neefectuat"
+      },
+      "gcs": {
+        "label": "Scala de comă Glasgow (GCS)"
+      },
+      "nihss": {
+        "label": "scor NIHSS:"
+      }
+    }
+  },
+  "diagnosis": {
+    "imaging": {
+      "imaging_type": {
+        "label": "Imagistică cerebrală:",
+        "ct": "CT fără contrast (nativ)",
+        "cta": "CT nativ + angiografie CT",
+        "cta_perf": "CT nativ + angiografie CT + perfuzie CT",
+        "mr": "IRM DWI/FLAIR",
+        "mra": "IRM DWI/FLAIR + angio-RM",
+        "mra_perf": "IRM DWI/FLAIR + angio-MR + IRM perfuzie",
+        "elsewhere": "Imagistica realizată într-un alt spital",
+        "not_done": "imagistica nu a fost făcută"
+      },
+      "imaging_timestamp": {
+        "label": "La ce dată și oră a fost facută imagistica?"
+      },
+      "aspects_score": {
+        "label": "scor ASPECTS:"
+      },
+      "perfusion": {
+        "perfusion_deficit": {
+          "label": "Deficit de perfuzie CT/IRM:",
+          "medial": "Medial",
+          "anterior": "Anterior",
+          "posterior": "Posterior",
+          "carotid": "Carotidian",
+          "bilateral_stenosis": "Nu, analiza nu este fiabilă din cauza stenozei bilaterale",
+          "no_deficit": "Fără deficit"
+        },
+        "perfusion_core_volume": {
+          "label": "Specificarea volumului central al deficitului de perfuzie CT/IRM (în ml):"
+        },
+        "hypoperfusion_volume": {
+          "label": "Specificarea volumului de hipoperfuzie deficit de perfuzie CT/IRM (în ml):"
+        }
+      },
+      "old_infarcts": {
+        "any_infarct": {
+          "label": "Infarcte vechi văzute pe imagini?",
+          "yes": "Da",
+          "no": "Nu",
+          "error": {
+            "multiselect": "Selectați cel puțin unul dintre următoarele"
+          }
+        },
+        "cortical": {
+          "label": "Cortical"
+        },
+        "subcortical": {
+          "label": "Subcortical (ganglioni bazali, capsulă internă)"
+        },
+        "brainstem": {
+          "label": "Trunchi cerebral"
+        }
+      },
+      "occlusion": {
+        "any_occlusion": {
+          "label": "A fost detectată ocluzie de vas mare pe CTA/MRA?",
+          "yes": "Da",
+          "no": "Nu",
+          "error": {
+            "multiselect": "Selectați cel puțin unul dintre următoarele"
+          }
+        },
+        "mca_m1_left": {
+          "label": "MCA M1 – Artera cerebrală medie M1 (STÂNGA)"
+        },
+        "mca_m2_left": {
+          "label": "MCA M2 – Artera cerebrală medie M2 (STÂNGA)"
+        },
+        "mca_m3_left": {
+          "label": "MCA M3 – Artera cerebrală medie M3 (STÂNGA)"
+        },
+        "cerebral_artery_left": {
+          "label": "Artera cerebrală anterioară (STÂNGA)"
+        },
+        "pca_p1_left": {
+          "label": "PCA P1 – Artera cerebrală posterioară P1 (STÂNGA)"
+        },
+        "pca_p2_left": {
+          "label": "PCA P2 – Artera cerebrală posterioară P2 (STÂNGA)"
+        },
+        "artery_extracranial_left": {
+          "label": "Artera carotidă extracraniană (STÂNGA)"
+        },
+        "artery_intracranial_left": {
+          "label": "Artera carotidă intracraniană (STÂNGA)"
+        },
+        "mca_m1_right": {
+          "label": "MCA M1 – Artera cerebrală medie M1 (dreapta)"
+        },
+        "mca_m2_right": {
+          "label": "AMC M2 – Artera cerebrală medie M2 (dreapta)"
+        },
+        "mca_m3_right": {
+          "label": "MCA M3 – Artera cerebrală medie M3 (dreapta)"
+        },
+        "cerebral_artery_right": {
+          "label": "artera cerebrală anterioară (dreapta)"
+        },
+        "pca_p1_right": {
+          "label": "PCA P1 – artera cerebrală posterioară P1 (dreapta)"
+        },
+        "pca_p2_right": {
+          "label": "PCA P2 – artera cerebrală posterioară P2 (dreapta)"
+        },
+        "artery_extracranial_right": {
+          "label": "artera carotidă extracraniană (dreapta)"
+        },
+        "artery_intracranial_right": {
+          "label": "artera carotidă intracraniană (dreapta). )"
+        },
+        "basilar_artery": {
+          "label": "Artera bazilară"
+        },
+        "vertebral_artery": {
+          "label": "Artera vertebrală"
+        }
+      }
+    },
+    "stroke_type": {
+      "label": "Tipul accidentului vascular cerebral:",
+      "is": "Accident vascular cerebral ischemic",
+      "ich": "hemoragie intracerebrală",
+      "tia": "atac ischemic tranzitoriu (AIT)",
+      "sah": "hemoragie subarahnoidiană",
+      "cvt": "tromboză venoasă cerebrală",
+      "mimics": "Patologie care mimează un accident vascular cerebral",
+      "undetermined": "Nedeterminat (tip de accident vascular cerebral necunoscut)"
+    }
+  },
+  "treatment": {
+    "bleeding_source_found": {
+      "label": "Sursa de sângerare găsită:"
+    },
+    "thrombolysis": {
+      "thrombolysis_treatment": {
+        "label": "Pacientul a fost tratat cu tromboliză IV în spitalul dumneavoastră?",
+        "yes": "Da",
+        "no": "Nu"
+      },
+      "drug": {
+        "label": "Agent trombolitic folosit:",
+        "alteplase": "Alteplază",
+        "tenecteplase": "Tenecteplază",
+        "streptokinase": "Streptokinază",
+        "staphylokinase": "Stafilokinază"
+      },
+      "antidote_given": {
+        "label": "A primit antidot pentru anticoagulant?",
+        "yes": "Da",
+        "no": "Nu"
+      },
+      "drug_dose": {
+        "label": "Doza de tratament (în mg):"
+      },
+      "bolus_timestamp": {
+        "label": "Cand s-a administrat doza bolusul:"
+      },
+      "application_department": {
+        "label": "Tromboliza IV administrată în:",
+        "radiology": "Camera CT/IRM",
+        "icu": "Unitate de tratament accident vascular cerebral sau ATI",
+        "emergency": "UPU / Camera de gardă",
+        "other": "Altele"
+      },
+      "transfer_timestamp": {
+        "label": "Ora efectuării transferului (Când a ieșit pe ușa spitalului?):"
+      }
+    },
+    "ischemic_stroke": {
+      "no_thrombolysis_reasons": {
+        "label": "Vă rugăm să selectați motivul principal pentru care nu ați făcut tromboliza:",
+        "already_done_elsewhere": "A primit deja tromboliză într-un alt spital",
+        "time_window": "În afara ferestrei de timp",
+        "mild_deficit": "Deficit minor",
+        "consent": "Consimțământul nu a fost dat",
+        "cost": "Costul tratamentului",
+        "transferred": "Transferat la alt spital pentru tromboliză",
+        "only_mt": "Se preferă doar trombectomia mecanică",
+        "no_drug": "Medicamentul pentru tromboliză nu este disponibil",
+        "other": "Altele"
+      },
+      "no_thrombectomy_reasons": {
+        "label": "Vă rugăm să selectați motivul principal pentru care nu ați făcut trombectomie:",
+        "already_done_elsewhere": "A primit deja trombectomie într-un alt spital",
+        "time_window": "În afara ferestrei de timp",
+        "mild_deficit": "Deficit minor",
+        "no_lvo": "Fără ocluzie a vaselor mari",
+        "disability": "Dizabilitate premorbidă",
+        "consent": "Consimțământul nu a fost dat",
+        "cost": "Costul tratamentului",
+        "transferred": "Transferat la alt spital pentru trombectomie",
+        "no_mt_facility": "Unitatea de trombectomie nu este disponibilă",
+        "not_possible": "Tehnic imposibil",
+        "other": "Altele"
+      },
+      "thrombectomy_transfer_timestamp": {
+        "label": "Ora efectuării transferului (door-out):"
+      },
+      "thrombectomy_treatment": {
+        "label": "Pacientului i s-a facut trombectomie în spitalul dumneavoastră?",
+        "yes": "Da",
+        "no": "Nu"
+      },
+      "puncture_timestamp": {
+        "label": "Ora la care s-a facut puncția arterială:"
+      },
+      "reperfusion_timestamp": {
+        "label": "Timp de reperfuzie:"
+      },
+      "mtici_score": {
+        "label": "Scorul mTICI:",
+        "not_confirmed": "Ocluzia nu a fost confirmată"
+      },
+      "mt_complications": {
+        "any_thrombectomy_complication": {
+          "label": "Complicații ale procedurii de trombectomie (selectați tot ce se aplică):",
+          "yes": "Da",
+          "no": "Nu",
+          "error": {
+            "multiselect": "Selectați cel puțin unul dintre următoarele"
+          }
+        },
+        "perforation": {
+          "label": "Perforație vasculară"
+        },
+        "dissection": {
+          "label": "Disecție"
+        },
+        "embolization": {
+          "label": "Embolizare in alte teritorii vasculare"
+        },
+        "hematoma": {
+          "label": "Hematom la nivelul zonei de abord arterial care a necesitat transfuzie"
+        },
+        "other": {
+          "label": "Altele"
+        }
+      }
+    },
+    "intracerebral_hemorrhage": {
+      "bleeding_volume": {
+        "label": "Volumul de sânge (în ml):"
+      },
+      "infratentorial_hemorrhage": {
+        "label": "Sursă infratentorială de sângerare:",
+        "yes": "Da",
+        "no": "Nu"
+      },
+      "intraventricular_hemorrhage": {
+        "label": "Hemoragie intraventriculară (IVH):",
+        "yes": "Da",
+        "no": "Nu"
+      },
+      "bleeding_reason": {
+        "any_bleeding_reason": {
+          "label": "Motivul sângerării a fost (selectați tot ce se aplică):",
+          "yes": "Da",
+          "no": "Nu",
+          "error": {
+            "multiselect": "Selectați cel puțin unul dintre următoarele"
+          }
+        },
+        "hypertension": {
+          "label": "Hipertensiune arterială"
+        },
+        "aneurysm": {
+          "label": "Anevrism"
+        },
+        "malformation": {
+          "label": "Malformații arteriovenoase"
+        },
+        "anticolagulant": {
+          "label": "Terapie anticoagulantă"
+        },
+        "angiopathy": {
+          "label": "Angiopatie amiloidă"
+        },
+        "other": {
+          "label": "Altele/Necunoscute"
+        }
+      },
+      "treatment": {
+        "any_treatment": {
+          "label": "Dacă a fost efectuată intervenție neurochirurgicală, selectați tipul (selectați tot ce se aplică):",
+          "yes": "Da",
+          "no": "Nu",
+          "error": {
+            "multiselect": "Selectați cel puțin unul dintre următoarele"
+          }
+        },
+        "hematoma_evacuation": {
+          "label": "Evacuare hematom intracranian"
+        },
+        "ventricular_drainage": {
+          "label": "Drenaj ventricular extern"
+        },
+        "craniectomy": {
+          "label": "Craniectomie decompresivă"
+        }
+      },
+      "bleeding_antidote": {
+        "label": "Ce antidot pentru anticoagulante a fost folosit?",
+        "andexanete": "Andexanet alfa",
+        "idarucizumab": "Idarucizumab",
+        "plasma": "Plasmă proaspătă congelată",
+        "prothrombin": "Concentrat complex de protrombină",
+        "other": "Altele",
+        "none": "Niciuna"
+      }
+    },
+    "subarachnoid_hemorrhage": {
+      "hunt_hess_score": {
+        "1": "1 (conștient; durere de cap ușoară; rigiditate ușoară a gâtului)",
+        "2": "2 (durere de cap moderată până la severă; rigiditate a gâtului; fără deficit neurologic, cu excepția paraliziei nervilor cranieni)",
+        "3": "3 (somnolență; deficit neurologic minim)",
+        "4": "4 (stupor; hemipareză moderată până la severă; posibil rigiditate de decerebrare precoce și tulburări vegetative)",
+        "5": "5 (comă profundă; deficit neurologic sever)",
+        "label": "Scorul Hunt Hess:"
+      },
+      "treatment": {
+        "any_treatment": {
+          "label": "Intervenție (selectați tot ce se aplică):",
+          "yes": "Da",
+          "no": "Nu",
+          "error": {
+            "multiselect": "Selectați cel puțin unul dintre următoarele"
+          }
+        },
+        "coiling": {
+          "label": "Endovascular (coiling)"
+        },
+        "clipping": {
+          "label": "Neurochirurgical (clipping)"
+        },
+        "drainage": {
+          "label": "Drenaj ventricular"
+        },
+        "craniectomy": {
+          "label": "Craniectomie decompresivă"
+        },
+        "other": {
+          "label": "Altele"
+        }
+      },
+      "nimodipine_treatment": {
+        "label": "A fost administrat tratament cu nimodipină?",
+        "in_24h": "Da, în 24 de ore de la admisie",
+        "after_24h": "Da, după 24 de ore de la admisie",
+        "not_administered": "Nu a fost administrat"
+      }
+    },
+    "cerebral_venous_thrombosis": {
+      "treatment": {
+        "any_treatment": {
+          "label": "Tratament (selectați tot ce se aplică):",
+          "yes": "Da",
+          "no": "Nu",
+          "error": {
+            "multiselect": "Selectați cel puțin unul dintre următoarele"
+          }
+        },
+        "anticoagulation": {
+          "label": "Anticoagulare"
+        },
+        "thrombectomy": {
+          "label": "Intervenție endovasculară - trombectomie"
+        },
+        "thrombolysis": {
+          "label": "Intervenție endovasculară - tromboliza locală"
+        },
+        "craniectomy": {
+          "label": "Tratament neurochirurgical (craniectomie decompresivă)"
+        }
+      }
+    },
+    "transient_ischemic_stroke": {
+      "clinical_symptoms": {
+        "label": "Simptome clinice de atac ischemic tranzitor (AIT)",
+        "weakness": "Slăbiciune unilaterală",
+        "speech_disturbance": "Tulburare de limbaj fără deficit motor",
+        "other": "Alte simptome"
+      },
+      "symptoms_duration": {
+        "label": "Durata simptomelor",
+        "0to10": "<10 minute",
+        "10to59": "10-59 minute",
+        "over60": "≥ 60 minute"
+      }
+    },
+    "stroke_mimics": {
+      "diagnosis": {
+        "label": "Diagnosticul final:",
+        "migraine": "Migrenă",
+        "seizure": "convulsii",
+        "delirium": "delirium",
+        "imbalance": "dezechilibru electrolitic sau metabolic",
+        "disorder": "tulburare funcțională",
+        "other": "altele"
+      }
+    }
+  },
+  "post_acute_care": {
+    "24_hour_hospitalized_time": {
+      "label": "Pacientul a fost internat cel puțin 24 de ore?",
+      "yes": "Da",
+      "died": "Nu, pacientul a murit",
+      "transferred": "Nu, pacientul a fost transferat",
+      "discharged": "Nu, pacientul a fost externat acasă sau la o unitate de asistență socială"
+    },
+    "patient_ventilated": {
+      "label": "Pacientul  a fost ventilat?",
+      "yes": "Da",
+      "no": "Nu"
+    },
+    "craniectomy": {
+      "label": "S-a efectuat craniectomia decompresivă?",
+      "yes": "Da",
+      "no": "Nu"
+    },
+    "carotid_arteries": {
+      "carotid_arteries_imaging": {
+        "label": "Imagistica arterelor carotide a fost efectuată:",
+        "yes": "Da",
+        "no": "Nu"
+      },
+      "carotid_stenosis": {
+        "label": "Stenoza carotidiană simptomatică semnificativă hemodinamic decelată?",
+        "50to70": "50% - 70%",
+        "over70": ">70%",
+        "no": "Nu",
+        "null": "Necunoscut"
+      },
+      "carotid_endarterectomy_within_2_weeks": {
+        "label": "Endarterectomia carotidiană sau stentarea  au fost efectuate în termen de două săptămâni după accident vascular cerebral?",
+        "24h_to_2weeks": "Da, în intervalul de >24 de ore până la 2 săptămâni",
+        "within_24h": "Da, în primele 24 de ore",
+        "no": "Nu",
+        "after_2weeks": "Da, după 2 săptămâni"
+      }
+    },
+    "atrial_fibrillation_or_flutter": {
+      "label": "Fibrilație/flutter atrială (FiA):",
+      "detected": "FiA detectată în timpul spitalizării",
+      "no_AF": "Fără FiA detectată",
+      "not_screened": "Neevaluată"
+    },
+    "stroke_etiology": {
+      "any_stroke_etiology": {
+        "label": "Etiologia/cauza accidentului vascular cerebral a fost decelată?",
+        "yes": "Da",
+        "no": "Nu",
+        "error": {
+          "multiselect": "Selectați cel puțin unul dintre următoarele"
+        }
+      },
+      "la_atherosclerosis": {
+        "label": "Ateroscleroza arterelor mari (de exemplu stenoza carotidiană sau bazilară)"
+      },
+      "cardioembolism": {
+        "label": "Cardioembolism (de exemplu FA/flutter/proteză de valvă cardiacă)"
+      },
+      "other": {
+        "label": "AVC de altă etiologie determinată (disecție, vasculopatie sau tulburare hematologică)"
+      },
+      "cryptogenic_stroke": {
+        "label": "AVC criptogen (accident vascular cerebral de etiologie nedeterminată inclusiv ESUS)"
+      },
+      "lacunar": {
+        "label": "Boala vaselor mici/lacunare"
+      }
+    },
+    "vte": {
+      "any_vte": {
+        "label": "Intervenții de prevenție a tromboembolismului venos (TVP) (selectați tot ce se aplică):",
+        "yes": "Da",
+        "no": "Nu",
+        "null": "Necunoscut",
+        "error": {
+          "multiselect": "Selectați cel puțin unul dintre următoarele"
+        }
+      },
+      "ufh": {
+        "label": "Heparină nefracționată în doză mică (HNF)"
+      },
+      "lmwh": {
+        "label": "Heparină cu greutate moleculară mică (HGMM)"
+      },
+      "ipc": {
+        "label": "Dispozitive de compresie pneumatică intermitentă (IPC)"
+      },
+      "gcs": {
+        "label": "Ciorapi cu compresie gradată "
+      },
+      "warfarin": {
+        "label": "Warfarină prescrisă doar pentru TEV"
+      },
+      "vfp": {
+        "label": "Pompe venoase pentru picioare (VFP)"
+      },
+      "xa_inhibitor": {
+        "label": "Inhibitor oral de factor Xa prescris doar pentru TEV"
+      },
+      "other": {
+        "label": "Altele"
+      }
+    },
+    "post_stroke_complications": {
+      "any_post_stroke_complication": {
+        "label": "Complicații post-accident vascular cerebral (selectați tot ce se aplică):",
+        "yes": "Da",
+        "no": "Nu",
+        "null": "Necunoscut",
+        "error": {
+          "multiselect": "Selectați cel puțin unul dintre următoarele"
+        }
+      },
+      "pneumonia": {
+        "label": "Pneumonie"
+      },
+      "dvt": {
+        "label": "Tromboză venoasă profundă (TVP)"
+      },
+      "pulmonary_embolism": {
+        "label": "Embolie pulmonară"
+      },
+      "urinary_infection": {
+        "label": "Infecție a tractului urinar (ITU)"
+      },
+      "pressure_sores": {
+        "label": "Leziuni de decubit"
+      },
+      "drip_site_sepsis": {
+        "label": "Sepsis la locul de inserție cateter venos"
+      },
+      "recurrence_or_extension": {
+        "label": "recidivă/extensia accidentului vascular cerebral"
+      },
+      "other": {
+        "label": "Altele"
+      }
+    },
+    "post_recanalization_imaging": {
+      "imaging_type": {
+        "label": "A fost efectuată imagistică cerebrală de control după procedura de revascularizare?",
+        "ct": "Da, CT",
+        "mr": "Da, IRM",
+        "no": "Nu"
+      },
+      "brain_infarct": {
+        "label": "Infarct cerebral"
+      },
+      "no_bleeding": {
+        "label": "Fără transformare hemoragică"
+      },
+      "remote": {
+        "label": "Sângerare cerebrală în alt teritoriu"
+      },
+      "bleeding_hi_1": {
+        "label": "Transformare hemoragică IH tip 1"
+      },
+      "bleeding_hi_2": {
+        "label": "Transformare hemoragică IH tip 2"
+      },
+      "bleeding_ph_1": {
+        "label": "Transformare hemoragică parenchimatoasă HP tip 1"
+      },
+      "bleeding_ph_2": {
+        "label": "Transformare hemoragică parenchimoasă HP tip 2"
+      }
+    },
+    "fever": {
+      "day_1_fever_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x sau mai mult",
+        "label": "Număr de determinari ale temperaturii în ziua 1 (nr. de ori):"
+      },
+      "day_2_fever_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x sau mai mult",
+        "label": "Număr de determinari ale temperaturii în ziua 2 (nr. de ori):"
+      },
+      "day_3_fever_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x sau mai mult",
+        "label": "Număr de determinari ale temperaturii în ziua 3 (nr. de ori):"
+      },
+      "fever_diagnosed": {
+        "label": "Pacientul a făcut febră ≥ 37,5⁰C în primele 72 de ore de la internare?",
+        "yes": "Da",
+        "no": "Nu",
+        "null": "Necunoscut"
+      },
+      "paracetamol_on_fever": {
+        "label": "S-a administrat paracetamol (sau alt antipiretic) pentru prima temperatură crescută?",
+        "within_1h": "Da, în prima oră de la prima  măsurătoare a temperaturii crescută",
+        "after_1h": "Da, după 1 oră de la prima  măsurătoare a temperaturii crescută",
+        "no": "Nu",
+        "contraindicated": "Contraindicat"
+      }
+    },
+    "hyperglycemia": {
+      "day_1_hyperglycemia_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x sau mai mult",
+        "label": "Număr de determinări  ale glicemiei în ziua 1 (nr. de ori):"
+      },
+      "day_2_hyperglycemia_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x sau mai mult",
+        "label": "Număr de determinări ale glicemiei în ziua 2 (nr. de ori):"
+      },
+      "day_3_hyperglycemia_checks": {
+        "0": "0x",
+        "1": "1x",
+        "2": "2x",
+        "3": "3x",
+        "4": "4x sau mai mult",
+        "label": "Număr de determinări  ale glicemiei în ziua 3 (nr. de ori):"
+      },
+      "hyperglycemia_diagnosed": {
+        "label": "Pacientul a avut vreo valoare a glicemiei mai mare sau egal de 10 mmol/L (180 mg/dl) in primele 48 de ore de la internare?",
+        "yes": "Da",
+        "no": "Nu",
+        "null": "Necunoscut"
+      },
+      "insulin_on_hyperglycemia": {
+        "label": "S-a administrat insulina pentru prima glicemie crescută (>=10 mmol/L [180 mg/dl])?",
+        "within_1h": "Da, în prima oră de la primul nivel crescut al glucozei",
+        "after_1h": "Da, după 1 oră de la primul nivel crescut al glucozei",
+        "no": "Nu"
+      }
+    },
+    "swallow": {
+      "swallowing_screening": {
+        "label": "S-a efectuat  screening de deglutitie?",
+        "within_4h": "Da, în primele 4 ore",
+        "4h_to_24h": "Da, în primele 24 de ore de la internare",
+        "after_24h": "Da, după 24 de ore de la internare",
+        "not_done": "Neefectuat",
+        "not_applicable": "Nu se aplică (pacient intubat, SNG etc.)"
+      },
+      "swallowing_screening_type": {
+        "label": "S-a efectuat testul de screening pentru deglutiție?",
+        "guss": "Test GUSS",
+        "assist": "Test ASSIST",
+        "watertest": "Test de deglutiție a apei (Drinking water test)",
+        "other": "Altele (reflexul de vomă nu trebuie luat în considerare)"
+      },
+      "swallowing_screening_performer": {
+        "label": "Cine a efectuat screening-ul la deglutitie?",
+        "nurse": "Asistentă",
+        "physician": "medic",
+        "other": "altele"
+      }
+    },
+    "rehabilitation": {
+      "physiotherapy": {
+        "label": "Pacientul a beneficiat de fizioterapie?",
+        "yes": "Da",
+        "no": "Nu",
+        "not_required": "Nu a fost necesar"
+      },
+      "occup_therapy": {
+        "label": "Pacientul a beneficiat de ergoterapie?",
+        "yes": "Da",
+        "no": "Nu",
+        "not_required": "Nu este necesar"
+      },
+      "speech_therapy": {
+        "label": "Pacientul a  beneficiat de terapie logopedică?",
+        "yes": "Da",
+        "no": "Nu",
+        "not_required": "Nu a fost necesar"
+      }
+    }
+  },
+  "discharge": {
+    "destination": {
+      "discharge_destination": {
+        "label": "Destinația la externare",
+        "home": "Acasa",
+        "same_center": "Transferat in cadrul aceluiași centru",
+        "another_center": "Transferat în alt centru",
+        "social_care": "Centru de asistență socială",
+        "dead": "Pacient decedat"
+      },
+      "same_center_department": {
+        "label": "Destinația la externare în cadrul aceleiași unități:",
+        "rehab": "Reabilitare acută",
+        "post_care": "Pat îngrijire post-AVC",
+        "another_department": "Alt departament"
+      },
+      "another_center_type": {
+        "label": "Externat într-o altă unitate:",
+        "primary_center": "Centrul primar de AVC",
+        "comprehensive_center": "Centrul de AVC integrat (comprehensiv)",
+        "standard_hospital": "Alt spital standard"
+      },
+      "another_center_department": {
+        "label": "Externat într-o altă unitate – centru primar de AVC:",
+        "rehab": "Reabilitare acută",
+        "post_care": "Pat îngrijire post-AVC",
+        "neurology": "Neurologie",
+        "another_department": "O altă secție"
+      }
+    },
+    "discharge_date": {
+      "label": "Data externării:"
+    },
+    "mrs_score": {
+      "label": "Scorul Rankin modificat (mRS) la externare:"
+    },
+    "nihss": {
+      "label": "Scorul NIHSS la externare:"
+    },
+    "medication": {
+      "any_treatment_prescribed": {
+        "label": "Tratament prescris la externare (selectați tot ce se aplică):",
+        "yes": "Da",
+        "no": "Nu",
+        "error": {
+          "multiselect": "Selectați cel puțin unul dintre următoarele"
+        }
+      },
+      "antidiabetics": {
+        "label": "Antidiabetice"
+      },
+      "antihypertensives": {
+        "label": "Antihipertensive"
+      },
+      "antiplatelets": {
+        "label": "Antiagregante"
+      },
+      "anticoagulants": {
+        "label": "Anticoagulante"
+      },
+      "anticoagulant_recommended": {
+        "label": "Anticoagulant nu a fost prescris, dar este planificat"
+      },
+      "statin": {
+        "label": "Statina"
+      },
+      "other": {
+        "label": "Altele"
+      },
+      "antiplatelet_substances": {
+        "asa": {
+          "label": "AAS (aspirină)"
+        },
+        "cilostazol": {
+          "label": "Cilostazol"
+        },
+        "clopidogrel": {
+          "label": "Clopidogrel"
+        },
+        "ticagrelor": {
+          "label": "Ticagrelor"
+        },
+        "ticlopidine": {
+          "label": "Ticlopidină"
+        },
+        "prasugrel": {
+          "label": "Prasugrel"
+        },
+        "dipyridamole": {
+          "label": "Dipiridamol, eliberare lentă"
+        },
+        "other": {
+          "label": "Alte antiagregante"
+        }
+      },
+      "anticoagulant_substances": {
+        "warfarin": {
+          "label": "Antagonisti ai vitaminei K (Warfarina)"
+        },
+        "heparin": {
+          "label": "Heparină/Heparină cu greutate moleculară mică"
+        },
+        "dabigatran": {
+          "label": "Dabigatran"
+        },
+        "rivaroxaban": {
+          "label": "Rivaroxaban"
+        },
+        "apixaban": {
+          "label": "Apixaban"
+        },
+        "edoxaban": {
+          "label": "Edoxaban"
+        },
+        "other": {
+          "label": "Alte anticoagulante"
+        }
+      }
+    },
+    "stroke_management_appointment": {
+      "label": "Data reevaluarii programată în spitalul dumneavoastră pentru gestionarea accidentului vascular cerebral (urmărire post-acută):",
+      "yes": "Da",
+      "recommended": "Nu, dar se recomandă programarea",
+      "no": "Nu"
+    },
+    "smoking_cessation_recommended": {
+      "label": "Dacă pacientul era fumător, i-a fost recomandat un program de renunțare la fumat?",
+      "yes": "Da",
+      "no": "nu",
+      "not_smoker": "nu este fumător"
+    }
+  },
+  "post-discharge": {
+    "3_month_follow_up": {
+      "contact_mode": {
+        "label": "Modalitate de contact:",
+        "phone": "Telefon/video (pacient sau îngrijitor)",
+        "visit": "Vizita in ambulatoriu",
+        "mobile": "Aplicație mobilă",
+        "web": "Aplicație web",
+        "no_response": "Pacientul/aparținătorul nu a răspuns",
+        "not_contacted": "Nu a fost contactat"
+      },
+      "contact_date": {
+        "label": "Data la care a fost contactat"
+      },
+      "mrs_score": {
+        "label": "mRS la 3 luni:"
+      }
+    }
+  },
+  "error": {
+    "required": "acest câmp trebuie completat obligatoriu"
+  }
+}
