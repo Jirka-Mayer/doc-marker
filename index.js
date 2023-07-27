@@ -1,5 +1,6 @@
 import { createRoot } from "react-dom/client"
 import { Application } from "./src/ui/Application"
+import * as styles from "./src/ui/Application.module.scss"
 import "./src/i18n"
 
 export function bootstrapDocMarker(options) {
@@ -8,5 +9,8 @@ export function bootstrapDocMarker(options) {
   }
 
   const root = createRoot(options.element)
+
   root.render(<Application />)
+  
+  options.element.classList.add(styles["application"])
 }
