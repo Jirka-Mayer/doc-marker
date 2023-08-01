@@ -10,6 +10,14 @@
     ".": "./index.js",
     "./package.json": "./package.json"
   },
+  "scripts": {
+    "start": "rm -rf dist .parcel-cache && parcel development/index.html",
+    "build": "rm -rf dist .parcel-cache && parcel build development/index.html --public-url ./"
+  },
+  "devDependencies": {
+    "parcel": "^2.8.0",
+    "@parcel/transformer-sass": "^2.8.2"
+  },
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
