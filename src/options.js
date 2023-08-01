@@ -1,4 +1,5 @@
 import _ from "lodash"
+import localeDefinitions from "../locales"
 
 /*
     This file holds the global doc-marker options object,
@@ -27,6 +28,13 @@ export const defaultOptions = {
      * Version of your customized application
      */
     version: "1.0.0"
+  },
+
+  /**
+   * Dictionary of all locales
+   */
+  locales: {
+    ...localeDefinitions // imported from "/locales/index.js"
   }
 }
 

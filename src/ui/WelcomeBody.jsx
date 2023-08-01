@@ -1,7 +1,7 @@
 import * as styles from "./WelcomeBody.module.scss"
 import Typography from '@mui/material/Typography'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Paper, Stack, Table, TableBody, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Link } from "@mui/material"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAtom } from "jotai"
 import { AppFile } from "../state/file/AppFile"
 import { FormDefinition } from "../../forms/FormDefinition"
@@ -75,6 +75,11 @@ export function WelcomeBody(props) {
       <div className={`${styles["welcome-body"]} ${isOpen ? "" : styles["welcome-body--closed"]}`}></div>
     )
   }
+
+  // set page title
+  useEffect(() => {
+    document.head.getElementsByTagName("title")[0].innerText = t("title")
+  }, [t])
 
   return (
     <div className={`${styles["welcome-body"]} ${isOpen ? "" : styles["welcome-body--closed"]}`}>

@@ -1,4 +1,6 @@
-import localeDefinitions from "./index"
+import { currentOptions } from "../src/options"
+
+const localeDefinitions = currentOptions.locales
 
 const STORAGE_KEY = "docMarkerCurrentLocale"
 

@@ -15,8 +15,8 @@
     "build": "rm -rf dist .parcel-cache && parcel build development/index.html --public-url ./"
   },
   "devDependencies": {
-    "parcel": "^2.8.0",
-    "@parcel/transformer-sass": "^2.8.2"
+    "@parcel/transformer-sass": "^2.8.2",
+    "parcel": "^2.8.0"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -30,6 +30,7 @@
     "buffer": "^6.0.3",
     "i18next": "^23.2.3",
     "jotai": "^2.2.1",
+    "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "process": "^0.11.10",
     "quill": "^1.3.6",
