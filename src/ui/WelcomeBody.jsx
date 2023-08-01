@@ -68,6 +68,11 @@ export function WelcomeBody(props) {
     closeUploadFileDialog()
   }
 
+  // set page title
+  useEffect(() => {
+    document.head.getElementsByTagName("title")[0].innerText = t("title")
+  }, [t])
+
   // this removes the content from DOM, which makes sure the tooltips
   // don't complain warnings about their anchor not being in DOM and visible
   if (!isOpen) {
@@ -75,11 +80,6 @@ export function WelcomeBody(props) {
       <div className={`${styles["welcome-body"]} ${isOpen ? "" : styles["welcome-body--closed"]}`}></div>
     )
   }
-
-  // set page title
-  useEffect(() => {
-    document.head.getElementsByTagName("title")[0].innerText = t("title")
-  }, [t])
 
   return (
     <div className={`${styles["welcome-body"]} ${isOpen ? "" : styles["welcome-body--closed"]}`}>
