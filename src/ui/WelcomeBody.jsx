@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import DownloadIcon from '@mui/icons-material/Download'
 import * as fileStore from "../state/fileStore"
 import moment from "moment"
+import { currentOptions } from "../options"
 
 import packageJson from "../../package.json"
 import { useTranslation } from "react-i18next"
@@ -181,7 +182,8 @@ export function WelcomeBody(props) {
 
           {/* Footer with the version string */}
           <Typography variant="body2" gutterBottom sx={{ color: "#888", paddingTop: 1 }}>
-            DocMarker version v{VERSION}
+            {currentOptions.customization.name} v{currentOptions.customization.version}<br/>
+            DocMarker v{VERSION}
           </Typography>
 
           {/* Delete file dialog */}
