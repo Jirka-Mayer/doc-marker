@@ -27,7 +27,12 @@ export const defaultOptions = {
     /**
      * Version of your customized application
      */
-    version: "1.0.0"
+    version: "1.0.0",
+
+    /**
+     * Logo displayed in the app bar (top left corner of the screen)
+     */
+    appBarLogoUrl: new URL("./logo.svg", import.meta.url)
   },
 
   /**
@@ -35,6 +40,19 @@ export const defaultOptions = {
    */
   locales: {
     ...localeDefinitions // imported from "/locales/index.js"
+  },
+
+  /**
+   * MUI library theming options
+   */
+  theme: {
+    /*
+      MUI Theme options, as described here:
+      https://mui.com/material-ui/customization/theming/
+
+      You can use the theme creator here:
+      https://zenoo.github.io/mui-theme-creator/
+    */
   }
 }
 

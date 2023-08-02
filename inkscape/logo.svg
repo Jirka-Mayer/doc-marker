@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1024"
+   height="291"
+   viewBox="0 0 1024 291"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="design.svg"
+   inkscape:export-filename="/home/jirka/ufal/doc-marker/src/logo.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="1287.0968"
+     inkscape:cy="-113.34652"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer2"
+     showgrid="false"
+     inkscape:pagecheckerboard="true"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1030"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 1"
+     style="display:inline">
+    <rect
+       ry="19"
+       y="32.365463"
+       x="32.68515"
+       height="226.26907"
+       width="958.6297"
+       id="rect1029"
+       style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:7.99999952;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       x="121.72473"
+       y="-379.50803"
+       id="text11"><tspan
+         sodipodi:role="line"
+         id="tspan9"
+         x="121.72473"
+         y="-379.50803"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';stroke-width:2.9888165">O Doc Marker</tspan></text>
+    <path
+       id="path17"
+       d="m -680.71433,-300.07761 q 3.02898,0 5.17675,-2.15709 2.14777,-2.15699 2.14777,-5.18608 0,-3.02898 -2.15709,-5.17675 -2.15699,-2.14777 -5.18608,-2.14777 -3.02898,0 -5.17675,2.15709 -2.14777,2.15699 -2.14777,5.18608 0,3.02898 2.15709,5.17676 2.15699,2.14776 5.18608,2.14776 z m -0.008,34.67861 q 13.93431,-12.67707 20.58715,-22.99684 6.65285,-10.31977 6.65285,-18.17746 0,-12.34077 -7.88828,-20.20946 -7.88818,-7.86869 -19.35172,-7.86869 -11.46353,0 -19.35171,7.86869 -7.88828,7.86869 -7.88828,20.20946 0,7.85769 6.81,18.17746 6.81,10.31977 20.42999,22.99684 z m 0,8.27677 q -16.86784,-14.35339 -25.19699,-26.66376 -8.32915,-12.31039 -8.32915,-22.78731 0,-15.71539 10.11022,-25.03984 10.11023,-9.32446 23.41592,-9.32446 13.3057,0 23.41592,9.32446 10.11023,9.32445 10.11023,25.03984 0,10.47692 -8.32915,22.78731 -8.32916,12.31037 -25.197,26.66376 z m 0,-50.28922 z"
+       inkscape:connector-curvature="0"
+       style="stroke-width:0.10476921" />
+    <path
+       style="stroke-width:0.10288227"
+       d="m 38.03125,-466.34385 c -21.07411,-0.28392 -39.6301496,20.15843 -36.6523438,41.1914 2.524709,20.37809 18.6944238,35.31489 33.1188948,48.33666 3.331387,4.89845 6.659343,2.75268 9.926646,-1.05608 14.535675,-12.95098 30.444943,-28.4907 32.16735,-49.00128 1.246288,-18.14442 -12.27243,-35.86017 -30.341797,-38.79492 -2.704171,-0.52396 -5.465242,-0.75035 -8.21875,-0.67578 z m -0.265625,15.625 c 15.097451,-1.67799 27.859754,15.67235 21.648437,29.6582 -4.012799,10.74062 -12.742653,20.02529 -20.914062,26.90039 -9.291103,-10.41037 -21.813531,-21.13223 -21.607422,-36.36523 0.756176,-10.60426 10.239208,-20.25943 20.873047,-20.19336 z m 0.363281,10.05273 c -10.197596,0.0861 -15.194778,14.98685 -7.021484,21.1543 7.322456,6.76864 21.00326,0.12913 19.763672,-9.88867 -0.391358,-6.39827 -6.278204,-11.77589 -12.742188,-11.26563 z"
+       id="path28"
+       inkscape:connector-curvature="0" />
+    <text
+       id="text38"
+       y="-78.482567"
+       x="181.32375"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';stroke-width:2.9888165"
+         y="-78.482567"
+         x="181.32375"
+         id="tspan36"
+         sodipodi:role="line">Doc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       x="515.78296"
+       y="-78.482567"
+       id="text42"><tspan
+         sodipodi:role="line"
+         id="tspan40"
+         x="515.78296"
+         y="-78.482567"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';stroke-width:2.9888165">Marker</tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       id="path44"
+       d="m 451.63488,-163.34998 c -19.36328,-0.26087 -36.41292,18.52194 -33.67686,37.84743 2.31975,18.72376 17.17679,32.447972 30.43026,44.412615 3.06094,4.500787 6.11873,2.529214 9.12078,-0.970345 13.35565,-11.899601 27.97339,-26.17778 29.55596,-45.02329 1.14511,-16.67142 -11.27614,-32.94898 -27.8786,-35.64549 -2.48464,-0.48142 -5.02156,-0.68943 -7.55154,-0.62092 z m -0.24407,14.35654 c 13.87182,-1.54176 25.59807,14.40005 19.89099,27.25051 -3.68703,9.86868 -11.70818,18.3996 -19.21622,24.716575 -8.53685,-9.565245 -20.04268,-19.416685 -19.8533,-33.413045 0.69478,-9.74339 9.40797,-18.61474 19.17853,-18.55404 z m 0.33379,9.23664 c -9.36973,0.0791 -13.96123,13.77019 -6.45146,19.43696 6.72801,6.21915 19.29818,0.11865 18.15922,-9.08589 -0.35959,-5.87885 -5.76852,-10.81991 -11.70776,-10.35107 z"
+       style="stroke-width:0.09453014" />
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke-width:1.31366456"
+       id="rect872"
+       width="1034.3962"
+       height="1001.0009"
+       x="557.60419"
+       y="529.64111" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f47b20;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       x="736.90759"
+       y="735.70038"
+       id="text48"><tspan
+         sodipodi:role="line"
+         id="tspan46"
+         x="736.90759"
+         y="735.70038"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';fill:#f47b20;fill-opacity:1;stroke-width:2.9888165">Doc</tspan></text>
+    <text
+       id="text52"
+       y="735.70038"
+       x="1071.3668"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f47b20;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';fill:#f47b20;fill-opacity:1;stroke-width:2.9888165"
+         y="735.70038"
+         x="1071.3668"
+         id="tspan50"
+         sodipodi:role="line">Marker</tspan></text>
+    <path
+       style="fill:#f47b20;fill-opacity:1;stroke-width:0.09453014"
+       d="m 1007.2188,650.83297 c -19.36332,-0.26087 -36.41292,18.52194 -33.67692,37.84743 2.3198,18.72376 17.1768,32.44797 30.43032,44.41261 3.0609,4.50079 6.1187,2.52921 9.1208,-0.97034 13.3556,-11.89961 27.9733,-26.17778 29.5559,-45.02329 1.1451,-16.67142 -11.2761,-32.94898 -27.8786,-35.64549 -2.4846,-0.48142 -5.0215,-0.68943 -7.5515,-0.62092 z m -0.2441,14.35654 c 13.8718,-1.54176 25.5981,14.40005 19.891,27.25051 -3.687,9.86868 -11.7082,18.3996 -19.2162,24.71657 -8.53692,-9.56524 -20.04272,-19.41668 -19.85332,-33.41304 0.6948,-9.74339 9.4079,-18.61474 19.17852,-18.55404 z m 0.3338,9.23664 c -9.36972,0.0791 -13.96122,13.77019 -6.4515,19.43696 6.728,6.21915 19.2982,0.11865 18.1593,-9.08589 -0.3596,-5.87885 -5.7686,-10.81991 -11.7078,-10.35107 z"
+       id="path54"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       x="1499.2211"
+       y="-128.99019"
+       id="text876"><tspan
+         sodipodi:role="line"
+         id="tspan874"
+         x="1499.2211"
+         y="-128.99019"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';stroke-width:2.9888165">Doc</tspan></text>
+    <text
+       id="text880"
+       y="-128.99019"
+       x="1727.9661"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';stroke-width:2.9888165"
+         y="-128.99019"
+         x="1727.9661"
+         id="tspan878"
+         sodipodi:role="line">Marker</tspan></text>
+    <path
+       style="stroke-width:0.09453014"
+       d="m 1428.8179,-213.85761 c -19.3632,-0.26087 -36.4129,18.52194 -33.6768,37.84743 2.3197,18.72376 17.1768,32.44797 30.4302,44.41262 3.061,4.50078 6.1188,2.52921 9.1208,-0.97035 13.3557,-11.8996 27.9734,-26.17778 29.556,-45.02329 1.1451,-16.67142 -11.2762,-32.94898 -27.8786,-35.64549 -2.4847,-0.48142 -5.0216,-0.68943 -7.5516,-0.62092 z m -0.244,14.35654 c 13.8718,-1.54176 25.598,14.40005 19.891,27.25051 -3.6871,9.86868 -11.7082,18.3996 -19.2163,24.71658 -8.5368,-9.56525 -20.0426,-19.41669 -19.8533,-33.41305 0.6948,-9.74339 9.408,-18.61474 19.1786,-18.55404 z m 0.3338,9.23664 c -9.3698,0.0791 -13.9613,13.77019 -6.4515,19.43696 6.728,6.21915 19.2982,0.11865 18.1592,-9.08589 -0.3596,-5.87885 -5.7685,-10.81991 -11.7077,-10.35107 z"
+       id="path882"
+       inkscape:connector-curvature="0" />
+    <rect
+       y="535.35541"
+       x="1767.3187"
+       height="860.6499"
+       width="1034.3962"
+       id="rect895"
+       style="fill:#ffffff;fill-opacity:1;stroke-width:1.41793025" />
+    <text
+       id="text899"
+       y="735.70038"
+       x="1930.908"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.9888165"
+         y="735.70038"
+         x="1930.908"
+         id="tspan897"
+         sodipodi:role="line">Doc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       x="2265.3672"
+       y="735.70038"
+       id="text903"><tspan
+         sodipodi:role="line"
+         id="tspan901"
+         x="2265.3672"
+         y="735.70038"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.9888165">Marker</tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       id="path905"
+       d="m 2201.2191,650.83297 c -19.3633,-0.26087 -36.4129,18.52194 -33.6769,37.84743 2.3198,18.72376 17.1768,32.44797 30.4303,44.41261 3.0609,4.50079 6.1187,2.52921 9.1208,-0.97034 13.3556,-11.89961 27.9733,-26.17778 29.5559,-45.02329 1.1451,-16.67142 -11.2761,-32.94898 -27.8786,-35.64549 -2.4846,-0.48142 -5.0215,-0.68943 -7.5515,-0.62092 z m -0.2441,14.35654 c 13.8718,-1.54176 25.5981,14.40005 19.891,27.25051 -3.687,9.86868 -11.7082,18.3996 -19.2162,24.71657 -8.5369,-9.56524 -20.0427,-19.41668 -19.8533,-33.41304 0.6948,-9.74339 9.4079,-18.61474 19.1785,-18.55404 z m 0.3338,9.23664 c -9.3697,0.0791 -13.9612,13.77019 -6.4515,19.43696 6.728,6.21915 19.2982,0.11865 18.1593,-9.08589 -0.3596,-5.87885 -5.7686,-10.81991 -11.7078,-10.35107 z"
+       style="fill:#f47b20;fill-opacity:1;stroke-width:0.09453014" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       x="-960.5968"
+       y="-258.28973"
+       id="text911"><tspan
+         sodipodi:role="line"
+         id="tspan909"
+         x="-960.5968"
+         y="-258.28973"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:'Roboto Light';stroke-width:2.9888165">Doc</tspan></text>
+    <text
+       id="text915"
+       y="-258.28973"
+       x="-613.56757"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:'Roboto Light';stroke-width:2.9888165"
+         y="-258.28973"
+         x="-613.56757"
+         id="tspan913"
+         sodipodi:role="line">Marker</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       x="1930.908"
+       y="1285.7207"
+       id="text927"><tspan
+         sodipodi:role="line"
+         id="tspan925"
+         x="1930.908"
+         y="1285.7207"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.9888165">Doc</tspan></text>
+    <text
+       id="text931"
+       y="1285.7207"
+       x="2265.3672"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.9888165"
+         y="1285.7207"
+         x="2265.3672"
+         id="tspan929"
+         sodipodi:role="line">Marker</tspan></text>
+    <path
+       id="path935"
+       d="m 2201.9899,1242.7079 q 3.029,0 5.1768,-2.1571 2.1477,-2.157 2.1477,-5.186 0,-3.029 -2.1571,-5.1768 -2.1569,-2.1478 -5.186,-2.1478 -3.029,0 -5.1768,2.1571 -2.1478,2.157 -2.1478,5.1861 0,3.029 2.1571,5.1768 2.157,2.1477 5.1861,2.1477 z m -0.01,34.6786 q 13.9343,-12.677 20.5872,-22.9968 6.6528,-10.3198 6.6528,-18.1775 0,-12.3407 -7.8883,-20.2094 -7.8881,-7.8687 -19.3517,-7.8687 -11.4635,0 -19.3517,7.8687 -7.8883,7.8687 -7.8883,20.2094 0,7.8577 6.81,18.1775 6.81,10.3198 20.43,22.9968 z m 0,8.2768 q -16.8678,-14.3534 -25.197,-26.6638 -8.3291,-12.3103 -8.3291,-22.7873 0,-15.7154 10.1102,-25.0398 10.1102,-9.3245 23.4159,-9.3245 13.3057,0 23.4159,9.3245 10.1103,9.3244 10.1103,25.0398 0,10.477 -8.3292,22.7873 -8.3291,12.3104 -25.197,26.6638 z m 0,-50.2892 z"
+       inkscape:connector-curvature="0"
+       style="fill:#f47b20;fill-opacity:1;stroke-width:0.10476921" />
+    <text
+       id="text939"
+       y="956.38647"
+       x="1930.908"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.9888165"
+         y="956.38647"
+         x="1930.908"
+         id="tspan937"
+         sodipodi:role="line">Doc</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       x="2265.3672"
+       y="956.38647"
+       id="text943"><tspan
+         sodipodi:role="line"
+         id="tspan941"
+         x="2265.3672"
+         y="956.38647"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.9888165">Marker</tspan></text>
+    <path
+       style="fill:#f47b20;fill-opacity:1;stroke-width:0.10476921"
+       d="m 2201.1328,870.52205 c -18.2384,-0.062 -34.904,15.8954 -34.6367,34.3516 -0.5838,18.2147 12.9925,32.8501 25.1206,44.8205 3.3433,3.213 6.8359,6.2655 10.3638,9.2732 14.6114,-12.8894 30.875,-27.1854 35.1035,-47.1113 2.5771,-14.8925 -5.01,-30.93235 -18.8242,-37.48635 -5.2551,-2.73518 -11.2174,-3.99316 -17.127,-3.84765 z m 0.8477,10.27734 c 14.9821,-0.74409 27.5613,14.16076 25.0273,28.81636 -3.1478,14.6896 -14.6148,25.6449 -25.0137,35.7051 -10.3552,-10.4318 -22.4348,-21.5419 -25.1582,-36.6543 -1.6685,-14.6972 10.1722,-28.33273 25.1446,-27.86716 z m -0.4258,15.91406 c -8.018,-0.094 -12.1029,11.2278 -5.8262,16.25 5.6383,5.7283 16.4734,0.5273 15.5742,-7.4473 -0.1473,-4.9688 -4.789,-9.1526 -9.748,-8.8027 z"
+       id="path945"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       x="1920.8064"
+       y="1099.8281"
+       id="text951"><tspan
+         sodipodi:role="line"
+         id="tspan949"
+         x="1920.8064"
+         y="1099.8281"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.9888165">Doc</tspan></text>
+    <text
+       id="text955"
+       y="1099.8281"
+       x="2274.9636"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.9888165"
+         y="1099.8281"
+         x="2274.9636"
+         id="tspan953"
+         sodipodi:role="line">Marker</tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       id="path957"
+       d="m 2201.1328,1013.9637 c -18.2384,-0.062 -34.904,15.8954 -34.6367,34.3516 -0.5838,18.2147 12.9925,32.8501 25.1206,44.8205 3.3433,3.213 6.8359,6.2655 10.3638,9.2732 14.6114,-12.8894 30.875,-27.1854 35.1035,-47.1113 2.5771,-14.8925 -5.01,-30.9323 -18.8242,-37.4863 -5.2551,-2.7352 -11.2174,-3.9932 -17.127,-3.8477 z m 0.8477,10.2774 c 14.9821,-0.7441 27.5613,14.1607 25.0273,28.8163 -3.1478,14.6896 -14.6148,25.6449 -25.0137,35.7051 -10.3552,-10.4318 -22.4348,-21.5419 -25.1582,-36.6543 -1.6685,-14.6972 10.1722,-28.3327 25.1446,-27.8671 z m -0.4258,15.914 c -8.018,-0.094 -12.1029,11.2278 -5.8262,16.25 5.6383,5.7283 16.4734,0.5273 15.5742,-7.4473 -0.1473,-4.9688 -4.789,-9.1526 -9.748,-8.8027 z"
+       style="fill:#f47b20;fill-opacity:1;stroke-width:0.10476921" />
+    <g
+       id="g978"
+       transform="translate(5.7142857,-141.42857)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+         x="716.52069"
+         y="1126.9558"
+         id="text965"><tspan
+           sodipodi:role="line"
+           id="tspan963"
+           x="716.52069"
+           y="1126.9558"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.9888165">Doc</tspan></text>
+      <text
+         id="text969"
+         y="1126.9558"
+         x="1070.6779"
+         style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.9888165"
+           y="1126.9558"
+           x="1070.6779"
+           id="tspan967"
+           sodipodi:role="line">Marker</tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path971"
+         d="m 996.84709,1039.678 c -18.2384,-0.062 -34.904,15.8954 -34.6367,34.3516 -0.5838,18.2147 12.9925,32.8501 25.1206,44.8205 3.3433,3.213 6.8359,6.2655 10.3638,9.2732 14.61141,-12.8894 30.87501,-27.1854 35.10351,-47.1113 2.5771,-14.8925 -5.01,-30.9323 -18.8242,-37.4863 -5.2551,-2.7352 -11.2174,-3.9932 -17.12701,-3.8477 z m 0.8477,10.2774 c 14.98211,-0.7441 27.56131,14.1607 25.02731,28.8163 -3.1478,14.6896 -14.6148,25.6449 -25.01371,35.7051 -10.3552,-10.4318 -22.4348,-21.5419 -25.1582,-36.6543 -1.6685,-14.6972 10.1722,-28.3327 25.1446,-27.8671 z m -0.4258,15.914 c -8.018,-0.094 -12.1029,11.2278 -5.8262,16.25 5.6383,5.7283 16.47341,0.5273 15.57421,-7.4473 -0.1473,-4.9688 -4.789,-9.1526 -9.74801,-8.8027 z"
+         style="fill:#f47b20;fill-opacity:1;stroke-width:0.10476921" />
+    </g>
+    <path
+       style="fill:none;stroke:#f47b20;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 1000.7323,1006.8579 h 457.1248"
+       id="path980"
+       inkscape:connector-curvature="0" />
+    <g
+       transform="matrix(1.1596488,0,0,1.1596488,-1971.678,-1085.8165)"
+       id="g992"
+       style="stroke-width:0.86233008">
+      <text
+         id="text984"
+         y="1126.9558"
+         x="716.52069"
+         style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.57734632"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.57734632"
+           y="1126.9558"
+           x="716.52069"
+           id="tspan982"
+           sodipodi:role="line">Doc</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.57734632"
+         x="1070.6779"
+         y="1126.9558"
+         id="text988"><tspan
+           sodipodi:role="line"
+           id="tspan986"
+           x="1070.6779"
+           y="1126.9558"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.57734632">Marker</tspan></text>
+      <path
+         style="fill:#f47b20;fill-opacity:1;stroke-width:0.09034564"
+         d="m 996.84709,1039.678 c -18.2384,-0.062 -34.904,15.8954 -34.6367,34.3516 -0.5838,18.2147 12.9925,32.8501 25.1206,44.8205 3.3433,3.213 6.8359,6.2655 10.3638,9.2732 14.61141,-12.8894 30.87501,-27.1854 35.10351,-47.1113 2.5771,-14.8925 -5.01,-30.9323 -18.8242,-37.4863 -5.2551,-2.7352 -11.2174,-3.9932 -17.12701,-3.8477 z m 0.8477,10.2774 c 14.98211,-0.7441 27.56131,14.1607 25.02731,28.8163 -3.1478,14.6896 -14.6148,25.6449 -25.01371,35.7051 -10.3552,-10.4318 -22.4348,-21.5419 -25.1582,-36.6543 -1.6685,-14.6972 10.1722,-28.3327 25.1446,-27.8671 z m -0.4258,15.914 c -8.018,-0.094 -12.1029,11.2278 -5.8262,16.25 5.6383,5.7283 16.47341,0.5273 15.57421,-7.4473 -0.1473,-4.9688 -4.789,-9.1526 -9.74801,-8.8027 z"
+         id="path990"
+         inkscape:connector-curvature="0" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       x="702.94928"
+       y="1374.0986"
+       id="text996"><tspan
+         sodipodi:role="line"
+         id="tspan994"
+         x="702.94928"
+         y="1374.0986"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.9888165">Doc</tspan></text>
+    <rect
+       style="fill:#f47b20;fill-opacity:1;stroke:#f47b20;stroke-width:7.99999952;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect1013"
+       width="537.85712"
+       height="132.47899"
+       x="945.71429"
+       y="1267.8068"
+       ry="15.748552" />
+    <text
+       id="text1000"
+       y="1374.0986"
+       x="1076.3921"
+       style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:2.9888165"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#ffffff;fill-opacity:1;stroke-width:2.9888165"
+         y="1374.0986"
+         x="1076.3921"
+         id="tspan998"
+         sodipodi:role="line">Marker</tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       id="path1002"
+       d="m 1002.5614,1286.8209 c -18.23842,-0.062 -34.90402,15.8954 -34.63672,34.3516 -0.5838,18.2147 12.9925,32.8501 25.1206,44.8205 3.3433,3.213 6.8359,6.2655 10.36382,9.2732 14.6114,-12.8894 30.875,-27.1854 35.1035,-47.1113 2.5771,-14.8925 -5.01,-30.9323 -18.8242,-37.4863 -5.2551,-2.7352 -11.2174,-3.9932 -17.127,-3.8477 z m 0.8477,10.2774 c 14.9821,-0.7441 27.5613,14.1607 25.0273,28.8163 -3.1478,14.6896 -14.6148,25.6449 -25.0137,35.7051 -10.35522,-10.4318 -22.43482,-21.5419 -25.15822,-36.6543 -1.6685,-14.6972 10.1722,-28.3327 25.14462,-27.8671 z m -0.4258,15.914 c -8.01802,-0.094 -12.10292,11.2278 -5.82622,16.25 5.63832,5.7283 16.47342,0.5273 15.57422,-7.4473 -0.1473,-4.9688 -4.789,-9.1526 -9.748,-8.8027 z"
+       style="fill:#ffffff;fill-opacity:1;stroke-width:0.10476921" />
+    <g
+       style="stroke-width:0.86233008"
+       id="g1025"
+       transform="matrix(1.1596488,0,0,1.1596488,-745.35279,-1110.0602)">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.57734632"
+         x="716.52069"
+         y="1126.9558"
+         id="text1017"><tspan
+           sodipodi:role="line"
+           id="tspan1015"
+           x="716.52069"
+           y="1126.9558"
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.57734632">Doc</tspan></text>
+      <text
+         id="text1021"
+         y="1126.9558"
+         x="1070.6779"
+         style="font-style:normal;font-weight:normal;font-size:119.55266571px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#232323;fill-opacity:1;stroke:none;stroke-width:2.57734632"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Roboto;-inkscape-font-specification:Roboto;fill:#232323;fill-opacity:1;stroke-width:2.57734632"
+           y="1126.9558"
+           x="1070.6779"
+           id="tspan1019"
+           sodipodi:role="line">Marker</tspan></text>
+      <path
+         inkscape:connector-curvature="0"
+         id="path1023"
+         d="m 996.84709,1039.678 c -18.2384,-0.062 -34.904,15.8954 -34.6367,34.3516 -0.5838,18.2147 12.9925,32.8501 25.1206,44.8205 3.3433,3.213 6.8359,6.2655 10.3638,9.2732 14.61141,-12.8894 30.87501,-27.1854 35.10351,-47.1113 2.5771,-14.8925 -5.01,-30.9323 -18.8242,-37.4863 -5.2551,-2.7352 -11.2174,-3.9932 -17.12701,-3.8477 z m 0.8477,10.2774 c 14.98211,-0.7441 27.56131,14.1607 25.02731,28.8163 -3.1478,14.6896 -14.6148,25.6449 -25.01371,35.7051 -10.3552,-10.4318 -22.4348,-21.5419 -25.1582,-36.6543 -1.6685,-14.6972 10.1722,-28.3327 25.1446,-27.8671 z m -0.4258,15.914 c -8.018,-0.094 -12.1029,11.2278 -5.8262,16.25 5.6383,5.7283 16.47341,0.5273 15.57421,-7.4473 -0.1473,-4.9688 -4.789,-9.1526 -9.74801,-8.8027 z"
+         style="fill:#f47b20;fill-opacity:1;stroke-width:0.09034564" />
+    </g>
+  </g>
+</svg>

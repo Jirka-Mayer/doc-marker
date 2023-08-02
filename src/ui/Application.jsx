@@ -9,6 +9,10 @@ import * as fileStore from "../state/fileStore"
 import { ResqExportDialog } from "./dialogs/ResqExportDialog"
 import { ChangeLocaleDialog } from "./dialogs/ChangeLocaleDialog"
 import useUnload from "../utils/useUnload"
+import { createTheme, ThemeProvider } from "@mui/material/styles"
+import { currentOptions } from "../options"
+
+const theme = createTheme(currentOptions.theme)
 
 export function Application() {
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
@@ -23,27 +27,29 @@ export function Application() {
 
   return (
     <>
-      <JotaiNexus />
-      <div className={styles["app-bar-container"]}>
-        
-        <AppBar />
-        
-      </div>
-      <div className={styles["app-body-container"]}>
-        
-        <WelcomeBody isOpen={!isFileOpen} />
+      <ThemeProvider theme={theme}>
+        <JotaiNexus />
+        <div className={styles["app-bar-container"]}>
+          
+          <AppBar />
+          
+        </div>
+        <div className={styles["app-body-container"]}>
+          
+          <WelcomeBody isOpen={!isFileOpen} />
 
-        <AppBody isOpen={isFileOpen} />
+          <AppBody isOpen={isFileOpen} />
 
-      </div>
-      {/* <div className={styles["status-bar-container"]}>
+        </div>
+        {/* <div className={styles["status-bar-container"]}>
 
-        <StatusBar />
+          <StatusBar />
 
-      </div> */}
+        </div> */}
 
-      <ResqExportDialog />
-      <ChangeLocaleDialog />
+        <ResqExportDialog />
+        <ChangeLocaleDialog />
+      </ThemeProvider>
     </>
   )
 }

@@ -26,11 +26,7 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react"
 import { AppFile } from "../state/file/AppFile"
 import * as autosaveStore from "../state/autosaveStore"
-
-const logoImageUrl = new URL(
-  "resq-logo.png",
-  import.meta.url
-);
+import { currentOptions } from "../options"
 
 export function AppBar() {
   const { t } = useTranslation("appbar")
@@ -50,7 +46,10 @@ export function AppBar() {
           onClick={() => fileStore.closeFile()}
           style={{ cursor: isFileOpen ? "pointer" : "default" }}
         >
-          <img src={logoImageUrl} alt="RES-Q+ Logo" />
+          <img
+            src={currentOptions.customization.appBarLogoUrl}
+            alt="Application Logo"
+          />
         </div>
         <div className={styles["appbar__center"]}>
           <div className={styles["appbar__header"]}>
