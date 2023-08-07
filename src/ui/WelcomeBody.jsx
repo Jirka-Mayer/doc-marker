@@ -10,10 +10,11 @@ import DownloadIcon from '@mui/icons-material/Download'
 import * as fileStore from "../state/fileStore"
 import moment from "moment"
 import { currentOptions } from "../options"
-
-import packageJson from "../../package.json"
 import { useTranslation } from "react-i18next"
 import { FileStorage } from "../state/file/FileStorage"
+import { isOpenAtom as isCreateFileDialogOpenAtom } from "./dialogs/CreateFileDialog"
+
+import packageJson from "../../package.json"
 const VERSION = packageJson.version
 
 export function WelcomeBody(props) {
@@ -24,6 +25,7 @@ export function WelcomeBody(props) {
   const { t } = useTranslation("welcomeBody")
 
   const [fileList] = useAtom(fileStore.fileListAtom)
+  const [,setCreateFileDialogOpenAtom] = useAtom(isCreateFileDialogOpenAtom)
 
   // deleting state
   const [recordToDelete, setRecordToDelete] = useState(null)
@@ -169,7 +171,7 @@ export function WelcomeBody(props) {
           <Stack direction="row" spacing={2} className={styles["new-file-actions"]}>
             <Button
               variant="contained"
-              onClick={() => fileStore.createNewFile(FormDefinition.DEFAULT_FORM_ID)}
+              onClick={() => setCreateFileDialogOpenAtom(true)}
             >{ t("createNewFile") }</Button>
             <Button
               variant="outlined"

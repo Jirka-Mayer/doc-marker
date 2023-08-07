@@ -1,0 +1,10 @@
+{
+  "title": "Create new file",
+  
+  "chooseForm": "Choose the form type:",
+  "defaultValue": "Default",
+  "defaultValueExplanation": "If you are not sure, choose the default form.",
+
+  "cancel": "Cancel",
+  "create": "Create"
+}

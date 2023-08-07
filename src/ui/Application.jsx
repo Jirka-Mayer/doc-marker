@@ -11,6 +11,7 @@ import { ChangeLocaleDialog } from "./dialogs/ChangeLocaleDialog"
 import useUnload from "../utils/useUnload"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { currentOptions } from "../options"
+import { CreateFileDialog } from "./dialogs/CreateFileDialog"
 
 const theme = createTheme(currentOptions.theme)
 
@@ -49,6 +50,7 @@ export function Application() {
 
         <ResqExportDialog />
         <ChangeLocaleDialog />
+        <CreateFileDialog />
       </ThemeProvider>
     </>
   )

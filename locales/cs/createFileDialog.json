@@ -1,0 +1,10 @@
+{
+  "title": "Vytvořit nový soubor",
+
+  "chooseForm": "Vyberte typ formuláře:",
+  "defaultValue": "výchozí",
+  "defaultValueExplanation": "Pokud si nejste jistí, použijte výchozí formulář.",
+
+  "cancel": "Zrušit",
+  "create": "Vytvořit"
+}

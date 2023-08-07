@@ -13,6 +13,7 @@ import { AppFile } from "../../state/file/AppFile";
 import { isOpenAtom as isLocaleDialogOpenAtom } from "../dialogs/ChangeLocaleDialog"
 import { FormDefinition } from "../../../forms/FormDefinition";
 import { useTranslation } from "react-i18next";
+import { isOpenAtom as isCreateFileDialogOpenAtom } from "../dialogs/CreateFileDialog"
 
 export function FileMenu() {
   const { t } = useTranslation("menus")
@@ -30,11 +31,12 @@ export function FileMenu() {
 
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
   const [,setLocaleDialogOpen] = useAtom(isLocaleDialogOpenAtom)
+  const [,setCreateFileDialogOpenAtom] = useAtom(isCreateFileDialogOpenAtom)
 
   // === click handlers ===
 
   function onNewEmptyFileClick() {
-    fileStore.createNewFile(FormDefinition.DEFAULT_FORM_ID)
+    setCreateFileDialogOpenAtom(true)
     closeMenu()
   }
 

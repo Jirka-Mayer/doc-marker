@@ -5,6 +5,7 @@ import annotationContextMenus from "./annotationContextMenus.json"
 import quill from "./quill.json"
 import menus from "./menus.json"
 import appbar from "./appbar.json"
+import createFileDialog from "./createFileDialog.json"
 
 import "moment/locale/en-gb"
 
@@ -15,5 +16,6 @@ export {
   annotationContextMenus,
   quill,
   menus,
-  appbar
+  appbar,
+  createFileDialog
 }
