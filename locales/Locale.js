@@ -19,7 +19,7 @@ export class Locale {
     (id, definition) => new Locale(id, definition)
   )
 
-  static FALLBACK_LOCALE = "en-GB"
+  static FALLBACK_LOCALE = currentOptions.fallbackLocale // "en-GB" in most cases
 
   constructor(id, definition) {
     this.id = id

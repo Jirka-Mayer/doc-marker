@@ -3,17 +3,17 @@
 export default {
   "cs": {
     title: "Česky",
-    importer: () => import("./cs"),
+    importer: async () => await import("./cs"),
     momentLocale: "cs"
   },
   "en-GB": {
     title: "English (United Kingdom)",
-    importer: () => import("./en-GB"),
+    importer: async () => await import("./en-GB"),
     momentLocale: "en-gb"
   },
   "en-US": {
     title: "English (United States)",
-    importer: () => import("./en-US"),
+    importer: async () => await import("./en-US"),
     momentLocale: "en"
   },
 }

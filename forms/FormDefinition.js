@@ -1,11 +1,14 @@
-import formImporters from "./index"
+import { Locale } from "../locales/Locale"
+import { currentOptions } from "../src/options"
+
+formDefinitions = currentOptions.forms
 
 export class FormDefinition {
   
-  static ALL_FORM_IDS = Object.keys(formImporters)
+  static ALL_FORM_IDS = Object.keys(formDefinitions)
   
-  // which form gets used when a new file is created
-  static DEFAULT_FORM_ID = "ResQPlus Alpha 1.0"
+  // which form is selected by default when a new file is created
+  static DEFAULT_FORM_ID = currentOptions.defaultFormId
 
   static I18NEXT_FORM_SPECIFIC_NS = "formSpecific" // field labels & descriptions
   static I18NEXT_FORM_GLOBAL_NS = "formGlobal" // none values, global errors
@@ -23,14 +26,21 @@ export class FormDefinition {
    * @returns {FormDefinition}
    */
   static async load(formId) {
-    const importer = formImporters[formId]
+    const definition = formDefinitions[formId]
     
-    if (!importer)
+    if (!definition)
       throw new Error("Form ID is unknown: " + formId)
-    
-    const { dataSchema, uiSchema, translationImporters } = await importer()
 
-    return new FormDefinition(formId, dataSchema, uiSchema, translationImporters)
+    const dataSchema = await definition.dataSchemaImporter()
+    const uiSchema = await definition.uiSchemaImporter()
+    const translationImporters = definition.translationImporters || {}
+
+    return new FormDefinition(
+      formId,
+      dataSchema,
+      uiSchema,
+      translationImporters
+    )
   }
 
   /**
@@ -43,7 +53,7 @@ export class FormDefinition {
     await this.loadGivenTranslation(i18n, currentLocale)
 
     // load english as the fallback language
-    await this.loadGivenTranslation(i18n, "en-GB")
+    await this.loadGivenTranslation(i18n, Locale.FALLBACK_LOCALE)
   }
 
   async loadGivenTranslation(i18n, localeId) {

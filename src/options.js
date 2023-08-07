@@ -1,5 +1,6 @@
 import _ from "lodash"
 import localeDefinitions from "../locales"
+import formDefinitions from "../forms"
 
 /*
     This file holds the global doc-marker options object,
@@ -43,6 +44,11 @@ export const defaultOptions = {
   },
 
   /**
+   * Locale to be used as the fallback
+   */
+  fallbackLocale: "en-GB",
+
+  /**
    * MUI library theming options
    */
   theme: {
@@ -53,7 +59,19 @@ export const defaultOptions = {
       You can use the theme creator here:
       https://zenoo.github.io/mui-theme-creator/
     */
-  }
+  },
+
+  /**
+   * Dictionary of all forms
+   */
+  forms: {
+    ...formDefinitions // imported from "/forms/index.js"
+  },
+
+  /**
+   * Which form to use by default
+   */
+  defaultFormId: "ResQPlus Alpha 1.0"
 }
 
 export const currentOptions = _.merge({}, defaultOptions)
