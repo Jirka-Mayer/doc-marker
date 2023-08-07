@@ -1,0 +1,44 @@
+{
+  "group": {
+    "simpleFields": "Simple fields",
+    "nullableFields": "Nullable fields"
+  },
+
+
+  "myText": { "label": "My text" },
+  "myInteger": {
+    "label": "My integer",
+    "description": "Enter number 0 - 99"
+  },
+  "myNumber": { "label": "My number" },
+  "myBoolean": { "label": "My boolean" },
+  "myEnum": {
+    "label": "My enum",
+    "A": "Option A",
+    "B": "Option B",
+    "C": "Option C"
+  },
+  "myDatetime": { "label": "My date-time" },
+  "myDate": { "label": "My date" },
+  "myTime": { "label": "My time" },
+
+
+  "myNullableText": { "label": "My text" },
+  "myNullableInteger": {
+    "label": "My integer",
+    "description": "Enter number 0 - 99"
+  },
+  "myNullableNumber": { "label": "My number" },
+  "myNullableBoolean": { "label": "My boolean" },
+  "myNullableEnum": {
+    "label": "My enum",
+    "A": "Option A",
+    "B": "Option B",
+    "C": "Option C",
+    "null": "Unknown option"
+  },
+  "myNullableDatetime": { "label": "My date-time" },
+  "myNullableDate": { "label": "My date" },
+  "myNullableTime": { "label": "My time" }
+
+}

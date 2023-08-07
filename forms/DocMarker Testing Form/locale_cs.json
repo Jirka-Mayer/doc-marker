@@ -1,0 +1,44 @@
+{
+  "group": {
+    "simpleFields": "Jednoduchá pole",
+    "nullableFields": "Pole s možností neznámé hodnoty"
+  },
+
+
+  "myText": { "label": "Můj text" },
+  "myInteger": {
+    "label": "Moje celé číslo",
+    "description": "Zadejte číslo 0 - 99"
+  },
+  "myNumber": { "label": "Moje reálné číslo" },
+  "myBoolean": { "label": "Můj bool" },
+  "myEnum": {
+    "label": "Můj enum",
+    "A": "Možnost A",
+    "B": "Možnost B",
+    "C": "Možnost C"
+  },
+  "myDatetime": { "label": "Můj date-time" },
+  "myDate": { "label": "Moje datum" },
+  "myTime": { "label": "Můj čas" },
+
+
+  "myNullableText": { "label": "Můj text" },
+  "myNullableInteger": {
+    "label": "Moje celé číslo",
+    "description": "Zadejte číslo 0 - 99"
+  },
+  "myNullableNumber": { "label": "Moje reálné číslo" },
+  "myNullableBoolean": { "label": "Můj bool" },
+  "myNullableEnum": {
+    "label": "Můj enum",
+    "A": "Možnost A",
+    "B": "Možnost B",
+    "C": "Možnost C",
+    "null": "Neznámá možnost"
+  },
+  "myNullableDatetime": { "label": "Můj date-time" },
+  "myNullableDate": { "label": "Moje datum" },
+  "myNullableTime": { "label": "Můj čas" }
+
+}

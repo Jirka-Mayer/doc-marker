@@ -1,0 +1,66 @@
+{
+  "type": "VerticalLayout",
+  "elements": [
+    
+    {
+      "type" : "Group",
+      "label": "group.simpleFields",
+      "elements": [
+        { "type": "Control", "scope": "#/properties/myText" },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/myInteger" },
+            { "type": "Control", "scope": "#/properties/myNumber" }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/myBoolean" },
+            { "type": "Control", "scope": "#/properties/myEnum" }
+          ]
+        },
+        { "type": "Control", "scope": "#/properties/myDatetime" },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/myDate" },
+            { "type": "Control", "scope": "#/properties/myTime" }
+          ]
+        }
+      ]
+    },
+
+    {
+      "type" : "Group",
+      "label": "group.nullableFields",
+      "elements": [
+        { "type": "Control", "scope": "#/properties/myNullableText" },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/myNullableInteger" },
+            { "type": "Control", "scope": "#/properties/myNullableNumber" }
+          ]
+        },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/myNullableBoolean" },
+            { "type": "Control", "scope": "#/properties/myNullableEnum" }
+          ]
+        },
+        { "type": "Control", "scope": "#/properties/myNullableDatetime" },
+        {
+          "type": "HorizontalLayout",
+          "elements": [
+            { "type": "Control", "scope": "#/properties/myNullableDate" },
+            { "type": "Control", "scope": "#/properties/myNullableTime" }
+          ]
+        }
+      ]
+    }
+
+  ]
+}

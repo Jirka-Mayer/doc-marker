@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "properties": {
+    
+    "myText": { "type": "string" },
+    "myInteger": { "type": "integer", "minimum": 0, "maximum": 99 },
+    "myNumber": { "type": "number" },
+    "myBoolean": { "type": "boolean" },
+    "myEnum": { "type": "string", "enum": ["A", "B", "C"] },
+    "myDatetime": { "type": "string", "format": "date-time" },
+    "myDate": { "type": "string", "format": "date" },
+    "myTime": { "type": "string", "format": "time" },
+
+    "myNullableText": { "type": ["string", "null"] },
+    "myNullableInteger": { "type": ["integer", "null"], "minimum": 0, "maximum": 99 },
+    "myNullableNumber": { "type": ["number", "null"] },
+    "myNullableBoolean": { "type": ["boolean", "null"] },
+    "myNullableEnum": { "type": ["string", "null"], "enum": ["A", "B", "C", null] },
+    "myNullableDatetime": { "type": ["string", "null"], "format": "date-time" },
+    "myNullableDate": { "type": ["string", "null"], "format": "date" },
+    "myNullableTime": { "type": ["string", "null"], "format": "time" }
+
+  },
+  "required": []
+}

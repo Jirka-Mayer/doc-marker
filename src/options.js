@@ -71,7 +71,7 @@ export const defaultOptions = {
   /**
    * Which form to use by default
    */
-  defaultFormId: "ResQPlus Alpha 1.0"
+  defaultFormId: "DocMarker Testing Form"
 }
 
 export const currentOptions = _.merge({}, defaultOptions)
