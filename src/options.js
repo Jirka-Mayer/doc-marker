@@ -102,8 +102,10 @@ function mergeOptions(current, given) {
   _.merge(current, given)
 
   // overwrite all theme definitions (no recursive merging)
-  current.theme = given.theme
+  if (given.theme)
+    current.theme = given.theme
 
   // overwrite all form definitions (no recursive merging)
-  current.forms = given.forms
+  if (given.forms)
+    current.forms = given.forms
 }

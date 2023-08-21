@@ -1,5 +1,5 @@
 import { Button, Menu, MenuList, MenuItem, ListItemIcon, Typography, Divider } from "@mui/material";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import BugReportIcon from '@mui/icons-material/BugReport'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import ReadMoreIcon from '@mui/icons-material/ReadMore'
@@ -35,6 +35,24 @@ export function ViewMenu() {
     setDisplayDebugInfo(!displayDebugInfo)
     closeMenu()
   }
+
+  // === keyboard shortcuts ===
+
+  const handleKeydown = useCallback((e) => {
+    if (e.key.toLowerCase() === "f12" && e.ctrlKey) {
+      onDisplayDebugInfoClick()
+      e.preventDefault()
+    }
+  })
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeydown)
+    return () => {
+      document.removeEventListener("keydown", handleKeydown)
+    }
+  })
+
+  // === rendering ===
 
   return (
     <>
@@ -94,6 +112,9 @@ export function ViewMenu() {
           </ListItemIcon>
           <Typography variant="inherit">
             { t("view.displayDebugInfo") }
+          </Typography>
+          <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
+            Ctrl + F12
           </Typography>
         </MenuItem>
       </Menu>
