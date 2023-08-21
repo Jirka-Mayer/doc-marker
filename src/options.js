@@ -91,8 +91,19 @@ export function setOptions(givenOptions) {
   }
 
   // initialize to default
-  _.merge(currentOptions, defaultOptions)
+  mergeOptions(currentOptions, defaultOptions)
 
   // override with given
-  _.merge(currentOptions, givenOptions)
+  mergeOptions(currentOptions, givenOptions)
+}
+
+function mergeOptions(current, given) {
+  // do a deep object merge, as this is a sensible default
+  _.merge(current, given)
+
+  // overwrite all theme definitions (no recursive merging)
+  current.theme = given.theme
+
+  // overwrite all form definitions (no recursive merging)
+  current.forms = given.forms
 }
