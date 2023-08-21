@@ -37,7 +37,6 @@
   "tools": {
     "headButton": "Nástroje",
 
-    "fillOutAutomatically": "Vyplnit formulář automaticky",
-    "exportToResq": "Exportovat do registru RES-Q"
+    "fillOutAutomatically": "Vyplnit formulář automaticky"
   }
 }

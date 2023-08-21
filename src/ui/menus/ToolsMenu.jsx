@@ -5,13 +5,10 @@ import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { useAtom } from "jotai"
 import { isFileOpenAtom } from "../../state/fileStore";
 import { runAutomaticExtraction } from "../../state/editor/runAutomaticExtraction";
-import { isOpenAtom as isResqExportDialogOpenAtom } from "../dialogs/ResqExportDialog";
 import { useTranslation } from "react-i18next";
 
 export function ToolsMenu() {
   const { t } = useTranslation("menus")
-
-  const [,setResqExportDialogIsOpen] = useAtom(isResqExportDialogOpenAtom)
 
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -30,11 +27,6 @@ export function ToolsMenu() {
 
   function onNlpExtractionClick() {
     runAutomaticExtraction()
-    closeMenu()
-  }
-
-  function onExportToResqClick() {
-    setResqExportDialogIsOpen(true)
     closeMenu()
   }
 
@@ -57,14 +49,6 @@ export function ToolsMenu() {
           </ListItemIcon>
           <Typography variant="inherit">
             { t("tools.fillOutAutomatically") }
-          </Typography>
-        </MenuItem>
-        <MenuItem disabled={!isFileOpen} onClick={onExportToResqClick}>
-          <ListItemIcon>
-            <LocalShippingIcon />
-          </ListItemIcon>
-          <Typography variant="inherit">
-          { t("tools.exportToResq") }
           </Typography>
         </MenuItem>
       </Menu>

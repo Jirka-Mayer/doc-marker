@@ -6,7 +6,6 @@ import { AppBody } from "./AppBody"
 import JotaiNexus from "../utils/JotaiNexus"
 import { useAtom } from "jotai"
 import * as fileStore from "../state/fileStore"
-import { ResqExportDialog } from "./dialogs/ResqExportDialog"
 import { ChangeLocaleDialog } from "./dialogs/ChangeLocaleDialog"
 import useUnload from "../utils/useUnload"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
@@ -44,11 +43,11 @@ export function Application() {
         </div>
         <div className={styles["status-bar-container"]}>
 
+          {/* Currently only used for debugging: Press Ctrl+F12 to see it */}
           <StatusBar />
 
         </div>
 
-        <ResqExportDialog />
         <ChangeLocaleDialog />
         <CreateFileDialog />
       </ThemeProvider>

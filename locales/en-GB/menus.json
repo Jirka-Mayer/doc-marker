@@ -37,7 +37,6 @@
   "tools": {
     "headButton": "Tools",
 
-    "fillOutAutomatically": "Fill out form automatically",
-    "exportToResq": "Export to RES-Q registry"
+    "fillOutAutomatically": "Fill out form automatically"
   }
 }
