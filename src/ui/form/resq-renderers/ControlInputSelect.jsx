@@ -2,7 +2,27 @@ import * as styles from "./renderers.module.scss"
 import { Select, MenuItem } from "@mui/material"
 import { useMemo } from "react"
 
-const eventToValue = (e) => e.target.value || undefined
+const nullValueConstant = "null-" + Math.random().toString(36).substring(2, 7)
+
+const eventToValue = (e) => {
+  if (e.target.value == "")
+    return undefined
+  
+  if (e.target.value === nullValueConstant)
+    return null
+
+  return e.target.value
+}
+
+const valueToString = (v) => {
+  if (v === undefined)
+    return ""
+
+  if (v === null)
+    return nullValueConstant
+  
+  return "" + v
+}
 
 export function ControlInputSelect(props) {
   const {
@@ -37,7 +57,7 @@ export function ControlInputSelect(props) {
     <div className={styles["field-select-container"]}>
       <Select
         id={htmlId}
-        value={data !== undefined ? data : ''}
+        value={valueToString(data)}
         onChange={onChange}
         onFocus={onFocus}
         fullWidth={true}
@@ -46,7 +66,10 @@ export function ControlInputSelect(props) {
       >
         <MenuItem value={''} key='jsonforms.enum.none'><em>{noneOptionLabel}</em></MenuItem>
         {options.map(optionValue => (
-          <MenuItem value={optionValue.value} key={optionValue.value}>
+          <MenuItem
+            value={valueToString(optionValue.value)}
+            key={valueToString(optionValue.value)}
+          >
             {optionValue.label}
           </MenuItem>
         ))}

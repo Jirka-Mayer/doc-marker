@@ -13,6 +13,7 @@ export function ResqEnumControl(props) {
   return (
     <ResqInputControl
       {...props}
+      ignoreNullability={true}
       controlInput={ControlInputSelect}
     />
   )
