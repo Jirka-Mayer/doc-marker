@@ -1,5 +1,8 @@
 import { AppFile } from "./AppFile"
 import { FileStorageRecord } from "./FileStorageRecord"
+import { currentOptions } from "../../options"
+
+const customizationPrefix = currentOptions.localStoragePrefix
 
 const localStorage = window.localStorage
 
@@ -8,8 +11,8 @@ const localStorage = window.localStorage
  */
 export class FileStorage {
 
-  static FILE_LIST_KEY = "docMarkerFileList"
-  static FILE_KEY_PREFIX = "docMarkerFile/" // + file UUID
+  static FILE_LIST_KEY = customizationPrefix + "docMarkerFileList"
+  static FILE_KEY_PREFIX = customizationPrefix + "docMarkerFile/" // + file UUID
 
   /**
    * Returns the list of stored files

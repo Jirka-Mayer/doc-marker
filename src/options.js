@@ -71,7 +71,13 @@ export const defaultOptions = {
   /**
    * Which form to use by default
    */
-  defaultFormId: "DocMarker Testing Form"
+  defaultFormId: "DocMarker Testing Form",
+
+  /**
+   * Prefix for keys in the local storage
+   * (useful for running multiple customizations from one domain)
+   */
+  localStoragePrefix: "DocMarker::"
 }
 
 export const currentOptions = _.merge({}, defaultOptions)

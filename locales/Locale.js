@@ -2,7 +2,7 @@ import { currentOptions } from "../src/options"
 
 const localeDefinitions = currentOptions.locales
 
-const STORAGE_KEY = "docMarkerCurrentLocale"
+const STORAGE_KEY = currentOptions.localStoragePrefix + "docMarkerCurrentLocale"
 
 function objectMap(object, mapFn) {
   return Object.keys(object).reduce(function(result, key) {
