@@ -1,8 +1,10 @@
-import { atom, useAtom } from "jotai"
+import { atom, useAtom, getDefaultStore } from "jotai"
 import _ from "lodash"
 import { useEffect } from "react"
-import { readAtom, writeAtom } from "../../utils/JotaiNexus"
 import { AtomGroup } from "../AtomGroup"
+
+// lets us manipulate atoms from the non-jotai/react code
+const jotaiStore = getDefaultStore()
 
 /**
  * Event handlers to be implemented by the parent form store
@@ -177,7 +179,7 @@ const triggerExportAtom = atom(
 export function getExportedFormData() {
   const out = {}
   for (const path of Object.keys(exportedValueBaseAtoms.atoms).sort()) {
-    _.set(out, path, readAtom(exportedValueBaseAtoms.atoms[path]))
+    _.set(out, path, jotaiStore.get(exportedValueBaseAtoms.atoms[path]))
   }
   return out
 }
@@ -221,12 +223,12 @@ export function initiateExportRefresh() {
   
   // set all atoms to undefined
   for (const key in exportedValueBaseAtoms.atoms) {
-    writeAtom(exportedValueBaseAtoms.atoms[key], undefined)
+    jotaiStore.set(exportedValueBaseAtoms.atoms[key], undefined)
   }
 
   // console.log("RE-EXPORTING FORM VALUES...")
 
   // trigger export for all components,
   // even those whose value won't change when new form data is set
-  writeAtom(triggerExportAtom)
+  jotaiStore.set(triggerExportAtom)
 }

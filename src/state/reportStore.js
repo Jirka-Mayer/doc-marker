@@ -1,9 +1,11 @@
 import { QuillExtended } from "../quill/QuillExtended"
 import { contentsToHighlights } from "../quill/highlights/contentsToHighlights"
-import { atom } from "jotai"
-import { readAtom, writeAtom } from "../utils/JotaiNexus"
+import { atom, getDefaultStore } from "jotai"
 import { EventEmitter } from "../utils/EventEmitter"
 import _ from "lodash"
+
+// lets us manipulate atoms from the non-jotai/react code
+const jotaiStore = getDefaultStore()
 
 /**
  * Emits events related to the report store
@@ -40,8 +42,8 @@ function handleTextChange(delta, oldContents, source) {
   const contents = quillExtended.getContents()
   let highlights = contentsToHighlights(contents)
   
-  writeAtom(contentBaseAtom, contents)
-  writeAtom(highlightsAtom, highlights)
+  jotaiStore.set(contentBaseAtom, contents)
+  jotaiStore.set(highlightsAtom, highlights)
 
   eventEmitter.emit("reportDeltaChanged", {
     newReportDelta: contents,

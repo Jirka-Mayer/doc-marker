@@ -3,7 +3,6 @@ import { AppBar } from "./AppBar"
 import { WelcomeBody } from "./WelcomeBody"
 import { StatusBar } from "./StatusBar"
 import { AppBody } from "./AppBody"
-import JotaiNexus from "../utils/JotaiNexus"
 import { useAtom } from "jotai"
 import * as fileStore from "../state/fileStore"
 import { ChangeLocaleDialog } from "./dialogs/ChangeLocaleDialog"
@@ -28,7 +27,6 @@ export function Application() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <JotaiNexus />
         <div className={styles["app-bar-container"]}>
           
           <AppBar />
