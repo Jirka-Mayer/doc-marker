@@ -15,7 +15,8 @@
 }
 
 .field-row--active {
-  background: #1976d21c;
+  // overriden by element style to adhere to theming
+  background: #1976d21c; // primary 0.11 alpha
 }
 
 .field-row--verified {

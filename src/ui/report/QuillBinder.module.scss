@@ -23,7 +23,7 @@
   }
 
   ::selection {
-    background: #1976d2c7;
+    background: var(--dm-report-selection-color);
     color: white;
   }
 

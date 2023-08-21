@@ -19,12 +19,16 @@ import {
 import {
   AfterDragMenu as AnnotationAfterDragMenu
 } from "./annotation/AfterDragMenu"
+import { useTheme } from "@emotion/react"
+import { alpha } from "@mui/material"
 
 /**
  * Binds the quill instance with the DOM as a react component
  */
 export function QuillBinder() {
   const { t } = useTranslation("quill")
+
+  const theme = useTheme()
 
   const [appMode] = useAtom(appModeAtom)
   const [activeFieldId] = useAtom(activeFieldIdAtom)
@@ -54,6 +58,31 @@ export function QuillBinder() {
   useEffect(() => {
     quillExtended.quill.root.dataset.placeholder = t("placeholder")
   }, [t])
+
+  // themed colors
+  useEffect(() => {
+    // color for the selected text
+    document.body.style.setProperty(
+      "--dm-report-selection-color",
+      alpha(theme.palette.primary.light, 0.78)
+    )
+
+    // regular highlight
+    document.body.style.setProperty(
+      "--dm-regular-highlight-border",
+      theme.palette.primary.main
+    )
+    
+    // active highlight
+    document.body.style.setProperty(
+      "--dm-active-highlight-border",
+      theme.palette.primary.main
+    )
+    document.body.style.setProperty(
+      "--dm-active-highlight-background",
+      alpha(theme.palette.primary.main, 0.15)
+    )
+  })
 
   // app mode controllers
   useAnonymizationController()

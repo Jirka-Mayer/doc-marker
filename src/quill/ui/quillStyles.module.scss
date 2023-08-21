@@ -31,13 +31,13 @@
 
 @for $i from 0 to 1000 {
   .highlight-#{$i}-yes {
-    border-bottom: 2px solid rgba(#2e7d32, 70%);
+    border-bottom: 2px solid var(--dm-regular-highlight-border);
     padding: 2px 0;
   }
   
   .activate-highlight-#{$i} .highlight-#{$i}-yes {
-    background-color: rgba(#1976d2, 20%);
-    border-bottom: 2px solid #1976d2;
+    background-color: var(--dm-active-highlight-background);
+    border-bottom: 2px solid var(--dm-active-highlight-border);
     
     .annotating-mode & {
       cursor: pointer;

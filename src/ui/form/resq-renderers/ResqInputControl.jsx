@@ -1,5 +1,5 @@
 import * as styles from "./renderers.module.scss"
-import { FormHelperText, InputLabel, Divider, Paper, ToggleButton, InputBase, Tooltip } from "@mui/material"
+import { FormHelperText, InputLabel, Divider, Paper, ToggleButton, InputBase, Tooltip, alpha } from "@mui/material"
 import SmartToyIcon from '@mui/icons-material/SmartToy'
 import CheckIcon from '@mui/icons-material/Check'
 import { useFieldActivity } from "../useFieldActivity"
@@ -9,6 +9,7 @@ import { useMemo } from 'react';
 import { useNullabilityMiddleware } from "../useNullabilityMiddleware"
 import { useExportValue } from "../../../state/formStore"
 import { useHighlightPinButton } from "../useHighlightPinButton"
+import { useTheme } from "@emotion/react"
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure
@@ -128,6 +129,13 @@ export function ResqInputControl(props) {
   // Rendering //
   ///////////////
 
+  const theme = useTheme()
+
+  let fieldBackground = null
+
+  if (isFieldActive)
+    fieldBackground = alpha(theme.palette.primary.main, 0.11)
+
   const unknownValueLabel = useMemo(() => t(
     "unknown.value",
     "Unknown",
@@ -150,11 +158,14 @@ export function ResqInputControl(props) {
         htmlFor={htmlId}
       >{ label || `${fieldId}` }</InputLabel>
       <Divider/>
-      <div className={[
-        styles["field-row"],
-        isFieldActive ? styles["field-row--active"] : "",
-        hasVerifiedAppearance ? styles["field-row--verified"] : ""
-      ].join(" ")}>
+      <div
+        className={[
+          styles["field-row"],
+          isFieldActive ? styles["field-row--active"] : "",
+          hasVerifiedAppearance ? styles["field-row--verified"] : ""
+        ].join(" ")}
+        style={{ background: fieldBackground }}
+      >
 
         {/* Nullability */}
         { isNullable ? (
