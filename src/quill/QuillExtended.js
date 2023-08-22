@@ -382,8 +382,9 @@ export class QuillExtended {
   // ---------- //
 
   getInlineFormatRange(index, formatName, formatValue) {
-    // TODO: DeltaMapper -> map format names (highlight format names)
-    return getInlineFormatRange(this.quill, index, formatName, formatValue)
+    const [internalName, internalValue]
+      = this.deltaMapper.importAttribute(formatName, formatValue)
+    return getInlineFormatRange(this.quill, index, internalName, internalValue)
   }
 
   // Anonymization //
