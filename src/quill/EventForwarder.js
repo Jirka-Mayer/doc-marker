@@ -23,8 +23,8 @@ export class EventForwarder {
   }
 
   onInternalTextChange(internalDelta, internalOldContents, source) {
-    const externalDelta = this.deltaMapper.export(internalDelta)
-    const externalOldContents = this.deltaMapper.export(internalOldContents)
+    const externalDelta = this.deltaMapper.exportDelta(internalDelta)
+    const externalOldContents = this.deltaMapper.exportDelta(internalOldContents)
     this.eventEmitter.emit(
       "text-change",
       externalDelta,

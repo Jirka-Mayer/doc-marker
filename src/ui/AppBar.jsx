@@ -128,13 +128,12 @@ export function AppBar() {
         </div>
       </div>
 
-      {/* Keep the toolbar closed for now */}
-      {/* { isFileOpen ? <>
+      { (isFileOpen && appMode === AppMode.EDIT_TEXT) ? <>
         <Divider />
         <div className={styles["appbar__toolbar"]}>
           <Toolbar />
         </div>
-      </> : null } */}
+      </> : null }
 
     </Paper>
   )

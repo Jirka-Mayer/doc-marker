@@ -1,0 +1,12 @@
+{
+  "undo": "Zpět",
+  "redo": "Znovu",
+
+  "bold": "Tučně",
+  "italic": "Kurzívou",
+  "underline": "Podtrhnout",
+  "strikethrough": "Přeškrtnout",
+  "header": "Nadpis",
+  "normalText": "Běžný text",
+  "clearFormat": "Odstranit formátování"
+}

@@ -1,5 +1,5 @@
 import { IdToNumberAllocator } from "./utils/IdToNumberAllocator"
-import { mapDeltaAttributes } from "./utils/mapDeltaAttributes"
+import { mapDeltaAttributes, mapAttributesObject } from "./utils/mapDeltaAttributes"
 
 /**
  * Provides delta-mapping functionality for the extended quill specifically
@@ -13,35 +13,65 @@ export class DeltaMapper {
   /**
    * Converts internal representation delta to the external representation delta
    */
-  export(internalDelta) {
-    const externalDelta = mapDeltaAttributes(
+  exportDelta(internalDelta) {
+    return mapDeltaAttributes(
       internalDelta,
-      (key, value) => {
-        if (this.isInternalHighlightAttribute(key))
-          return this.exportHighlightAttribute(key, value)
-      
-        return [key, value]
-      }
+      this.exportAttribute.bind(this)
     )
+  }
 
-    return externalDelta
+  /**
+   * Converts internal representation attributes object (the object returned
+   * by getFormat) to the external representation attributes object
+   */
+  exportAttributesObject(attributesObject) {
+    return mapAttributesObject(
+      attributesObject,
+      this.exportAttribute.bind(this)
+    )
+  }
+
+  /**
+   * Converts internal key value attribute pair (format and its value) to
+   * the external representation of that pair
+   */
+  exportAttribute(key, value) {
+    if (this.isInternalHighlightAttribute(key))
+      return this.exportHighlightAttribute(key, value)
+  
+    return [key, value]
   }
 
   /**
    * Converts external representation delta to the internal representation delta
    */
-  import(externalDelta) {
-    const internalDelta = mapDeltaAttributes(
+  importDelta(externalDelta) {
+    return mapDeltaAttributes(
       externalDelta,
-      (key, value) => {
-        if (this.isExternalHighlightAttribute(key))
-          return this.importHighlightAttribute(key, value)
-
-        return [key, value]
-      }
+      this.importAttribute.bind(this)
     )
+  }
 
-    return internalDelta
+  /**
+   * Converts external representation attributes object (the object returned
+   * by getFormat) to the internal representation attributes object
+   */
+  importAttributesObject(attributesObject) {
+    return mapAttributesObject(
+      attributesObject,
+      this.importAttribute.bind(this)
+    )
+  }
+
+  /**
+   * Converts external key value attribute pair (format and its value) to
+   * the internal representation of that pair
+   */
+  importAttribute(key, value) {
+    if (this.isExternalHighlightAttribute(key))
+      return this.importHighlightAttribute(key, value)
+
+    return [key, value]
   }
 
 

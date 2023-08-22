@@ -103,7 +103,7 @@ export class QuillExtended {
       placeholder: "Paste source text in here...",
       formats: [
         // inline
-        "bold", "italic", "underline", "strike", "script",
+        "bold", "italic", "underline", "strike",
         
         // block
         "header",
@@ -193,7 +193,7 @@ export class QuillExtended {
 
   getContents(index, length = undefined) {
     const internalDelta = this.quill.getContents(index, length)
-    const externalDelta = this.deltaMapper.export(internalDelta)
+    const externalDelta = this.deltaMapper.exportDelta(internalDelta)
     return externalDelta
   }
 
@@ -211,7 +211,7 @@ export class QuillExtended {
 
   setContents(delta, source = "api") {
     // import content
-    const internalDelta = this.deltaMapper.import(delta)
+    const internalDelta = this.deltaMapper.importDelta(delta)
     this.quill.setContents(internalDelta, source)
 
     // release unused allocator numbers
@@ -232,17 +232,54 @@ export class QuillExtended {
   // Formatting //
   // ---------- //
 
-  // TODO: DeltaMapper -> map format names (highlight format names)
+  format(name, value, source = "api") {
+    const [nameInternal, valueInternal]
+      = this.deltaMapper.importAttribute(name, value)
 
-  // MISSING: format
+    this.quill.format(nameInternal, valueInternal, source)
 
-  // MISSING: formatLine
+    // custom event that triggers react to re-render active formats
+    this.eventEmitter.emit("format-change", this.getFormat())
+  }
 
-  // MISSING: formatText
+  formatLine(range, formats, source = "api") {
+    const internalFormats = this.deltaMapper.importAttributesObject(formats)
+    this.quill.formatLine(range.index, range.length, internalFormats, source)
+  }
 
-  // MISSING: getFormat
+  formatText(range, formats, source = "api") {
+    const internalFormats = this.deltaMapper.importAttributesObject(formats)
+    this.quill.formatText(range.index, range.length, internalFormats, source)
+  }
 
-  // MISSING: removeFormat
+  getFormat(range) {
+    if (this.quill.getSelection() === null)
+      return {}
+
+    const formatsInternal = this.quill.getFormat(range)
+    return this.deltaMapper.exportAttributesObject(formatsInternal)
+  }
+
+  removeFormat(range, source = "api") {
+    if (!range)
+      range = this.getSelection()
+    
+    if (!range)
+      return
+    
+    // we cannot just remove all formats because that would remove
+    // anonymizations and highlights as well. We need to explicitly disable
+    // all possible formats by removing them.
+    this.formatText(range, {
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "strike": false
+    }, source)
+    this.formatLine(range, {
+      "header": false
+    }, source)
+  }
 
   // Selection //
   // --------- //

@@ -19,7 +19,7 @@ export function mapDeltaAttributes(delta, mapFunction) {
   }
 }
 
-function mapAttributesObject(attributes, mapFunction) {
+export function mapAttributesObject(attributes, mapFunction) {
   const mappedAttributes = {}
   
   for (const key in attributes) {

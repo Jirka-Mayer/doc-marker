@@ -1,0 +1,12 @@
+{
+  "undo": "Undo",
+  "redo": "Redo",
+
+  "bold": "Bold",
+  "italic": "Italic",
+  "underline": "Underline",
+  "strikethrough": "Strikethrough",
+  "header": "Heading",
+  "normalText": "Normal text",
+  "clearFormat": "Clear formatting"
+}

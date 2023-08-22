@@ -6,6 +6,7 @@ import quill from "./quill.json"
 import menus from "./menus.json"
 import appbar from "./appbar.json"
 import createFileDialog from "./createFileDialog.json"
+import toolbar from "./toolbar.json"
 
 import "moment/locale/en-gb"
 
@@ -17,5 +18,6 @@ export {
   quill,
   menus,
   appbar,
-  createFileDialog
+  createFileDialog,
+  toolbar
 }

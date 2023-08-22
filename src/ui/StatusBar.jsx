@@ -1,9 +1,11 @@
 import { Typography, useTheme } from "@mui/material";
 import { useAtom } from "jotai";
-import { activeFieldIdAtom } from "../state/editorStore";
+import { activeFieldIdAtom, appModeAtom } from "../state/editorStore";
 import { fileUuidAtom } from "../state/fileStore";
 import { displayDebugInfoAtom } from "../state/userPreferencesStore";
 import * as formStore from "../state/formStore"
+import * as reportStore from "../state/reportStore"
+import { AppMode } from "../state/editor/AppMode";
 
 /**
  * A debugging-only bar at the bottom of the application.
@@ -13,9 +15,13 @@ export function StatusBar() {
 
   const [displayDebugInfo] = useAtom(displayDebugInfoAtom)
   
-  const [activeFieldId] = useAtom(activeFieldIdAtom)
+  const [appMode] = useAtom(appModeAtom)
   const [fileUuid] = useAtom(fileUuidAtom)
-
+  
+  const [formats] = useAtom(reportStore.selectionFormatsAtom)
+  const [selection] = useAtom(reportStore.selectionRangeAtom)
+  
+  const [activeFieldId] = useAtom(activeFieldIdAtom)
   const activeFieldValue = formStore.useGetExportedValue(activeFieldId)
 
   ////////////
@@ -34,12 +40,22 @@ export function StatusBar() {
       <Typography variant="body2" component="p">
 
         <strong>File UUID:</strong> {fileUuid || "null"}
-        &nbsp;&nbsp;•&nbsp;&nbsp;
-        <strong>Active field ID:</strong> {activeFieldId || "null"}
-        &nbsp;&nbsp;•&nbsp;&nbsp;
-        <strong>Active field value:</strong> {
-          activeFieldValue === undefined ? "undefined" : JSON.stringify(activeFieldValue)
-        }
+        
+        { appMode === AppMode.EDIT_TEXT && <>
+          &nbsp;&nbsp;•&nbsp;&nbsp;
+          <strong>Selection:</strong> { JSON.stringify(selection) }
+          &nbsp;&nbsp;•&nbsp;&nbsp;
+          <strong>Formats:</strong> { JSON.stringify(formats) }
+        </>}
+
+        { appMode === AppMode.ANNOTATE_HIGHLIGHTS && <>
+          &nbsp;&nbsp;•&nbsp;&nbsp;
+          <strong>Active field ID:</strong> {activeFieldId || "null"}
+          &nbsp;&nbsp;•&nbsp;&nbsp;
+          <strong>Active field value:</strong> {
+            activeFieldValue === undefined ? "undefined" : JSON.stringify(activeFieldValue)
+          }
+        </>}
 
       </Typography>
     </div>
