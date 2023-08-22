@@ -46,6 +46,7 @@ export class QuillExtended {
     this.quill = this._constructQuillInstance()
     this._addClipboardMatchers()
     this._preventDefaultOnHistoryShortcuts()
+    this._preventDefaultFormattingShortcuts()
 
     // allocators
     this.highlightsAllocator = new IdToNumberAllocator(
@@ -133,6 +134,21 @@ export class QuillExtended {
         e.preventDefault()
       }
       if (e.key.toLowerCase() === "y" && e.ctrlKey) {
+        e.preventDefault()
+      }
+    }, { capture: true })
+  }
+
+  _preventDefaultFormattingShortcuts() {
+    // These shortcuts are implemented by the Format menu instead
+    this.quillElement.addEventListener("keydown", (e) => {
+      if (e.key.toLowerCase() === "b" && e.ctrlKey) {
+        e.preventDefault()
+      }
+      if (e.key.toLowerCase() === "i" && e.ctrlKey) {
+        e.preventDefault()
+      }
+      if (e.key.toLowerCase() === "u" && e.ctrlKey) {
         e.preventDefault()
       }
     }, { capture: true })

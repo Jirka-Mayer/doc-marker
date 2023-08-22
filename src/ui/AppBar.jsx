@@ -27,6 +27,7 @@ import { useState } from "react"
 import { AppFile } from "../state/file/AppFile"
 import * as autosaveStore from "../state/autosaveStore"
 import { currentOptions } from "../options"
+import { FormatMenu } from "./menus/FormatMenu"
 
 export function AppBar() {
   const { t } = useTranslation("appbar")
@@ -98,9 +99,7 @@ export function AppBar() {
             <FileMenu />
             <EditMenu />
             <ViewMenu />
-            <Button disabled={true} size="small">
-            { t("menus:format.headButton") }
-            </Button>
+            <FormatMenu />
             <ToolsMenu />
           </div>
         </div>

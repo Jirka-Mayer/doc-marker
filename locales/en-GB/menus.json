@@ -31,7 +31,15 @@
   },
 
   "format": {
-    "headButton": "Format"
+    "headButton": "Format",
+
+    "bold": "Bold",
+    "italic": "Italic",
+    "underline": "Underline",
+    "strikethrough": "Strikethrough",
+    "header": "Heading",
+    "normalText": "Normal text",
+    "clearFormat": "Clear formatting"
   },
 
   "tools": {
