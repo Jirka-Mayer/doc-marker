@@ -15,7 +15,7 @@ export function ControlInputInteger(props) {
     uischema,
     t,
 
-    // resq
+    // DocMarker
     htmlId,
     onFocus,
     observeChange

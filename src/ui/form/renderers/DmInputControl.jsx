@@ -17,7 +17,7 @@ import { useTheme } from "@emotion/react"
  * The control "input" element is passed as a prop "controlInput"
  * and inside used as "InnerComponent"
  */
-export function ResqInputControl(props) {
+export function DmInputControl(props) {
   const {
     data,
     label,

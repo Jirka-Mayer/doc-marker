@@ -1,9 +1,9 @@
 import { rankWith, uiTypeIs } from '@jsonforms/core'
 import { withJsonFormsLayoutProps } from '@jsonforms/react'
 import { Typography } from '@mui/material'
-import ResqLinearLayout from "./ResqLinearLayout"
+import DmLinearLayout from "./DmLinearLayout"
 
-function ResqGroupLayout(props) {
+function DmGroupLayout(props) {
   const {
     label,
     visible
@@ -18,11 +18,11 @@ function ResqGroupLayout(props) {
       >
         {label || "[missing group label]"}
       </Typography>
-      <ResqLinearLayout {...props} />
+      <DmLinearLayout {...props} />
     </>
   )
 }
 
-export default withJsonFormsLayoutProps(ResqGroupLayout)
+export default withJsonFormsLayoutProps(DmGroupLayout)
 
-export const resqGroupTester = rankWith(1, uiTypeIs("Group"))
+export const dmGroupTester = rankWith(1, uiTypeIs("Group"))

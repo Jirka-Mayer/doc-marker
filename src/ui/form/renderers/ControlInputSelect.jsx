@@ -35,7 +35,7 @@ export function ControlInputSelect(props) {
     options,
     t,
 
-    // resq
+    // DocMarker
     htmlId,
     onFocus,
     observeChange,

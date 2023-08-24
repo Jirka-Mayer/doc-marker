@@ -3,34 +3,28 @@
   https://github.com/eclipsesource/jsonforms/blob/master/packages/material-renderers/src
 */
 
-import { resqLinearLayoutTester, ResqLinearLayout } from "./resq-renderers"
-import { resqGroupTester, ResqGroupLayout } from "./resq-renderers"
-import { resqTextControlTester, ResqTextControl } from "./resq-renderers"
-import { resqIntegerControlTester, ResqIntegerControl } from "./resq-renderers"
-import { resqNumberControlTester, ResqNumberControl } from "./resq-renderers"
-import { resqBooleanControlTester, ResqBooleanControl } from "./resq-renderers"
-import { resqEnumControlTester, ResqEnumControl } from "./resq-renderers"
-import { resqDateTimeControlTester, ResqDateTimeControl } from "./resq-renderers"
-import { resqMultiselectGroupTester, ResqMultiselectGroup } from "./resq-renderers"
-import { resqPostAcuteFindingsGroupTester, ResqPostAcuteFindingsGroup } from "./resq-renderers"
+import { dmLinearLayoutTester, DmLinearLayout } from "./renderers"
+import { dmGroupTester, DmGroupLayout } from "./renderers"
+import { dmTextControlTester, DmTextControl } from "./renderers"
+import { dmIntegerControlTester, DmIntegerControl } from "./renderers"
+import { dmNumberControlTester, DmNumberControl } from "./renderers"
+import { dmBooleanControlTester, DmBooleanControl } from "./renderers"
+import { dmEnumControlTester, DmEnumControl } from "./renderers"
+import { dmDateTimeControlTester, DmDateTimeControl } from "./renderers"
 
 export const formRenderers = [
   
   // DocMarker controls
-  { tester: resqTextControlTester, renderer: ResqTextControl },
-  { tester: resqIntegerControlTester, renderer: ResqIntegerControl },
-  { tester: resqNumberControlTester, renderer: ResqNumberControl },
-  { tester: resqBooleanControlTester, renderer: ResqBooleanControl },
-  { tester: resqEnumControlTester, renderer: ResqEnumControl },
-  { tester: resqDateTimeControlTester, renderer: ResqDateTimeControl },
-  
-  // ResQPlus controls
-  { tester: resqMultiselectGroupTester, renderer: ResqMultiselectGroup },
-  { tester: resqPostAcuteFindingsGroupTester, renderer: ResqPostAcuteFindingsGroup },
+  { tester: dmTextControlTester, renderer: DmTextControl },
+  { tester: dmIntegerControlTester, renderer: DmIntegerControl },
+  { tester: dmNumberControlTester, renderer: DmNumberControl },
+  { tester: dmBooleanControlTester, renderer: DmBooleanControl },
+  { tester: dmEnumControlTester, renderer: DmEnumControl },
+  { tester: dmDateTimeControlTester, renderer: DmDateTimeControl },
 
   // DocMarker layouts
-  { tester: resqGroupTester, renderer: ResqGroupLayout },
-  { tester: resqLinearLayoutTester, renderer: ResqLinearLayout },
+  { tester: dmGroupTester, renderer: DmGroupLayout },
+  { tester: dmLinearLayoutTester, renderer: DmLinearLayout },
 
 ]
 

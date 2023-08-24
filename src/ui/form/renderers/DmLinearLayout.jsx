@@ -29,7 +29,7 @@ function renderLayoutElements(props, elements) {
   ))
 }
 
-function ResqLinearLayout(props) {
+function DmLinearLayout(props) {
   const {
     uischema,
     visible
@@ -53,9 +53,9 @@ function ResqLinearLayout(props) {
   )
 }
 
-export default withJsonFormsLayoutProps(ResqLinearLayout)
+export default withJsonFormsLayoutProps(DmLinearLayout)
 
-export const resqLinearLayoutTester = rankWith(
+export const dmLinearLayoutTester = rankWith(
   1,
   or(uiTypeIs("VerticalLayout"), uiTypeIs("HorizontalLayout"))
 )

@@ -19,6 +19,15 @@
     "parcel": "^2.8.0"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "process": "^0.11.10",
+    "quill": "^1.3.6",
+    "sharp": "^0.32.1",
+    "uuid": "^9.0.0"
+  },
+  "peerDependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@jsonforms/core": "^3.0.0",
@@ -27,17 +36,10 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.3",
     "@mui/x-date-pickers": "^6.0.4",
-    "buffer": "^6.0.3",
     "i18next": "^23.2.3",
     "jotai": "^2.2.1",
-    "lodash": "^4.17.21",
-    "moment": "^2.29.4",
-    "process": "^0.11.10",
-    "quill": "^1.3.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-i18next": "^13.0.1",
-    "sharp": "^0.32.1",
-    "uuid": "^9.0.0"
+    "react-i18next": "^13.0.1"
   }
 }

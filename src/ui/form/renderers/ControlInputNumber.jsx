@@ -15,7 +15,7 @@ export function ControlInputNumber(props) {
     uischema,
     t,
 
-    // resq
+    // DocMarker
     htmlId,
     onFocus,
     observeChange

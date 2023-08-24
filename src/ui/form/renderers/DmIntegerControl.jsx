@@ -1,24 +1,24 @@
 import React from "react"
 import { isIntegerControl, rankWith } from "@jsonforms/core"
 import { withJsonFormsControlProps, withTranslateProps } from "@jsonforms/react"
-import { ResqInputControl } from "./ResqInputControl"
+import { DmInputControl } from "./DmInputControl"
 import { ControlInputInteger } from "./ControlInputInteger"
 
-export function ResqIntegerControl(props) {
+export function DmIntegerControl(props) {
   return (
-    <ResqInputControl
+    <DmInputControl
       {...props}
       controlInput={ControlInputInteger}
     />
   )
 }
 
-export const resqIntegerControlTester = rankWith(
+export const dmIntegerControlTester = rankWith(
   2, isIntegerControl
 )
 
 export default withJsonFormsControlProps(
   withTranslateProps( // passes in the "t" prop
-    React.memo(ResqIntegerControl)
+    React.memo(DmIntegerControl)
   )
 )

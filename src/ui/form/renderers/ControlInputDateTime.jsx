@@ -51,7 +51,7 @@ export function ControlInputDateTime(props) {
     handleChange,
     schema,
 
-    // resq
+    // DocMarker
     htmlId,
     onFocus,
     observeChange

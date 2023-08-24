@@ -1,29 +1,29 @@
 import React from "react"
 import { or, isDateControl, isTimeControl, isDateTimeControl, rankWith } from "@jsonforms/core"
 import { withJsonFormsControlProps, withTranslateProps } from "@jsonforms/react"
-import { ResqInputControl } from "./ResqInputControl"
+import { DmInputControl } from "./DmInputControl"
 import { ControlInputDateTime } from "./ControlInputDateTime"
 
-export function ResqDateTimeControl(props) {
+export function DmDateTimeControl(props) {
   const {
     schema,
     uischema
   } = props
 
   return (
-    <ResqInputControl
+    <DmInputControl
       {...props}
       controlInput={ControlInputDateTime}
     />
   )
 }
 
-export const resqDateTimeControlTester = rankWith(
+export const dmDateTimeControlTester = rankWith(
   2, or(isDateControl, isTimeControl, isDateTimeControl)
 )
 
 export default withJsonFormsControlProps( // passes in the "options" prop
   withTranslateProps( // passes in the "t" prop
-    React.memo(ResqDateTimeControl)
+    React.memo(DmDateTimeControl)
   )
 )

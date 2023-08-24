@@ -27,7 +27,7 @@ export function ControlInputBoolean(props) {
     uischema,
     t,
 
-    // resq
+    // DocMarker
     htmlId,
     onFocus,
     observeChange,
