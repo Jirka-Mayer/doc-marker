@@ -1,5 +1,4 @@
-import { formRenderers, formCells } from "./formRenderersAndCells"
-import { materialRenderers } from "@jsonforms/material-renderers"
+import { currentOptions } from "../../options"
 import { JsonForms } from "@jsonforms/react"
 import { useAtom } from "jotai"
 import { useCallback, useEffect, useMemo, useState } from "react"
@@ -17,6 +16,8 @@ export function Form() {
   const [formId] = useAtom(formStore.formIdAtom)
   const [dataSchema, setDataSchema] = useState({})
   const [uiSchema, setUiSchema] = useState({})
+  const [formRenderers, setFormRenderers] = useState([])
+  const [formCells, setFormCells] = useState([])
 
   const [formErrors, setFormErrors] = useAtom(formStore.formErrorsAtom)
   const [formData, setFormData] = useAtom(formStore.formDataRenderingAtom)
@@ -41,12 +42,20 @@ export function Form() {
     // the asynchronous form reload
     setLoading(true);
     setTimeout(async function() {
+      
+      // load renderers and cells
+      setFormRenderers(await currentOptions.formRenderersImporter())
+      setFormCells(await currentOptions.formCellsImporter())
+      
+      // load form definition
       const form = await FormDefinition.load(formId)
       await form.loadTranslation(i18n)
-      
       setDataSchema(form.dataSchema)
       setUiSchema(form.uiSchema)
+
+      // done
       setLoading(false)
+      
     }, 100) // delay so that the spinner has time to appear
   }, [formId, i18n.language]) // reload on form or language change
 
@@ -105,7 +114,6 @@ export function Form() {
           uischema={uiSchema}
           data={formData}
           renderers={formRenderers}
-          // renderers={materialRenderers}
           cells={formCells}
           onChange={({ data, errors }) => {
             setFormData(data)

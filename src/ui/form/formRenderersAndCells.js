@@ -15,23 +15,23 @@ import { resqMultiselectGroupTester, ResqMultiselectGroup } from "./resq-rendere
 import { resqPostAcuteFindingsGroupTester, ResqPostAcuteFindingsGroup } from "./resq-renderers"
 
 export const formRenderers = [
-  // controls
-  //{ tester: materialTextControlTester, renderer: MaterialTextControl },
-  //{ tester: materialIntegerControlTester, renderer: MaterialIntegerControl },
-
-  // resq controls
+  
+  // DocMarker controls
   { tester: resqTextControlTester, renderer: ResqTextControl },
   { tester: resqIntegerControlTester, renderer: ResqIntegerControl },
   { tester: resqNumberControlTester, renderer: ResqNumberControl },
   { tester: resqBooleanControlTester, renderer: ResqBooleanControl },
   { tester: resqEnumControlTester, renderer: ResqEnumControl },
   { tester: resqDateTimeControlTester, renderer: ResqDateTimeControl },
+  
+  // ResQPlus controls
   { tester: resqMultiselectGroupTester, renderer: ResqMultiselectGroup },
   { tester: resqPostAcuteFindingsGroupTester, renderer: ResqPostAcuteFindingsGroup },
 
-  // layouts
+  // DocMarker layouts
   { tester: resqGroupTester, renderer: ResqGroupLayout },
   { tester: resqLinearLayoutTester, renderer: ResqLinearLayout },
+
 ]
 
 export const formCells = []

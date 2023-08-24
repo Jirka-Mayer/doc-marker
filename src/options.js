@@ -74,6 +74,20 @@ export const defaultOptions = {
   defaultFormId: "DocMarker Testing Form",
 
   /**
+   * Json Forms renderers importer
+   * (async so that components get imported after options are set)
+   */
+  formRenderersImporter: async () =>
+    (await import("./ui/form/formRenderersAndCells")).formRenderers,
+
+  /**
+   * Json Forms cells importer
+   * (async so that components get imported after options are set)
+   */
+  formCellsImporter: async () =>
+    (await import("./ui/form/formRenderersAndCells")).formCells,
+
+  /**
    * Prefix for keys in the local storage
    * (useful for running multiple customizations from one domain)
    */
