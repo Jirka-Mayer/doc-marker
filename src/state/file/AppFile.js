@@ -1,3 +1,4 @@
+import { currentOptions } from "../../options"
 import * as uuid from "uuid"
 import * as packageJson from "../../../package.json"
 import { AppMode } from "../editor/AppMode"
@@ -8,11 +9,6 @@ const DOC_MARKER_VERSION = packageJson.version
  * Represents the file that is loaded and edited by the application
  */
 export class AppFile {
-  
-  /**
-   * Current version of the file, that the application works with
-   */
-  static CURRENT_VERSION = 1
 
   constructor(body) {
     /**
@@ -33,9 +29,12 @@ export class AppFile {
 
   static createNewEmpty(formId) {
     const now = new Date()
-    return AppFile.fromJson({
-      "_version": AppFile.CURRENT_VERSION,
+    
+    let fileJson = {
+      "_version": currentOptions.file.currentVersion,
       "_docMarkerVersion": DOC_MARKER_VERSION,
+      "_docMarkerCustomizationVersion": currentOptions.customization.version,
+      "_docMarkerCustomizationName": currentOptions.customization.name,
     
       "_uuid": this.generateNewUuid(),
       "_fileName": "",
@@ -50,7 +49,11 @@ export class AppFile {
       "_reportDelta": { ops: [] },
       "_reportText": "",
       "_highlights": {},
-    })
+    }
+
+    fileJson = currentOptions.file.onCreateEmpty(fileJson)
+
+    return AppFile.fromJson(fileJson)
   }
 
   toJson() {
@@ -68,7 +71,7 @@ export class AppFile {
   validate() {
     const json = this.body
 
-    if (json["_version"] !== AppFile.CURRENT_VERSION)
+    if (json["_version"] !== currentOptions.file.currentVersion)
       throw new Error("Invalid file version: " + json["_version"])
     
     if (!json["_uuid"])

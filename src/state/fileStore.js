@@ -1,3 +1,4 @@
+import { currentOptions } from "../options"
 import { atom, getDefaultStore } from "jotai"
 import { AppFile } from "../state/file/AppFile"
 import { AppMode } from "./editor/AppMode"
@@ -8,6 +9,8 @@ import * as formStore from "./formStore"
 import * as editorStore from "./editorStore"
 import * as historyStore from "./historyStore"
 import * as packageJson from "../../package.json"
+import { optionIs } from "@jsonforms/core"
+import { Migration } from "./file/Migration"
 
 const DOC_MARKER_VERSION = packageJson.version
 
@@ -60,10 +63,12 @@ export const fileCreatedAtAtom = atom(get => get(fileCreatedAtBaseAtom))
 function serializeToFile() {
   if (!jotaiStore.get(isFileOpenAtom))
     return null
-
-  return AppFile.fromJson({
-    "_version": AppFile.CURRENT_VERSION,
+  
+  let fileJson = {
+    "_version": currentOptions.file.currentVersion,
     "_docMarkerVersion": DOC_MARKER_VERSION,
+    "_docMarkerCustomizationVersion": currentOptions.customization.version,
+    "_docMarkerCustomizationName": currentOptions.customization.name,
     
     "_uuid": jotaiStore.get(fileUuidAtom),
     "_fileName": jotaiStore.get(fileNameAtom),
@@ -78,7 +83,11 @@ function serializeToFile() {
     "_reportDelta": jotaiStore.get(reportStore.contentAtom),
     "_reportText": reportStore.quillExtended.getText(),
     "_highlights": jotaiStore.get(reportStore.highlightsAtom),
-  })
+  }
+
+  fileJson = currentOptions.file.onSerialize(fileJson)
+
+  return AppFile.fromJson(fileJson)
 }
 
 /**
@@ -92,10 +101,11 @@ function deserializeFromFile(appFile) {
     return
   }
 
-  const json = appFile.toJson()
+  let json = appFile.toJson()
 
-  if (json["_version"] !== AppFile.CURRENT_VERSION)
-    throw new Error("File to be deserialized must have the latest version number")
+  json = Migration.runMigrations(json, currentOptions.file.migrations)
+
+  // === deserialize state ===
 
   jotaiStore.set(fileUuidBaseAtom, json["_uuid"])
   jotaiStore.set(fileNameAtom, json["_fileName"])
@@ -110,6 +120,9 @@ function deserializeFromFile(appFile) {
 
   reportStore.quillExtended.setContents(json["_reportDelta"], "api")
   // _reportText and _highlights are ignored, since they are computable from delta
+
+  // let the customization deserialize its own additional state
+  currentOptions.file.onDeserialize(json)
 }
 
 

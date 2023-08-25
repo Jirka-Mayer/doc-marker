@@ -17,6 +17,7 @@ export async function importStateApi() {
     AtomGroup: (await import("./state/AtomGroup")).AtomGroup,
     FieldState: (await import("./state/form/FieldState")).FieldState,
     AppMode: (await import("./state/editor/AppMode")).AppMode,
-    AppFile: (await import("./state/file/AppFile")).AppFile
+    AppFile: (await import("./state/file/AppFile")).AppFile,
+    Migration: (await import("./state/file/Migration")).Migration
   })
 }

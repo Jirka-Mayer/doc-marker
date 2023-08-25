@@ -91,7 +91,55 @@ export const defaultOptions = {
    * Prefix for keys in the local storage
    * (useful for running multiple customizations from one domain)
    */
-  localStoragePrefix: "DocMarker::"
+  localStoragePrefix: "DocMarker::",
+
+  /**
+   * Options regarding file (de)serialization
+   */
+  file: {
+
+    /**
+     * What version is the app currently storing
+     * (can be int or string, whatever the migrations accept, can even be ignored)
+     */
+    currentVersion: 1,
+
+    /**
+     * A set of migrations to be applied to a loaded file.
+     * They are all tested and run in a loop until no more test positive.
+     */
+    migrations: [
+      /* Example migration definition */
+      // {
+      //   title: "My migration v1 -> v2",
+      //   test: (fileJson) => fileJson["_version"] === 1,
+      //   run: (fileJson) => {
+      //     fileJson["_version"] = 2
+      //     fileJson["foo"] = "bar"
+      //     return fileJson
+      //   }
+      // }
+    ],
+
+    /**
+     * Callback that lets you modify the file when being saved,
+     * for example by adding custom state
+     */
+    onSerialize: (fileJson) => fileJson,
+
+    /**
+     * Callback that lets you modify a file when an empty one is being created,
+     * for example to initialize custom state to its default values.
+     * Deserialization is performed after the empty file is created.
+     */
+    onCreateEmpty: (fileJson) => fileJson,
+
+    /**
+     * Callback that is called on file loading, that lets you load custom state
+     */
+    onDeserialize: (fileJson) => {}
+
+  }
 }
 
 export const currentOptions = _.merge({}, defaultOptions)
