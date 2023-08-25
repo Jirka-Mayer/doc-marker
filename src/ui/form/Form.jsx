@@ -6,8 +6,9 @@ import { FormDefinition } from "../../../forms/FormDefinition"
 import * as formStore from "../../state/formStore"
 import * as userPreferencesStore from "../../state/userPreferencesStore"
 import { useTranslation } from "react-i18next"
-import { CircularProgress } from "@mui/material"
+import { CircularProgress, Typography } from "@mui/material"
 import { usePreventScrollOverNumberFields } from "./usePreventScrollOverNumberFields"
+import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import { createAjv } from "@jsonforms/core"
 
 export function Form() {
@@ -84,6 +85,8 @@ export function Form() {
 
   // === Rendering ===
 
+  const { t } = useTranslation("formGlobal")
+
   if (isLoading) {
     return (
       <div style={{
@@ -125,6 +128,14 @@ export function Form() {
           }}
         />
       )}
+
+      {/* Form footer */}
+      <div style={{ margin: "128px auto 256px auto", color: "rgba(0, 0, 0, 0.3)", textAlign: "center" }}>
+        <LocalFloristIcon sx={{ fontSize: 48 }} />
+        <Typography variant="body1">
+          { t("thankYouMessage") }
+        </Typography>
+      </div>
 
       { displayDebugInfo ? <>
         <pre>FormID: { JSON.stringify(formId, null, 2) }</pre>
