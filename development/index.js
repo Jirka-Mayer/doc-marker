@@ -1,4 +1,4 @@
-import { bootstrapDocMarker } from "../index.js" // like "doc-marker"
+import { bootstrapDocMarker } from "../src/index.js" // like "doc-marker"
 
 bootstrapDocMarker({
   element: document.getElementById("doc-marker"),

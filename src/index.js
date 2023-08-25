@@ -1,14 +1,14 @@
-import { defaultOptions, currentOptions, setOptions } from "./src/options"
+import * as options from "./options"
 import { createRoot } from "react-dom/client"
-import * as styles from "./src/ui/Application.module.scss"
-import { bootstrapLocalization } from "./src/i18n"
+import * as styles from "./ui/Application.module.scss"
+import { bootstrapLocalization } from "./i18n"
 
-export const defaultOptions = defaultOptions
+export const defaultOptions = options.defaultOptions
 
-export const currentOptions = currentOptions
+export const currentOptions = options.currentOptions
 
 export async function bootstrapDocMarker(givenOptions) {
-  setOptions(givenOptions)
+  options.setOptions(givenOptions)
 
   if (!givenOptions.element) {
     throw new Error("Missing `element` in the options object.")
@@ -18,7 +18,7 @@ export async function bootstrapDocMarker(givenOptions) {
   await bootstrapLocalization()
   
   // defered import so that options are already set when the application is imported
-  const { Application } = await import("./src/ui/Application")
+  const { Application } = await import("./ui/Application")
 
   // create and bind the application
   const root = createRoot(currentOptions.element)
