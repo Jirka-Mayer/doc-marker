@@ -33,7 +33,7 @@ export const defaultOptions = {
     /**
      * Logo displayed in the app bar (top left corner of the screen)
      */
-    appBarLogoUrl: new URL("./logo.svg", import.meta.url)
+    appBarLogoUrl: new URL("./img/logo.svg", import.meta.url)
   },
 
   /**
