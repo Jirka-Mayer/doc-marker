@@ -1,27 +1,51 @@
-import * as options from "./options"
-import { createRoot } from "react-dom/client"
-import * as styles from "./ui/Application.module.scss"
-import { bootstrapLocalization } from "./i18n"
+/*
+  This file contains the public API of the whole DocMarker "library".
+*/
 
+
+////////////////////////////
+// Options & Boostrapping //
+////////////////////////////
+
+import * as options from "./options"
+import { bootstrapDocMarker as _bootstrapDocMarker } from "./bootstrapDocMarker"
+
+/**
+ * Default options for DocMarker
+ */
 export const defaultOptions = options.defaultOptions
 
+/**
+ * Currently used options
+ * (available after the boostrap function has been called)
+ */
 export const currentOptions = options.currentOptions
 
-export async function bootstrapDocMarker(givenOptions) {
-  options.setOptions(givenOptions)
+/**
+ * Bootstrap function that creates the DocMarker application
+ */
+export const bootstrapDocMarker = _bootstrapDocMarker
 
-  if (!givenOptions.element) {
-    throw new Error("Missing `element` in the options object.")
-  }
-  
-  // localization
-  await bootstrapLocalization()
-  
-  // defered import so that options are already set when the application is imported
-  const { Application } = await import("./ui/Application")
 
-  // create and bind the application
-  const root = createRoot(currentOptions.element)
-  root.render(<Application />)
-  currentOptions.element.classList.add(styles["application"])
-}
+//////////////////////////////////
+// Application State Management //
+//////////////////////////////////
+
+import { stateApi as _stateApi } from "./stateApi.js"
+
+/**
+ * State API namespace containing stores, types and utils
+ */
+export let stateApi = _stateApi
+
+
+///////////////////
+// Form UI Utils //
+///////////////////
+
+import { formApi as _formApi } from "./formApi.js"
+
+/**
+ * API containing form utils for building custom form controls
+ */
+export const formApi = _formApi
