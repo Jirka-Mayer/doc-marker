@@ -34,11 +34,11 @@ export function AfterClickMenu() {
     closeMenu()
   }
 
-  function forgetText() {
-    // TODO: add the text forgetting logic to quill
+  // function forgetText() {
+  //   // TODO: add the text forgetting logic to quill
 
-    closeMenu()
-  }
+  //   closeMenu()
+  // }
   
   return (
     <>
@@ -59,12 +59,12 @@ export function AfterClickMenu() {
           <Typography variant="inherit">Remove anonymization marking</Typography>
         </MenuItem>
 
-        <MenuItem onClick={forgetText}>
+        {/* <MenuItem onClick={forgetText}>
           <ListItemIcon>
             <PasswordIcon />
           </ListItemIcon>
           <Typography variant="inherit">Forget text now</Typography>
-        </MenuItem>
+        </MenuItem> */}
 
       </Menu>
     </>

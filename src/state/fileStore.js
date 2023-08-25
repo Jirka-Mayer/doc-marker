@@ -11,6 +11,7 @@ import * as historyStore from "./historyStore"
 import * as packageJson from "../../package.json"
 import { optionIs } from "@jsonforms/core"
 import { Migration } from "./file/Migration"
+import { forgetAnonymizedText } from "./file/forgetAnonymizedText"
 
 const DOC_MARKER_VERSION = packageJson.version
 
@@ -85,6 +86,8 @@ function serializeToFile() {
     "_highlights": jotaiStore.get(reportStore.highlightsAtom),
   }
 
+  fileJson = forgetAnonymizedText(fileJson)
+  
   fileJson = currentOptions.file.onSerialize(fileJson)
 
   return AppFile.fromJson(fileJson)
