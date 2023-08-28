@@ -13,8 +13,12 @@ function DmGroupLayout(props) {
     <>
       <Typography
         variant="h3"
-        gutterBottom
-        sx={{ display: visible ? "block" : "none" }}
+        sx={{
+          display: visible ? "block" : "none",
+          ml: 2,
+          mt: 8,
+          fontSize: "48px"
+        }}
       >
         {label || "[missing group label]"}
       </Typography>

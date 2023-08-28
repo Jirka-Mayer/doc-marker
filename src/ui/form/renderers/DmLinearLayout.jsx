@@ -40,13 +40,21 @@ function DmLinearLayout(props) {
 
   if (elements.length === 0)
     return null
+  
+  // display column layout as block (override flex since it
+  // stetches some elements weirdly)
+  let displayStyle = (direction === "row") ? undefined : "block"
+
+  if (!visible)
+    displayStyle = "none"
 
   return (
     <Grid
       container
       direction={direction}
-      spacing={2}
-      style={{ display: visible ? undefined : "none" }}
+      spacing={0} // the controls have margin (2 = 16px), not the layout
+                  // so that empty layouts take up zero space
+      style={{ display: displayStyle }}
     >
       {renderLayoutElements(props, elements)}
     </Grid>

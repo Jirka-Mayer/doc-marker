@@ -150,7 +150,10 @@ export function DmInputControl(props) {
 
   return (
     <Paper
-      sx={{ display: visible ? "block" : "none" }}
+      sx={{
+        display: visible ? "block" : "none",
+        ml: 2, mt: 2 // the controls themselves have margin, grid does not
+      }}
       onClick={() => setFieldActive()}
     >
       <InputLabel
