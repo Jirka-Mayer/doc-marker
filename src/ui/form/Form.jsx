@@ -5,11 +5,13 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { FormDefinition } from "../../../forms/FormDefinition"
 import * as formStore from "../../state/formStore"
 import * as userPreferencesStore from "../../state/userPreferencesStore"
+import * as historyStore from "../../state/historyStore"
 import { useTranslation } from "react-i18next"
 import { CircularProgress, Typography } from "@mui/material"
 import { usePreventScrollOverNumberFields } from "./usePreventScrollOverNumberFields"
 import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import { createAjv } from "@jsonforms/core"
+import { extractFormDataHierarchy } from "./extractFormDataHierarchy"
 
 export function Form() {
   const [isLoading, setLoading] = useState(false)
@@ -20,8 +22,10 @@ export function Form() {
   const [formRenderers, setFormRenderers] = useState([])
   const [formCells, setFormCells] = useState([])
 
+  const [reloadTrigger] = useAtom(formStore.formReloadTriggerAtom)
   const [formErrors, setFormErrors] = useAtom(formStore.formErrorsAtom)
-  const [formData, setFormData] = useAtom(formStore.formDataRenderingAtom)
+  const [formRenderingData, setFormRenderingData] = useAtom(formStore.formDataRenderingAtom)
+  const [formExternalData, setFormExternalData] = useAtom(formStore.formDataAtom)
   const [fieldStates] = useAtom(formStore.allFieldStatesAtom)
   const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom)
 
@@ -44,21 +48,31 @@ export function Form() {
     setLoading(true);
     setTimeout(async function() {
       
-      // load renderers and cells
-      setFormRenderers(await currentOptions.formRenderersImporter())
-      setFormCells(await currentOptions.formCellsImporter())
-      
       // load form definition
       const form = await FormDefinition.load(formId)
       await form.loadTranslation(i18n)
       setDataSchema(form.dataSchema)
       setUiSchema(form.uiSchema)
 
+      // if the file has just been created empty,
+      // initialize the form data object hierarchy
+      if (!formExternalData) {
+        const emptyHierarchy = extractFormDataHierarchy(form.dataSchema)
+        setFormExternalData(emptyHierarchy)
+        historyStore.clear() // the setting creates an update,
+                             // but since we just created the file
+                             // we can clear the history stack
+      }
+
+      // load renderers and cells
+      setFormRenderers(await currentOptions.formRenderersImporter())
+      setFormCells(await currentOptions.formCellsImporter())
+
       // done
       setLoading(false)
       
     }, 100) // delay so that the spinner has time to appear
-  }, [formId, i18n.language]) // reload on form or language change
+  }, [formId, i18n.language, reloadTrigger]) // reload on form, language, or trigger change
 
 
   // === Translation ===
@@ -115,11 +129,11 @@ export function Form() {
         <JsonForms
           schema={dataSchema}
           uischema={uiSchema}
-          data={formData}
+          data={formRenderingData}
           renderers={formRenderers}
           cells={formCells}
           onChange={({ data, errors }) => {
-            setFormData(data)
+            setFormRenderingData(data)
             setFormErrors(errors)
           }}
           i18n={{
@@ -140,7 +154,7 @@ export function Form() {
       { displayDebugInfo ? <>
         <pre>FormID: { JSON.stringify(formId, null, 2) }</pre>
         <pre>Exported data: { JSON.stringify(formStore.getExportedFormData(), null, 2) }</pre>
-        <pre>Form data: { JSON.stringify(formData, null, 2) }</pre>
+        <pre>Form data: { JSON.stringify(formRenderingData, null, 2) }</pre>
         <pre>States: { JSON.stringify(fieldStates, null, 2) }</pre>
         <pre>Errors: { JSON.stringify(formErrors, [
           "instancePath", "schemaPath", "keyword", "params", "message",

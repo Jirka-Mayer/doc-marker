@@ -16,6 +16,19 @@ export const formIdAtom = atom(null)
  */
 export const formErrorsAtom = atom(null)
 
+/**
+ * Set this atom to force a form reload
+ */
+ export const formReloadTriggerAtom = atom(
+  (get) => get(formReloadTriggerAtomBase),
+  (get, set, _) => {
+    let value = get(formReloadTriggerAtomBase)
+    value = (value + 1) % 100
+    set(formReloadTriggerAtomBase, value)
+  }
+)
+const formReloadTriggerAtomBase = atom(0)
+
 
 ///////////////
 // Form Data //

@@ -124,6 +124,11 @@ function deserializeFromFile(appFile) {
   reportStore.quillExtended.setContents(json["_reportDelta"], "api")
   // _reportText and _highlights are ignored, since they are computable from delta
 
+  // === post-deserialization logic ===
+
+  // force the form reload
+  jotaiStore.set(formStore.formReloadTriggerAtom)
+
   // let the customization deserialize its own additional state
   currentOptions.file.onDeserialize(json)
 }
