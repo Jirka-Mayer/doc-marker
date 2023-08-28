@@ -1,7 +1,7 @@
 import { Locale } from "../locales/Locale"
 import { currentOptions } from "../src/options"
 
-formDefinitions = currentOptions.forms
+const formDefinitions = currentOptions.forms
 
 export class FormDefinition {
   
