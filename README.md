@@ -28,6 +28,6 @@ Then, you can start the development server:
 npm run start
 ```
 
-This starts parcel over the file `development/index.html`. The `development` folder contains files that boostrap a new instance of DocMarker with the default configuration. You should use this `development` folder instead of `example-customization`, because the customization is a separate NPM package that requires linking to DocMarker and this linking prevents Parcel from working its filesystem watching magic. This makes the development unbearable.
+This starts parcel over the file `development/index.html`. The `development` folder contains files that boostrap a new instance of DocMarker with the default configuration adjusted slightly to act as demo. The demo is themed to the [ÚFAL](https://ufal.mff.cuni.cz/) colors. You can use this demo to develop the core of Doc Marker without considering any specific customization.
 
-So when developing both the DocMarker and your own customization, you should run this DocMarker `development` server here, do modifications, and once you're ready, restart the Parcel process in your customization to apply these DocMarker changes in your customization. Then you can modify your customization to utilize the new DocMarker changes. 
+To develop the Doc Marker together with a customization, see the [`example-customization`](example-customization) README file.
