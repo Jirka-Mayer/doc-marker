@@ -179,7 +179,12 @@ const triggerExportAtom = atom(
 export function getExportedFormData() {
   const out = {}
   for (const path of Object.keys(exportedValueBaseAtoms.atoms).sort()) {
-    _.set(out, path, jotaiStore.get(exportedValueBaseAtoms.atoms[path]))
+    const value = jotaiStore.get(exportedValueBaseAtoms.atoms[path])
+    if (value === undefined) {
+      // skip values that do not exist so that empty objects are not created
+      continue
+    }
+    _.set(out, path, value)
   }
   return out
 }
