@@ -13,6 +13,14 @@ import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import { createAjv } from "@jsonforms/core"
 import { extractFormDataHierarchy } from "./extractFormDataHierarchy"
 
+/**
+ * Converts AJV errors to string representation for debug printing
+ */
+const stringifyErrors = (errors, tabWidth) => JSON.stringify(errors, [
+  "instancePath", "schemaPath", "keyword", "params", "message",
+  // "schema", "parentSchema", "data"
+], tabWidth);
+
 export function Form() {
   const [isLoading, setLoading] = useState(false)
 
@@ -26,7 +34,16 @@ export function Form() {
   const [formErrors, setFormErrors] = useAtom(formStore.formErrorsAtom)
   const [formRenderingData, setFormRenderingData] = useAtom(formStore.formDataRenderingAtom)
   const [formExternalData, setFormExternalData] = useAtom(formStore.formDataAtom)
+
+  const [exportedData, setExportedData] = useState({})
+  const [exportedErrors, setExportedErrors] = useState({})
+  const ajvValidator = useMemo(
+    () => createAjv().compile(dataSchema),
+    [dataSchema]
+  )
+  
   const [fieldStates] = useAtom(formStore.allFieldStatesAtom)
+
   const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom)
 
   const { i18n } = useTranslation()
@@ -114,17 +131,8 @@ export function Form() {
     )
   }
 
-  // const validate = createAjv().compile(dataSchema)
-  // validate(formStore.getExportedFormData())
-  // const myErrors = validate.errors
-
   return (
     <div>
-      {/* <pre>My Errors: { JSON.stringify(myErrors, [
-        "instancePath", "schemaPath", "keyword", "params", "message",
-        // "schema", "parentSchema", "data"
-      ], 2) }</pre> */}
-
       { formId === null ? null : (
         <JsonForms
           schema={dataSchema}
@@ -135,6 +143,13 @@ export function Form() {
           onChange={({ data, errors }) => {
             setFormRenderingData(data)
             setFormErrors(errors)
+
+            // exported data and errors
+            const _exportedData = formStore.getExportedFormData()
+            ajvValidator(_exportedData)
+            const _exportedErrors = ajvValidator.errors
+            setExportedData(_exportedData)
+            setExportedErrors(_exportedErrors)
           }}
           i18n={{
             locale: i18n.language,
@@ -153,13 +168,11 @@ export function Form() {
 
       { displayDebugInfo ? <>
         <pre>FormID: { JSON.stringify(formId, null, 2) }</pre>
-        <pre>Exported data: { JSON.stringify(formStore.getExportedFormData(), null, 2) }</pre>
+        <pre>Exported data: { JSON.stringify(exportedData, null, 2) }</pre>
         <pre>Form data: { JSON.stringify(formRenderingData, null, 2) }</pre>
         <pre>States: { JSON.stringify(fieldStates, null, 2) }</pre>
-        <pre>Errors: { JSON.stringify(formErrors, [
-          "instancePath", "schemaPath", "keyword", "params", "message",
-          // "schema", "parentSchema", "data"
-        ], 2) }</pre>
+        <pre>Form errors: { stringifyErrors(formErrors, 2) }</pre>
+        <pre>Exported errors: { stringifyErrors(exportedErrors, 2) }</pre>
       </> : null}
 
     </div>
