@@ -169,9 +169,9 @@ export function Form() {
       { displayDebugInfo ? <>
         <pre>FormID: { JSON.stringify(formId, null, 2) }</pre>
         <pre>Exported data: { JSON.stringify(exportedData, null, 2) }</pre>
-        <pre>Form data: { JSON.stringify(formRenderingData, null, 2) }</pre>
+        {/* <pre>Form data: { JSON.stringify(formRenderingData, null, 2) }</pre>
         <pre>States: { JSON.stringify(fieldStates, null, 2) }</pre>
-        <pre>Form errors: { stringifyErrors(formErrors, 2) }</pre>
+        <pre>Form errors: { stringifyErrors(formErrors, 2) }</pre> */}
         <pre>Exported errors: { stringifyErrors(exportedErrors, 2) }</pre>
       </> : null}
 
