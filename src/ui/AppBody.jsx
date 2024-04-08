@@ -1,7 +1,6 @@
 import { useAtom } from "jotai"
-import { AppMode } from "../state/editor/AppMode"
-import { appModeAtom } from "../state/editorStore"
-import { formDataAtom } from "../state/formStore"
+import { AppMode } from "../state"
+import { editorStore } from "../state"
 import * as styles from "./AppBody.module.scss"
 import { FormColumn } from "./form/FormColumn"
 import { ReportColumn } from "./report/ReportColumn"
@@ -11,7 +10,7 @@ export function AppBody(props) {
     isOpen,
   } = props
 
-  const [appMode] = useAtom(appModeAtom)
+  const [appMode] = useAtom(editorStore.appModeAtom)
   const isFormOpen = (appMode === AppMode.ANNOTATE_HIGHLIGHTS)
   
   return (

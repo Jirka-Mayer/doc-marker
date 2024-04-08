@@ -4,7 +4,7 @@ import { atom } from "jotai/vanilla";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormDefinition } from "../../../forms/FormDefinition";
-import * as fileStore from "../../state/fileStore"
+import { fileStore } from "../../state"
 
 export const isOpenAtom = atom(false)
 

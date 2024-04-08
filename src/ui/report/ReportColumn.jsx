@@ -1,17 +1,14 @@
 import * as styles from "./ReportColumn.module.scss"
 import { QuillBinder } from "./QuillBinder"
 import { Paper } from "@mui/material"
-import { AppMode } from "../../state/editor/AppMode"
+import { AppMode, editorStore, userPreferencesStore, reportStore } from "../../state"
 import { useAtom } from "jotai"
-import { displayDebugInfoAtom } from "../../state/userPreferencesStore"
-import { highlightsAtom, contentAtom } from "../../state/reportStore"
-import { appModeAtom } from "../../state/editorStore"
 
 export function ReportColumn() {
-  const [appMode] = useAtom(appModeAtom)
-  const [displayDebugInfo] = useAtom(displayDebugInfoAtom)
-  const [content] = useAtom(contentAtom)
-  const [highlights] = useAtom(highlightsAtom)
+  const [appMode] = useAtom(editorStore.appModeAtom)
+  const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom)
+  const [content] = useAtom(reportStore.contentAtom)
+  const [highlights] = useAtom(reportStore.highlightsAtom)
 
   const paperVisible = appMode === AppMode.EDIT_TEXT
 

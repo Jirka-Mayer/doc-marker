@@ -1,12 +1,13 @@
 import { Menu, MenuList, MenuItem, ListItemIcon, Typography, ListSubheader, Divider, ListItemText } from "@mui/material";
 import { useAtom } from "jotai";
-import { quillExtended, getFieldHighlightsAtom } from "../../../state/reportStore";
+import { reportStore, editorStore } from "../../../state";
 import { createContextMenuAtoms } from "../utils/createContextMenuAtoms";
-import { activeFieldIdAtom } from "../../../state/editorStore";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import WrongLocationIcon from '@mui/icons-material/WrongLocation';
 import LocationOffIcon from '@mui/icons-material/LocationOff';
+
+const quillExtended = reportStore.quillExtended
 
 const {
   anchorTextRangeAtom,
@@ -24,9 +25,9 @@ export function AfterClickMenu() {
   const [anchorPosition] = useAtom(anchorPositionAtom)
   const [,closeMenu] = useAtom(closeMenuAtom)
   
-  const [activeFieldId] = useAtom(activeFieldIdAtom)
+  const [activeFieldId] = useAtom(editorStore.activeFieldIdAtom)
   const [activeFieldHighlights] = useAtom(
-    getFieldHighlightsAtom(activeFieldId)
+    reportStore.getFieldHighlightsAtom(activeFieldId)
   )
   const hasMultipleHighlights = (activeFieldHighlights.length >= 2)
 

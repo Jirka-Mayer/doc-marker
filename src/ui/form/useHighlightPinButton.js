@@ -1,5 +1,5 @@
 import { IconButton, Tooltip } from "@mui/material"
-import { quillExtended } from "../../state/reportStore"
+import { reportStore } from "../../state"
 import { useFieldHighlights } from "./useFieldHighlights"
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import * as styles from "./FormColumn.module.scss"
@@ -17,7 +17,7 @@ export function useHighlightPinButton(props) {
   } = useFieldHighlights(fieldId)
 
   function onHighlightPinClick() {
-    quillExtended.scrollHighlightIntoView(fieldId)
+    reportStore.quillExtended.scrollHighlightIntoView(fieldId)
   }
 
   function HighlightPinButton() {

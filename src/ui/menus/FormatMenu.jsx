@@ -2,16 +2,13 @@ import { Button, Menu, MenuList, MenuItem, ListItemIcon, Typography, Divider } f
 import { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAtom } from "jotai"
-import * as fileStore from "../../state/fileStore"
-import * as reportStore from "../../state/reportStore"
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import FormatStrikethroughIcon from '@mui/icons-material/FormatStrikethrough';
 import FormatSizeIcon from '@mui/icons-material/FormatSize';
 import FormatClearIcon from '@mui/icons-material/FormatClear';
-import { AppMode } from "../../state/editor/AppMode";
-import { appModeAtom } from "../../state/editorStore";
+import { AppMode, editorStore, fileStore, reportStore } from "../../state";
 
 export function FormatMenu() {
   const { t } = useTranslation("menus")
@@ -28,7 +25,7 @@ export function FormatMenu() {
   // === used state ===
 
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
-  const [appMode] = useAtom(appModeAtom)
+  const [appMode] = useAtom(editorStore.appModeAtom)
 
   const [selectionFormats] = useAtom(reportStore.selectionFormatsAtom)
 

@@ -1,5 +1,6 @@
 import { atom } from "jotai";
-import { quillExtended } from "../../../state/reportStore";
+import { reportStore } from "../../../state";
+const quillExtended = reportStore.quillExtended
 
 /**
  * Constructs atoms used by text-selection-based context menus

@@ -13,19 +13,15 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
 import SyncIcon from '@mui/icons-material/Sync'
 import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone'
-import { AppMode } from "../state/editor/AppMode"
+import { AppMode, AppFile, fileStore, editorStore, autosaveStore } from "../state"
 import { useAtom } from "jotai"
-import * as fileStore from "../state/fileStore"
 import { FileMenu } from "./menus/FileMenu"
 import { EditMenu } from "./menus/EditMenu"
 import { ViewMenu } from "./menus/ViewMenu"
 import { Toolbar } from "./Toolbar"
 import { ToolsMenu } from "./menus/ToolsMenu"
-import { appModeAtom } from "../state/editorStore"
 import { useTranslation } from "react-i18next";
 import { useState } from "react"
-import { AppFile } from "../state/file/AppFile"
-import * as autosaveStore from "../state/autosaveStore"
 import { currentOptions } from "../options"
 import { FormatMenu } from "./menus/FormatMenu"
 
@@ -33,7 +29,7 @@ export function AppBar() {
   const { t } = useTranslation("appbar")
 
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
-  const [appMode, setAppMode] = useAtom(appModeAtom)
+  const [appMode, setAppMode] = useAtom(editorStore.appModeAtom)
   const [fileName, setFileName] = useAtom(fileStore.fileNameAtom)
   const [fileUuid] = useAtom(fileStore.fileUuidAtom)
   const [isFileDirty] = useAtom(autosaveStore.isDirtyAtom)

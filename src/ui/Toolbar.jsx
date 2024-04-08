@@ -1,9 +1,7 @@
 import { Divider, IconButton, Tooltip, ToggleButton, ToggleButtonGroup, Select, MenuItem } from "@mui/material"
 import { useAtom } from "jotai"
 import { useTranslation } from "react-i18next"
-import * as fileStore from "../state/fileStore"
-import * as reportStore from "../state/reportStore"
-import * as historyStore from "../state/historyStore"
+import { fileStore, reportStore, historyStore } from "../state"
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';

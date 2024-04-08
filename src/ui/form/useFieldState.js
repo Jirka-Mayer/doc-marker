@@ -1,9 +1,10 @@
-import { FieldState } from "../../state/form/FieldState"
 import { useAtom } from "jotai"
-import { getFieldStateAtom } from "../../state/formStore"
+import { FieldState, formStore } from "../../state"
 
 export function useFieldState(fieldId, isFieldActive) {
-  const [fieldState, setFieldState] = useAtom(getFieldStateAtom(fieldId))
+  const [fieldState, setFieldState] = useAtom(
+    formStore.getFieldStateAtom(fieldId)
+  )
 
   const hasRobotValue = (
     fieldState === FieldState.ROBOT_VALUE

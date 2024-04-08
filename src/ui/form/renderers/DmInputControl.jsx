@@ -7,7 +7,7 @@ import { useFieldState } from "../useFieldState"
 import HideSourceIcon from '@mui/icons-material/HideSource';
 import { useMemo } from 'react';
 import { useNullabilityMiddleware } from "../useNullabilityMiddleware"
-import { useExportValue } from "../../../state/formStore"
+import { formStore } from "../../../state"
 import { useHighlightPinButton } from "../useHighlightPinButton"
 import { useTheme } from "@emotion/react"
 
@@ -67,7 +67,7 @@ export function DmInputControl(props) {
 
   // === export value ===
 
-  useExportValue(path,
+  formStore.useExportValue(path,
     visible ? data : undefined
   )
 

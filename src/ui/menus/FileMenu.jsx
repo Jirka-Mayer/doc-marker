@@ -8,8 +8,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import LanguageIcon from '@mui/icons-material/Language';
 import SaveIcon from '@mui/icons-material/Save';
 import { useAtom } from "jotai"
-import * as fileStore from "../../state/fileStore"
-import { AppFile } from "../../state/file/AppFile";
+import { AppFile, fileStore } from "../../state";
 import { isOpenAtom as isLocaleDialogOpenAtom } from "../dialogs/ChangeLocaleDialog"
 import { FormDefinition } from "../../../forms/FormDefinition";
 import { useTranslation } from "react-i18next";

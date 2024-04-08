@@ -1,9 +1,7 @@
 import { useEffect, useRef } from "react"
 import * as styles from "./QuillBinder.module.scss"
-import { quillExtended } from "../../state/reportStore"
+import { reportStore, editorStore, userPreferencesStore } from "../../state"
 import { useAtom } from "jotai"
-import { activeFieldIdAtom, appModeAtom } from "../../state/editorStore"
-import { displayDebugInfoAtom } from "../../state/userPreferencesStore"
 import { useAnnotationController } from "./useAnnotationController"
 import { useAnonymizationController } from "./useAnonymizationController"
 import { useTranslation } from "react-i18next";
@@ -22,6 +20,8 @@ import {
 import { useTheme } from "@emotion/react"
 import { alpha } from "@mui/material"
 
+const quillExtended = reportStore.quillExtended
+
 /**
  * Binds the quill instance with the DOM as a react component
  */
@@ -30,9 +30,9 @@ export function QuillBinder() {
 
   const theme = useTheme()
 
-  const [appMode] = useAtom(appModeAtom)
-  const [activeFieldId] = useAtom(activeFieldIdAtom)
-  const [displayDebugInfo] = useAtom(displayDebugInfoAtom)
+  const [appMode] = useAtom(editorStore.appModeAtom)
+  const [activeFieldId] = useAtom(editorStore.activeFieldIdAtom)
+  const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom)
   
   const bindingContainerRef = useRef(null)
   

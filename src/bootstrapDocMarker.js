@@ -2,8 +2,6 @@ import { currentOptions, setOptions } from "./options"
 import { bootstrapLocalization } from "./i18n"
 import { createRoot } from "react-dom/client"
 import * as styles from "./ui/Application.module.scss"
-import { importStateApi } from "./stateApi"
-import { importFormApi } from "./formApi"
 
 /**
  * Creates the entire DocMarker application from the given options object.
@@ -19,8 +17,7 @@ export async function bootstrapDocMarker(givenOptions) {
   await bootstrapLocalization()
 
   // APIs
-  await importStateApi()
-  await importFormApi()
+  await import("./importApis")
   
   // defered import so that options are already set when the application is imported
   const { Application } = await import("./ui/Application")

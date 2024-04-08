@@ -2,8 +2,7 @@ import { Button, Menu, MenuList, MenuItem, ListItemIcon, Typography, Divider } f
 import { useState, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAtom } from "jotai"
-import * as fileStore from "../../state/fileStore"
-import * as historyStore from "../../state/historyStore"
+import { fileStore, historyStore } from "../../state"
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
 

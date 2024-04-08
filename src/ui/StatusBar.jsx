@@ -1,11 +1,7 @@
 import { Typography, useTheme } from "@mui/material";
 import { useAtom } from "jotai";
-import { activeFieldIdAtom, appModeAtom } from "../state/editorStore";
-import { fileUuidAtom } from "../state/fileStore";
-import { displayDebugInfoAtom } from "../state/userPreferencesStore";
-import * as formStore from "../state/formStore"
-import * as reportStore from "../state/reportStore"
-import { AppMode } from "../state/editor/AppMode";
+import { editorStore, fileStore, formStore, reportStore, userPreferencesStore } from "../state";
+import { AppMode } from "../state";
 
 /**
  * A debugging-only bar at the bottom of the application.
@@ -13,15 +9,15 @@ import { AppMode } from "../state/editor/AppMode";
 export function StatusBar() {
   const theme = useTheme()
 
-  const [displayDebugInfo] = useAtom(displayDebugInfoAtom)
+  const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom)
   
-  const [appMode] = useAtom(appModeAtom)
-  const [fileUuid] = useAtom(fileUuidAtom)
+  const [appMode] = useAtom(editorStore.appModeAtom)
+  const [fileUuid] = useAtom(fileStore.fileUuidAtom)
   
   const [formats] = useAtom(reportStore.selectionFormatsAtom)
   const [selection] = useAtom(reportStore.selectionRangeAtom)
   
-  const [activeFieldId] = useAtom(activeFieldIdAtom)
+  const [activeFieldId] = useAtom(editorStore.activeFieldIdAtom)
   const activeFieldValue = formStore.useGetExportedValue(activeFieldId)
 
   ////////////

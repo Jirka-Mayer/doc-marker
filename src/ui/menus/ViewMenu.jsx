@@ -5,10 +5,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'
 import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
 import { useAtom } from "jotai"
-import { displayDebugInfoAtom } from "../../state/userPreferencesStore";
-import { appModeAtom } from "../../state/editorStore";
-import { AppMode } from "../../state/editor/AppMode";
-import { isFileOpenAtom } from "../../state/fileStore";
+import { AppMode, editorStore, userPreferencesStore, fileStore } from "../../state";
 import { useTranslation } from "react-i18next";
 
 export function ViewMenu() {
@@ -25,9 +22,11 @@ export function ViewMenu() {
 
   // === used state ===
 
-  const [isFileOpen] = useAtom(isFileOpenAtom)
-  const [appMode, setAppMode] = useAtom(appModeAtom)
-  const [displayDebugInfo, setDisplayDebugInfo] = useAtom(displayDebugInfoAtom)
+  const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
+  const [appMode, setAppMode] = useAtom(editorStore.appModeAtom)
+  const [displayDebugInfo, setDisplayDebugInfo] = useAtom(
+    userPreferencesStore.displayDebugInfoAtom
+  )
 
   // === click handlers ===
 

@@ -1,9 +1,11 @@
 import { Menu, MenuList, MenuItem, ListItemIcon, Typography, ListSubheader, Divider } from "@mui/material";
 import { useAtom } from "jotai";
-import { quillExtended } from "../../../state/reportStore";
+import { reportStore } from "../../../state";
 import { createContextMenuAtoms } from "../utils/createContextMenuAtoms";
 import WrongLocationIcon from '@mui/icons-material/WrongLocation';
 import PasswordIcon from '@mui/icons-material/Password';
+
+const quillExtended = reportStore.quillExtended
 
 const {
   anchorTextRangeAtom,

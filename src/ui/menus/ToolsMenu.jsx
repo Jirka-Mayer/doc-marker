@@ -3,8 +3,8 @@ import { useState } from "react";
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { useAtom } from "jotai"
-import { isFileOpenAtom } from "../../state/fileStore";
-import { runAutomaticExtraction } from "../../state/editor/runAutomaticExtraction";
+import { fileStore } from "../../state";
+import { runAutomaticExtraction } from "../../state";
 import { useTranslation } from "react-i18next";
 
 export function ToolsMenu() {
@@ -21,7 +21,7 @@ export function ToolsMenu() {
 
   // === used state ===
 
-  const [isFileOpen] = useAtom(isFileOpenAtom)
+  const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
 
   // === click handlers ===
 

@@ -1,6 +1,6 @@
 import { Menu, MenuList, MenuItem, ListItemIcon, Typography, Divider } from "@mui/material";
 import { useAtom } from "jotai";
-import { quillExtended } from "../../../state/reportStore";
+import { reportStore } from "../../../state";
 import { createContextMenuAtoms } from "../utils/createContextMenuAtoms";
 import PersonIcon from '@mui/icons-material/Person';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
@@ -23,7 +23,7 @@ export function AfterDragMenu() {
   const [,closeMenu] = useAtom(closeMenuAtom)
 
   function kindSelected(kindId) {
-    quillExtended.anonymizeText(
+    reportStore.quillExtended.anonymizeText(
       anchorTextRange.index,
       anchorTextRange.length,
       kindId

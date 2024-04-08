@@ -1,8 +1,6 @@
 import { useCallback, useEffect } from "react"
-import { quillExtended } from "../../state/reportStore"
-import { AppMode } from "../../state/editor/AppMode"
+import { AppMode, editorStore, reportStore } from "../../state"
 import { useAtom } from "jotai"
-import { appModeAtom } from "../../state/editorStore"
 import {
   openMenuAtom as openAfterClickMenuAtom
 } from "./anonymization/AfterClickMenu"
@@ -10,8 +8,10 @@ import {
   openMenuAtom as openAfterDragMenuAtom
 } from "./anonymization/AfterDragMenu"
 
+const quillExtended = reportStore.quillExtended
+
 export function useAnonymizationController() {
-  const [appMode] = useAtom(appModeAtom)
+  const [appMode] = useAtom(editorStore.appModeAtom)
   const [,openAfterClickMenu] = useAtom(openAfterClickMenuAtom)
   const [,openAfterDragMenu] = useAtom(openAfterDragMenuAtom)
 

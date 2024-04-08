@@ -3,15 +3,13 @@ import Typography from '@mui/material/Typography'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Paper, Stack, Table, TableBody, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Link } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useAtom } from "jotai"
-import { AppFile } from "../state/file/AppFile"
+import { AppFilem, FileStorage, fileStore } from "../state"
 import { FormDefinition } from "../../forms/FormDefinition"
 import DeleteIcon from '@mui/icons-material/Delete'
 import DownloadIcon from '@mui/icons-material/Download'
-import * as fileStore from "../state/fileStore"
 import moment from "moment"
 import { currentOptions } from "../options"
 import { useTranslation } from "react-i18next"
-import { FileStorage } from "../state/file/FileStorage"
 import { isOpenAtom as isCreateFileDialogOpenAtom } from "./dialogs/CreateFileDialog"
 
 import packageJson from "../../package.json"

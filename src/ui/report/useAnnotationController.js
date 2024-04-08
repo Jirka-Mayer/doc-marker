@@ -1,8 +1,6 @@
 import { useCallback, useEffect } from "react"
-import { quillExtended } from "../../state/reportStore"
-import { AppMode } from "../../state/editor/AppMode"
+import { AppMode, reportStore, editorStore } from "../../state"
 import { useAtom } from "jotai"
-import { activeFieldIdAtom, appModeAtom } from "../../state/editorStore"
 import {
   openMenuAtom as openAfterClickMenuAtom
 } from "./annotation/AfterClickMenu"
@@ -10,12 +8,14 @@ import {
   openMenuAtom as openAfterDragMenuAtom
 } from "./annotation/AfterDragMenu"
 
+const quillExtended = reportStore.quillExtended
+
 /**
  * Controls report-related UI in the annotation mode
  */
 export function useAnnotationController() {
-  const [appMode] = useAtom(appModeAtom)
-  const [activeFieldId] = useAtom(activeFieldIdAtom)
+  const [appMode] = useAtom(editorStore.appModeAtom)
+  const [activeFieldId] = useAtom(editorStore.activeFieldIdAtom)
   const [,openAfterClickMenu] = useAtom(openAfterClickMenuAtom)
   const [,openAfterDragMenu] = useAtom(openAfterDragMenuAtom)
   

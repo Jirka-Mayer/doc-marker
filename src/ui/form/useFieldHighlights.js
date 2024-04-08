@@ -1,8 +1,10 @@
-import { getFieldHighlightsAtom } from "../../state/reportStore"
+import { reportStore } from "../../state"
 import { useAtom } from "jotai"
 
 export function useFieldHighlights(fieldId) {
-  const [highlightsRanges] = useAtom(getFieldHighlightsAtom(fieldId))
+  const [highlightsRanges] = useAtom(
+    reportStore.getFieldHighlightsAtom(fieldId)
+  )
 
   const hasHighlights = highlightsRanges.length > 0
 
