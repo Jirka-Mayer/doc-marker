@@ -18,6 +18,10 @@ export async function bootstrapDocMarker(givenOptions) {
 
   // APIs
   await import("./importApis")
+
+  // React slots
+  const importedSlots = await currentOptions.slotsImporter()
+  setOptions({ slots: importedSlots }, true) // additive set
   
   // defered import so that options are already set when the application is imported
   const { Application } = await import("./ui/Application")

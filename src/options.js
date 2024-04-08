@@ -139,21 +139,43 @@ export const defaultOptions = {
      */
     onDeserialize: (fileJson) => {}
 
-  }
+  },
+
+  /**
+   * React slots for inserting react components into various places
+   * of the Doc Marker application
+   */
+  slots: {
+    
+    /**
+     * List additional dialog windows here
+     */
+    dialogs: null
+
+  },
+
+  /**
+   * Additional slots that are imported after bootstrapping finishes
+   * and the response object is merged with the slots option
+   */
+  slotsImporter: () => Promise.resolve({}),
 }
 
 export const currentOptions = _.merge({}, defaultOptions)
 
-export function setOptions(givenOptions) {
-  // clear current options
-  for (let key in currentOptions) {
-    if (currentOptions.hasOwnProperty(key)) {
-      delete currentOptions[key]
+export function setOptions(givenOptions, additive = false) {
+  if (!additive) {
+    
+    // clear current options
+    for (let key in currentOptions) {
+      if (currentOptions.hasOwnProperty(key)) {
+        delete currentOptions[key]
+      }
     }
-  }
 
-  // initialize to default
-  mergeOptions(currentOptions, defaultOptions)
+    // initialize to default
+    mergeOptions(currentOptions, defaultOptions)
+  }
 
   // override with given
   mergeOptions(currentOptions, givenOptions)

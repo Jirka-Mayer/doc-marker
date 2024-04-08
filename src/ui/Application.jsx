@@ -48,6 +48,7 @@ export function Application() {
 
         <ChangeLocaleDialog />
         <CreateFileDialog />
+        { currentOptions.slots.dialogs }
       </ThemeProvider>
     </>
   )
