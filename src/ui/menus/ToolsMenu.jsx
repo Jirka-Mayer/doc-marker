@@ -6,6 +6,7 @@ import { useAtom } from "jotai"
 import { fileStore } from "../../state";
 import { runAutomaticExtraction } from "../../state";
 import { useTranslation } from "react-i18next";
+import { currentOptions } from "../../options";
 
 export function ToolsMenu() {
   const { t } = useTranslation("menus")
@@ -51,6 +52,7 @@ export function ToolsMenu() {
             { t("tools.fillOutAutomatically") }
           </Typography>
         </MenuItem>
+        { currentOptions.slots.toolsMenu }
       </Menu>
     </>
   )

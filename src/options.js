@@ -150,7 +150,12 @@ export const defaultOptions = {
     /**
      * List additional dialog windows here
      */
-    dialogs: null
+    dialogs: null,
+
+    /**
+     * Additional actions in the tools menu
+     */
+    toolsMenu: null,
 
   },
 
