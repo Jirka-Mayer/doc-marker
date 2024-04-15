@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Paper, Stack, Table, TableBody, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Link } from "@mui/material"
 import { useEffect, useState } from "react"
 import { useAtom } from "jotai"
-import { AppFilem, FileStorage, fileStore } from "../state"
+import { AppFile, FileStorage, fileStore } from "../state"
 import { FormDefinition } from "../../forms/FormDefinition"
 import DeleteIcon from '@mui/icons-material/Delete'
 import DownloadIcon from '@mui/icons-material/Download'
