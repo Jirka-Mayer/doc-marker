@@ -4,6 +4,8 @@ import { Typography } from '@mui/material'
 import { useContext } from 'react'
 import DmLinearLayout from "./DmLinearLayout"
 import { GroupLayoutContext } from "./GroupLayoutContext"
+import { userPreferencesStore } from "../../../state"
+import { useAtom } from "jotai"
 
 function DmGroupLayout(props) {
   const {
@@ -12,6 +14,8 @@ function DmGroupLayout(props) {
   } = props
 
   const { depth } = useContext(GroupLayoutContext)
+
+  const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom)
 
   let variant = "h3"
   let fontSize = "48px"
@@ -34,7 +38,12 @@ function DmGroupLayout(props) {
       <Typography
         variant={variant}
         sx={{
-          display: visible ? "block" : "none",
+          // visibility normally toggles "display: none",
+          // but if the debug mode is enabled, invisible controls are
+          // rendered, only at a 50% opacity.
+          display: (visible || displayDebugInfo) ? "block" : "none",
+          opacity: (!visible && displayDebugInfo) ? 0.5 : undefined,
+
           ml: 2,
           mt: mt,
           fontSize: fontSize

@@ -7,9 +7,10 @@ import { useFieldState } from "../useFieldState"
 import HideSourceIcon from '@mui/icons-material/HideSource';
 import { useMemo } from 'react';
 import { useNullabilityMiddleware } from "../useNullabilityMiddleware"
-import { formStore } from "../../../state"
+import { formStore, userPreferencesStore } from "../../../state"
 import { useHighlightPinButton } from "../useHighlightPinButton"
 import { useTheme } from "@emotion/react"
+import { useAtom } from "jotai"
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure
@@ -89,6 +90,10 @@ export function DmInputControl(props) {
     isNullable
   })
 
+  // === debugging ===
+
+  const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom)
+
 
   /////////////
   // Actions //
@@ -151,8 +156,14 @@ export function DmInputControl(props) {
   return (
     <Paper
       sx={{
-        display: visible ? "block" : "none",
-        ml: 2, mt: 2 // the controls themselves have margin, grid does not
+        // visibility normally toggles "display: none",
+        // but if the debug mode is enabled, invisible controls are
+        // rendered, only at a 50% opacity.
+        display: (visible || displayDebugInfo) ? "block" : "none",
+        opacity: (!visible && displayDebugInfo) ? 0.5 : undefined,
+
+        // the controls themselves have margin, grid does not
+        ml: 2, mt: 2
       }}
       onClick={() => setFieldActive()}
     >

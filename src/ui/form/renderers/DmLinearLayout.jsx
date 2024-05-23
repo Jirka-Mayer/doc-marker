@@ -35,7 +35,7 @@ function DmLinearLayout(props) {
     visible
   } = props
 
-  const elements = uischema.elements
+  const elements = uischema.elements || []
   const direction = (uischema.type === "HorizontalLayout") ? "row" : "column"
 
   if (elements.length === 0)
