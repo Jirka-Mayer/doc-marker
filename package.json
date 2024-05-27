@@ -1,6 +1,6 @@
 {
   "name": "doc-marker",
-  "version": "0.6.0-dev",
+  "version": "0.6.0",
   "description": "Annotation tool for creating training data for the text-to-form information retrieval NLP task",
   "author": "Jiří Mayer <mayer@ufal.mff.cuni.cz> (https://ufal.mff.cuni.cz/jiri-mayer)",
   "engines": {
