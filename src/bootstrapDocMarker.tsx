@@ -1,6 +1,5 @@
 import { currentOptions, PartialDmOptions, setOptions } from "./options";
 import { bootstrapLocalization } from "./i18n";
-import { createRoot } from "react-dom/client";
 import * as styles from "./ui/Application.module.scss";
 
 /**
@@ -14,6 +13,16 @@ export async function bootstrapDocMarker(
   if (!givenOptions.element) {
     throw new Error("Missing `element` in the options object.");
   }
+
+  // Debugging tool that displays react re-renders of components.
+  // Must be imported before React and React DOM.
+  // https://github.com/aidenybai/react-scan
+  if (process.env.NODE_ENV === "development") {
+    await import("react-scan");
+  }
+
+  // react import defered after react-scan
+  const { createRoot } = await import("react-dom/client");
 
   // localization
   await bootstrapLocalization();
