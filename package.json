@@ -1,13 +1,14 @@
 {
   "name": "doc-marker",
-  "version": "0.6.0",
+  "version": "0.6.1-dev",
   "description": "Annotation tool for creating training data for the text-to-form information retrieval NLP task",
   "author": "Jiří Mayer <mayer@ufal.mff.cuni.cz> (https://ufal.mff.cuni.cz/jiri-mayer)",
   "engines": {
     "parcel": "2.x"
   },
-  "source": "src/index.js",
+  "source": "src/index.ts",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "targets": {
     "library": {
       "isLibrary": true,
@@ -23,7 +24,9 @@
   },
   "scripts": {
     "start": "rm -rf dist .parcel-cache && parcel --target development",
-    "build": "rm -rf dist .parcel-cache && parcel build --target library",
+    "build": "rm -rf dist .parcel-cache && parcel build --target library --target types",
+    "prettier-check": "prettier src/**/*.ts src/**/*.tsx --check",
+    "prettier-write": "prettier src/**/*.ts src/**/*.tsx --write",
     "prepare": "npm run build"
   },
   "dependencies": {
@@ -60,12 +63,16 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.3",
     "@mui/x-date-pickers": "^6.0.4",
+    "@parcel/packager-ts": "^2.9.3",
     "@parcel/transformer-sass": "^2.8.2",
+    "@parcel/transformer-typescript-types": "^2.9.3",
     "i18next": "^23.2.3",
     "jotai": "^2.2.1",
     "parcel": "^2.8.2",
+    "prettier": "^3.5.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-i18next": "^13.0.1"
+    "react-i18next": "^13.0.1",
+    "typescript": "^5.8.3"
   }
 }

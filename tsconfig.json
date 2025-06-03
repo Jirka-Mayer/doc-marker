@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "es2020",
+    "strictNullChecks": true,
+    "jsx": "react-jsx",
+    "moduleResolution": "node"
+  }
+}
