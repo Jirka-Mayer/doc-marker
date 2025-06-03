@@ -7,6 +7,21 @@
     "start": "rm -rf dist .parcel-cache && parcel",
     "build": "rm -rf dist .parcel-cache && parcel build --public-url ./"
   },
+  "peerDependencies": {
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
+    "@jsonforms/core": "^3.0.0",
+    "@jsonforms/material-renderers": "^3.5.0",
+    "@jsonforms/react": "^3.0.0",
+    "@mui/icons-material": "^6.0.0",
+    "@mui/material": "^6.0.0",
+    "@mui/x-date-pickers": "^7.0.0",
+    "i18next": "^25.0.0",
+    "jotai": "^2.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-i18next": "^15.0.0"
+  },
   "devDependencies": {
     "doc-marker": "https://github.com/Jirka-Mayer/doc-marker",
     "parcel": "^2.8.0",
