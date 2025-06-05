@@ -5,12 +5,13 @@ import CheckIcon from '@mui/icons-material/Check'
 import { useFieldActivity } from "../useFieldActivity"
 import { useFieldState } from "../useFieldState"
 import HideSourceIcon from '@mui/icons-material/HideSource';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { useNullabilityMiddleware } from "../useNullabilityMiddleware"
 import { formStore, userPreferencesStore } from "../../../state"
 import { useHighlightPinButton } from "../useHighlightPinButton"
 import { useTheme } from "@emotion/react"
 import { useAtom } from "jotai"
+import { DocMarkerContext } from "../../DocMarkerContext"
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure
@@ -37,6 +38,17 @@ export function DmInputControl(props) {
   const fieldId = path // field ID is defined to be the path in the form data
   const htmlId = id + "-input"
 
+  // get access to the global context
+  const dmCtx = useContext(DocMarkerContext);
+
+  // === fields repository connection ===
+  
+  dmCtx.fieldsRepository.useFieldsRepositoryConnection({
+    fieldId,
+    data,
+    visible,
+    handleChange,
+  });
 
   // === field activity ===
 

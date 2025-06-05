@@ -10,10 +10,13 @@ import useUnload from "../utils/useUnload"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { currentOptions } from "../options"
 import { CreateFileDialog } from "./dialogs/CreateFileDialog"
+import { DocMarkerContext, useDocMarkerContextState } from "./DocMarkerContext"
 
 const theme = createTheme(currentOptions.theme)
 
 export function Application() {
+  const docMarkerContext = useDocMarkerContextState()
+
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
 
   // close te file when closing the browser
@@ -25,7 +28,7 @@ export function Application() {
   });
 
   return (
-    <>
+    <DocMarkerContext.Provider value={docMarkerContext}>
       <ThemeProvider theme={theme}>
         <div className={styles["app-bar-container"]}>
           
@@ -50,6 +53,6 @@ export function Application() {
         <CreateFileDialog />
         { currentOptions.slots.dialogs }
       </ThemeProvider>
-    </>
+    </DocMarkerContext.Provider>
   )
 }
