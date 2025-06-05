@@ -32,7 +32,6 @@ export function ControlInputBoolean(props) {
     onFocus,
     observeChange,
     isFieldActive,
-    hasVerifiedAppearance
   } = props
 
   const isNullable = Array.isArray(schema.type)
@@ -77,9 +76,7 @@ export function ControlInputBoolean(props) {
         id={htmlId}
         size="small"
         color={
-          isFieldActive ? "primary" : (
-            hasVerifiedAppearance ? "success" : "standard"
-          )
+          isFieldActive ? "primary" : "standard"
         }
       >
         <ToggleButton sx={{px: 2}} value={"true"}>

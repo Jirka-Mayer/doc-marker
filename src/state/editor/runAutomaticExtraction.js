@@ -12,16 +12,13 @@ const jotaiStore = getDefaultStore()
  */
 export function runAutomaticExtraction() {
   const formData = jotaiStore.get(formDataAtom) || {}
-  const fieldId = "#/properties/anamnesis/properties/age"
-  const rangeIndex = 72
+  const fieldId = "myInteger"
+  const rangeIndex = 2
   const rangeLength = 9
 
   const newFormData = {
     ...formData,
-    anamnesis: {
-      ...formData.anamnesis,
-      age: 42
-    }
+    myInteger: 42,
   }
 
   // TODO: programmatic form data manipulation has been modified,

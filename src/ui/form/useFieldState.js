@@ -16,8 +16,6 @@ export function useFieldState(fieldId, isFieldActive) {
     || fieldState === FieldState.HUMAN_VALUE
   )
 
-  const hasVerifiedAppearance = isVerified && !isFieldActive
-
   function toggleRobotVerified() {
     if (fieldState === FieldState.ROBOT_VALUE_VERIFIED)
       setFieldState(FieldState.ROBOT_VALUE)
@@ -36,7 +34,6 @@ export function useFieldState(fieldId, isFieldActive) {
     fieldState, setFieldState,
     hasRobotValue,
     isVerified,
-    hasVerifiedAppearance: false, // TODO: temporarily disabled
     toggleRobotVerified,
     updateFieldStateWithChange
   }

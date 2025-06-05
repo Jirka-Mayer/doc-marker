@@ -52,7 +52,6 @@ export function DmInputControl(props) {
   const {
     hasRobotValue,
     isVerified,
-    hasVerifiedAppearance,
     toggleRobotVerified,
     updateFieldStateWithChange
   } = useFieldState(fieldId, isFieldActive)
@@ -126,7 +125,6 @@ export function DmInputControl(props) {
     onFocus,
     observeChange,
     isFieldActive,
-    hasVerifiedAppearance,
   }
 
 
@@ -158,7 +156,7 @@ export function DmInputControl(props) {
       sx={{
         // visibility normally toggles "display: none",
         // but if the debug mode is enabled, invisible controls are
-        // rendered, only at a 50% opacity.
+        // rendered, only at 50% opacity.
         display: (visible || displayDebugInfo) ? "block" : "none",
         opacity: (!visible && displayDebugInfo) ? 0.5 : undefined,
 
@@ -167,6 +165,7 @@ export function DmInputControl(props) {
       }}
       onClick={() => setFieldActive()}
     >
+
       <InputLabel
         className={styles["field-label"]}
         htmlFor={htmlId}
@@ -176,7 +175,6 @@ export function DmInputControl(props) {
         className={[
           styles["field-row"],
           isFieldActive ? styles["field-row--active"] : "",
-          hasVerifiedAppearance ? styles["field-row--verified"] : ""
         ].join(" ")}
         style={{ background: fieldBackground }}
       >
@@ -220,7 +218,7 @@ export function DmInputControl(props) {
         { hasRobotValue ? (
           <ToggleButton
             size="small"
-            color={hasVerifiedAppearance ? "success" : "primary"}
+            color="primary"
             value="check"
             selected={isVerified}
             onChange={toggleRobotVerified}

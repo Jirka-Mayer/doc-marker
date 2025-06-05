@@ -44,7 +44,7 @@ export function ToolsMenu() {
         onClose={closeMenu}
         variant="menu"
       >
-        <MenuItem disabled={true} onClick={onNlpExtractionClick}> {/* TODO: temporarily disabled */}
+        <MenuItem onClick={onNlpExtractionClick}>
           <ListItemIcon>
             <SmartToyIcon />
           </ListItemIcon>
