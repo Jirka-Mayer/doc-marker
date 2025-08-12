@@ -8,6 +8,12 @@ import * as editorStore from "./editorStore"
 
 const MAX_STACK_SIZE = 100
 const DELAY_MS = 1000
+const DEBUG = false; // set to true to log events to the console
+
+function debugLog(...args) {
+  if (!DEBUG) return;
+  console.log("[HistoryStore]:", ...args);
+}
 
 // lets us manipulate atoms from the non-jotai/react code
 const jotaiStore = getDefaultStore()
@@ -46,7 +52,7 @@ class HistorySnapshot {
   }
 
   static takeNow(eventName = null, cosmeticChange = false) {
-    return new HistorySnapshot({
+    const snapshot = new HistorySnapshot({
       eventName: eventName,
       cosmeticChange: cosmeticChange,
       // making a copy helps bust react caching and force re-renders on undo/redo
@@ -56,6 +62,8 @@ class HistorySnapshot {
       appMode: jotaiStore.get(editorStore.appModeAtom),
       activeFieldId: jotaiStore.get(editorStore.activeFieldIdAtom)
     })
+    debugLog("Taking a HistorySnapshot now!", snapshot);
+    return snapshot;
   }
 
   static empty() {
@@ -144,7 +152,11 @@ export function performUndo() {
   // write
   jotaiStore.set(stackPointerAtom, stackPointer)
 
-  // console.log("UNDO!", jotaiStore.get(stackPointerAtom), jotaiStore.get(stackAtom))
+  debugLog(
+    `Did UNDO`,
+    jotaiStore.get(stackPointerAtom),
+    jotaiStore.get(stackAtom)
+  );
 
   eventEmitter.emit("change", {
     snapshot: state,
@@ -183,7 +195,11 @@ export function performRedo() {
   // write
   jotaiStore.set(stackPointerAtom, stackPointer)
 
-  // console.log("REDO!", jotaiStore.get(stackPointerAtom), jotaiStore.get(stackAtom))
+  debugLog(
+    `Did REDO`,
+    jotaiStore.get(stackPointerAtom),
+    jotaiStore.get(stackAtom)
+  );
 
   eventEmitter.emit("change", {
     snapshot: state,
@@ -200,7 +216,11 @@ export function clear() {
   jotaiStore.set(stackAtom, [now])
   jotaiStore.set(stackPointerAtom, 0)
 
-  // console.log("CLEAR!", jotaiStore.get(stackPointerAtom), jotaiStore.get(stackAtom))
+  debugLog(
+    `Cleared the history stack:`,
+    jotaiStore.get(stackPointerAtom),
+    jotaiStore.get(stackAtom)
+  );
 
   eventEmitter.emit("clear", { snapshot: now, cosmeticChange: false })
 }
@@ -253,11 +273,13 @@ function handleStateChange({
   jotaiStore.set(stackPointerAtom, stackPointer)
   jotaiStore.set(stackAtom, stack)
 
-  // DEBUG LOG
-  // if (performReplacement)
-  //   console.log("REPLACE", stackPointer, stack)
-  // else
-  //   console.log("APPEND", stackPointer, stack)
+  debugLog(
+    `Observed '${eventName}' ${cosmeticChange ? "(cosmetic) " : ""}` +
+    `and did STACK ${performReplacement ? "REPLACE" : "APPEND"}, ` +
+    `resulting in stack:`,
+    stackPointer,
+    stack
+  );
 
   eventEmitter.emit("change", {
     snapshot: now,
