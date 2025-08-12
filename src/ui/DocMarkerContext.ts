@@ -1,5 +1,5 @@
 import { createContext, useMemo } from "react";
-import { FieldsRepository } from "../state/form/FieldsRepository";
+import { FieldsRepository } from "../state";
 
 /**
  * All fields present in the DocMarker's global context
