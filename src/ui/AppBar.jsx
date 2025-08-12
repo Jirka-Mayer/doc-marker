@@ -1,6 +1,5 @@
 import * as styles from "./AppBar.module.scss"
 import {
-  Button,
   Divider,
   Paper,
   Typography,
@@ -13,7 +12,7 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
 import SyncIcon from '@mui/icons-material/Sync'
 import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone'
-import { AppMode, AppFile, fileStore, editorStore, autosaveStore } from "../state"
+import { AppMode, AppFile, fileStore, editorStore } from "../state"
 import { useAtom } from "jotai"
 import { FileMenu } from "./menus/FileMenu"
 import { EditMenu } from "./menus/EditMenu"
@@ -21,12 +20,15 @@ import { ViewMenu } from "./menus/ViewMenu"
 import { Toolbar } from "./Toolbar"
 import { ToolsMenu } from "./menus/ToolsMenu"
 import { useTranslation } from "react-i18next";
-import { useState } from "react"
 import { currentOptions } from "../options"
 import { FormatMenu } from "./menus/FormatMenu"
+import { useContext } from "react"
+import { DocMarkerContext } from "./DocMarkerContext"
 
 export function AppBar() {
   const { t } = useTranslation("appbar")
+
+  const { autosaveStore } = useContext(DocMarkerContext);
 
   const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
   const [appMode, setAppMode] = useAtom(editorStore.appModeAtom)

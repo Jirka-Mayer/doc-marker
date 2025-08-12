@@ -21,8 +21,8 @@ import { AtomGroup } from "./AtomGroup";
 // public methods
 import { runAutomaticExtraction } from "./editor/runAutomaticExtraction";
 
-// jotai stores
-import * as autosaveStore from "./autosaveStore";
+// state stores
+import { AutosaveStore } from "./AutosaveStore";
 import * as editorStore from "./editorStore";
 import * as fileStore from "./fileStore";
 import * as formStore from "./formStore";
@@ -44,8 +44,8 @@ export {
   // public methods
   runAutomaticExtraction,
 
-  // jotai stores
-  autosaveStore,
+  // state stores
+  AutosaveStore,
   editorStore,
   fileStore,
   formStore,
