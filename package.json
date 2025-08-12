@@ -68,7 +68,7 @@
     "@parcel/transformer-sass": "^2.8.2",
     "@parcel/transformer-typescript-types": "^2.9.3",
     "i18next": "^25.0.0",
-    "jotai": "^2.0.0",
+    "jotai": "^2.4.2",
     "parcel": "^2.8.2",
     "prettier": "^3.5.3",
     "react": "^18.0.0",
