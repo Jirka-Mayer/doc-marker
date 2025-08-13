@@ -11,8 +11,7 @@
 // public classes
 import { AppMode } from "./editor/AppMode";
 import { AppFile } from "./file/AppFile";
-import { FileStorage } from "./file/FileStorage";
-import { FileStorageRecord } from "./file/FileStorageRecord";
+import { FilesDatabaseRecord } from "./file/FilesDatabaseRecord";
 import { Migration } from "./file/Migration";
 import { FieldsRepository } from "./form/FieldsRepository";
 import { FieldState } from "./form/FieldState";
@@ -21,10 +20,11 @@ import { AtomGroup } from "./AtomGroup";
 // public methods
 import { runAutomaticExtraction } from "./editor/runAutomaticExtraction";
 
-// state stores
+// public services
 import { AutosaveStore } from "./AutosaveStore";
 import * as editorStore from "./editorStore";
 import * as fileStore from "./fileStore";
+import { FilesDatabase } from "./file/FilesDatabase";
 import * as formStore from "./formStore";
 import * as historyStore from "./historyStore";
 import * as reportStore from "./reportStore";
@@ -34,8 +34,7 @@ export {
   // public classes
   AppMode,
   AppFile,
-  FileStorage,
-  FileStorageRecord,
+  FilesDatabaseRecord,
   Migration,
   FieldsRepository,
   FieldState,
@@ -44,10 +43,11 @@ export {
   // public methods
   runAutomaticExtraction,
 
-  // state stores
+  // public services
   AutosaveStore,
   editorStore,
   fileStore,
+  FilesDatabase,
   formStore,
   historyStore,
   reportStore,

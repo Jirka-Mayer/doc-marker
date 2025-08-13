@@ -1,18 +1,17 @@
 import * as styles from "./WelcomeBody.module.scss"
 import Typography from '@mui/material/Typography'
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, IconButton, Paper, Stack, Table, TableBody, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Link } from "@mui/material"
-import { useEffect, useState } from "react"
-import { useAtom } from "jotai"
-import { AppFile, FileStorage, fileStore } from "../state"
-import { FormDefinition } from "../../forms/FormDefinition"
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Stack, Table, TableBody, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Link } from "@mui/material"
+import { useContext, useEffect, useState } from "react"
+import { useAtomValue, useSetAtom } from "jotai"
+import { AppFile, fileStore } from "../state"
 import DeleteIcon from '@mui/icons-material/Delete'
 import DownloadIcon from '@mui/icons-material/Download'
-import moment from "moment"
 import { currentOptions } from "../options"
 import { useTranslation } from "react-i18next"
 import { isOpenAtom as isCreateFileDialogOpenAtom } from "./dialogs/CreateFileDialog"
 
 import packageJson from "../../package.json"
+import { DocMarkerContext } from "./DocMarkerContext"
 const VERSION = packageJson.version
 
 export function WelcomeBody(props) {
@@ -22,8 +21,10 @@ export function WelcomeBody(props) {
 
   const { t } = useTranslation("welcomeBody")
 
-  const [fileList] = useAtom(fileStore.fileListAtom)
-  const [,setCreateFileDialogOpenAtom] = useAtom(isCreateFileDialogOpenAtom)
+  const { filesDatabase } = useContext(DocMarkerContext);
+
+  const fileList = useAtomValue(filesDatabase.fileListAtom)
+  const setCreateFileDialogOpenAtom = useSetAtom(isCreateFileDialogOpenAtom)
 
   // deleting state
   const [recordToDelete, setRecordToDelete] = useState(null)
@@ -41,7 +42,7 @@ export function WelcomeBody(props) {
     const uploadedAppFile = new AppFile(JSON.parse(uploadedJson))
 
     // check if there is the same file already uploaded
-    const existingAppFile = FileStorage.loadFile(uploadedAppFile.uuid)
+    const existingAppFile = filesDatabase.loadFile(uploadedAppFile.uuid)
     if (existingAppFile !== null
       && existingAppFile.updatedAtString !== uploadedAppFile.updatedAtString
     ) {
@@ -50,7 +51,7 @@ export function WelcomeBody(props) {
       setFileToOverwrite(existingAppFile)
     } else {
       // store and open
-      fileStore.storeFile(uploadedAppFile)
+      filesDatabase.storeFile(uploadedAppFile)
       fileStore.openFile(uploadedAppFile.uuid)
     }
   }
@@ -62,7 +63,7 @@ export function WelcomeBody(props) {
 
   function finishFileUpload() {
     // store and open
-    fileStore.storeFile(fileToUpload)
+    filesDatabase.storeFile(fileToUpload)
     fileStore.openFile(fileToUpload.uuid)
     
     closeUploadFileDialog()
@@ -153,7 +154,7 @@ export function WelcomeBody(props) {
                           <IconButton
                             size="small"
                             className={styles["file-list__action-button"]}
-                            onClick={() => fileStore.downloadFile(record.uuid)}
+                            onClick={() => filesDatabase.downloadFile(record.uuid)}
                           >
                             <DownloadIcon fontSize="inherit" />
                           </IconButton>
@@ -215,7 +216,7 @@ export function WelcomeBody(props) {
               <Button
                 variant="contained" color="error"
                 onClick={() => {
-                  fileStore.deleteFile(recordToDelete.uuid)
+                  filesDatabase.deleteFile(recordToDelete.uuid)
                   setRecordToDelete(null)
                 }}
               >{ t("deleteDialog.delete") }</Button>

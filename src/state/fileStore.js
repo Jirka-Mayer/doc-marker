@@ -1,17 +1,15 @@
 import { currentOptions } from "../options"
 import { atom, getDefaultStore } from "jotai"
 import { AppFile } from "../state/file/AppFile"
-import { AppMode } from "./editor/AppMode"
-import { FileStorage } from "./file/FileStorage"
 import { EventEmitter } from "../utils/EventEmitter"
 import * as reportStore from "./reportStore"
 import * as formStore from "./formStore"
 import * as editorStore from "./editorStore"
 import * as historyStore from "./historyStore"
 import * as packageJson from "../../package.json"
-import { optionIs } from "@jsonforms/core"
 import { Migration } from "./file/Migration"
 import { forgetAnonymizedText } from "./file/forgetAnonymizedText"
+import { FilesDatabase } from "./file/FilesDatabase"
 
 const DOC_MARKER_VERSION = packageJson.version
 
@@ -134,50 +132,6 @@ function deserializeFromFile(appFile) {
 }
 
 
-//////////////////
-// File Storage //
-//////////////////
-
-const fileListBaseAtom = atom(FileStorage.listFiles())
-
-/**
- * Holds the list of stored files
- */
-export const fileListAtom = atom(get => get(fileListBaseAtom))
-
-/**
- * Call to refresh the list of stored files from the local storage
- */
-export function refreshFileListAtom() {
-  jotaiStore.set(fileListBaseAtom, FileStorage.listFiles())
-}
-
-/**
- * Downloads a stored file, given its UUID
- */
-export function downloadFile(uuid) {
-  const appFile = FileStorage.loadFile(uuid)
-  appFile.download()
-}
-
-/**
- * Deletes a file from the browser storage, given its UUID
- */
-export function deleteFile(uuid) {
-  FileStorage.deleteFile(uuid)
-  refreshFileListAtom()
-}
-
-/**
- * Stores the file into the file storage,
- * ovewriting any existing file with the same UUID
- */
-export function storeFile(appFile) {
-  FileStorage.storeFile(appFile)
-  refreshFileListAtom()
-}
-
-
 /////////////////////////////
 // Current File Operations //
 /////////////////////////////
@@ -203,6 +157,10 @@ export function closeFile() {
   jotaiStore.set(fileUuidBaseAtom, null)
 }
 
+// TODO: replace this with dependency injection in the next few commits!
+// (this solution breaks the app by creating two file list atoms)
+const filesDatabase = new FilesDatabase();
+
 /**
  * Saves the currently open file to local storage
  * (or does nothing if no file is open)
@@ -212,8 +170,7 @@ export function saveCurrentFile() {
     return
   
   const appFile = serializeToFile()
-  FileStorage.storeFile(appFile)
-  refreshFileListAtom()
+  filesDatabase.storeFile(appFile)
 
   eventEmitter.emit("fileSaved", { appFile })
 }
@@ -222,7 +179,7 @@ export function saveCurrentFile() {
  * Opens a file from the local storage based on the given UUID
  */
 export function openFile(uuid) {
-  const appFile = FileStorage.loadFile(uuid)
+  const appFile = filesDatabase.loadFile(uuid)
   deserializeFromFile(appFile)
   historyStore.clear()
 }

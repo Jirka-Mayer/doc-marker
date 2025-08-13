@@ -1,5 +1,5 @@
 import { createContext, useMemo } from "react";
-import { AutosaveStore, FieldsRepository } from "../state";
+import { AutosaveStore, FieldsRepository, FilesDatabase } from "../state";
 
 /**
  * All fields present in the DocMarker's global context
@@ -7,6 +7,7 @@ import { AutosaveStore, FieldsRepository } from "../state";
 export interface DocMarkerContextState {
   readonly fieldsRepository: FieldsRepository;
   readonly autosaveStore: AutosaveStore;
+  readonly filesDatabase: FilesDatabase;
 }
 
 /**
@@ -15,10 +16,12 @@ export interface DocMarkerContextState {
 export function useDocMarkerContextState(): DocMarkerContextState {
   const fieldsRepository = useMemo(() => new FieldsRepository(), []);
   const autosaveStore = useMemo(() => new AutosaveStore(), []);
+  const filesDatabase = useMemo(() => new FilesDatabase(), []);
 
   return {
     fieldsRepository,
     autosaveStore,
+    filesDatabase,
   };
 }
 
