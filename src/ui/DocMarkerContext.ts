@@ -1,27 +1,90 @@
 import { createContext, useMemo } from "react";
-import { AutosaveStore, FieldsRepository, FilesDatabase } from "../state";
+import {
+  AutosaveStore,
+  FieldsRepository,
+  FileMetadataStore,
+  FilesDatabase,
+  FileStateManager,
+} from "../state";
+import { FileSerializer } from "../state/file/FileSerializer";
+import { JotaiStore } from "../state/JotaiStore";
+import { getDefaultStore } from "jotai";
 
 /**
- * All fields present in the DocMarker's global context
+ * The DocMarker context acts as a service container for the whole application,
+ * holding services and state stores responsible for the logic underneatch
+ * all the React UI. All the services are singletons, created during the
+ * booting of the app.
  */
 export interface DocMarkerContextState {
-  readonly fieldsRepository: FieldsRepository;
-  readonly autosaveStore: AutosaveStore;
+  /**
+   * The jotai store, that lets us manipulate jotai atoms from outside of react
+   */
+  readonly jotaiStore: JotaiStore;
+
+  /**
+   * Provides access to files persisted in web browser's local storage
+   */
   readonly filesDatabase: FilesDatabase;
+
+  /**
+   * Holds metadata about the currently openned file
+   */
+  readonly fileMetadataStore: FileMetadataStore;
+
+  /**
+   * Contains logic for loading and saving files
+   */
+  readonly fileStateManager: FileStateManager;
+
+  /**
+   * Is responsible purely for serialization and deserialization
+   * of files. During deserialization, it hydrates all the stores.
+   * During serialization, it reads those stores and creates the JSON file.
+   */
+  readonly fileSerializer: FileSerializer;
+
+  /**
+   * Keeps track of fields in the form, their visibility and value
+   */
+  readonly fieldsRepository: FieldsRepository;
+
+  /**
+   * Observes the history store for idling and triggers file saves
+   */
+  readonly autosaveStore: AutosaveStore;
 }
 
 /**
  * Creates all services and stores them in the global context
  */
 export function useDocMarkerContextState(): DocMarkerContextState {
-  const fieldsRepository = useMemo(() => new FieldsRepository(), []);
-  const autosaveStore = useMemo(() => new AutosaveStore(), []);
+  const jotaiStore = useMemo(() => getDefaultStore(), []);
   const filesDatabase = useMemo(() => new FilesDatabase(), []);
+  const fileMetadataStore = useMemo(
+    () => new FileMetadataStore(jotaiStore),
+    [],
+  );
+  const fileSerializer = useMemo(
+    () => new FileSerializer(jotaiStore, fileMetadataStore),
+    [],
+  );
+  const fileStateManager = useMemo(
+    () =>
+      new FileStateManager(filesDatabase, fileSerializer, fileMetadataStore),
+    [],
+  );
+  const fieldsRepository = useMemo(() => new FieldsRepository(), []);
+  const autosaveStore = useMemo(() => new AutosaveStore(jotaiStore, fileStateManager), []);
 
   return {
+    jotaiStore,
+    filesDatabase,
+    fileMetadataStore,
+    fileSerializer,
+    fileStateManager,
     fieldsRepository,
     autosaveStore,
-    filesDatabase,
   };
 }
 

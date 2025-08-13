@@ -12,7 +12,7 @@ import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
 import SyncIcon from '@mui/icons-material/Sync'
 import FileDownloadDoneIcon from '@mui/icons-material/FileDownloadDone'
-import { AppMode, AppFile, fileStore, editorStore } from "../state"
+import { AppMode, AppFile, editorStore } from "../state"
 import { useAtom } from "jotai"
 import { FileMenu } from "./menus/FileMenu"
 import { EditMenu } from "./menus/EditMenu"
@@ -28,12 +28,16 @@ import { DocMarkerContext } from "./DocMarkerContext"
 export function AppBar() {
   const { t } = useTranslation("appbar")
 
-  const { autosaveStore } = useContext(DocMarkerContext);
+  const {
+    autosaveStore,
+    fileMetadataStore,
+    fileStateManager,
+  } = useContext(DocMarkerContext);
 
-  const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
+  const [isFileOpen] = useAtom(fileMetadataStore.isFileOpenAtom)
   const [appMode, setAppMode] = useAtom(editorStore.appModeAtom)
-  const [fileName, setFileName] = useAtom(fileStore.fileNameAtom)
-  const [fileUuid] = useAtom(fileStore.fileUuidAtom)
+  const [fileName, setFileName] = useAtom(fileMetadataStore.fileNameAtom)
+  const [fileUuid] = useAtom(fileMetadataStore.fileUuidAtom)
   const [isFileDirty] = useAtom(autosaveStore.isDirtyAtom)
 
   return (
@@ -42,7 +46,7 @@ export function AppBar() {
       <div className={styles["appbar__upper-container"]}>
         <div
           className={styles["appbar__logo"]}
-          onClick={() => fileStore.closeFile()}
+          onClick={() => fileStateManager.closeFile()}
           style={{ cursor: isFileOpen ? "pointer" : "default" }}
         >
           <img

@@ -1,7 +1,7 @@
-import { Atom, atom, getDefaultStore, PrimitiveAtom } from "jotai";
+import { Atom, atom, PrimitiveAtom } from "jotai";
 import * as historyStore from "./historyStore";
-import * as fileStore from "./fileStore";
 import { JotaiStore } from "./JotaiStore";
+import { FileStateManager } from "./file/FileStateManager";
 
 /**
  * After this time of idling the autosave is triggered. If the user starts
@@ -14,14 +14,16 @@ const AUTOSAVE_DEBOUNCE_DELAY_MS = 5_000;
  *
  * Observes the history stack of the HistoryStore (undo/redo) and when it does
  * not change for the AUTOSAVE_DEBOUNCE_DELAY_MS amount of time, it calls
- * save file action on the FileStore.
+ * save file action on the FileStateManager.
  */
 export class AutosaveStore {
-  private jotaiStore: JotaiStore = getDefaultStore();
+  private readonly jotaiStore: JotaiStore;
+  private readonly fileStateManager: FileStateManager;
 
-  constructor() {
-    // TODO: dependency-inject historyStore and fileStore, once they
-    // get refactored into services like this one
+
+  constructor(jotaiStore: JotaiStore, fileStateManager: FileStateManager) {
+    this.jotaiStore = jotaiStore;
+    this.fileStateManager = fileStateManager;
 
     this.registerEventListeners();
   }
@@ -41,15 +43,15 @@ export class AutosaveStore {
       this.setDirty();
     });
 
-    fileStore.eventEmitter.on("beforeFileClose", (e) => {
+    this.fileStateManager.onBeforeFileClose.subscribe((e) => {
       if (this.jotaiStore.get(this.isDirtyAtom)) {
-        fileStore.saveCurrentFile();
+        this.fileStateManager.saveCurrentFile();
       }
 
       this.cancelScheduledAutosave();
     });
 
-    fileStore.eventEmitter.on("fileSaved", (e) => {
+    this.fileStateManager.onFileSaved.subscribe((e) => {
       this.jotaiStore.set(this.isDirtyBaseAtom, false);
       this.cancelScheduledAutosave();
     });
@@ -98,6 +100,6 @@ export class AutosaveStore {
 
   private onAutosaveTrigger() {
     this.autosaveTimeoutId = null;
-    fileStore.saveCurrentFile();
+    this.fileStateManager.saveCurrentFile();
   }
 }

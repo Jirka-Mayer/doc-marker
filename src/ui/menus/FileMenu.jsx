@@ -1,5 +1,5 @@
-import { Button, Menu, MenuList, MenuItem, ListItemIcon, Typography, Divider } from "@mui/material";
-import { useState } from "react";
+import { Button, Menu, MenuItem, ListItemIcon, Typography, Divider } from "@mui/material";
+import { useContext, useState } from "react";
 import NoteAddIcon from '@mui/icons-material/NoteAdd';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,14 +8,15 @@ import InfoIcon from '@mui/icons-material/Info';
 import LanguageIcon from '@mui/icons-material/Language';
 import SaveIcon from '@mui/icons-material/Save';
 import { useAtom } from "jotai"
-import { AppFile, fileStore } from "../../state";
 import { isOpenAtom as isLocaleDialogOpenAtom } from "../dialogs/ChangeLocaleDialog"
-import { FormDefinition } from "../../../forms/FormDefinition";
 import { useTranslation } from "react-i18next";
 import { isOpenAtom as isCreateFileDialogOpenAtom } from "../dialogs/CreateFileDialog"
+import { DocMarkerContext } from "../DocMarkerContext";
 
 export function FileMenu() {
   const { t } = useTranslation("menus")
+
+  const { fileMetadataStore, fileStateManager } = useContext(DocMarkerContext);
 
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -28,7 +29,7 @@ export function FileMenu() {
 
   // === used state ===
 
-  const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
+  const [isFileOpen] = useAtom(fileMetadataStore.isFileOpenAtom)
   const [,setLocaleDialogOpen] = useAtom(isLocaleDialogOpenAtom)
   const [,setCreateFileDialogOpenAtom] = useAtom(isCreateFileDialogOpenAtom)
 
@@ -40,17 +41,17 @@ export function FileMenu() {
   }
 
   function onSaveFileClick() {
-    fileStore.saveCurrentFile()
+    fileStateManager.saveCurrentFile()
     closeMenu()
   }
 
   function onDownloadFileClick() {
-    fileStore.downloadCurrentFile()
+    fileStateManager.downloadCurrentFile()
     closeMenu()
   }
 
   function onCloseFileClick() {
-    fileStore.closeFile()
+    fileStateManager.closeFile()
     closeMenu()
   }
 

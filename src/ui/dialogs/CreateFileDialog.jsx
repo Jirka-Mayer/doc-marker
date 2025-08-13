@@ -1,14 +1,16 @@
 import { Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle, Select, FormControlLabel, MenuItem } from "@mui/material";
 import { useAtom } from "jotai";
 import { atom } from "jotai/vanilla";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FormDefinition } from "../../../forms/FormDefinition";
-import { fileStore } from "../../state"
+import { DocMarkerContext } from "../DocMarkerContext";
 
 export const isOpenAtom = atom(false)
 
 export function CreateFileDialog() {
+  const { fileStateManager } = useContext(DocMarkerContext);
+
   const [isOpen, setIsOpen] = useAtom(isOpenAtom)
 
   const [formId, setFormId] = useState(FormDefinition.DEFAULT_FORM_ID)
@@ -64,7 +66,7 @@ export function CreateFileDialog() {
           autoFocus
           variant="contained"
           onClick={() => {
-            fileStore.createNewFile(formId)
+            fileStateManager.createNewFile(formId)
             setIsOpen(false)
           }}
         >

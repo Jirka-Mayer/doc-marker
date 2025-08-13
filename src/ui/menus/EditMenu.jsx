@@ -1,13 +1,16 @@
-import { Button, Menu, MenuList, MenuItem, ListItemIcon, Typography, Divider } from "@mui/material";
-import { useState, useCallback, useEffect } from "react";
+import { Button, Menu, MenuItem, ListItemIcon, Typography } from "@mui/material";
+import { useState, useCallback, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useAtom } from "jotai"
-import { fileStore, historyStore } from "../../state"
+import { historyStore } from "../../state"
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
+import { DocMarkerContext } from "../DocMarkerContext";
 
 export function EditMenu() {
   const { t } = useTranslation("menus")
+
+  const { fileMetadataStore } = useContext(DocMarkerContext);
 
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -20,7 +23,7 @@ export function EditMenu() {
 
   // === used state ===
 
-  const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
+  const [isFileOpen] = useAtom(fileMetadataStore.isFileOpenAtom)
 
   const [canUndo] = useAtom(historyStore.canUndoAtom)
   const [canRedo] = useAtom(historyStore.canRedoAtom)

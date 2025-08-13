@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Stack, Table, TableBody, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Link } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import { useAtomValue, useSetAtom } from "jotai"
-import { AppFile, fileStore } from "../state"
+import { AppFile } from "../state"
 import DeleteIcon from '@mui/icons-material/Delete'
 import DownloadIcon from '@mui/icons-material/Download'
 import { currentOptions } from "../options"
@@ -21,7 +21,7 @@ export function WelcomeBody(props) {
 
   const { t } = useTranslation("welcomeBody")
 
-  const { filesDatabase } = useContext(DocMarkerContext);
+  const { filesDatabase, fileStateManager } = useContext(DocMarkerContext);
 
   const fileList = useAtomValue(filesDatabase.fileListAtom)
   const setCreateFileDialogOpenAtom = useSetAtom(isCreateFileDialogOpenAtom)
@@ -52,7 +52,7 @@ export function WelcomeBody(props) {
     } else {
       // store and open
       filesDatabase.storeFile(uploadedAppFile)
-      fileStore.openFile(uploadedAppFile.uuid)
+      fileStateManager.openFile(uploadedAppFile.uuid)
     }
   }
 
@@ -64,7 +64,7 @@ export function WelcomeBody(props) {
   function finishFileUpload() {
     // store and open
     filesDatabase.storeFile(fileToUpload)
-    fileStore.openFile(fileToUpload.uuid)
+    fileStateManager.openFile(fileToUpload.uuid)
     
     closeUploadFileDialog()
   }
@@ -117,7 +117,7 @@ export function WelcomeBody(props) {
                             href="#"
                             onClick={(e) => {
                               e.preventDefault()
-                              fileStore.openFile(record.uuid)
+                              fileStateManager.openFile(record.uuid)
                             }}
                           >
                             { record.constructFileName() }

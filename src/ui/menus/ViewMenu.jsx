@@ -1,15 +1,18 @@
 import { Button, Menu, MenuList, MenuItem, ListItemIcon, Typography, Divider } from "@mui/material";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useContext } from "react";
 import BugReportIcon from '@mui/icons-material/BugReport'
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import ReadMoreIcon from '@mui/icons-material/ReadMore'
 import ContentCutIcon from '@mui/icons-material/ContentCut'
 import { useAtom } from "jotai"
-import { AppMode, editorStore, userPreferencesStore, fileStore } from "../../state";
+import { AppMode, editorStore, userPreferencesStore } from "../../state";
 import { useTranslation } from "react-i18next";
+import { DocMarkerContext } from "../DocMarkerContext";
 
 export function ViewMenu() {
   const { t } = useTranslation("menus")
+
+  const { fileMetadataStore } = useContext(DocMarkerContext);
 
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
@@ -22,7 +25,7 @@ export function ViewMenu() {
 
   // === used state ===
 
-  const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
+  const [isFileOpen] = useAtom(fileMetadataStore.isFileOpenAtom)
   const [appMode, setAppMode] = useAtom(editorStore.appModeAtom)
   const [displayDebugInfo, setDisplayDebugInfo] = useAtom(
     userPreferencesStore.displayDebugInfoAtom

@@ -1,7 +1,9 @@
 import { Typography, useTheme } from "@mui/material";
 import { useAtom } from "jotai";
-import { editorStore, fileStore, formStore, reportStore, userPreferencesStore } from "../state";
+import { editorStore, formStore, reportStore, userPreferencesStore } from "../state";
 import { AppMode } from "../state";
+import { useContext } from "react";
+import { DocMarkerContext } from "./DocMarkerContext";
 
 /**
  * A debugging-only bar at the bottom of the application.
@@ -9,10 +11,12 @@ import { AppMode } from "../state";
 export function StatusBar() {
   const theme = useTheme()
 
+  const { fileMetadataStore } = useContext(DocMarkerContext);
+
   const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom)
   
   const [appMode] = useAtom(editorStore.appModeAtom)
-  const [fileUuid] = useAtom(fileStore.fileUuidAtom)
+  const [fileUuid] = useAtom(fileMetadataStore.fileUuidAtom)
   
   const [formats] = useAtom(reportStore.selectionFormatsAtom)
   const [selection] = useAtom(reportStore.selectionRangeAtom)

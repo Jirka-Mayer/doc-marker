@@ -4,7 +4,6 @@ import { WelcomeBody } from "./WelcomeBody"
 import { StatusBar } from "./StatusBar"
 import { AppBody } from "./AppBody"
 import { useAtom } from "jotai"
-import { fileStore } from "../state"
 import { ChangeLocaleDialog } from "./dialogs/ChangeLocaleDialog"
 import useUnload from "../utils/useUnload"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
@@ -17,13 +16,15 @@ const theme = createTheme(currentOptions.theme)
 export function Application() {
   const docMarkerContext = useDocMarkerContextState()
 
-  const [isFileOpen] = useAtom(fileStore.isFileOpenAtom)
+  const { fileMetadataStore, fileStateManager } = docMarkerContext;
+
+  const [isFileOpen] = useAtom(fileMetadataStore.isFileOpenAtom)
 
   // close te file when closing the browser
   // (this may trigger saving if the file is dirty)
   useUnload(e => {
     if (isFileOpen) {
-      fileStore.closeFile()
+      fileStateManager.closeFile()
     }
   });
 
