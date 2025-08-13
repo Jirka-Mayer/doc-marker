@@ -163,7 +163,7 @@ export class FilesDatabase {
     const json: object[] = records.map((r) => r.toJson());
     localStorage.setItem(FilesDatabase.FILES_INDEX_KEY, JSON.stringify(json));
 
-    // fire the change event
-    this._onIndexChanged.dispatch(records);
+    // fire the change event, with re-loaded values to ensure proper ordering
+    this._onIndexChanged.dispatch(this.loadFilesIndex());
   }
 }
