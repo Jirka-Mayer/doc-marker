@@ -32,6 +32,7 @@ class HistorySnapshot {
     cosmeticChange,
     formData,
     reportDelta,
+    reportLanguage,
     reportSelection,
     appMode,
     activeFieldId
@@ -39,6 +40,7 @@ class HistorySnapshot {
     // essential state
     this.formData = formData
     this.reportDelta = reportDelta
+    this.reportLanguage = reportLanguage
 
     // surrounding state
     this.reportSelection = reportSelection
@@ -58,6 +60,7 @@ class HistorySnapshot {
       // making a copy helps bust react caching and force re-renders on undo/redo
       formData: { ...jotaiStore.get(formStore.formDataAtom) },
       reportDelta: jotaiStore.get(reportStore.contentAtom),
+      reportLanguage: jotaiStore.get(reportStore.reportLanguageAtom),
       reportSelection: reportStore.quillExtended.getSelection(),
       appMode: jotaiStore.get(editorStore.appModeAtom),
       activeFieldId: jotaiStore.get(editorStore.activeFieldIdAtom)
@@ -72,6 +75,7 @@ class HistorySnapshot {
       cosmeticChange: false,
       formData: null,
       reportDelta: { ops:[] },
+      reportLanguage: null,
       reportSelection: null,
       appMode: null,
       activeFieldId: null
@@ -87,6 +91,7 @@ class HistorySnapshot {
       // essential state
       jotaiStore.set(formStore.formDataAtom, this.formData)
       reportStore.quillExtended.setContents(this.reportDelta, "api")
+      jotaiStore.set(reportStore.reportLanguageAtom, this.reportLanguage)
 
       // surrounding state
       if (this.reportSelection) {
@@ -297,6 +302,10 @@ formStore.eventEmitter.on("formDataChanged", (e) => {
 
 reportStore.eventEmitter.on("reportDeltaChanged", (e) => {
   handleStateChange({ eventName: "reportDeltaChanged", cosmeticChange: false })
+})
+
+reportStore.eventEmitter.on("reportLanguageChanged", (e) => {
+  handleStateChange({ eventName: "reportLanguageChanged", cosmeticChange: false })
 })
 
 editorStore.eventEmitter.on("appModeChanged", (e) => {

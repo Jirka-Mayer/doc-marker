@@ -88,6 +88,12 @@ export interface SerializedFileJson {
   _reportText: string;
 
   /**
+   * ISO 639 langauge of the report text,
+   * May be missing if the user did not provide this information.
+   */
+  _reportLanguage: string | undefined;
+
+  /**
    * An extracted overview of all highlights in the text, groupped by their
    * form field ID. The gold data is encoded in the _reportDelta value,
    * but this is an extracted, read-only copy of that data for easier

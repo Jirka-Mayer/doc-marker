@@ -51,6 +51,8 @@ export class FileSerializer {
 
       _reportDelta: this.jotaiStore.get(reportStore.contentAtom),
       _reportText: reportStore.quillExtended.getText(),
+      _reportLanguage:
+        this.jotaiStore.get(reportStore.reportLanguageAtom) || undefined,
       _highlights: this.jotaiStore.get(reportStore.highlightsAtom),
     };
 
@@ -91,6 +93,10 @@ export class FileSerializer {
 
     reportStore.quillExtended.setContents(json._reportDelta, "api");
     // _reportText and _highlights are ignored, since they are computable from delta
+    this.jotaiStore.set(
+      reportStore.reportLanguageAtom,
+      json._reportLanguage || null,
+    );
 
     // === post-deserialization logic ===
 

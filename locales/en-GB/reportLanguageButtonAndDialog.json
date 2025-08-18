@@ -1,0 +1,14 @@
+{
+  "button": {
+    "selectLanguageButton": "Select language",
+    "selectLanguageMessage": "Please, select the language of the text below."
+  },
+
+  "dialog": {
+    "title": "Select text language",
+    "search": "Search",
+    "unknownLanguage": "Unknown language",
+    "ok": "OK",
+    "cancel": "Cancel"
+  }
+}

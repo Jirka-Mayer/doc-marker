@@ -33,6 +33,25 @@ const contentBaseAtom = atom({ ops: [] })
 export const contentAtom = atom(get => get(contentBaseAtom))
 
 
+//////////////
+// Language //
+//////////////
+
+const reportLanguageBaseAtom = atom(null); // nullable string
+
+// nullable string
+export const reportLanguageAtom = atom(
+  (get) => get(reportLanguageBaseAtom),
+  (get, set, newValue) => {
+    set(reportLanguageBaseAtom, newValue);
+
+    eventEmitter.emit("reportLanguageChanged", {
+      newValue: newValue
+    });
+  }
+);
+
+
 ////////////////
 // Highlights //
 ////////////////

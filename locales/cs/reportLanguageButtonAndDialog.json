@@ -1,0 +1,14 @@
+{
+  "button": {
+    "selectLanguageButton": "Vybrat jazyk",
+    "selectLanguageMessage": "Prosím, vyberte jazyk textu, který je níže."
+  },
+
+  "dialog": {
+    "title": "Vybrat jazyk textu",
+    "search": "Hledat",
+    "unknownLanguage": "Neznámý jazyk",
+    "ok": "OK",
+    "cancel": "Zrušit"
+  }
+}

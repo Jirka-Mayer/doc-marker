@@ -9,6 +9,7 @@ import useUnload from "../utils/useUnload"
 import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { currentOptions } from "../options"
 import { CreateFileDialog } from "./dialogs/CreateFileDialog"
+import { ReportLanguageDialog } from "./dialogs/ReportLanguageDialog"
 import { DocMarkerContext, useDocMarkerContextState } from "./DocMarkerContext"
 
 const theme = createTheme(currentOptions.theme)
@@ -52,6 +53,7 @@ export function Application() {
 
         <ChangeLocaleDialog />
         <CreateFileDialog />
+        <ReportLanguageDialog />
         { currentOptions.slots.dialogs }
       </ThemeProvider>
     </DocMarkerContext.Provider>
