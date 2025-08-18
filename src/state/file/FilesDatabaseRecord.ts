@@ -58,9 +58,8 @@ export class FilesDatabaseRecord {
 
   /**
    * Serializes the record to a JSON object
-   * @returns object
    */
-  public toJson(): object {
+  public toJson(): any {
     return {
       uuid: this.uuid,
       createdAt: this.createdAt.toISOString(),

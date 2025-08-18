@@ -78,18 +78,18 @@ export class FileSerializer {
 
     // === deserialize state ===
 
-    this.fileMeta.fileUuid = json["_uuid"];
-    this.fileMeta.fileName = json["_fileName"];
-    this.fileMeta.fileCreatedAt = new Date(json["_createdAt"]);
+    this.fileMeta.fileUuid = json._uuid;
+    this.fileMeta.fileName = json._fileName;
+    this.fileMeta.fileCreatedAt = new Date(json._createdAt);
     // _updatedAt is ignored, since it's overwritten during save anyways
 
-    this.jotaiStore.set(editorStore.appModeAtom, json["_appMode"]);
+    this.jotaiStore.set(editorStore.appModeAtom, json._appMode);
 
-    this.jotaiStore.set(formStore.formIdAtom, json["_formId"]);
-    this.jotaiStore.set(formStore.formDataAtom, json["_formData"]);
+    this.jotaiStore.set(formStore.formIdAtom, json._formId);
+    this.jotaiStore.set(formStore.formDataAtom, json._formData);
     formStore.initiateExportRefresh();
 
-    reportStore.quillExtended.setContents(json["_reportDelta"], "api");
+    reportStore.quillExtended.setContents(json._reportDelta, "api");
     // _reportText and _highlights are ignored, since they are computable from delta
 
     // === post-deserialization logic ===

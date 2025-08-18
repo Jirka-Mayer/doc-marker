@@ -4,6 +4,7 @@ import { currentOptions } from "../../options";
 import { ISimpleEvent, SimpleEventDispatcher } from "strongly-typed-events";
 import { Atom, atom, getDefaultStore, PrimitiveAtom } from "jotai";
 import { JotaiStore } from "../JotaiStore";
+import { SerializedFileJson } from "./SerializedFileJson";
 
 const localStorage = window.localStorage;
 
@@ -49,12 +50,12 @@ export class FilesDatabase {
   /**
    * Loads a file by UUID, returns null if the file does not exist
    */
-  public loadFile(uuid: string): AppFile {
+  public loadFile(uuid: string): AppFile | null {
     const data = localStorage.getItem(FilesDatabase.FILE_KEY_PREFIX + uuid);
 
     if (!data) return null;
 
-    const json = JSON.parse(data);
+    const json = JSON.parse(data) as SerializedFileJson;
 
     return AppFile.fromJson(json);
   }
@@ -92,7 +93,9 @@ export class FilesDatabase {
    */
   public downloadFile(uuid: string): void {
     const appFile = this.loadFile(uuid);
-    appFile.download();
+    if (appFile !== null) {
+      appFile.download();
+    }
   }
 
   ////////////////////////////////

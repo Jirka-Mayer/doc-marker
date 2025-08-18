@@ -20,7 +20,6 @@ export class AutosaveStore {
   private readonly jotaiStore: JotaiStore;
   private readonly fileStateManager: FileStateManager;
 
-
   constructor(jotaiStore: JotaiStore, fileStateManager: FileStateManager) {
     this.jotaiStore = jotaiStore;
     this.fileStateManager = fileStateManager;

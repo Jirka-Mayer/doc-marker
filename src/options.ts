@@ -1,6 +1,7 @@
 import _ from "lodash";
 import localeDefinitions from "../locales";
 import formDefinitions from "../forms";
+import { SerializedFileJson } from "./state/file/SerializedFileJson";
 
 /*
     This file holds the global doc-marker options object,
@@ -60,13 +61,13 @@ export interface DmOptions {
    * JSON Forms renderers importer
    * (async so that components get imported after options are set)
    */
-  formRenderersImporter: () => Promise<object[]>;
+  formRenderersImporter: () => Promise<any[]>;
 
   /**
    * Json Forms cells importer
    * (async so that components get imported after options are set)
    */
-  formCellsImporter: () => Promise<object[]>;
+  formCellsImporter: () => Promise<any[]>;
 
   /**
    * Prefix for keys in the local storage
@@ -154,18 +155,18 @@ export interface FormDefinition {
   /**
    * Async function that imports the json schema for the form data
    */
-  dataSchemaImporter: () => Promise<object>;
+  dataSchemaImporter: () => Promise<any>;
 
   /**
    * Async function that imports the UI schema for the JSON Forms library
    */
-  uiSchemaImporter: () => Promise<object>;
+  uiSchemaImporter: () => Promise<any>;
 
   /**
    * Importers for translations of form text into various locales
    */
   translationImporters: {
-    [localeId: string]: () => Promise<object>;
+    [localeId: string]: () => Promise<any>;
   };
 }
 
@@ -189,19 +190,19 @@ export interface DmFileOptions {
    * Callback that lets you modify the file when being saved,
    * for example by adding custom state
    */
-  onSerialize: (fileJson: object) => object;
+  onSerialize: (fileJson: SerializedFileJson) => SerializedFileJson;
 
   /**
    * Callback that lets you modify a file when an empty one is being created,
    * for example to initialize custom state to its default values.
    * Deserialization is performed after the empty file is created.
    */
-  onCreateEmpty: (fileJson: object) => object;
+  onCreateEmpty: (fileJson: SerializedFileJson) => SerializedFileJson;
 
   /**
    * Callback that is called on file loading, that lets you load custom state
    */
-  onDeserialize: (fileJson: object) => void;
+  onDeserialize: (fileJson: SerializedFileJson) => SerializedFileJson;
 }
 
 /**
@@ -216,13 +217,13 @@ export interface FileMigration {
   /**
    * Tests whether the migration should be applied to the file
    */
-  test: (fileJson: object) => boolean;
+  test: (fileJson: any) => boolean;
 
   /**
    * Implements the migration, inputting file JSON and outputting
    * the modified file JSON
    */
-  run: (fileJson: object) => object;
+  run: (fileJson: any) => any;
 }
 
 /**

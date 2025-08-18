@@ -76,6 +76,7 @@ export class FileStateManager {
    */
   public openFile(uuid: string): void {
     const appFile = this.filesDatabase.loadFile(uuid);
+    if (appFile === null) return;
     this.serializer.deserializeFromFile(appFile);
     historyStore.clear();
   }

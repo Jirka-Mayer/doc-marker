@@ -75,7 +75,10 @@ export function useDocMarkerContextState(): DocMarkerContextState {
     [],
   );
   const fieldsRepository = useMemo(() => new FieldsRepository(), []);
-  const autosaveStore = useMemo(() => new AutosaveStore(jotaiStore, fileStateManager), []);
+  const autosaveStore = useMemo(
+    () => new AutosaveStore(jotaiStore, fileStateManager),
+    [],
+  );
 
   return {
     jotaiStore,
