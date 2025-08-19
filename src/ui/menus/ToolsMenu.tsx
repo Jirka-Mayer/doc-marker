@@ -7,16 +7,15 @@ import {
 } from "@mui/material";
 import { useContext, useState } from "react";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
-import { useAtom } from "jotai";
-import { runAutomaticExtraction } from "../../state";
+import { useAtom, useAtomValue } from "jotai";
 import { useTranslation } from "react-i18next";
 import { currentOptions } from "../../options";
 import { DocMarkerContext } from "../DocMarkerContext";
 
 export function ToolsMenu() {
-  const { fieldsRepository, fileMetadataStore } = useContext(DocMarkerContext);
-
   const { t } = useTranslation("menus");
+  
+  const { fileMetadataStore, robotPredictor } = useContext(DocMarkerContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -30,11 +29,14 @@ export function ToolsMenu() {
   // === used state ===
 
   const [isFileOpen] = useAtom(fileMetadataStore.isFileOpenAtom);
+  const isRobotPredictionRunning = useAtomValue(
+    robotPredictor.isPredictionRunningAtom,
+  );
 
   // === click handlers ===
 
-  function onNlpExtractionClick() {
-    runAutomaticExtraction(fieldsRepository);
+  function handleRobotPredictionClick() {
+    robotPredictor.startPrediction();
     closeMenu();
   }
 
@@ -50,7 +52,10 @@ export function ToolsMenu() {
         onClose={closeMenu}
         variant="menu"
       >
-        <MenuItem onClick={onNlpExtractionClick}>
+        <MenuItem
+          onClick={handleRobotPredictionClick}
+          disabled={isRobotPredictionRunning}
+        >
           <ListItemIcon>
             <SmartToyIcon />
           </ListItemIcon>

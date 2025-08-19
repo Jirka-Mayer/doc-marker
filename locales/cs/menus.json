@@ -45,6 +45,10 @@
   "tools": {
     "headButton": "Nástroje",
 
-    "fillOutAutomatically": "Vyplnit formulář automaticky"
+    "fillOutAutomatically": "Vyplnit formulář automaticky",
+    "robotPredictionSnackbar": {
+      "message": "Vyplňuji formulář...",
+      "abort": "Zastavit"
+    }
   }
 }

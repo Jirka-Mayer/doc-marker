@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles"
 import { currentOptions } from "../options"
 import { CreateFileDialog } from "./dialogs/CreateFileDialog"
 import { ReportLanguageDialog } from "./dialogs/ReportLanguageDialog"
+import { RobotPredictionSnackbar } from "./dialogs/RobotPredictionSnackbar"
 import { DocMarkerContext, useDocMarkerContextState } from "./DocMarkerContext"
 
 const theme = createTheme(currentOptions.theme)
@@ -54,6 +55,7 @@ export function Application() {
         <ChangeLocaleDialog />
         <CreateFileDialog />
         <ReportLanguageDialog />
+        <RobotPredictionSnackbar />
         { currentOptions.slots.dialogs }
       </ThemeProvider>
     </DocMarkerContext.Provider>

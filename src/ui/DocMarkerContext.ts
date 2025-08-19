@@ -5,6 +5,7 @@ import {
   FileMetadataStore,
   FilesDatabase,
   FileStateManager,
+  RobotPredictor,
 } from "../state";
 import { FileSerializer } from "../state/file/FileSerializer";
 import { JotaiStore } from "../state/JotaiStore";
@@ -53,6 +54,11 @@ export interface DocMarkerContextState {
    * Observes the history store for idling and triggers file saves
    */
   readonly autosaveStore: AutosaveStore;
+
+  /**
+   * Service that orchestrates the robot prediction logic
+   */
+  readonly robotPredictor: RobotPredictor;
 }
 
 /**
@@ -79,6 +85,10 @@ export function useDocMarkerContextState(): DocMarkerContextState {
     () => new AutosaveStore(jotaiStore, fileStateManager),
     [],
   );
+  const robotPredictor = useMemo(
+    () => new RobotPredictor(jotaiStore, fieldsRepository),
+    [],
+  );
 
   return {
     jotaiStore,
@@ -88,6 +98,7 @@ export function useDocMarkerContextState(): DocMarkerContextState {
     fileStateManager,
     fieldsRepository,
     autosaveStore,
+    robotPredictor,
   };
 }
 

@@ -45,6 +45,10 @@
   "tools": {
     "headButton": "Tools",
 
-    "fillOutAutomatically": "Fill out form automatically"
+    "fillOutAutomatically": "Fill out form automatically",
+    "robotPredictionSnackbar": {
+      "message": "Filling out the form...",
+      "abort": "Abort"
+    }
   }
 }

@@ -17,9 +17,6 @@ import { FieldsRepository } from "./form/FieldsRepository";
 import { FieldState } from "./form/FieldState";
 import { AtomGroup } from "./AtomGroup";
 
-// public methods
-import { runAutomaticExtraction } from "./editor/runAutomaticExtraction";
-
 // public services
 import { AutosaveStore } from "./AutosaveStore";
 import * as editorStore from "./editorStore";
@@ -30,6 +27,7 @@ import * as formStore from "./formStore";
 import * as historyStore from "./historyStore";
 import * as reportStore from "./reportStore";
 import * as userPreferencesStore from "./userPreferencesStore";
+import { RobotPredictor } from "./RobotPredictor";
 
 export {
   // public classes
@@ -41,9 +39,6 @@ export {
   FilesDatabaseRecord,
   Migration,
 
-  // public methods
-  runAutomaticExtraction,
-
   // public services
   AutosaveStore,
   editorStore,
@@ -54,4 +49,5 @@ export {
   historyStore,
   reportStore,
   userPreferencesStore,
+  RobotPredictor,
 };
