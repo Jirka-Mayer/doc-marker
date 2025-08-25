@@ -60,7 +60,40 @@
           ]
         }
       ]
-    }
+    },
 
+    {
+      "type" : "Group",
+      "label": "group.conditionalFields",
+      "elements": [
+        { "type": "Control", "scope": "#/properties/myCondition" },
+        {
+          "type": "Control",
+          "scope": "#/properties/myFirstBranch",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/myCondition",
+              "schema": {
+                "const": "first"
+              }
+            }
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/mySecondBranch",
+          "rule": {
+            "effect": "SHOW",
+            "condition": {
+              "scope": "#/properties/myCondition",
+              "schema": {
+                "const": "second"
+              }
+            }
+          }
+        }
+      ]
+    }
   ]
 }

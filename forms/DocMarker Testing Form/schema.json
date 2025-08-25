@@ -18,7 +18,11 @@
     "myNullableEnum": { "type": ["string", "null"], "enum": ["A", "B", "C", null] },
     "myNullableDatetime": { "type": ["string", "null"], "format": "date-time" },
     "myNullableDate": { "type": ["string", "null"], "format": "date" },
-    "myNullableTime": { "type": ["string", "null"], "format": "time" }
+    "myNullableTime": { "type": ["string", "null"], "format": "time" },
+
+    "myCondition": { "type": ["string"], "enum": ["first", "second"] },
+    "myFirstBranch": { "type": ["string"] },
+    "mySecondBranch": { "type": ["number"] }
 
   },
   "required": []

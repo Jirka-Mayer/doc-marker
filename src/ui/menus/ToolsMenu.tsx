@@ -14,7 +14,7 @@ import { DocMarkerContext } from "../DocMarkerContext";
 
 export function ToolsMenu() {
   const { t } = useTranslation("menus");
-  
+
   const { fileMetadataStore, robotPredictor } = useContext(DocMarkerContext);
 
   const [anchorEl, setAnchorEl] = useState(null);

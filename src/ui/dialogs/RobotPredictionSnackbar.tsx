@@ -15,10 +15,10 @@ export function RobotPredictionSnackbar() {
     robotPredictor.isPredictionRunningAtom,
   );
   const attemptedFieldCount = useAtomValue(
-    robotPredictor.attemptedFieldCountAtom
+    robotPredictor.attemptedFieldCountAtom,
   );
   const finishedFieldCount = useAtomValue(
-    robotPredictor.finishedFieldCountAtom
+    robotPredictor.finishedFieldCountAtom,
   );
 
   return (
@@ -29,13 +29,15 @@ export function RobotPredictionSnackbar() {
         <Stack direction="row" spacing={2}>
           <SmartToyIcon />
           <CircularProgress size="20px" />
-          <strong>{ t("tools.robotPredictionSnackbar.message") }</strong>
-          <span>{finishedFieldCount}/{attemptedFieldCount}</span>
+          <strong>{t("tools.robotPredictionSnackbar.message")}</strong>
+          <span>
+            {finishedFieldCount}/{attemptedFieldCount}
+          </span>
         </Stack>
       }
       action={
         <Button size="small" onClick={() => robotPredictor.abortPrediction()}>
-          { t("tools.robotPredictionSnackbar.abort") }
+          {t("tools.robotPredictionSnackbar.abort")}
         </Button>
       }
     />

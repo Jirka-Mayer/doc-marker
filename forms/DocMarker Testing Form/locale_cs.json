@@ -1,7 +1,8 @@
 {
   "group": {
     "simpleFields": "Jednoduchá pole",
-    "nullableFields": "Pole s možností neznámé hodnoty"
+    "nullableFields": "Pole s možností neznámé hodnoty",
+    "conditionalFields": "Podmíněné hodnoty"
   },
 
 
@@ -39,6 +40,15 @@
   },
   "myNullableDatetime": { "label": "Můj date-time" },
   "myNullableDate": { "label": "Moje datum" },
-  "myNullableTime": { "label": "Můj čas" }
+  "myNullableTime": { "label": "Můj čas" },
+
+
+  "myCondition": {
+    "label": "Moje podnímka",
+    "first": "První větev",
+    "second": "Druhá větev"
+  },
+  "myFirstBranch": { "label": "Moje první větev" },
+  "mySecondBranch": { "label": "Moje druhá větev" }
 
 }

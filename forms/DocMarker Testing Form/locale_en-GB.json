@@ -1,7 +1,8 @@
 {
   "group": {
     "simpleFields": "Simple fields",
-    "nullableFields": "Nullable fields"
+    "nullableFields": "Nullable fields",
+    "conditionalFields": "Conditional fields"
   },
 
 
@@ -39,6 +40,15 @@
   },
   "myNullableDatetime": { "label": "My date-time" },
   "myNullableDate": { "label": "My date" },
-  "myNullableTime": { "label": "My time" }
+  "myNullableTime": { "label": "My time" },
+
+
+  "myCondition": {
+    "label": "My condition",
+    "first": "First branch",
+    "second": "Second branch"
+  },
+  "myFirstBranch": { "label": "My first branch" },
+  "mySecondBranch": { "label": "My second branch" }
 
 }
