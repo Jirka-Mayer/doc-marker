@@ -11,7 +11,10 @@ import {
   withTranslateProps,
 } from "@jsonforms/react";
 import { DmInputControl } from "./DmInputControl";
-import { ControlInputBoolean } from "./ControlInputBoolean";
+import {
+  booleanCoercionFunction,
+  ControlInputBoolean,
+} from "./ControlInputBoolean";
 
 export function DmBooleanControl(props: ControlProps & TranslateProps) {
   return (
@@ -19,6 +22,7 @@ export function DmBooleanControl(props: ControlProps & TranslateProps) {
       {...props}
       ignoreNullability={true}
       input={ControlInputBoolean}
+      inputCoercionFunction={booleanCoercionFunction}
     />
   );
 }

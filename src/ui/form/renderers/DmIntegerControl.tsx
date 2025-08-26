@@ -12,9 +12,16 @@ import {
 } from "@jsonforms/react";
 import { DmInputControl } from "./DmInputControl";
 import { ControlInputInteger } from "./ControlInputInteger";
+import { integerCoercionFunction } from "./ControlInputInteger";
 
 export function DmIntegerControl(props: ControlProps & TranslateProps) {
-  return <DmInputControl {...props} input={ControlInputInteger} />;
+  return (
+    <DmInputControl
+      {...props}
+      input={ControlInputInteger}
+      inputCoercionFunction={integerCoercionFunction}
+    />
+  );
 }
 
 export const dmIntegerControlTester: RankedTester = rankWith(

@@ -4,9 +4,14 @@ import { useMemo } from "react";
 import { CellProps } from "@jsonforms/core";
 import { TranslateProps } from "@jsonforms/react";
 import { DmInputProps } from "./DmInputProps";
+import { InputCoercionFunction } from "./InputCoercionFunction";
 
 const eventToValue = (e) =>
   e.target.value === "" ? undefined : e.target.value;
+
+export const textCoercionFunction: InputCoercionFunction = (givenValue) => {
+  return String(givenValue);
+};
 
 export function ControlInputText(
   props: CellProps & TranslateProps & DmInputProps,

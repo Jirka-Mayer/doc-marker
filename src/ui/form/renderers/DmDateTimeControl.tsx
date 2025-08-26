@@ -14,10 +14,32 @@ import {
   withTranslateProps,
 } from "@jsonforms/react";
 import { DmInputControl } from "./DmInputControl";
-import { ControlInputDateTime } from "./ControlInputDateTime";
+import {
+  ControlInputDateTime,
+  dateTimeCoercionPseudofunction,
+  PickerVariant,
+} from "./ControlInputDateTime";
+import { InputCoercionFunction } from "./InputCoercionFunction";
 
 export function DmDateTimeControl(props: ControlProps & TranslateProps) {
-  return <DmInputControl {...props} input={ControlInputDateTime} />;
+  // "date", "time", "date-time"
+  const pickerVariant: PickerVariant =
+    (props.schema.format as PickerVariant) || "date-time";
+
+  const coercionFunction: InputCoercionFunction = React.useCallback(
+    (givenValue: any) => {
+      return dateTimeCoercionPseudofunction(givenValue, pickerVariant);
+    },
+    [pickerVariant],
+  );
+
+  return (
+    <DmInputControl
+      {...props}
+      input={ControlInputDateTime}
+      inputCoercionFunction={coercionFunction}
+    />
+  );
 }
 
 export const dmDateTimeControlTester: RankedTester = rankWith(

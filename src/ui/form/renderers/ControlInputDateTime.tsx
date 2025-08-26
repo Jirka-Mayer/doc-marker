@@ -40,6 +40,17 @@ const dataParsers = {
   "date-time": _dateTimeParser,
 };
 
+// NOTE: not a "InputCoercionFunction", since it needs one more argument
+// to be passed, with valid options; is specified in the DmDateTimeControl file
+export const dateTimeCoercionPseudofunction = (
+  givenValue: any,
+  pickerVariant: PickerVariant,
+) => {
+  dataParsers[pickerVariant](String(givenValue));
+};
+
+export type PickerVariant = "date" | "time" | "date-time";
+
 export function ControlInputDateTime(props: CellProps & DmInputProps) {
   const {
     // json forms
@@ -57,7 +68,8 @@ export function ControlInputDateTime(props: CellProps & DmInputProps) {
   const { i18n } = useTranslation();
 
   // "date", "time", "date-time"
-  const pickerVariant = schema.format || "date-time";
+  const pickerVariant: PickerVariant =
+    (schema.format as PickerVariant) || "date-time";
 
   const PickerElement = pickerElements[pickerVariant];
 
@@ -80,7 +92,7 @@ export function ControlInputDateTime(props: CellProps & DmInputProps) {
   const [privateValue, setPrivateValue] = useState(parsedData);
 
   // what to show in the picker
-  let displayedValue = null;
+  let displayedValue: moment.Moment | null = null;
   if (parsedData === null) {
     if (privateValue && privateValue.isValid()) {
       displayedValue = null; // someone externally forced null

@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { DmInputProps } from "./DmInputProps";
 import { EnumCellProps } from "@jsonforms/core";
 import { TranslateProps } from "@jsonforms/react";
+import { levenshtein } from "../../../utils/levenshtein";
 
 const nullValueConstant = "null-" + Math.random().toString(36).substring(2, 7);
 
@@ -21,6 +22,34 @@ const valueToString = (v) => {
   if (v === null) return nullValueConstant;
 
   return "" + v;
+};
+
+// NOTE: not a "InputCoercionFunction", since it needs one more argument
+// to be passed, with valid options; is specified in the DmEnumControl file
+export const selectCoercionPseudofunction = (
+  givenValue: any,
+  optionValues: any[],
+) => {
+  // the value matches exactly the options, no need for coercion
+  if (optionValues.includes(givenValue)) {
+    return givenValue;
+  }
+
+  // there are no options, no way to perform coercion
+  if (optionValues.length === 0) {
+    return givenValue;
+  }
+
+  // map everything to string
+  const needle: string = valueToString(givenValue);
+  const hay: string[] = optionValues.map(valueToString);
+
+  // find the closest option by levenshtein distance
+  const hayDistances = hay.map((h) => levenshtein(needle, h));
+  const index = hayDistances.indexOf(Math.min(...hayDistances));
+
+  // return the value on that index
+  return optionValues[index];
 };
 
 export function ControlInputSelect(

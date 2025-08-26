@@ -25,6 +25,7 @@ import { ControlProps } from "@jsonforms/core";
 import { WithInput } from "@jsonforms/material-renderers";
 import { TranslateProps } from "@jsonforms/react";
 import { NullabilityProps } from "./NullabilityProps";
+import { CoercionProps } from "./CoercionProps";
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure
@@ -33,7 +34,11 @@ import { NullabilityProps } from "./NullabilityProps";
  * and inside used as "InnerComponent"
  */
 export function DmInputControl(
-  props: ControlProps & TranslateProps & WithInput & NullabilityProps,
+  props: ControlProps &
+    TranslateProps &
+    WithInput &
+    NullabilityProps &
+    CoercionProps,
 ) {
   const {
     data,
@@ -48,6 +53,7 @@ export function DmInputControl(
     ignoreNullability,
     handleChange,
     input: InnerComponent,
+    inputCoercionFunction,
   } = props;
 
   const fieldId: string = path; // field ID is defined to be the path in the form data
@@ -121,9 +127,13 @@ export function DmInputControl(
       }
 
       // run the inner component coersion
-      throw new Error("NotImplemented!");
+      if (inputCoercionFunction) {
+        return inputCoercionFunction(givenValue);
+      } else {
+        return givenValue;
+      }
     },
-    [isNullable],
+    [isNullable, inputCoercionFunction],
   );
 
   fieldsRepository.useFieldsRepositoryConnection({

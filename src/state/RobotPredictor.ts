@@ -298,9 +298,7 @@ export class RobotPredictor {
 
     // Dummy value set here
     const dummyValue = fieldId;
-    this.fieldsRepository.setFieldValue(fieldId, dummyValue);
-    // TODO: fields must accept the provided value more gently and coerce
-    // it into its own data format, otherwise things break terribly
+    this.fieldsRepository.setFieldValue(fieldId, dummyValue, true);
 
     console.log("Setting value for", fieldId);
 

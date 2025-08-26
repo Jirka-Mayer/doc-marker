@@ -11,10 +11,19 @@ import {
   withTranslateProps,
 } from "@jsonforms/react";
 import { DmInputControl } from "./DmInputControl";
-import { ControlInputNumber } from "./ControlInputNumber";
+import {
+  ControlInputNumber,
+  numberCoercionFunction,
+} from "./ControlInputNumber";
 
 export function DmNumberControl(props: ControlProps & TranslateProps) {
-  return <DmInputControl {...props} input={ControlInputNumber} />;
+  return (
+    <DmInputControl
+      {...props}
+      input={ControlInputNumber}
+      inputCoercionFunction={numberCoercionFunction}
+    />
+  );
 }
 
 export const dmNumberControlTester: RankedTester = rankWith(2, isNumberControl);

@@ -4,9 +4,17 @@ import { useMemo } from "react";
 import { CellProps } from "@jsonforms/core";
 import { DmInputProps } from "./DmInputProps";
 import { TranslateProps } from "@jsonforms/react";
+import { InputCoercionFunction } from "./InputCoercionFunction";
 
 const toNumber = (value) => (value === "" ? undefined : parseFloat(value));
 const eventToValue = (e) => toNumber(e.target.value);
+
+export const numberCoercionFunction: InputCoercionFunction = (givenValue) => {
+  const n = toNumber(String(givenValue));
+  if (n === undefined) return undefined;
+  if (isNaN(n)) return 0;
+  return n;
+};
 
 export function ControlInputNumber(
   props: CellProps & TranslateProps & DmInputProps,

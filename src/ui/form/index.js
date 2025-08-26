@@ -6,7 +6,7 @@ import { useHighlightPinButton } from "./useHighlightPinButton"
 import { useNullabilityMiddleware } from "./useNullabilityMiddleware"
 import { usePreventScrollOverNumberFields } from "./usePreventScrollOverNumberFields"
 
-import * as renderers from "./renderers/index.js"
+import * as renderers from "./renderers"
 import * as rendererStyles from "./renderers/renderers.module.scss"
 
 export {

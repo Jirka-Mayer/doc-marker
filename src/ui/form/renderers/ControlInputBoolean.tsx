@@ -3,6 +3,7 @@ import { TranslateProps } from "@jsonforms/react";
 import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useMemo } from "react";
 import { DmInputProps } from "./DmInputProps";
+import { InputCoercionFunction } from "./InputCoercionFunction";
 
 function stringifyValue(value) {
   if (value === true) return "true";
@@ -19,6 +20,16 @@ function parseValue(stringValue) {
   if (stringValue === "") return undefined;
   return undefined;
 }
+
+export const booleanCoercionFunction: InputCoercionFunction = (givenValue) => {
+  if (typeof givenValue === "boolean") {
+    return givenValue;
+  }
+  if (typeof givenValue === "number") {
+    return givenValue !== 0;
+  }
+  return parseValue(String(givenValue).toLowerCase());
+};
 
 export function ControlInputBoolean(
   props: CellProps & TranslateProps & DmInputProps,

@@ -12,16 +12,33 @@ import {
   withTranslateProps,
 } from "@jsonforms/react";
 import { DmInputControl } from "./DmInputControl";
-import { ControlInputSelect } from "./ControlInputSelect";
+import {
+  ControlInputSelect,
+  selectCoercionPseudofunction,
+} from "./ControlInputSelect";
+import { InputCoercionFunction } from "./InputCoercionFunction";
 
 export function DmEnumControl(
   props: ControlProps & OwnPropsOfEnum & TranslateProps,
 ) {
+  const optionValues: any[] = React.useMemo(
+    () => props.options?.map((o) => o.value)?.sort() || [],
+    [props.options],
+  );
+
+  const coercionFunction: InputCoercionFunction = React.useCallback(
+    (givenValue: any) => {
+      return selectCoercionPseudofunction(givenValue, optionValues);
+    },
+    [optionValues],
+  );
+
   return (
     <DmInputControl
       {...props}
       ignoreNullability={true}
       input={ControlInputSelect}
+      inputCoercionFunction={coercionFunction}
     />
   );
 }
