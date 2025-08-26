@@ -3,50 +3,43 @@
   https://github.com/eclipsesource/jsonforms/blob/master/packages/material-renderers/src/controls/index.ts
 */
 
-
 // ========== Layouts ==========
 
-import DmLinearLayout, {
-  dmLinearLayoutTester
-} from "./DmLinearLayout"
+import DmLinearLayout, { dmLinearLayoutTester } from "./DmLinearLayout";
 
-import DmGroupLayout, {
-  dmGroupTester
-} from "./DmGroupLayout"
-
+import DmGroupLayout, { dmGroupTester } from "./DmGroupLayout";
 
 // ========== Controls ==========
 
 import DmTextControl, {
   dmTextControlTester,
-  DmTextControl as DmTextControlUnwrapped
-} from "./DmTextControl"
+  DmTextControl as DmTextControlUnwrapped,
+} from "./DmTextControl";
 
 import DmIntegerControl, {
   dmIntegerControlTester,
-  DmIntegerControl as DmIntegerControlUnwrapped
-} from "./DmIntegerControl"
+  DmIntegerControl as DmIntegerControlUnwrapped,
+} from "./DmIntegerControl";
 
 import DmNumberControl, {
   dmNumberControlTester,
-  DmNumberControl as DmNumberControlUnwrapped
-} from "./DmNumberControl"
+  DmNumberControl as DmNumberControlUnwrapped,
+} from "./DmNumberControl";
 
 import DmBooleanControl, {
   dmBooleanControlTester,
-  DmBooleanControl as DmBooleanControlUnwrapped
-} from "./DmBooleanControl"
+  DmBooleanControl as DmBooleanControlUnwrapped,
+} from "./DmBooleanControl";
 
 import DmEnumControl, {
   dmEnumControlTester,
-  DmEnumControl as DmEnumControlUnwrapped
-} from "./DmEnumControl"
+  DmEnumControl as DmEnumControlUnwrapped,
+} from "./DmEnumControl";
 
 import DmDateTimeControl, {
   dmDateTimeControlTester,
-  DmDateTimeControl as DmDateTimeControlUnwrapped
-} from "./DmDateTimeControl"
-
+  DmDateTimeControl as DmDateTimeControlUnwrapped,
+} from "./DmDateTimeControl";
 
 // ========== Export ==========
 
@@ -57,7 +50,7 @@ export const Unwrapped = {
   DmBooleanControl: DmBooleanControlUnwrapped,
   DmEnumControl: DmEnumControlUnwrapped,
   DmDateTimeControl: DmDateTimeControlUnwrapped,
-}
+};
 
 export {
   // layouts
@@ -79,4 +72,4 @@ export {
   dmEnumControlTester,
   DmDateTimeControl,
   dmDateTimeControlTester,
-}
+};

@@ -33,8 +33,19 @@ export class FieldsRepository {
    * render loop, before it is picked up by the repo connection hook and
    * finally updated in this repository. The onChange event will be raised
    * at that moment.
+   *
+   * @param fieldId Which field to set the value for
+   * @param newValue The value to set to the field (to its "data" property)
+   * @param coerceValue Should the given value be coerced into a valid value
+   *  for the given field? Valid value is a value that could have been entered
+   *  by a human through the field's UI.
    */
-  public setFieldValue(fieldId: string, newValue: any) {
+  public setFieldValue(
+    fieldId: string,
+    newValue: any,
+    coerceValue: boolean = false,
+  ) {
+    // get the field
     const field = this._fields.get(fieldId);
 
     if (field === undefined) {
@@ -44,7 +55,11 @@ export class FieldsRepository {
       );
     }
 
-    field.setData(newValue);
+    // coerce the value
+    const newData = coerceValue ? field.coerceData(newValue) : newValue;
+
+    // set the value
+    field.setData(newData);
   }
 
   /**
@@ -92,9 +107,10 @@ export class FieldsRepository {
    */
   public useFieldsRepositoryConnection(props: FieldsRepositoryConnectionProps) {
     // deconstruct props
-    const { fieldId, data, visible, handleChange } = props;
+    const { fieldId, data, visible, handleChange, coerceData } = props;
 
     // wrap handleChange so that it only applies to this field
+    // (hide the "fieldId" argument)
     const setData = useCallback(
       (newValue: any) => handleChange(fieldId, newValue),
       [fieldId, handleChange],
@@ -107,8 +123,9 @@ export class FieldsRepository {
         data,
         visible,
         setData,
+        coerceData,
       });
-    }, [fieldId, data, visible, setData]);
+    }, [fieldId, data, visible, setData, coerceData]);
 
     // field destruction handler
     useEffect(() => {
@@ -151,14 +168,45 @@ interface FieldInternal {
    * Internally calls the `handleChange` function from JSON forms.
    */
   readonly setData: (newValue: any) => void;
+
+  /**
+   * Function that converts any value into a valid value for the field,
+   * used by the robot automatic filling.
+   * @param givenValue Any value, should be some javascript primitive though.
+   * @returns Value that is inputtable by the user through the UI
+   */
+  readonly coerceData: (givenValue: any) => any;
 }
 
 /**
  * Arguments for the fields repo connection hook
  */
 export interface FieldsRepositoryConnectionProps {
+  /**
+   * ID of the field (path of its value in the form data object)
+   */
   readonly fieldId: string;
+
+  /**
+   * The parsed (number/string/boolean) value of the field,
+   * exactly as stored in the form data object.
+   */
   readonly data: any;
+
+  /**
+   * Does JSON Forms currently render the field as visible
+   */
   readonly visible: boolean;
+
+  /**
+   * The "handleChange" function provided by JSON Forms to its controls
+   */
   readonly handleChange: (path: string, newValue: any) => void;
+
+  /**
+   * Function that coerces any given data into a value that could have been
+   * inputted by the user through the UI. It is used to accept robot-generated
+   * values.
+   */
+  readonly coerceData: (givenValue: any) => any;
 }
