@@ -10,6 +10,7 @@ import {
 import { FileSerializer } from "../state/file/FileSerializer";
 import { JotaiStore } from "../state/JotaiStore";
 import { getDefaultStore } from "jotai";
+import { DummyRobot } from "../robotApi/DummyRobot";
 
 /**
  * The DocMarker context acts as a service container for the whole application,
@@ -86,7 +87,7 @@ export function useDocMarkerContextState(): DocMarkerContextState {
     [],
   );
   const robotPredictor = useMemo(
-    () => new RobotPredictor(jotaiStore, fieldsRepository),
+    () => new RobotPredictor(jotaiStore, fieldsRepository, new DummyRobot()),
     [],
   );
 

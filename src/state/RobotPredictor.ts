@@ -3,6 +3,13 @@ import { JotaiStore } from "./JotaiStore";
 import { FieldsRepository } from "./form/FieldsRepository";
 import { timeoutAsync } from "../utils/timeoutAsync";
 import { SemaphoreAsync } from "../utils/SemaphoreAsync";
+import { RobotInterface } from "../robotApi/RobotInterface";
+import {
+  quillExtended,
+  reportLanguageAtom,
+  getFieldHighlightsAtom,
+} from "./reportStore";
+import { formIdAtom } from "./formStore";
 
 /**
  * Maximum number of API requests allowed to run in parallel
@@ -17,10 +24,16 @@ export const MAX_ROBOT_API_CONCURRENCY = 5;
 export class RobotPredictor {
   private readonly jotaiStore: JotaiStore;
   private readonly fieldsRepository: FieldsRepository;
+  private readonly robot: RobotInterface;
 
-  constructor(jotaiStore: JotaiStore, fieldsRepository: FieldsRepository) {
+  constructor(
+    jotaiStore: JotaiStore,
+    fieldsRepository: FieldsRepository,
+    robot: RobotInterface,
+  ) {
     this.jotaiStore = jotaiStore;
     this.fieldsRepository = fieldsRepository;
+    this.robot = robot;
   }
 
   //////////////////////////////
@@ -237,8 +250,16 @@ export class RobotPredictor {
       }
 
       // the field must be empty
-      // (we don't want to overwirte user's values)
+      // (we don't want to overwrite user's values)
       if (field.data !== undefined) {
+        continue;
+      }
+
+      // the field must have no highlights
+      const highlights = this.jotaiStore.get(
+        getFieldHighlightsAtom(fieldId),
+      ) as any[];
+      if (highlights.length > 0) {
         continue;
       }
 
@@ -282,30 +303,50 @@ export class RobotPredictor {
     await this.semaphore.criticalSection(async () => {
       // exit if aborting
       if (this.isAborted) {
-        return; // only from the semaphore block!
+        return; // only from the semaphore block! But there's nothing past it.
       }
 
-      console.log("Starting prediction for", fieldId);
+      // extract evidences
+      const evidencesResponse = await this.robot.extractEvidences(
+        {
+          reportText: quillExtended.getText() as string,
+          reportLanguage: this.jotaiStore.get(reportLanguageAtom),
+          formId: this.jotaiStore.get(formIdAtom),
+          fieldId: fieldId,
+        },
+        this.abortController!.signal,
+      );
 
-      // Dummy work done here.
-      await timeoutAsync(2_000);
+      // predict the answer
+      const answerResponse = await this.robot.predictAnswer(
+        {
+          reportLanguage: this.jotaiStore.get(reportLanguageAtom),
+          formId: this.jotaiStore.get(formIdAtom),
+          fieldId: fieldId,
+          evidences: evidencesResponse.evidences,
+        },
+        this.abortController!.signal,
+      );
+
+      // create highlights from evidences
+      for (const evidence of evidencesResponse.evidences) {
+        quillExtended.highlightText(
+          evidence.range.index,
+          evidence.range.length,
+          fieldId,
+        );
+      }
+
+      // set the field value (if predicted) (with coercion)
+      if (answerResponse.answer !== undefined) {
+        this.fieldsRepository.setFieldValue(
+          fieldId,
+          answerResponse.answer,
+          true,
+        );
+      }
+
+      // TODO: update the RobotPredictionStore
     });
-
-    // exit if aborting
-    if (this.isAborted) {
-      return;
-    }
-
-    // Dummy value set here
-    const dummyValue = fieldId;
-    this.fieldsRepository.setFieldValue(fieldId, dummyValue, true);
-
-    console.log("Setting value for", fieldId);
-
-    // TODO: this is how highlights are set:
-    // const rangeIndex = 2;
-    // const rangeLength = 9;
-    // import { quillExtended } from "../reportStore";
-    // quillExtended.highlightText(rangeIndex, rangeLength, fieldId);
   }
 }
