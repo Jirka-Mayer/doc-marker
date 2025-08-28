@@ -8,6 +8,8 @@ import {
   InputBase,
   Tooltip,
   alpha,
+  Backdrop,
+  CircularProgress,
 } from "@mui/material";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import CheckIcon from "@mui/icons-material/Check";
@@ -60,7 +62,8 @@ export function DmInputControl(
   const htmlId: string = id + "-input";
 
   // get access to the global context
-  const { fieldsRepository } = useContext(DocMarkerContext);
+  const { fieldsRepository, robotPredictionStore } =
+    useContext(DocMarkerContext);
 
   // === field activity ===
 
@@ -144,6 +147,10 @@ export function DmInputControl(
     coerceData,
   });
 
+  // === robot prediction data ===
+
+  const { isBeingPredicted } = robotPredictionStore.useFieldPrediction(fieldId);
+
   /////////////
   // Actions //
   /////////////
@@ -205,12 +212,18 @@ export function DmInputControl(
         // rendered, only at 50% opacity.
         display: visible || displayDebugInfo ? "block" : "none",
         opacity: !visible && displayDebugInfo ? 0.5 : undefined,
+        position: "relative",
+        overflow: "hidden",
 
         // the controls themselves have margin, grid does not
         ml: 2,
         mt: 2,
       }}
-      onClick={() => setFieldActive()}
+      onClick={() => {
+        if (!isBeingPredicted) {
+          setFieldActive();
+        }
+      }}
     >
       <InputLabel className={styles["field-label"]} htmlFor={htmlId}>
         {label || `${fieldId}`}
@@ -274,6 +287,22 @@ export function DmInputControl(
         <FormHelperText className={styles["field-error-message"]} error={true}>
           {errors}
         </FormHelperText>
+      )}
+      { isBeingPredicted && (
+        <Backdrop
+          sx={{
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            background: "rgba(255, 255, 255, 0.8)"
+          }}
+          open={true}
+          // onClick={handleClose}
+        >
+          <CircularProgress color="primary" />
+        </Backdrop>
       )}
     </Paper>
   );

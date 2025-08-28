@@ -10,6 +10,7 @@ import {
   getFieldHighlightsAtom,
 } from "./reportStore";
 import { formIdAtom } from "./formStore";
+import { RobotPredictionStore } from "./form/RobotPredictionStore";
 
 /**
  * Maximum number of API requests allowed to run in parallel
@@ -25,15 +26,18 @@ export class RobotPredictor {
   private readonly jotaiStore: JotaiStore;
   private readonly fieldsRepository: FieldsRepository;
   private readonly robot: RobotInterface;
+  private readonly predictionStore: RobotPredictionStore;
 
   constructor(
     jotaiStore: JotaiStore,
     fieldsRepository: FieldsRepository,
     robot: RobotInterface,
+    predictionStore: RobotPredictionStore,
   ) {
     this.jotaiStore = jotaiStore;
     this.fieldsRepository = fieldsRepository;
     this.robot = robot;
+    this.predictionStore = predictionStore;
   }
 
   //////////////////////////////
@@ -117,6 +121,13 @@ export class RobotPredictor {
     // react components, rendered in that order, we should get the proper
     // order without doing anything ourselves here.
 
+    // display spinners on all of these fields
+    for (const fieldId of fieldIdsToBePredicted) {
+      this.predictionStore.patchFieldPrediction(fieldId, {
+        isBeingPredicted: true,
+      });
+    }
+
     // fire off the prediction loop
     this.fieldIdsToBePredicted = fieldIdsToBePredicted;
     this.predictionLoop(); // no await on purpose
@@ -175,6 +186,11 @@ export class RobotPredictor {
       );
       runningFieldPredictions.delete(winnerFieldId);
 
+      // remove the spinner on the finished field
+      this.predictionStore.patchFieldPrediction(winnerFieldId, {
+        isBeingPredicted: false,
+      });
+
       // secondary loop termination: aborting
       // (prevents statistics update during aborting)
       if (this.isAborted) {
@@ -193,6 +209,9 @@ export class RobotPredictor {
       // try running new predictions, to make sure we see latest values.
       await timeoutAsync(50); // 50ms
     }
+
+    // remove spinners from all fields
+    this.predictionStore.removeSpinnersFromAllFields();
 
     // end the prediction
     this.jotaiStore.set(this.isPredictionRunningBaseAtom, false);
@@ -279,7 +298,11 @@ export class RobotPredictor {
       // start the prediction and return the tuple,
       // (wrap the promise in an outer promise that returns the fieldId,
       // which is necessary for the Promise.race logic in the main loop)
-      return [fieldId, this.singleFieldPrediction(fieldId).then(() => fieldId)];
+      // Also - wrap it in a catch block to prevent exceptions from spreading
+      const promise = this.singleFieldPrediction(fieldId)
+        .catch((e: Error) => console.error(e, e.stack))
+        .then(() => fieldId);
+      return [fieldId, promise];
     }
 
     // no available field was found

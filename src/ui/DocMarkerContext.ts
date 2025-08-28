@@ -11,6 +11,7 @@ import { FileSerializer } from "../state/file/FileSerializer";
 import { JotaiStore } from "../state/JotaiStore";
 import { getDefaultStore } from "jotai";
 import { DummyRobot } from "../robotApi/DummyRobot";
+import { RobotPredictionStore } from "../state/form/RobotPredictionStore";
 
 /**
  * The DocMarker context acts as a service container for the whole application,
@@ -57,6 +58,11 @@ export interface DocMarkerContextState {
   readonly autosaveStore: AutosaveStore;
 
   /**
+   * Keeps state related to the automatic robot form filling
+   */
+  readonly robotPredictionStore: RobotPredictionStore;
+
+  /**
    * Service that orchestrates the robot prediction logic
    */
   readonly robotPredictor: RobotPredictor;
@@ -86,8 +92,18 @@ export function useDocMarkerContextState(): DocMarkerContextState {
     () => new AutosaveStore(jotaiStore, fileStateManager),
     [],
   );
+  const robotPredictionStore = useMemo(
+    () => new RobotPredictionStore(jotaiStore),
+    [],
+  );
   const robotPredictor = useMemo(
-    () => new RobotPredictor(jotaiStore, fieldsRepository, new DummyRobot()),
+    () =>
+      new RobotPredictor(
+        jotaiStore,
+        fieldsRepository,
+        new DummyRobot(),
+        robotPredictionStore,
+      ),
     [],
   );
 
@@ -99,6 +115,7 @@ export function useDocMarkerContextState(): DocMarkerContextState {
     fileStateManager,
     fieldsRepository,
     autosaveStore,
+    robotPredictionStore,
     robotPredictor,
   };
 }
