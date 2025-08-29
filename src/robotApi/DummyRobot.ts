@@ -28,9 +28,11 @@ export class DummyRobot implements RobotInterface {
     };
 
     const N = Math.round(Math.random() * 2);
+    const evidences = [...Array(N).keys()].map((_) => generateEvidence());
     return {
-      evidences: [...Array(N).keys()].map((_) => generateEvidence()),
+      evidences: Math.random() < 0.1 ? null : evidences,
       modelVersion: "dummy-evidence-model",
+      metadata: undefined,
     };
   }
 
@@ -48,6 +50,7 @@ export class DummyRobot implements RobotInterface {
       answer:
         request.evidences.length > 0 ? request.evidences[0].text : undefined,
       modelVersion: "dummy-answer-model",
+      metadata: undefined,
     };
   }
 }

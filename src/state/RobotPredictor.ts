@@ -330,7 +330,7 @@ export class RobotPredictor {
       }
 
       // extract evidences
-      const evidencesResponse = await this.robot.extractEvidences(
+      const evidenceResponse = await this.robot.extractEvidences(
         {
           reportText: quillExtended.getText() as string,
           reportLanguage: this.jotaiStore.get(reportLanguageAtom),
@@ -340,19 +340,25 @@ export class RobotPredictor {
         this.abortController!.signal,
       );
 
+      // if there were no evidences extracted, abort the prediction
+      // for this field
+      if (evidenceResponse.evidences === null) {
+        return; // from the semaphore block only
+      }
+
       // predict the answer
-      const answerResponse = await this.robot.predictAnswer(
+      const predictionResponse = await this.robot.predictAnswer(
         {
           reportLanguage: this.jotaiStore.get(reportLanguageAtom),
           formId: this.jotaiStore.get(formIdAtom),
           fieldId: fieldId,
-          evidences: evidencesResponse.evidences,
+          evidences: evidenceResponse.evidences,
         },
         this.abortController!.signal,
       );
 
       // create highlights from evidences
-      for (const evidence of evidencesResponse.evidences) {
+      for (const evidence of evidenceResponse.evidences) {
         quillExtended.highlightText(
           evidence.range.index,
           evidence.range.length,
@@ -361,15 +367,24 @@ export class RobotPredictor {
       }
 
       // set the field value (if predicted) (with coercion)
-      if (answerResponse.answer !== undefined) {
+      if (predictionResponse.answer !== undefined) {
         this.fieldsRepository.setFieldValue(
           fieldId,
-          answerResponse.answer,
+          predictionResponse.answer,
           true,
         );
       }
 
-      // TODO: update the RobotPredictionStore
+      // update the prediction store
+      this.predictionStore.patchFieldPrediction(fieldId, {
+        evidences: evidenceResponse.evidences,
+        predictedValue: predictionResponse.answer,
+        isHumanVerified: false,
+        evidenceModelVersion: evidenceResponse.modelVersion,
+        predictionModelVersion: predictionResponse.modelVersion,
+        evidenceMetadata: evidenceResponse.metadata,
+        predictionMetadata: predictionResponse.metadata,
+      });
     });
   }
 }

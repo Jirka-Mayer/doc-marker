@@ -14,7 +14,6 @@ import {
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import CheckIcon from "@mui/icons-material/Check";
 import { useFieldActivity } from "../useFieldActivity";
-import { useFieldState } from "../useFieldState";
 import HideSourceIcon from "@mui/icons-material/HideSource";
 import { useCallback, useContext, useMemo } from "react";
 import { useNullabilityMiddleware } from "../useNullabilityMiddleware";
@@ -69,15 +68,6 @@ export function DmInputControl(
 
   const { isFieldActive, toggleFieldActivity, setFieldActive } =
     useFieldActivity(fieldId);
-
-  // === field state ===
-
-  const {
-    hasRobotValue,
-    isVerified,
-    toggleRobotVerified,
-    updateFieldStateWithChange,
-  } = useFieldState(fieldId, isFieldActive);
 
   // === field highlights ===
 
@@ -149,14 +139,27 @@ export function DmInputControl(
 
   // === robot prediction data ===
 
-  const { isBeingPredicted } = robotPredictionStore.useFieldPrediction(fieldId);
+  const fieldPrediction = robotPredictionStore.useFieldPrediction(fieldId);
+  const hasPrediction = fieldPrediction.evidences != null;
+
+  function toggleHumanVerified() {
+    robotPredictionStore.patchFieldPrediction(fieldId, {
+      isHumanVerified: !fieldPrediction.isHumanVerified,
+    });
+  }
+
+  function updateFieldStateWithChange(newData: any) {
+    if (newData !== fieldPrediction.predictedValue) {
+      // TODO: update matchesFormData or something? Idk...
+    }
+  }
 
   /////////////
   // Actions //
   /////////////
 
   // called with onChange before input debouncing and handleChange
-  function observeChange(newData) {
+  function observeChange(newData: any) {
     updateFieldStateWithChange(newData);
   }
 
@@ -220,7 +223,7 @@ export function DmInputControl(
         mt: 2,
       }}
       onClick={() => {
-        if (!isBeingPredicted) {
+        if (!fieldPrediction.isBeingPredicted) {
           setFieldActive();
         }
       }}
@@ -266,13 +269,13 @@ export function DmInputControl(
         <HighlightPinButton />
 
         {/* Robot value verification button */}
-        {hasRobotValue ? (
+        {hasPrediction ? (
           <ToggleButton
             size="small"
             color="primary"
             value="check"
-            selected={isVerified}
-            onChange={toggleRobotVerified}
+            selected={fieldPrediction.isHumanVerified}
+            onChange={toggleHumanVerified}
           >
             <SmartToyIcon />
             <CheckIcon />
@@ -288,7 +291,7 @@ export function DmInputControl(
           {errors}
         </FormHelperText>
       )}
-      { isBeingPredicted && (
+      {fieldPrediction.isBeingPredicted && (
         <Backdrop
           sx={{
             position: "absolute",
@@ -296,7 +299,7 @@ export function DmInputControl(
             bottom: 0,
             left: 0,
             right: 0,
-            background: "rgba(255, 255, 255, 0.8)"
+            background: "rgba(255, 255, 255, 0.8)",
           }}
           open={true}
           // onClick={handleClose}

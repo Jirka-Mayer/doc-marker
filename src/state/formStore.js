@@ -49,13 +49,3 @@ export const getExportedFormData = formDataStore.getExportedFormData;
 export const useExportValue = formDataStore.useExportValue;
 export const useGetExportedValue = formDataStore.useGetExportedValue;
 export const initiateExportRefresh = formDataStore.initiateExportRefresh;
-
-
-//////////////////
-// Field States //
-//////////////////
-
-import * as fieldStatesStore from "./form/fieldStatesStore"
-
-export const getFieldStateAtom = fieldStatesStore.getFieldStateAtom;
-export const allFieldStatesAtom = fieldStatesStore.allFieldStatesAtom;

@@ -10,4 +10,10 @@ export interface AnswerPredictionResponse {
    * human-readable, any string.
    */
   readonly modelVersion: string;
+
+  /**
+   * Any metadata that the model may wish to add to the prediction,
+   * that will be stored in the serialized JSON file
+   */
+  readonly metadata: any | undefined;
 }

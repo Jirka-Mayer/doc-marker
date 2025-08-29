@@ -14,7 +14,6 @@ import { AppFile } from "./file/AppFile";
 import { FilesDatabaseRecord } from "./file/FilesDatabaseRecord";
 import { Migration } from "./file/Migration";
 import { FieldsRepository } from "./form/FieldsRepository";
-import { FieldState } from "./form/FieldState";
 import { AtomGroup } from "./AtomGroup";
 
 // public services
@@ -35,7 +34,6 @@ export {
   AppMode,
   AtomGroup,
   FieldsRepository,
-  FieldState,
   FilesDatabaseRecord,
   Migration,
 

@@ -1,7 +1,6 @@
 import { useDebouncedChange as useDebounceChangeWithCancel } from "./useDebounceChangeWithCancel"
 import { useFieldActivity } from "./useFieldActivity"
 import { useFieldHighlights } from "./useFieldHighlights"
-import { useFieldState } from "./useFieldState"
 import { useHighlightPinButton } from "./useHighlightPinButton"
 import { useNullabilityMiddleware } from "./useNullabilityMiddleware"
 import { usePreventScrollOverNumberFields } from "./usePreventScrollOverNumberFields"
@@ -13,7 +12,6 @@ export {
   useDebounceChangeWithCancel,
   useFieldActivity,
   useFieldHighlights,
-  useFieldState,
   useHighlightPinButton,
   useNullabilityMiddleware,
   usePreventScrollOverNumberFields,
