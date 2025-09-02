@@ -1,5 +1,10 @@
 import { useCallback, useEffect } from "react";
 import { ISimpleEvent, SimpleEventDispatcher } from "strongly-typed-events";
+import _ from "lodash";
+import { AtomGroup } from "../AtomGroup";
+import { SignalAtomWrapper } from "../../utils/SignalAtomWrapper";
+import { JotaiStore } from "../JotaiStore";
+import { useAtomValue } from "jotai";
 
 /**
  * Global service that keeps track of all currently rendered fields in the
@@ -8,6 +13,17 @@ import { ISimpleEvent, SimpleEventDispatcher } from "strongly-typed-events";
  * this repository via the useFieldsRepositoryConnection react hook.
  */
 export class FieldsRepository {
+  private jotaiStore: JotaiStore;
+
+  constructor(jotaiStore: JotaiStore) {
+    this.jotaiStore = jotaiStore;
+
+    this.changeSignalAtoms = new AtomGroup<SignalAtomWrapper>(
+      (key: string) => new SignalAtomWrapper(),
+      this.jotaiStore,
+    );
+  }
+
   /**
    * All the fields currently in the form and their immediate state.
    * This is a read-only image you can query to perform whole-form operations.
@@ -44,7 +60,7 @@ export class FieldsRepository {
     fieldId: string,
     newValue: any,
     coerceValue: boolean = false,
-  ) {
+  ): void {
     // get the field
     const field = this._fields.get(fieldId);
 
@@ -65,7 +81,7 @@ export class FieldsRepository {
   /**
    * Removes all fields from the repository, happens immediately.
    */
-  public clearFields() {
+  public clearFields(): void {
     const fieldIds = [...this._fields.keys()];
     for (const fieldId of fieldIds) {
       this.handleFieldDestroyed(fieldId);
@@ -87,6 +103,12 @@ export class FieldsRepository {
     return this._onChange.asEvent();
   }
 
+  /**
+   * Signal atoms, one for each field, that get triggered when the field
+   * is created, updated, or destroyed
+   */
+  private changeSignalAtoms: AtomGroup<SignalAtomWrapper>;
+
   ////////////////////////////////
   // Repository Connection Hook //
   ////////////////////////////////
@@ -94,11 +116,13 @@ export class FieldsRepository {
   private handleFieldCreatedOrUpdated(field: Field & FieldInternal) {
     this._fields.set(field.fieldId, field);
     this._onChange.dispatch(field.fieldId);
+    this.changeSignalAtoms.get(field.fieldId).signal(this.jotaiStore.set);
   }
 
   private handleFieldDestroyed(fieldId: string) {
     this._fields.delete(fieldId);
     this._onChange.dispatch(fieldId);
+    this.changeSignalAtoms.get(fieldId).signal(this.jotaiStore.set);
   }
 
   /**
@@ -121,6 +145,7 @@ export class FieldsRepository {
       this.handleFieldCreatedOrUpdated({
         fieldId,
         data,
+        exportedData: visible ? data : undefined,
         visible,
         setData,
         coerceData,
@@ -128,11 +153,49 @@ export class FieldsRepository {
     }, [fieldId, data, visible, setData, coerceData]);
 
     // field destruction handler
+    // (invisible fields are not destroyed, only hidden)
     useEffect(() => {
       return () => {
         this.handleFieldDestroyed(fieldId);
       };
     }, [fieldId]);
+  }
+
+  ////////////////////////
+  // Exported Form Data //
+  ////////////////////////
+
+  /**
+   * Constructs the form data JSON object with data that fields actually export.
+   * This means that if some field is not visible, it is not exported.
+   * This function is used during file serialization, to get rid of the
+   * in-memory old values stored for invisible form fields.
+   */
+  public getExportedFormData(): any {
+    const fieldIds = [...this._fields.keys()].sort();
+    const exportedData: any = {};
+    for (const fieldId of fieldIds) {
+      const path = fieldId; // path through the JSON object IS the field ID
+      const value = this._fields.get(fieldId)?.exportedData;
+      if (value === undefined) {
+        // skip values that do not exist so that empty objects are not created
+        continue;
+      }
+      _.set(exportedData, path, value);
+    }
+    return exportedData;
+  }
+
+  /**
+   * React hook that lets one field observe the exported value of another field
+   */
+  public useExportedValueOf(fieldId: string): any {
+    // subscribe to the signal atom of the observed field
+    useAtomValue(this.changeSignalAtoms.get(fieldId).getSignalAtom());
+
+    // retrieve the exported value
+    const field = this._fields.get(fieldId);
+    return field === undefined ? undefined : field.exportedData;
   }
 }
 
@@ -148,12 +211,19 @@ export interface Field {
   readonly fieldId: string;
 
   /**
-   * The value stored in the field, passed to the renderer from JSON forms
+   * The value stored in the field, passed to the renderer from JSON forms.
+   * This value is persisted even when the field is not visible.
    */
   readonly data: any;
 
   /**
-   * Is the field visible according to JSON forms
+   * The value stored in the field, but is undefined when the field is not
+   * visible. This value is used during file serialization.
+   */
+  readonly exportedData: any;
+
+  /**
+   * Is the field visible, according to JSON forms
    */
   readonly visible: boolean;
 }

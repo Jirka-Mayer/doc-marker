@@ -78,8 +78,9 @@ export function useDocMarkerContextState(): DocMarkerContextState {
     () => new FileMetadataStore(jotaiStore),
     [],
   );
+  const fieldsRepository = useMemo(() => new FieldsRepository(jotaiStore), []);
   const fileSerializer = useMemo(
-    () => new FileSerializer(jotaiStore, fileMetadataStore),
+    () => new FileSerializer(jotaiStore, fileMetadataStore, fieldsRepository),
     [],
   );
   const fileStateManager = useMemo(
@@ -87,7 +88,6 @@ export function useDocMarkerContextState(): DocMarkerContextState {
       new FileStateManager(filesDatabase, fileSerializer, fileMetadataStore),
     [],
   );
-  const fieldsRepository = useMemo(() => new FieldsRepository(), []);
   const autosaveStore = useMemo(
     () => new AutosaveStore(jotaiStore, fileStateManager),
     [],

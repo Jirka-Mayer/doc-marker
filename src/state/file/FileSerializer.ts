@@ -1,4 +1,11 @@
-import { AppFile, editorStore, formStore, Migration, reportStore } from "..";
+import {
+  AppFile,
+  editorStore,
+  FieldsRepository,
+  formStore,
+  Migration,
+  reportStore,
+} from "..";
 import { currentOptions } from "../../options";
 import * as packageJson from "../../../package.json";
 import { FileMetadataStore } from "./FileMetadataStore";
@@ -18,10 +25,16 @@ const DOC_MARKER_VERSION: string = packageJson["version"];
 export class FileSerializer {
   private readonly jotaiStore: JotaiStore;
   private readonly fileMeta: FileMetadataStore;
+  private readonly fieldsRepository: FieldsRepository;
 
-  constructor(jotaiStore: JotaiStore, fileMeta: FileMetadataStore) {
+  constructor(
+    jotaiStore: JotaiStore,
+    fileMeta: FileMetadataStore,
+    fieldsRepository: FieldsRepository,
+  ) {
     this.jotaiStore = jotaiStore;
     this.fileMeta = fileMeta;
+    this.fieldsRepository = fieldsRepository;
   }
 
   /**
@@ -47,7 +60,7 @@ export class FileSerializer {
       _appMode: this.jotaiStore.get(editorStore.appModeAtom),
 
       _formId: this.jotaiStore.get(formStore.formIdAtom),
-      _formData: formStore.getExportedFormData(),
+      _formData: this.fieldsRepository.getExportedFormData(),
 
       _reportDelta: this.jotaiStore.get(reportStore.contentAtom),
       _reportText: reportStore.quillExtended.getText(),
@@ -89,7 +102,6 @@ export class FileSerializer {
 
     this.jotaiStore.set(formStore.formIdAtom, json._formId);
     this.jotaiStore.set(formStore.formDataAtom, json._formData);
-    formStore.initiateExportRefresh();
 
     reportStore.quillExtended.setContents(json._reportDelta, "api");
     // _reportText and _highlights are ignored, since they are computable from delta

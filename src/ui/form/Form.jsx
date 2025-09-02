@@ -10,6 +10,7 @@ import { usePreventScrollOverNumberFields } from "./usePreventScrollOverNumberFi
 import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import { createAjv } from "@jsonforms/core"
 import { extractFormDataHierarchy } from "./extractFormDataHierarchy"
+import { useDocMarkerContextState } from "../DocMarkerContext"
 
 /**
  * Converts AJV errors to string representation for debug printing
@@ -20,6 +21,8 @@ const stringifyErrors = (errors, tabWidth) => JSON.stringify(errors, [
 ], tabWidth);
 
 export function Form() {
+  const { fieldsRepository } = useDocMarkerContextState();
+
   const [isLoading, setLoading] = useState(false)
 
   const [formId] = useAtom(formStore.formIdAtom)
@@ -141,7 +144,7 @@ export function Form() {
             setFormErrors(errors)
 
             // exported data and errors
-            const _exportedData = formStore.getExportedFormData()
+            const _exportedData = fieldsRepository.getExportedFormData()
             ajvValidator(_exportedData)
             const _exportedErrors = ajvValidator.errors
             setExportedData(_exportedData)

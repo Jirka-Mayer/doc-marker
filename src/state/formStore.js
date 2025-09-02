@@ -45,7 +45,3 @@ for (let eventName in formDataStore.eventHandlers) {
 
 export const formDataAtom = formDataStore.formDataAtom;
 export const formDataRenderingAtom = formDataStore.formDataRenderingAtom;
-export const getExportedFormData = formDataStore.getExportedFormData;
-export const useExportValue = formDataStore.useExportValue;
-export const useGetExportedValue = formDataStore.useGetExportedValue;
-export const initiateExportRefresh = formDataStore.initiateExportRefresh;

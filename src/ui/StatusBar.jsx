@@ -11,7 +11,7 @@ import { DocMarkerContext } from "./DocMarkerContext";
 export function StatusBar() {
   const theme = useTheme()
 
-  const { fileMetadataStore } = useContext(DocMarkerContext);
+  const { fileMetadataStore, fieldsRepository } = useContext(DocMarkerContext);
 
   const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom)
   
@@ -22,7 +22,7 @@ export function StatusBar() {
   const [selection] = useAtom(reportStore.selectionRangeAtom)
   
   const [activeFieldId] = useAtom(editorStore.activeFieldIdAtom)
-  const activeFieldValue = formStore.useGetExportedValue(activeFieldId)
+  const activeFieldValue = fieldsRepository.useExportedValueOf(activeFieldId)
 
   ////////////
   // Render //

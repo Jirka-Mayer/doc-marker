@@ -76,10 +76,6 @@ export function DmInputControl(
     fieldId,
   });
 
-  // === export value ===
-
-  formStore.useExportValue(path, visible ? data : undefined);
-
   // === nullability ===
 
   const isNullable =
@@ -98,10 +94,6 @@ export function DmInputControl(
     path,
     isNullable,
   });
-
-  // === debugging ===
-
-  const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom);
 
   // === fields repository connection ===
 
@@ -153,6 +145,10 @@ export function DmInputControl(
       // TODO: update matchesFormData or something? Idk...
     }
   }
+
+  // === debugging ===
+
+  const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom);
 
   /////////////
   // Actions //
