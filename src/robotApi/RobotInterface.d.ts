@@ -1,5 +1,5 @@
 import { AnswerPredictionRequest } from "./AnswerPredictionRequest";
-import { AnswerPredictionResponse } from "./AnswerPrefictionResponse";
+import { AnswerPredictionResponse } from "./AnswerPredictionResponse";
 import { EvidenceExtractionRequest } from "./EvidenceExtractionRequest";
 import { EvidenceExtractionResponse } from "./EvidenceExtractionResponse";
 

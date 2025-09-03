@@ -17,7 +17,7 @@ import { useFieldActivity } from "../useFieldActivity";
 import HideSourceIcon from "@mui/icons-material/HideSource";
 import { useCallback, useContext, useMemo } from "react";
 import { useNullabilityMiddleware } from "../useNullabilityMiddleware";
-import { formStore, userPreferencesStore } from "../../../state";
+import { userPreferencesStore } from "../../../state";
 import { useHighlightPinButton } from "../useHighlightPinButton";
 import { useTheme } from "@emotion/react";
 import { useAtom } from "jotai";
@@ -131,20 +131,10 @@ export function DmInputControl(
 
   // === robot prediction data ===
 
-  const fieldPrediction = robotPredictionStore.useFieldPrediction(fieldId);
-  const hasPrediction = fieldPrediction.evidences != null;
-
-  function toggleHumanVerified() {
-    robotPredictionStore.patchFieldPrediction(fieldId, {
-      isHumanVerified: !fieldPrediction.isHumanVerified,
-    });
-  }
-
-  function updateFieldStateWithChange(newData: any) {
-    if (newData !== fieldPrediction.predictedValue) {
-      // TODO: update matchesFormData or something? Idk...
-    }
-  }
+  const fieldPrediction = robotPredictionStore.useFieldPrediction(
+    fieldId,
+    data,
+  );
 
   // === debugging ===
 
@@ -153,11 +143,6 @@ export function DmInputControl(
   /////////////
   // Actions //
   /////////////
-
-  // called with onChange before input debouncing and handleChange
-  function observeChange(newData: any) {
-    updateFieldStateWithChange(newData);
-  }
 
   function onFocus() {
     setFieldActive();
@@ -178,7 +163,6 @@ export function DmInputControl(
     fieldId,
     htmlId,
     onFocus,
-    observeChange,
     isFieldActive,
   };
 
@@ -265,13 +249,13 @@ export function DmInputControl(
         <HighlightPinButton />
 
         {/* Robot value verification button */}
-        {hasPrediction ? (
+        {fieldPrediction.hasPrediction ? (
           <ToggleButton
             size="small"
             color="primary"
             value="check"
-            selected={fieldPrediction.isHumanVerified}
-            onChange={toggleHumanVerified}
+            selected={fieldPrediction.isHumanVerified || false}
+            onChange={() => robotPredictionStore.toggleIsHumanVerified(fieldId)}
           >
             <SmartToyIcon />
             <CheckIcon />

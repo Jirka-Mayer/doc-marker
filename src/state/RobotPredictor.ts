@@ -123,9 +123,7 @@ export class RobotPredictor {
 
     // display spinners on all of these fields
     for (const fieldId of fieldIdsToBePredicted) {
-      this.predictionStore.patchFieldPrediction(fieldId, {
-        isBeingPredicted: true,
-      });
+      this.predictionStore.showSpinnerOnField(fieldId);
     }
 
     // fire off the prediction loop
@@ -187,9 +185,7 @@ export class RobotPredictor {
       runningFieldPredictions.delete(winnerFieldId);
 
       // remove the spinner on the finished field
-      this.predictionStore.patchFieldPrediction(winnerFieldId, {
-        isBeingPredicted: false,
-      });
+      this.predictionStore.hideSpinnerOnField(winnerFieldId);
 
       // secondary loop termination: aborting
       // (prevents statistics update during aborting)
@@ -211,7 +207,7 @@ export class RobotPredictor {
     }
 
     // remove spinners from all fields
-    this.predictionStore.removeSpinnersFromAllFields();
+    this.predictionStore.hideSpinnersOnAllFields();
 
     // end the prediction
     this.jotaiStore.set(this.isPredictionRunningBaseAtom, false);
@@ -376,10 +372,9 @@ export class RobotPredictor {
       }
 
       // update the prediction store
-      this.predictionStore.patchFieldPrediction(fieldId, {
+      this.predictionStore.setRobotPrediction(fieldId, {
         evidences: evidenceResponse.evidences,
-        predictedValue: predictionResponse.answer,
-        isHumanVerified: false,
+        answer: predictionResponse.answer,
         evidenceModelVersion: evidenceResponse.modelVersion,
         predictionModelVersion: predictionResponse.modelVersion,
         evidenceMetadata: evidenceResponse.metadata,

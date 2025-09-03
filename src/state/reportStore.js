@@ -29,8 +29,10 @@ export const selectionFormatsAtom = atom(get => get(selectionFormatsBaseAtom))
 /////////////
 
 const contentBaseAtom = atom({ ops: [] })
+const textBaseAtom = atom("")
 
 export const contentAtom = atom(get => get(contentBaseAtom))
+export const textAtom = atom(get => get(textBaseAtom))
 
 
 //////////////
@@ -68,19 +70,18 @@ export const getFieldHighlightsAtom = highlightsStore.getFieldHighlightsAtom
 
 export const quillExtended = new QuillExtended()
 
-function handleTextChange(delta, oldContents, source) {
+function handleTextChange() {
   const contents = quillExtended.getContents()
+  const text = quillExtended.getText()
   let highlights = contentsToHighlights(contents)
   
   jotaiStore.set(contentBaseAtom, contents)
+  if (jotaiStore.get(textBaseAtom) !== text) {
+    jotaiStore.set(textBaseAtom, text)
+  }
   jotaiStore.set(highlightsAtom, highlights)
 
-  eventEmitter.emit("reportDeltaChanged", {
-    newReportDelta: contents,
-    oldReportDelta: oldContents,
-    changeDelta: delta,
-    source: source
-  })
+  eventEmitter.emit("reportDeltaChanged", {})
 }
 
 const handleTextChangeDebounced = _.debounce(handleTextChange, 300)
@@ -92,13 +93,13 @@ quillExtended.on("text-change", (delta, oldContents, source) => {
 
   // debounce user changes
   if (source === "user") {
-    handleTextChangeDebounced(delta, oldContents, source)
+    handleTextChangeDebounced()
     return
   }
 
   // but apply api changes immediately
   handleTextChangeDebounced.cancel()
-  handleTextChange(delta, oldContents, source)
+  handleTextChange()
 })
 
 quillExtended.on("selection-change", (range, oldRange, source) => {

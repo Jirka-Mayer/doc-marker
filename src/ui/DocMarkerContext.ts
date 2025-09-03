@@ -36,9 +36,14 @@ export interface DocMarkerContextState {
   readonly fileMetadataStore: FileMetadataStore;
 
   /**
-   * Contains logic for loading and saving files
+   * Keeps track of fields in the form, their visibility and value
    */
-  readonly fileStateManager: FileStateManager;
+  readonly fieldsRepository: FieldsRepository;
+
+  /**
+   * Keeps state related to the automatic robot form filling
+   */
+  readonly robotPredictionStore: RobotPredictionStore;
 
   /**
    * Is responsible purely for serialization and deserialization
@@ -48,19 +53,14 @@ export interface DocMarkerContextState {
   readonly fileSerializer: FileSerializer;
 
   /**
-   * Keeps track of fields in the form, their visibility and value
+   * Contains logic for loading and saving files
    */
-  readonly fieldsRepository: FieldsRepository;
+  readonly fileStateManager: FileStateManager;
 
   /**
    * Observes the history store for idling and triggers file saves
    */
   readonly autosaveStore: AutosaveStore;
-
-  /**
-   * Keeps state related to the automatic robot form filling
-   */
-  readonly robotPredictionStore: RobotPredictionStore;
 
   /**
    * Service that orchestrates the robot prediction logic
@@ -79,8 +79,18 @@ export function useDocMarkerContextState(): DocMarkerContextState {
     [],
   );
   const fieldsRepository = useMemo(() => new FieldsRepository(jotaiStore), []);
+  const robotPredictionStore = useMemo(
+    () => new RobotPredictionStore(jotaiStore, fieldsRepository),
+    [],
+  );
   const fileSerializer = useMemo(
-    () => new FileSerializer(jotaiStore, fileMetadataStore, fieldsRepository),
+    () =>
+      new FileSerializer(
+        jotaiStore,
+        fileMetadataStore,
+        fieldsRepository,
+        robotPredictionStore,
+      ),
     [],
   );
   const fileStateManager = useMemo(
@@ -90,10 +100,6 @@ export function useDocMarkerContextState(): DocMarkerContextState {
   );
   const autosaveStore = useMemo(
     () => new AutosaveStore(jotaiStore, fileStateManager),
-    [],
-  );
-  const robotPredictionStore = useMemo(
-    () => new RobotPredictionStore(jotaiStore),
     [],
   );
   const robotPredictor = useMemo(

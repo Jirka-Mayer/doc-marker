@@ -46,7 +46,6 @@ export function ControlInputBoolean(
     // DocMarker
     htmlId,
     onFocus,
-    observeChange,
     isFieldActive,
   } = props;
 
@@ -59,7 +58,6 @@ export function ControlInputBoolean(
 
     newValue = parseValue(newValue);
 
-    observeChange(newValue);
     handleChange(path, newValue);
   }
 

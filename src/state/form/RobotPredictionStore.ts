@@ -1,7 +1,15 @@
 import { atom, PrimitiveAtom, useAtomValue } from "jotai";
 import { AtomGroup } from "../AtomGroup";
 import { JotaiStore } from "../JotaiStore";
-import { Evidence } from "../../robotApi/Evidence";
+import { ExtractedEvidence } from "../../robotApi/ExtractedEvidence";
+import { TextRange } from "../../utils/TextRange";
+import {
+  quillExtended,
+  textAtom,
+  getFieldHighlightsAtom,
+} from "../reportStore";
+import { useMemo } from "react";
+import { FieldsRepository } from "./FieldsRepository";
 
 /**
  * Global service that stores predictions and metadata from automated models,
@@ -10,63 +18,276 @@ import { Evidence } from "../../robotApi/Evidence";
  */
 export class RobotPredictionStore {
   private readonly jotaiStore: JotaiStore;
+  private readonly fieldsRepository: FieldsRepository;
 
-  private readonly fieldAtoms: AtomGroup<PrimitiveAtom<FieldPrediction>>;
+  /**
+   * Atoms that hold the raw robot prediction. If no prediction was made
+   * for the field, than the value is null.
+   */
+  private readonly robotPredictionAtoms: AtomGroup<
+    PrimitiveAtom<RobotPrediction | null>
+  >;
 
-  constructor(jotaiStore: JotaiStore) {
+  private readonly predictionStateAtoms: AtomGroup<
+    PrimitiveAtom<PredictionState>
+  >;
+
+  constructor(jotaiStore: JotaiStore, fieldsRepository: FieldsRepository) {
     this.jotaiStore = jotaiStore;
-    this.fieldAtoms = new AtomGroup<PrimitiveAtom<FieldPrediction>>(
+    this.fieldsRepository = fieldsRepository;
+
+    this.robotPredictionAtoms = new AtomGroup<
+      PrimitiveAtom<RobotPrediction | null>
+    >((key: string) => atom(null), jotaiStore);
+
+    this.predictionStateAtoms = new AtomGroup<PrimitiveAtom<PredictionState>>(
       (key: string) =>
         atom({
           isBeingPredicted: false,
-          evidences: null,
-          predictedValue: undefined,
           isHumanVerified: false,
-          evidenceModelVersion: null,
-          predictionModelVersion: null,
-          evidenceMetadata: undefined,
-          predictionMetadata: undefined,
         }),
       jotaiStore,
     );
   }
 
   /**
+   * Returns field IDs that have robot prediction and are currently visible
+   * in the form
+   */
+  public getPredictedVisibleFieldIds(): string[] {
+    return this.robotPredictionAtoms
+      .keys()
+      .filter((fieldId) => {
+        const r = this.jotaiStore.get(this.robotPredictionAtoms.get(fieldId));
+        if (r === null) {
+          return false; // has no prediction
+        }
+        if (this.fieldsRepository.fields.get(fieldId)?.visible !== true) {
+          return false; // is not visible
+        }
+        return true;
+      })
+      .sort();
+  }
+
+  /**
+   * Fuses the raw robot prediction and the in-memory prediction state
+   * into one object, extended with computed values, that can be easily
+   * consumed by the user in a read-only fashion.
+   */
+  private constructFieldPrediction(
+    robot: RobotPrediction | null,
+    state: PredictionState,
+    reportText: string,
+    fieldHighlights: TextRange[],
+    fieldFormData: any,
+  ): FieldPrediction {
+    if (robot === null) {
+      return {
+        isBeingPredicted: state.isBeingPredicted,
+        hasPrediction: false,
+        robot: null,
+        evidencesMatchHighlights: null,
+        answerMatchesFormData: null,
+        wholePredictionMatchesData: null,
+        isHumanVerified: null,
+      };
+    }
+
+    // text-only comparison, since the ranges may have been moved
+    // or even shuffled since the prediction was made
+    let evidencesMatchHighlights: boolean = true;
+    if (robot.evidences.length === fieldHighlights.length) {
+      const evidenceTexts = robot.evidences.map((e) => e.text).sort();
+      const highlightTexts = fieldHighlights
+        .map((h) => reportText.substring(h.index, h.index + h.length))
+        .sort();
+      for (let i = 0; i < robot.evidences.length; i++) {
+        if (evidenceTexts[i] !== highlightTexts[i]) {
+          evidencesMatchHighlights = false;
+          break;
+        }
+      }
+    } else {
+      evidencesMatchHighlights = false;
+    }
+
+    // if the answer exists, compare it
+    const answerMatchesFormData: boolean | null =
+      robot.answer === undefined ? null : robot.answer === fieldFormData;
+
+    // only makes sense when robot answer exists (which implies evidences
+    // existing) and that answer matches form data
+    let isHumanVerified: boolean | null = state.isHumanVerified;
+    if (robot.answer === undefined) isHumanVerified = null;
+    if (!answerMatchesFormData) isHumanVerified = null;
+
+    // only makes sense when both sub-values make sense
+    // (evidences make always sense in this code branch, but whatever...)
+    const wholePredictionMatchesData: boolean | null =
+      answerMatchesFormData === null || evidencesMatchHighlights === null
+        ? null
+        : evidencesMatchHighlights && answerMatchesFormData;
+
+    return {
+      isBeingPredicted: state.isBeingPredicted,
+      hasPrediction: true,
+      robot: robot,
+      evidencesMatchHighlights: evidencesMatchHighlights,
+      answerMatchesFormData: answerMatchesFormData,
+      wholePredictionMatchesData: wholePredictionMatchesData,
+      isHumanVerified: isHumanVerified,
+    };
+  }
+
+  /**
+   * Reads the current prediction state for the given field
+   */
+  public getFieldPrediction(fieldId: string): FieldPrediction {
+    const robot = this.jotaiStore.get(this.robotPredictionAtoms.get(fieldId));
+    const state = this.jotaiStore.get(this.predictionStateAtoms.get(fieldId));
+    const reportText = quillExtended.getText();
+    const fieldHighlights: TextRange[] = this.jotaiStore.get(
+      getFieldHighlightsAtom(fieldId),
+    );
+    const fieldData = this.fieldsRepository.fields.get(fieldId)?.data;
+
+    return this.constructFieldPrediction(
+      robot,
+      state,
+      reportText,
+      fieldHighlights,
+      fieldData,
+    );
+  }
+
+  /**
    * Provides read-only access to the FieldPrediction value for a given field
    */
-  public useFieldPrediction(fieldId: string): FieldPrediction {
-    return useAtomValue(this.fieldAtoms.get(fieldId));
+  public useFieldPrediction(fieldId: string, fieldData: any): FieldPrediction {
+    const robot = useAtomValue(this.robotPredictionAtoms.get(fieldId));
+    const state = useAtomValue(this.predictionStateAtoms.get(fieldId));
+    const reportText = useAtomValue(textAtom);
+    const fieldHighlights: TextRange[] = useAtomValue(
+      getFieldHighlightsAtom(fieldId),
+    );
+
+    return useMemo(
+      () =>
+        this.constructFieldPrediction(
+          robot,
+          state,
+          reportText,
+          fieldHighlights,
+          fieldData,
+        ),
+      [robot, state, reportText, fieldHighlights, fieldData],
+    );
+  }
+
+  /**
+   * Called by the robot predictor to set the raw robot prediction.
+   */
+  public setRobotPrediction(
+    fieldId: string,
+    robotPrediction: RobotPrediction,
+  ): void {
+    this.jotaiStore.set(
+      this.robotPredictionAtoms.get(fieldId),
+      robotPrediction,
+    );
+  }
+
+  /**
+   * Removes robot prediction is one is stored
+   */
+  public eraseRobotPrediction(fieldId: string): void {
+    this.jotaiStore.set(this.robotPredictionAtoms.get(fieldId), null);
+  }
+
+  /**
+   * Helper function that modifies the prediction state for a given field,
+   * by providing a patcher function
+   */
+  private patchPredictionState(
+    fieldId: string,
+    patcher: (oldState: PredictionState) => PredictionState,
+  ): void {
+    const stateAtom = this.predictionStateAtoms.get(fieldId);
+    const oldState = this.jotaiStore.get(stateAtom);
+    this.jotaiStore.set(stateAtom, patcher(oldState));
+  }
+
+  /**
+   * Sets the isBeingPredicted to true on the given field
+   */
+  public showSpinnerOnField(fieldId: string): void {
+    this.patchPredictionState(fieldId, (s) => ({
+      ...s,
+      isBeingPredicted: true,
+    }));
+  }
+
+  /**
+   * Sets the isBeingPredicted to false on the given field
+   */
+  public hideSpinnerOnField(fieldId: string) {
+    this.patchPredictionState(fieldId, (s) => ({
+      ...s,
+      isBeingPredicted: false,
+    }));
+  }
+
+  /**
+   * Sets the isBeingPredicted to false on all fields
+   */
+  public hideSpinnersOnAllFields() {
+    for (const fieldId of this.predictionStateAtoms.keys()) {
+      const stateAtom = this.predictionStateAtoms.get(fieldId);
+      const state = this.jotaiStore.get(stateAtom);
+      if (state.isBeingPredicted) {
+        this.jotaiStore.set(stateAtom, {
+          ...state,
+          isBeingPredicted: false,
+        });
+      }
+    }
   }
 
   /**
    * Updates the FieldPrediction value for a given field
    * (providing a partial object to overwrite some properties)
    */
-  public patchFieldPrediction(
-    fieldId: string,
-    valuePatch: Partial<FieldPrediction>,
-  ) {
-    const fieldAtom = this.fieldAtoms.get(fieldId);
-    const value = this.jotaiStore.get(fieldAtom);
-    this.jotaiStore.set(fieldAtom, {
-      ...value,
-      ...valuePatch,
-    });
+  public toggleIsHumanVerified(fieldId: string) {
+    this.patchPredictionState(fieldId, (s) => ({
+      ...s,
+      isBeingPredicted: !s.isBeingPredicted,
+    }));
   }
 
-  public removeSpinnersFromAllFields() {
-    for (const fieldId of this.fieldAtoms.keys()) {
-      if (this.jotaiStore.get(this.fieldAtoms.get(fieldId)).isBeingPredicted) {
-        this.patchFieldPrediction(fieldId, {
-          isBeingPredicted: false,
-        });
-      }
-    }
+  /**
+   * Called by the file serializer when a file is being loaded
+   */
+  public loadDeserializedStateForField(
+    fieldId: string,
+    robotPrediction: RobotPrediction,
+    predictionState: PredictionState,
+  ): void {
+    this.jotaiStore.set(
+      this.robotPredictionAtoms.get(fieldId),
+      robotPrediction,
+    );
+    this.jotaiStore.set(
+      this.predictionStateAtoms.get(fieldId),
+      predictionState,
+    );
   }
 }
 
 /**
- * Stores data about a prediction for a field
+ * Defines all data that is exported from this store for users to read.
+ * It is a combination of the robot prediction and prediction state,
+ * extended with a number of deterministicaly computed values.
  */
 export interface FieldPrediction {
   /**
@@ -76,13 +297,69 @@ export interface FieldPrediction {
   readonly isBeingPredicted: boolean;
 
   /**
+   * True when the raw robot prediction exists for this field
+   */
+  readonly hasPrediction: boolean;
+
+  /**
+   * Holds the raw predictions by the robot. If there is no robot prediction,
+   * then this field is null.
+   */
+  readonly robot: RobotPrediction | null;
+
+  /**
+   * True if the highlights for this field exactly match the evidences
+   * for this field. It only considers text equality, not range equality, since
+   * the report may have been modified and the ranges may have been shifted.
+   * In other words, true means that extracted evidences were not modified
+   * by the user and the report text has not beed modified within these ranges
+   * either. This value is null if there is no robot prediction for evidences
+   * (and this it makes no sense).
+   */
+  readonly evidencesMatchHighlights: boolean | null;
+
+  /**
+   * True when the predicted value matches data in the form. This means
+   * the user has not modified the predicted data and so it's either
+   * the correct prediction, or has not yet been verified (depending on
+   * the isHumanVerified value). This value is null if there is no
+   * predicted answer by the robot (and thus it makes no sense).
+   */
+  readonly answerMatchesFormData: boolean | null;
+
+  /**
+   * True if both the highlights and the answer perfectly match the report
+   * text and the form data. In other words, the prediction by the robot was
+   * not modified by the user in the slightest. If there is no robot prediction
+   * or no robot answer, then this field is null (because it makes no sense).
+   */
+  readonly wholePredictionMatchesData: boolean | null;
+
+  /**
+   * Whether the predicted value was manually verified by the human
+   * annotator. This value is null when it makes no sense,
+   * e.g. when the predicted value is undefined, robot prediction is null, or
+   * the predicted value does not match the form data for the field
+   * (which happens when the user modifies the form data after prediction).
+   */
+  readonly isHumanVerified: boolean | null;
+}
+
+/**
+ * Holds the raw data, that was predicted by the robot.
+ * This does not change, unless the robot is re-run or this data is erased.
+ */
+export interface RobotPrediction {
+  /**
    * List of evidences (text highlights) that were predicted by the robot.
    * They were also used in the answer prediction as-is. Empty list means
    * the robot predicted no evidences for the field, which does happen for
    * some questions (they are evidence-less). Should the robot provide
-   * no prediction (e.g. being too uncertain), then this value is null.
+   * no prediction (e.g. being too uncertain), then this whole robot
+   * prediction object for this field would be missing instead,
+   * since without evidences the value cannot be predicted.
    */
-  readonly evidences: Evidence[] | null;
+  readonly evidences: ExtractedEvidence[];
 
   /**
    * The value returned by the robot as the predicted value of the field.
@@ -91,34 +368,22 @@ export interface FieldPrediction {
    * Robot may have not predicted any value because of its low confidence,
    * despite having many evidences extracted previously.
    */
-  readonly predictedValue: any | undefined;
+  readonly answer: any | undefined;
 
   /**
-   * Whether the predicted value was manually verified by the human
-   * annotator. This value is should be ignored when it makes no sense,
-   * e.g. when the predicted value is undefined, evidences are null, or
-   * the predicted value does not match the form data for the field
-   * (which happens when the user modifies the form data after prediction).
+   * Version of the model that was used for evidence extraction.
    */
-  readonly isHumanVerified: boolean;
+  readonly evidenceModelVersion: string;
 
   /**
-   * Version of the model that was used for evidence extraction,
-   * null if no prediction was made yet
+   * Version of the model that was used for answer prediction.
    */
-  readonly evidenceModelVersion: string | null;
-
-  /**
-   * Version of the model that was used for answer prediction,
-   * null if no prediction was made yet
-   */
-  readonly predictionModelVersion: string | null;
+  readonly predictionModelVersion: string;
 
   /**
    * Any additional metadata that may be stored, depending on the models
    * used. This depends on the DocMarker customization and the model that
    * it is connected to. May be missing if not set by the robot integration.
-   * May also be undefined when the prediction was not made yet.
    */
   readonly evidenceMetadata: any | undefined;
 
@@ -126,7 +391,27 @@ export interface FieldPrediction {
    * Any additional metadata that may be stored, depending on the models
    * used. This depends on the DocMarker customization and the model that
    * it is connected to. May be missing if not set by the robot integration.
-   * May also be undefined when the prediction was not made yet.
    */
   readonly predictionMetadata: any | undefined;
+}
+
+/**
+ * Holds prediction state that is not predicted by the robot and is
+ * either runtime-only or is explicitly annotated by the user
+ */
+export interface PredictionState {
+  /**
+   * The field is being predicted by the robot.
+   * Having this value set to true should display a spinner over the field.
+   */
+  readonly isBeingPredicted: boolean;
+
+  /**
+   * Whether the predicted value was manually verified by the human
+   * annotator. This value should be ignored when it makes no sense,
+   * e.g. when the predicted value is undefined, robot prediction is null, or
+   * the predicted value does not match the form data for the field
+   * (which happens when the user modifies the form data after prediction).
+   */
+  readonly isHumanVerified: boolean;
 }

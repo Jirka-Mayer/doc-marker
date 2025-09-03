@@ -1,5 +1,5 @@
 import { IsoLanguage } from "../IsoLanguage";
-import { Evidence } from "./Evidence";
+import { ExtractedEvidence } from "./ExtractedEvidence";
 
 export interface AnswerPredictionRequest {
   /**
@@ -22,5 +22,5 @@ export interface AnswerPredictionRequest {
   /**
    * List of evidences for the question
    */
-  readonly evidences: Evidence[];
+  readonly evidences: ExtractedEvidence[];
 }

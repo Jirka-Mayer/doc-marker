@@ -1,3 +1,5 @@
+import { TextRange } from "../../utils/TextRange";
+
 /**
  * Describes the structure of the serialized app file JSON
  */
@@ -116,85 +118,106 @@ export interface SerializedFileJson {
    *
    * This whole field may be missing, in which case there are no predictions.
    */
-  _robotPredictions?: {
-    [formFieldId: string]: {
-      /**
-       * List of evidences (text highlights) that were predicted by the robot.
-       * They were also used in the answer prediction as-is. Empty list means
-       * the robot predicted no evidences for the field, which does happen for
-       * some questions (they are evidence-less). Should the robot provide
-       * no prediction (e.g. being too uncertain), then this whole robot
-       * prediction object for this field would be missing instead,
-       * since without evidences the value cannot be predicted.
-       */
-      evidences: SerializedEvidence[];
-
-      /**
-       * The value returned by the robot as the predicted value of the field.
-       * Undefined means the robot did not predict any value (left the field
-       * empty, which corresponds to the default value for empty fields).
-       * Robot may have not predicted any value because of its low confidence,
-       * despite having many evidences extracted previously.
-       */
-      predictedValue: any | undefined;
-
-      /**
-       * True when the predicted value matches data in the form. This means
-       * the user has not modified the predicted data and so it's either
-       * the correct prediction, or has not yet been verified (depending on
-       * the isHumanVerified value). This value is null if there is no
-       * predicted value by the robot (and thus it makes no sense).
-       */
-      matchesFormData: boolean | null;
-
-      /**
-       * Whether the predicted value was manually verified by the human
-       * annotator. This value is null when it makes no sense, e.g.
-       * if the predicted value is undefined or if it does not match the
-       * value in the form (the user has overwritten/corrected the value).
-       */
-      isHumanVerified: boolean | null;
-
-      /**
-       * Version of the model that was used for evidence extraction
-       */
-      evidenceModelVersion: string;
-
-      /**
-       * Version of the model that was used for answer prediction
-       */
-      predictionModelVersion: string;
-
-      /**
-       * Any additional metadata that may be stored, depending on the models
-       * used. This depends on the DocMarker customization and the model that
-       * it is connected to. May be missing if not set by the robot integration.
-       */
-      evidenceMetadata: any | undefined;
-
-      /**
-       * Any additional metadata that may be stored, depending on the models
-       * used. This depends on the DocMarker customization and the model that
-       * it is connected to. May be missing if not set by the robot integration.
-       */
-      predictionMetadata: any | undefined;
-    };
-  };
+  _robotPredictions?: SerializedRobotPredictions;
 }
 
 /**
- * Represents a range in the text
+ * Map of serialized robot predictions, where they key is the field ID
  */
-export interface TextRange {
+export type SerializedRobotPredictions = {
+  [formFieldId: string]: SerializedRobotPrediction;
+};
+
+/**
+ * Robot prediction for a given field
+ */
+export interface SerializedRobotPrediction {
   /**
-   * Where the range begins (0 means the first text character is included)
+   * List of evidences (text highlights) that were predicted by the robot.
+   * They were also used in the answer prediction as-is. Empty list means
+   * the robot predicted no evidences for the field, which does happen for
+   * some questions (they are evidence-less). Should the robot provide
+   * no prediction (e.g. being too uncertain), then this whole robot
+   * prediction object for this field would be missing instead,
+   * since without evidences the value cannot be predicted.
+   * Note that ranges of evidences are not relative to the current report text,
+   * but to the one sent to the robot during extraction. It makes little sense
+   * to compare them with the report text. Instead see evidencesMatchHighlights
+   * field below, which compares highlights and evidences as two unordered
+   * sets of strings. When they match, its value is true.
    */
-  index: number;
+  evidences: SerializedEvidence[];
 
   /**
-   * How many text characters are within this range
+   * The value returned by the robot as the predicted value of the field.
+   * Undefined means the robot did not predict any value (left the field
+   * empty, which corresponds to the default value for empty fields).
+   * Robot may have not predicted any value because of its low confidence,
+   * despite having many evidences extracted previously.
    */
-  length: number;
+  answer: any | undefined;
+
+  /**
+   * True if the highlights for this field match the evidences
+   * for this field. It only considers text equality, not range equality, since
+   * the report may have been modified and the ranges may have been shifted.
+   * In other words, true means that extracted evidences were not modified
+   * by the user and the report text has not beed modified within these ranges
+   * either. This value is null if there is no robot prediction for evidences
+   * (and this it makes no sense). Precise comparison works by extracting
+   * evidence texts and highlights text and doing an unordered set comparison
+   * on these strings.
+   */
+  evidencesMatchHighlights: boolean | null;
+
+  /**
+   * True when the predicted value matches data in the form. This means
+   * the user has not modified the predicted data and so it's either
+   * the correct prediction, or has not yet been verified (depending on
+   * the isHumanVerified value). This value is null if there is no
+   * predicted value by the robot (and thus it makes no sense).
+   */
+  answerMatchesFormData: boolean | null;
+
+  /**
+   * True if both the highlights and the answer perfectly match the report
+   * text and the form data. In other words, the prediction by the robot was
+   * not modified by the user in the slightest. If there is no robot prediction
+   * or no robot answer, then this field is null (because it makes no sense).
+   */
+  wholePredictionMatchesData: boolean | null;
+
+  /**
+   * Whether the predicted value was manually verified by the human
+   * annotator. This value is null when it makes no sense, e.g.
+   * if the predicted value is undefined or if it does not match the
+   * value in the form (the user has overwritten/corrected the value).
+   */
+  isHumanVerified: boolean | null;
+
+  /**
+   * Version of the model that was used for evidence extraction
+   */
+  evidenceModelVersion: string;
+
+  /**
+   * Version of the model that was used for answer prediction
+   */
+  predictionModelVersion: string;
+
+  /**
+   * Any additional metadata that may be stored, depending on the models
+   * used. This depends on the DocMarker customization and the model that
+   * it is connected to. May be missing if not set by the robot integration.
+   */
+  evidenceMetadata: any | undefined;
+
+  /**
+   * Any additional metadata that may be stored, depending on the models
+   * used. This depends on the DocMarker customization and the model that
+   * it is connected to. May be missing if not set by the robot integration.
+   */
+  predictionMetadata: any | undefined;
 }
 
 /**
@@ -211,14 +234,4 @@ export interface SerializedEvidence {
    * prediction.
    */
   text: string;
-
-  /**
-   * True when the text within the rage of the report matches the text field
-   * of this evidence. In other words, the report text was not modified
-   * since the time the evidence was extracted. This value provides an indirect
-   * way to determine, whether the user modified the report text after the
-   * robot prediction was performed and so whether you can rely on the current
-   * report text to be the original input for evidence extraction or not.
-   */
-  matchesReportText: boolean;
 }

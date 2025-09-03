@@ -68,12 +68,10 @@ export function ControlInputSelect(
     // DocMarker
     htmlId,
     onFocus,
-    observeChange,
   } = props;
 
   function onChange(e) {
     let v = eventToValue(e);
-    observeChange(v);
     handleChange(path, v);
   }
 

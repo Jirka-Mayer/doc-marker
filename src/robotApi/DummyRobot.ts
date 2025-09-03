@@ -1,7 +1,7 @@
 import { timeoutAsync } from "../utils/timeoutAsync";
 import { AnswerPredictionRequest } from "./AnswerPredictionRequest";
-import { AnswerPredictionResponse } from "./AnswerPrefictionResponse";
-import { Evidence } from "./Evidence";
+import { AnswerPredictionResponse } from "./AnswerPredictionResponse";
+import { ExtractedEvidence } from "./ExtractedEvidence";
 import { EvidenceExtractionRequest } from "./EvidenceExtractionRequest";
 import { EvidenceExtractionResponse } from "./EvidenceExtractionResponse";
 import { RobotInterface } from "./RobotInterface";
@@ -16,7 +16,7 @@ export class DummyRobot implements RobotInterface {
   ): Promise<EvidenceExtractionResponse> {
     await timeoutAsync(1_000);
 
-    const generateEvidence = (): Evidence => {
+    const generateEvidence = (): ExtractedEvidence => {
       const length = Math.ceil(5 + Math.random() * 45);
       const index = Math.round(
         Math.random() * (request.reportText.length - length),

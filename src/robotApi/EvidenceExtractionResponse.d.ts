@@ -1,4 +1,4 @@
-import { Evidence } from "./Evidence";
+import { ExtractedEvidence } from "./ExtractedEvidence";
 
 export interface EvidenceExtractionResponse {
   /**
@@ -6,7 +6,7 @@ export interface EvidenceExtractionResponse {
    * null means the model refuses to predict them,
    * likely due to low confidence.
    */
-  readonly evidences: Evidence[] | null;
+  readonly evidences: ExtractedEvidence[] | null;
 
   /**
    * Version of the robot model that performed the evidence extraction,

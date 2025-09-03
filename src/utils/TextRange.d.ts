@@ -1,7 +1,7 @@
 /**
- * The text range for an evidence
+ * The text range for anything - highlight, evidence, selection ...
  */
-export interface EvidenceRange {
+export interface TextRange {
   /**
    * Index of the first character in the report text that belongs to the span
    */

@@ -10,8 +10,15 @@ import { currentOptions } from "../../options";
 import * as packageJson from "../../../package.json";
 import { FileMetadataStore } from "./FileMetadataStore";
 import { JotaiStore } from "../JotaiStore";
-import { SerializedFileJson } from "./SerializedFileJson";
+import {
+  SerializedFileJson,
+  SerializedRobotPredictions,
+} from "./SerializedFileJson";
 import { forgetAnonymizedText } from "./forgetAnonymizedText";
+import {
+  FieldPrediction,
+  RobotPredictionStore,
+} from "../form/RobotPredictionStore";
 
 const DOC_MARKER_VERSION: string = packageJson["version"];
 
@@ -26,15 +33,18 @@ export class FileSerializer {
   private readonly jotaiStore: JotaiStore;
   private readonly fileMeta: FileMetadataStore;
   private readonly fieldsRepository: FieldsRepository;
+  private readonly robotPredictionStore: RobotPredictionStore;
 
   constructor(
     jotaiStore: JotaiStore,
     fileMeta: FileMetadataStore,
     fieldsRepository: FieldsRepository,
+    robotPredictionStore: RobotPredictionStore,
   ) {
     this.jotaiStore = jotaiStore;
     this.fileMeta = fileMeta;
     this.fieldsRepository = fieldsRepository;
+    this.robotPredictionStore = robotPredictionStore;
   }
 
   /**
@@ -67,13 +77,40 @@ export class FileSerializer {
       _reportLanguage:
         this.jotaiStore.get(reportStore.reportLanguageAtom) || undefined,
       _highlights: this.jotaiStore.get(reportStore.highlightsAtom),
+      _robotPredictions: this.serializeRobotPredictions(),
     };
 
+    // TODO: anonymization must be done earlier!
     fileJson = forgetAnonymizedText(fileJson);
 
     fileJson = currentOptions.file.onSerialize(fileJson) as SerializedFileJson;
 
     return AppFile.fromJson(fileJson);
+  }
+
+  private serializeRobotPredictions(): SerializedRobotPredictions {
+    let predictions: SerializedRobotPredictions = {};
+    const fieldIds = this.robotPredictionStore.getPredictedVisibleFieldIds();
+    for (const fieldId of fieldIds) {
+      const p: FieldPrediction =
+        this.robotPredictionStore.getFieldPrediction(fieldId);
+      if (p.robot === null) {
+        continue; // these should not be present in the list, but skip anyways
+      }
+      predictions[fieldId] = {
+        evidences: p.robot.evidences,
+        answer: p.robot.answer,
+        evidencesMatchHighlights: p.evidencesMatchHighlights,
+        answerMatchesFormData: p.answerMatchesFormData,
+        wholePredictionMatchesData: p.wholePredictionMatchesData,
+        evidenceModelVersion: p.robot.evidenceModelVersion,
+        predictionModelVersion: p.robot.predictionModelVersion,
+        evidenceMetadata: p.robot.evidenceMetadata,
+        predictionMetadata: p.robot.predictionMetadata,
+        isHumanVerified: p.isHumanVerified,
+      };
+    }
+    return predictions;
   }
 
   /**
@@ -104,11 +141,13 @@ export class FileSerializer {
     this.jotaiStore.set(formStore.formDataAtom, json._formData);
 
     reportStore.quillExtended.setContents(json._reportDelta, "api");
-    // _reportText and _highlights are ignored, since they are computable from delta
+    // _reportText is ignored, since it is computable from the delta
     this.jotaiStore.set(
       reportStore.reportLanguageAtom,
       json._reportLanguage || null,
     );
+    // _highlights are ignored, since they are computable from the delta
+    this.deserializeRobotPredictions(json._robotPredictions || {});
 
     // === post-deserialization logic ===
 
@@ -117,5 +156,28 @@ export class FileSerializer {
 
     // let the customization deserialize its own additional state
     currentOptions.file.onDeserialize(json);
+  }
+
+  private deserializeRobotPredictions(
+    robotPredictions: SerializedRobotPredictions,
+  ): void {
+    for (const fieldId of Object.keys(robotPredictions)) {
+      const p = robotPredictions[fieldId];
+      this.robotPredictionStore.loadDeserializedStateForField(
+        fieldId,
+        {
+          evidences: p.evidences,
+          answer: p.answer,
+          evidenceModelVersion: p.evidenceModelVersion,
+          predictionModelVersion: p.predictionModelVersion,
+          evidenceMetadata: p.evidenceMetadata,
+          predictionMetadata: p.predictionMetadata,
+        },
+        {
+          isBeingPredicted: false,
+          isHumanVerified: p.isHumanVerified || false,
+        },
+      );
+    }
   }
 }

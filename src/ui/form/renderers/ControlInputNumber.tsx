@@ -31,7 +31,6 @@ export function ControlInputNumber(
     // DocMarker
     htmlId,
     onFocus,
-    observeChange,
   } = props;
 
   const [inputValue, onChange] = useDebouncedChange(
@@ -41,11 +40,6 @@ export function ControlInputNumber(
     path,
     eventToValue,
   );
-
-  function onChangeInterceptor(e) {
-    observeChange(eventToValue(e));
-    onChange(e);
-  }
 
   const placeholder = useMemo(
     () =>
@@ -62,7 +56,7 @@ export function ControlInputNumber(
       }}
       type="number"
       value={inputValue}
-      onChange={onChangeInterceptor}
+      onChange={onChange}
       onFocus={onFocus}
       id={htmlId}
       fullWidth={true}

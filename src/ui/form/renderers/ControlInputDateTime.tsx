@@ -62,7 +62,6 @@ export function ControlInputDateTime(props: CellProps & DmInputProps) {
     // DocMarker
     htmlId,
     onFocus,
-    observeChange,
   } = props;
 
   const { i18n } = useTranslation();
@@ -120,7 +119,6 @@ export function ControlInputDateTime(props: CellProps & DmInputProps) {
 
     // propagate upwards if needed
     if (newData !== debouncedData) {
-      observeChange(newData);
       onChange(newData);
     }
   }

@@ -28,7 +28,6 @@ export function ControlInputText(
     // DocMarker
     htmlId,
     onFocus,
-    observeChange,
   } = props;
 
   const [inputValue, onChange] = useDebouncedChange(
@@ -39,11 +38,6 @@ export function ControlInputText(
     eventToValue,
   );
 
-  function onChangeInterceptor(e) {
-    observeChange(eventToValue(e));
-    onChange(e);
-  }
-
   const placeholder = useMemo(
     () => t("text.placeholder", "Enter text...", { schema, uischema, path }),
     [t, schema, uischema, path],
@@ -52,7 +46,7 @@ export function ControlInputText(
   return (
     <InputBase
       value={inputValue}
-      onChange={onChangeInterceptor}
+      onChange={onChange}
       onFocus={onFocus}
       id={htmlId}
       fullWidth={true}
