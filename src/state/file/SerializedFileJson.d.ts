@@ -1,3 +1,4 @@
+import { QDelta } from "../../quill/QDelta";
 import { TextRange } from "../../utils/TextRange";
 
 /**
@@ -78,7 +79,7 @@ export interface SerializedFileJson {
    * since they are implemented as custom formats for the Quill editor.
    * The format is described here: https://quilljs.com/docs/delta
    */
-  _reportDelta: any;
+  _reportDelta: QDelta;
 
   /**
    * The plain-text simplification of the report document. It's the
