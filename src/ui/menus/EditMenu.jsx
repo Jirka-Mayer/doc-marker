@@ -2,7 +2,6 @@ import { Button, Menu, MenuItem, ListItemIcon, Typography } from "@mui/material"
 import { useState, useCallback, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useAtom } from "jotai"
-import { historyStore } from "../../state"
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
 import { DocMarkerContext } from "../DocMarkerContext";
@@ -10,7 +9,7 @@ import { DocMarkerContext } from "../DocMarkerContext";
 export function EditMenu() {
   const { t } = useTranslation("menus")
 
-  const { fileMetadataStore } = useContext(DocMarkerContext);
+  const { fileMetadataStore, historyStore } = useContext(DocMarkerContext);
 
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)

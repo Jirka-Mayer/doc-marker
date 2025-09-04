@@ -23,7 +23,7 @@ import { FilesDatabase } from "./file/FilesDatabase";
 import { FileMetadataStore } from "./file/FileMetadataStore";
 import { FileStateManager } from "./file/FileStateManager";
 import * as formStore from "./formStore";
-import * as historyStore from "./historyStore";
+import { HistoryStore } from "./HistoryStore";
 import * as reportStore from "./reportStore";
 import * as userPreferencesStore from "./userPreferencesStore";
 import { RobotPredictor } from "./RobotPredictor";
@@ -44,8 +44,8 @@ export {
   FilesDatabase,
   FileStateManager,
   formStore,
-  historyStore,
+  HistoryStore,
   reportStore,
-  userPreferencesStore,
   RobotPredictor,
+  userPreferencesStore,
 };

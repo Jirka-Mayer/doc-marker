@@ -5,6 +5,7 @@ import {
   FileMetadataStore,
   FilesDatabase,
   FileStateManager,
+  HistoryStore,
   RobotPredictor,
 } from "../state";
 import { FileSerializer } from "../state/file/FileSerializer";
@@ -53,6 +54,16 @@ export interface DocMarkerContextState {
   readonly fileSerializer: FileSerializer;
 
   /**
+   * Service that orchestrates the robot prediction logic
+   */
+  readonly robotPredictor: RobotPredictor;
+
+  /**
+   * Tracks ans snapshots changes in the state of the app to provide undo/redo
+   */
+  readonly historyStore: HistoryStore;
+
+  /**
    * Contains logic for loading and saving files
    */
   readonly fileStateManager: FileStateManager;
@@ -61,11 +72,6 @@ export interface DocMarkerContextState {
    * Observes the history store for idling and triggers file saves
    */
   readonly autosaveStore: AutosaveStore;
-
-  /**
-   * Service that orchestrates the robot prediction logic
-   */
-  readonly robotPredictor: RobotPredictor;
 }
 
 /**
@@ -93,15 +99,6 @@ export function useDocMarkerContextState(): DocMarkerContextState {
       ),
     [],
   );
-  const fileStateManager = useMemo(
-    () =>
-      new FileStateManager(filesDatabase, fileSerializer, fileMetadataStore),
-    [],
-  );
-  const autosaveStore = useMemo(
-    () => new AutosaveStore(jotaiStore, fileStateManager),
-    [],
-  );
   const robotPredictor = useMemo(
     () =>
       new RobotPredictor(
@@ -112,15 +109,31 @@ export function useDocMarkerContextState(): DocMarkerContextState {
       ),
     [],
   );
+  const historyStore = useMemo(() => new HistoryStore(jotaiStore), []);
+  const fileStateManager = useMemo(
+    () =>
+      new FileStateManager(
+        filesDatabase,
+        fileSerializer,
+        fileMetadataStore,
+        historyStore,
+      ),
+    [],
+  );
+  const autosaveStore = useMemo(
+    () => new AutosaveStore(jotaiStore, fileStateManager, historyStore),
+    [],
+  );
 
   return {
-    jotaiStore,
-    filesDatabase,
+    autosaveStore,
+    fieldsRepository,
     fileMetadataStore,
+    filesDatabase,
     fileSerializer,
     fileStateManager,
-    fieldsRepository,
-    autosaveStore,
+    historyStore,
+    jotaiStore,
     robotPredictionStore,
     robotPredictor,
   };

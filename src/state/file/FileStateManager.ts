@@ -4,7 +4,7 @@ import {
   SignalDispatcher,
   SimpleEventDispatcher,
 } from "strongly-typed-events";
-import { AppFile, historyStore } from "..";
+import { AppFile, HistoryStore } from "..";
 import { FileMetadataStore } from "./FileMetadataStore";
 import { FilesDatabase } from "./FilesDatabase";
 import { FileSerializer } from "./FileSerializer";
@@ -18,15 +18,18 @@ export class FileStateManager {
   private readonly filesDatabase: FilesDatabase;
   private readonly serializer: FileSerializer;
   private readonly fileMeta: FileMetadataStore;
+  private readonly historyStore: HistoryStore;
 
   constructor(
     filesDatabase: FilesDatabase,
     serializer: FileSerializer,
     fileMeta: FileMetadataStore,
+    historyStore: HistoryStore,
   ) {
     this.filesDatabase = filesDatabase;
     this.serializer = serializer;
     this.fileMeta = fileMeta;
+    this.historyStore = historyStore;
   }
 
   /**
@@ -38,7 +41,7 @@ export class FileStateManager {
   public createNewFile(formId: string): void {
     this.closeFile();
     this.serializer.deserializeFromFile(AppFile.createNewEmpty(formId));
-    historyStore.clear();
+    this.historyStore.clear();
   }
 
   /**
@@ -78,7 +81,7 @@ export class FileStateManager {
     const appFile = this.filesDatabase.loadFile(uuid);
     if (appFile === null) return;
     this.serializer.deserializeFromFile(appFile);
-    historyStore.clear();
+    this.historyStore.clear();
   }
 
   /**

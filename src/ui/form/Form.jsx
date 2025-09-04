@@ -3,7 +3,7 @@ import { JsonForms } from "@jsonforms/react"
 import { useAtom } from "jotai"
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { FormDefinition } from "../../../forms/FormDefinition"
-import { formStore, userPreferencesStore, historyStore } from "../../state"
+import { formStore, userPreferencesStore } from "../../state"
 import { useTranslation } from "react-i18next"
 import { CircularProgress, Typography } from "@mui/material"
 import { usePreventScrollOverNumberFields } from "./usePreventScrollOverNumberFields"
@@ -21,7 +21,7 @@ const stringifyErrors = (errors, tabWidth) => JSON.stringify(errors, [
 ], tabWidth);
 
 export function Form() {
-  const { fieldsRepository } = useDocMarkerContextState();
+  const { fieldsRepository, historyStore } = useDocMarkerContextState();
 
   const [isLoading, setLoading] = useState(false)
 

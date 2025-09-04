@@ -1,7 +1,7 @@
 import { Atom, atom, PrimitiveAtom } from "jotai";
-import * as historyStore from "./historyStore";
 import { JotaiStore } from "./JotaiStore";
 import { FileStateManager } from "./file/FileStateManager";
+import { HistoryStore } from "./HistoryStore";
 
 /**
  * After this time of idling the autosave is triggered. If the user starts
@@ -19,27 +19,32 @@ const AUTOSAVE_DEBOUNCE_DELAY_MS = 5_000;
 export class AutosaveStore {
   private readonly jotaiStore: JotaiStore;
   private readonly fileStateManager: FileStateManager;
+  private readonly historyStore: HistoryStore;
 
-  constructor(jotaiStore: JotaiStore, fileStateManager: FileStateManager) {
+  constructor(
+    jotaiStore: JotaiStore,
+    fileStateManager: FileStateManager,
+    historyStore: HistoryStore,
+  ) {
     this.jotaiStore = jotaiStore;
     this.fileStateManager = fileStateManager;
+    this.historyStore = historyStore;
 
     this.registerEventListeners();
   }
 
   private registerEventListeners() {
-    historyStore.eventEmitter.on("clear", (e) => {
-      this.jotaiStore.set(this.isDirtyBaseAtom, false);
-      this.cancelScheduledAutosave();
-    });
-
-    historyStore.eventEmitter.on("change", (e) => {
-      // ignore cosmetic changes
-      if (e.cosmeticChange) {
-        return;
+    this.historyStore.onApplicationStateChange.subscribe((e) => {
+      if (e.isCosmeticChange) {
+        return; // ignore cosmetic changes
       }
 
-      this.setDirty();
+      if (e.changeKind === "clear") {
+        this.jotaiStore.set(this.isDirtyBaseAtom, false);
+        this.cancelScheduledAutosave();
+      } else {
+        this.setDirty();
+      }
     });
 
     this.fileStateManager.onBeforeFileClose.subscribe((e) => {

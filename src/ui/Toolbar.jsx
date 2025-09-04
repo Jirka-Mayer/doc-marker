@@ -1,7 +1,7 @@
 import { Divider, IconButton, Tooltip, ToggleButton, ToggleButtonGroup, Select, MenuItem } from "@mui/material"
-import { useAtom } from "jotai"
+import { useAtomValue } from "jotai"
 import { useTranslation } from "react-i18next"
-import { reportStore, historyStore } from "../state"
+import { reportStore } from "../state"
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
@@ -9,14 +9,18 @@ import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import FormatStrikethroughIcon from '@mui/icons-material/FormatStrikethrough';
 import FormatClearIcon from '@mui/icons-material/FormatClear';
+import { useContext } from "react";
+import { DocMarkerContext } from "./DocMarkerContext";
 
 export function Toolbar() {
   const { t } = useTranslation("toolbar")
 
-  const [canUndo] = useAtom(historyStore.canUndoAtom)
-  const [canRedo] = useAtom(historyStore.canRedoAtom)
+  const { historyStore } = useContext(DocMarkerContext)
 
-  const [selectionFormats] = useAtom(reportStore.selectionFormatsAtom)
+  const canUndo = useAtomValue(historyStore.canUndoAtom)
+  const canRedo = useAtomValue(historyStore.canRedoAtom)
+
+  const selectionFormats = useAtomValue(reportStore.selectionFormatsAtom)
 
   function toggleSelectionFormat(name, value = true) {
     if (selectionFormats[name] !== value)
