@@ -268,6 +268,24 @@ export class RobotPredictionStore {
   }
 
   /**
+   * Removes all robot-predicted as well as user-provided data
+   * for all fields, effectively erasing the contents of this store.
+   */
+  public eraseAllPredictionData(): void {
+    for (const fieldId of this.predictionStateAtoms.keys()) {
+      const stateAtom = this.predictionStateAtoms.get(fieldId);
+      this.jotaiStore.set(stateAtom, {
+        isBeingPredicted: false,
+        isHumanVerified: false,
+      });
+    }
+    for (const fieldId of this.robotPredictionAtoms.keys()) {
+      const robotAtom = this.robotPredictionAtoms.get(fieldId);
+      this.jotaiStore.set(robotAtom, null);
+    }
+  }
+
+  /**
    * Called by the file serializer when a file is being loaded
    */
   public loadDeserializedStateForField(

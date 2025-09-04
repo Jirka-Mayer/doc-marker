@@ -15,6 +15,10 @@ const highlightsBaseAtom = atom({})
 export const highlightsAtom = atom(
   get => get(highlightsBaseAtom),
   (get, set, newValue) => {
+    // TODO: this setter is never used, AND! It's faulty - it should modify
+    // quill formats, since they are the ground truth. Modifying the base atoms
+    // does nothing.
+
     const oldValue = get(highlightsBaseAtom)
     const improvedNewValue = assignIfNeeded(oldValue, newValue)
 

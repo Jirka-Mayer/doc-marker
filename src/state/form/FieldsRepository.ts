@@ -79,6 +79,16 @@ export class FieldsRepository {
   }
 
   /**
+   * Sets the data for all fields to undefined
+   * (effectively erasing the form contents)
+   */
+  public eraseAllFieldValues(): void {
+    for (const fieldId of this._fields.keys()) {
+      this.setFieldValue(fieldId, undefined, false);
+    }
+  }
+
+  /**
    * Removes all fields from the repository, happens immediately.
    */
   public clearFields(): void {

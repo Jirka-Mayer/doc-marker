@@ -49,6 +49,9 @@
     "robotPredictionSnackbar": {
       "message": "Filling out the form...",
       "abort": "Abort"
-    }
+    },
+    "predictActiveField": "Predict active field",
+    "eraseRobotDataForField": "Erase robot data for active field",
+    "eraseAllFormData": "Erase all form data"
   }
 }

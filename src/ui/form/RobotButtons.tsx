@@ -5,10 +5,9 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { useContext } from "react";
 import { DocMarkerContext } from "../DocMarkerContext";
-import { TranslateProps } from "@jsonforms/react";
 import { Translator } from "@jsonforms/core";
 
-export interface RobotButtonsProps extends TranslateProps {
+export interface RobotButtonsProps {
   readonly fieldId: string;
   readonly fieldPrediction: FieldPrediction;
   readonly t: Translator;

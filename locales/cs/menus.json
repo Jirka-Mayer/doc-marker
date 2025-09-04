@@ -49,6 +49,9 @@
     "robotPredictionSnackbar": {
       "message": "Vyplňuji formulář...",
       "abort": "Zastavit"
-    }
+    },
+    "predictActiveField": "Předpovědět vybrané pole",
+    "eraseRobotDataForField": "Smazat robotí data pro vybrané pole",
+    "eraseAllFormData": "Smazat veškerá formulářová data"
   }
 }
