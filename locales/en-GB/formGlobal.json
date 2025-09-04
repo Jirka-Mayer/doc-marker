@@ -24,6 +24,11 @@
   "highlightPin": {
     "tooltip": "Show link"
   },
+  "robotButtons": {
+    "robot": "Inspect robot data",
+    "verify": "Mark as correctly predicted",
+    "unverify": "Mark as not yet verified"
+  },
   "multiselect": {
     "forget": "Forget value"
   },

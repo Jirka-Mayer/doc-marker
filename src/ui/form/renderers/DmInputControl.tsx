@@ -27,6 +27,7 @@ import { WithInput } from "@jsonforms/material-renderers";
 import { TranslateProps } from "@jsonforms/react";
 import { NullabilityProps } from "./NullabilityProps";
 import { CoercionProps } from "./CoercionProps";
+import { RobotButtons } from "../RobotButtons";
 
 /**
  * Wrapper for all input controls that have the "label : field : errors" structure
@@ -247,22 +248,11 @@ export function DmInputControl(
         )}
 
         <HighlightPinButton />
-
-        {/* Robot value verification button */}
-        {fieldPrediction.hasPrediction ? (
-          <ToggleButton
-            size="small"
-            color="primary"
-            value="check"
-            selected={fieldPrediction.isHumanVerified || false}
-            onChange={() => robotPredictionStore.toggleIsHumanVerified(fieldId)}
-          >
-            <SmartToyIcon />
-            <CheckIcon />
-          </ToggleButton>
-        ) : (
-          ""
-        )}
+        <RobotButtons
+          t={t}
+          fieldId={fieldId}
+          fieldPrediction={fieldPrediction}
+        />
       </div>
       {errors === "" ? (
         ""

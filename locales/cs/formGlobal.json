@@ -24,6 +24,11 @@
   "highlightPin": {
     "tooltip": "Ukázat párování"
   },
+  "robotButtons": {
+    "robot": "Zobrazit robotí data",
+    "verify": "Označit jako správně předpovězené",
+    "unverify": "Označit jako ještě nezkontrolované"
+  },
   "multiselect": {
     "forget": "Zapomenout hodnotu"
   },

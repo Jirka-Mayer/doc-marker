@@ -85,7 +85,6 @@ export class RobotPredictionStore {
     if (robot === null) {
       return {
         isBeingPredicted: state.isBeingPredicted,
-        hasPrediction: false,
         robot: null,
         evidencesMatchHighlights: null,
         answerMatchesFormData: null,
@@ -116,12 +115,6 @@ export class RobotPredictionStore {
     const answerMatchesFormData: boolean | null =
       robot.answer === undefined ? null : robot.answer === fieldFormData;
 
-    // only makes sense when robot answer exists (which implies evidences
-    // existing) and that answer matches form data
-    let isHumanVerified: boolean | null = state.isHumanVerified;
-    if (robot.answer === undefined) isHumanVerified = null;
-    if (!answerMatchesFormData) isHumanVerified = null;
-
     // only makes sense when both sub-values make sense
     // (evidences make always sense in this code branch, but whatever...)
     const wholePredictionMatchesData: boolean | null =
@@ -129,9 +122,14 @@ export class RobotPredictionStore {
         ? null
         : evidencesMatchHighlights && answerMatchesFormData;
 
+    // only makes sense when robot answer exists (which implies evidences
+    // existing) and that answer matches form data
+    // and evidence matches highlights
+    let isHumanVerified: boolean | null =
+      wholePredictionMatchesData === true ? state.isHumanVerified : null;
+
     return {
       isBeingPredicted: state.isBeingPredicted,
-      hasPrediction: true,
       robot: robot,
       evidencesMatchHighlights: evidencesMatchHighlights,
       answerMatchesFormData: answerMatchesFormData,
@@ -196,6 +194,10 @@ export class RobotPredictionStore {
       this.robotPredictionAtoms.get(fieldId),
       robotPrediction,
     );
+    this.patchPredictionState(fieldId, (s) => ({
+      ...s,
+      isBeingPredicted: false,
+    }));
   }
 
   /**
@@ -261,7 +263,7 @@ export class RobotPredictionStore {
   public toggleIsHumanVerified(fieldId: string) {
     this.patchPredictionState(fieldId, (s) => ({
       ...s,
-      isBeingPredicted: !s.isBeingPredicted,
+      isHumanVerified: !s.isHumanVerified,
     }));
   }
 
@@ -295,11 +297,6 @@ export interface FieldPrediction {
    * Having this value set to true should display a spinner over the field.
    */
   readonly isBeingPredicted: boolean;
-
-  /**
-   * True when the raw robot prediction exists for this field
-   */
-  readonly hasPrediction: boolean;
 
   /**
    * Holds the raw predictions by the robot. If there is no robot prediction,
