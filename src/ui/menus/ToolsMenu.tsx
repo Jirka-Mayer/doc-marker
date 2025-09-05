@@ -10,7 +10,6 @@ import { useContext, useState } from "react";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { useTranslation } from "react-i18next";
-import { currentOptions } from "../../options";
 import { DocMarkerContext } from "../DocMarkerContext";
 import { activeFieldIdAtom } from "../../state/editor/fieldActivityStore";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -22,6 +21,7 @@ export function ToolsMenu() {
   const { t } = useTranslation("menus");
 
   const {
+    dmOptions,
     fileMetadataStore,
     robotPredictor,
     robotPredictionStore,
@@ -127,7 +127,7 @@ export function ToolsMenu() {
           </Typography>
         </MenuItem>
 
-        {currentOptions.slots.toolsMenu}
+        {dmOptions.slots.toolsMenu}
       </Menu>
     </>
   );

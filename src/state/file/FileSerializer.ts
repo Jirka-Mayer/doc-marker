@@ -6,7 +6,7 @@ import {
   Migration,
   reportStore,
 } from "..";
-import { currentOptions } from "../../options";
+import { DmOptions } from "../../options";
 import * as packageJson from "../../../package.json";
 import { FileMetadataStore } from "./FileMetadataStore";
 import { JotaiStore } from "../JotaiStore";
@@ -30,17 +30,20 @@ const DOC_MARKER_VERSION: string = packageJson["version"];
  * and hydrates the state stores and services with this data.
  */
 export class FileSerializer {
+  private readonly dmOptions: DmOptions;
   private readonly jotaiStore: JotaiStore;
   private readonly fileMeta: FileMetadataStore;
   private readonly fieldsRepository: FieldsRepository;
   private readonly robotPredictionStore: RobotPredictionStore;
 
   constructor(
+    dmOptions: DmOptions,
     jotaiStore: JotaiStore,
     fileMeta: FileMetadataStore,
     fieldsRepository: FieldsRepository,
     robotPredictionStore: RobotPredictionStore,
   ) {
+    this.dmOptions = dmOptions;
     this.jotaiStore = jotaiStore;
     this.fileMeta = fileMeta;
     this.fieldsRepository = fieldsRepository;
@@ -57,10 +60,10 @@ export class FileSerializer {
     }
 
     let fileJson: SerializedFileJson = {
-      _version: currentOptions.file.currentVersion,
+      _version: this.dmOptions.file.currentVersion,
       _docMarkerVersion: DOC_MARKER_VERSION,
-      _docMarkerCustomizationVersion: currentOptions.customization.version,
-      _docMarkerCustomizationName: currentOptions.customization.name,
+      _docMarkerCustomizationVersion: this.dmOptions.customization.version,
+      _docMarkerCustomizationName: this.dmOptions.customization.name,
 
       _uuid: this.fileMeta.fileUuid!, // there is a check above
       _fileName: this.fileMeta.fileName,
@@ -83,9 +86,9 @@ export class FileSerializer {
     // TODO: anonymization must be done earlier!
     fileJson = forgetAnonymizedText(fileJson);
 
-    fileJson = currentOptions.file.onSerialize(fileJson) as SerializedFileJson;
+    fileJson = this.dmOptions.file.onSerialize(fileJson) as SerializedFileJson;
 
-    return AppFile.fromJson(fileJson);
+    return AppFile.fromJson(this.dmOptions, fileJson);
   }
 
   private serializeRobotPredictions(): SerializedRobotPredictions {
@@ -126,7 +129,7 @@ export class FileSerializer {
 
     let json: SerializedFileJson = appFile.toJson();
 
-    json = Migration.runMigrations(json, currentOptions.file.migrations);
+    json = Migration.runMigrations(json, this.dmOptions.file.migrations);
 
     // === deserialize state ===
 
@@ -155,7 +158,7 @@ export class FileSerializer {
     this.jotaiStore.set(formStore.formReloadTriggerAtom);
 
     // let the customization deserialize its own additional state
-    currentOptions.file.onDeserialize(json);
+    this.dmOptions.file.onDeserialize(json);
   }
 
   private deserializeRobotPredictions(

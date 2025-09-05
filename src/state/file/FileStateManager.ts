@@ -8,6 +8,7 @@ import { AppFile, HistoryStore } from "..";
 import { FileMetadataStore } from "./FileMetadataStore";
 import { FilesDatabase } from "./FilesDatabase";
 import { FileSerializer } from "./FileSerializer";
+import { DmOptions } from "../../options";
 
 /**
  * Service that provides top-level control over the file-related state
@@ -15,17 +16,20 @@ import { FileSerializer } from "./FileSerializer";
  * closing of files.
  */
 export class FileStateManager {
+  private readonly dmOptions: DmOptions;
   private readonly filesDatabase: FilesDatabase;
   private readonly serializer: FileSerializer;
   private readonly fileMeta: FileMetadataStore;
   private readonly historyStore: HistoryStore;
 
   constructor(
+    dmOptions: DmOptions,
     filesDatabase: FilesDatabase,
     serializer: FileSerializer,
     fileMeta: FileMetadataStore,
     historyStore: HistoryStore,
   ) {
+    this.dmOptions = dmOptions;
     this.filesDatabase = filesDatabase;
     this.serializer = serializer;
     this.fileMeta = fileMeta;
@@ -40,7 +44,9 @@ export class FileStateManager {
    */
   public createNewFile(formId: string): void {
     this.closeFile();
-    this.serializer.deserializeFromFile(AppFile.createNewEmpty(formId));
+    this.serializer.deserializeFromFile(
+      AppFile.createNewEmpty(this.dmOptions, formId),
+    );
     this.historyStore.clear();
   }
 

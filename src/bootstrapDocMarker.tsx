@@ -44,6 +44,6 @@ export async function bootstrapDocMarker(
 
   // create and bind the application
   const root = createRoot(currentOptions.element);
-  root.render(<Application />);
+  root.render(<Application dmOptions={currentOptions} />);
   currentOptions.element.classList.add(styles["application"]);
 }

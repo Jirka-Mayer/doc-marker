@@ -1,4 +1,4 @@
-import { currentOptions } from "../../options";
+import { DmOptions } from "../../options";
 import * as uuid from "uuid";
 import * as packageJson from "../../../package.json";
 import { AppMode } from "../editor/AppMode";
@@ -16,9 +16,9 @@ export class AppFile {
    */
   private body: SerializedFileJson;
 
-  private constructor(body: SerializedFileJson) {
+  private constructor(dmOptions: DmOptions, body: SerializedFileJson) {
     this.body = JSON.parse(JSON.stringify(body)); // clone
-    this.validate();
+    this.validate(dmOptions);
   }
 
   /**
@@ -31,22 +31,25 @@ export class AppFile {
   /**
    * Creates AppFile instance from a given parsed JSON file body
    */
-  public static fromJson(body: SerializedFileJson): AppFile {
-    return new AppFile(body);
+  public static fromJson(
+    dmOptions: DmOptions,
+    body: SerializedFileJson,
+  ): AppFile {
+    return new AppFile(dmOptions, body);
   }
 
   /**
    * Creates a new empty file
    * @param formId Which form the file should use
    */
-  public static createNewEmpty(formId: string): AppFile {
+  public static createNewEmpty(dmOptions: DmOptions, formId: string): AppFile {
     const now = new Date();
 
     const emptyFile: SerializedFileJson = {
-      _version: currentOptions.file.currentVersion,
+      _version: dmOptions.file.currentVersion,
       _docMarkerVersion: DOC_MARKER_VERSION,
-      _docMarkerCustomizationVersion: currentOptions.customization.version,
-      _docMarkerCustomizationName: currentOptions.customization.name,
+      _docMarkerCustomizationVersion: dmOptions.customization.version,
+      _docMarkerCustomizationName: dmOptions.customization.name,
 
       _uuid: this.generateNewUuid(),
       _fileName: "",
@@ -60,13 +63,13 @@ export class AppFile {
 
       _reportDelta: { ops: [] },
       _reportText: "",
+      _reportLanguage: undefined,
       _highlights: {},
     };
 
-    const emptyFileWithCustomization =
-      currentOptions.file.onCreateEmpty(emptyFile);
+    const emptyFileWithCustomization = dmOptions.file.onCreateEmpty(emptyFile);
 
-    return AppFile.fromJson(emptyFileWithCustomization);
+    return AppFile.fromJson(dmOptions, emptyFileWithCustomization);
   }
 
   /**
@@ -93,10 +96,10 @@ export class AppFile {
   /**
    * Runs validation checks on the file JSON to ensure it isn't malformed
    */
-  private validate() {
+  private validate(dmOptions: DmOptions) {
     const json = this.body as any;
 
-    if (json["_version"] !== currentOptions.file.currentVersion)
+    if (json["_version"] !== dmOptions.file.currentVersion)
       throw new Error("Invalid file version: " + json["_version"]);
 
     if (!json["_uuid"]) throw new Error("Missing file UUID");

@@ -1,4 +1,3 @@
-import { currentOptions } from "../../options"
 import { JsonForms } from "@jsonforms/react"
 import { useAtom } from "jotai"
 import { useCallback, useContext, useEffect, useMemo, useState } from "react"
@@ -21,7 +20,7 @@ const stringifyErrors = (errors, tabWidth) => JSON.stringify(errors, [
 ], tabWidth);
 
 export function Form() {
-  const { fieldsRepository, historyStore } = useContext(DocMarkerContext);
+  const { dmOptions, fieldsRepository, historyStore } = useContext(DocMarkerContext);
 
   const [isLoading, setLoading] = useState(false)
 
@@ -81,8 +80,8 @@ export function Form() {
       }
 
       // load renderers and cells
-      setFormRenderers(await currentOptions.formRenderersImporter())
-      setFormCells(await currentOptions.formCellsImporter())
+      setFormRenderers(await dmOptions.formRenderersImporter())
+      setFormCells(await dmOptions.formCellsImporter())
 
       // done
       setLoading(false)

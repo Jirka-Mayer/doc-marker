@@ -20,7 +20,6 @@ import { ViewMenu } from "./menus/ViewMenu"
 import { Toolbar } from "./Toolbar"
 import { ToolsMenu } from "./menus/ToolsMenu"
 import { useTranslation } from "react-i18next";
-import { currentOptions } from "../options"
 import { FormatMenu } from "./menus/FormatMenu"
 import { useContext } from "react"
 import { DocMarkerContext } from "./DocMarkerContext"
@@ -29,6 +28,7 @@ export function AppBar() {
   const { t } = useTranslation("appbar")
 
   const {
+    dmOptions,
     autosaveStore,
     fileMetadataStore,
     fileStateManager,
@@ -50,7 +50,7 @@ export function AppBar() {
           style={{ cursor: isFileOpen ? "pointer" : "default" }}
         >
           <img
-            src={currentOptions.customization.appBarLogoUrl}
+            src={dmOptions.customization.appBarLogoUrl}
             alt="Application Logo"
           />
         </div>

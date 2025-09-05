@@ -6,7 +6,6 @@ import { useAtomValue, useSetAtom } from "jotai"
 import { AppFile } from "../state"
 import DeleteIcon from '@mui/icons-material/Delete'
 import DownloadIcon from '@mui/icons-material/Download'
-import { currentOptions } from "../options"
 import { useTranslation } from "react-i18next"
 import { isOpenAtom as isCreateFileDialogOpenAtom } from "./dialogs/CreateFileDialog"
 
@@ -21,7 +20,7 @@ export function WelcomeBody(props) {
 
   const { t } = useTranslation("welcomeBody")
 
-  const { filesDatabase, fileStateManager } = useContext(DocMarkerContext);
+  const { dmOptions, filesDatabase, fileStateManager } = useContext(DocMarkerContext);
 
   const fileList = useAtomValue(filesDatabase.fileListAtom)
   const setCreateFileDialogOpenAtom = useSetAtom(isCreateFileDialogOpenAtom)
@@ -39,7 +38,7 @@ export function WelcomeBody(props) {
       return
     const uploadedJson = await input.files[0].text()
     input.value = null
-    const uploadedAppFile = new AppFile(JSON.parse(uploadedJson))
+    const uploadedAppFile = AppFile.fromJson(dmOptions, JSON.parse(uploadedJson))
 
     // check if there is the same file already uploaded
     const existingAppFile = filesDatabase.loadFile(uploadedAppFile.uuid)
@@ -188,7 +187,7 @@ export function WelcomeBody(props) {
 
           {/* Footer with the version string */}
           <Typography variant="body2" gutterBottom sx={{ color: "#888", paddingTop: 1 }}>
-            {currentOptions.customization.name} v{currentOptions.customization.version}<br/>
+            {dmOptions.customization.name} v{dmOptions.customization.version}<br/>
             DocMarker v{VERSION}
           </Typography>
 

@@ -13,6 +13,7 @@ import { JotaiStore } from "../state/JotaiStore";
 import { getDefaultStore } from "jotai";
 import { DummyRobot } from "../robotApi/DummyRobot";
 import { RobotPredictionStore } from "../state/form/RobotPredictionStore";
+import { DmOptions } from "../options";
 
 /**
  * The DocMarker context acts as a service container for the whole application,
@@ -21,6 +22,12 @@ import { RobotPredictionStore } from "../state/form/RobotPredictionStore";
  * booting of the app.
  */
 export interface DocMarkerContextState {
+  /**
+   * Options for DocMarker provided by the customization that invoked the
+   * bootstrap method
+   */
+  readonly dmOptions: DmOptions;
+
   /**
    * The jotai store, that lets us manipulate jotai atoms from outside of react
    */
@@ -77,9 +84,14 @@ export interface DocMarkerContextState {
 /**
  * Creates all services and stores them in the global context
  */
-export function useConstructContextServices(): DocMarkerContextState {
+export function useConstructContextServices(
+  dmOptions: DmOptions,
+): DocMarkerContextState {
   const jotaiStore = useMemo(() => getDefaultStore(), []);
-  const filesDatabase = useMemo(() => new FilesDatabase(), []);
+  const filesDatabase = useMemo(
+    () => new FilesDatabase(dmOptions, jotaiStore),
+    [],
+  );
   const fileMetadataStore = useMemo(
     () => new FileMetadataStore(jotaiStore),
     [],
@@ -92,6 +104,7 @@ export function useConstructContextServices(): DocMarkerContextState {
   const fileSerializer = useMemo(
     () =>
       new FileSerializer(
+        dmOptions,
         jotaiStore,
         fileMetadataStore,
         fieldsRepository,
@@ -116,6 +129,7 @@ export function useConstructContextServices(): DocMarkerContextState {
   const fileStateManager = useMemo(
     () =>
       new FileStateManager(
+        dmOptions,
         filesDatabase,
         fileSerializer,
         fileMetadataStore,
@@ -129,6 +143,7 @@ export function useConstructContextServices(): DocMarkerContextState {
   );
 
   return {
+    dmOptions,
     autosaveStore,
     fieldsRepository,
     fileMetadataStore,

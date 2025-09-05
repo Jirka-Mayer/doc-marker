@@ -1,8 +1,8 @@
 import { AppFile } from "./AppFile";
 import { FilesDatabaseRecord } from "./FilesDatabaseRecord";
-import { currentOptions } from "../../options";
+import { DmOptions } from "../../options";
 import { ISimpleEvent, SimpleEventDispatcher } from "strongly-typed-events";
-import { Atom, atom, getDefaultStore, PrimitiveAtom } from "jotai";
+import { Atom, atom, PrimitiveAtom } from "jotai";
 import { JotaiStore } from "../JotaiStore";
 import { SerializedFileJson } from "./SerializedFileJson";
 
@@ -13,9 +13,13 @@ const localStorage = window.localStorage;
  * (in the web browser)
  */
 export class FilesDatabase {
-  private jotaiStore: JotaiStore = getDefaultStore();
+  private readonly dmOptions: DmOptions;
+  private readonly jotaiStore: JotaiStore;
 
-  constructor() {
+  constructor(dmOptions: DmOptions, jotaiStore: JotaiStore) {
+    this.dmOptions = dmOptions;
+    this.jotaiStore = jotaiStore;
+
     this.connectIndexLogicWithJotaiAbstraction();
   }
 
@@ -51,13 +55,13 @@ export class FilesDatabase {
    * Loads a file by UUID, returns null if the file does not exist
    */
   public loadFile(uuid: string): AppFile | null {
-    const data = localStorage.getItem(FilesDatabase.FILE_KEY_PREFIX + uuid);
+    const data = localStorage.getItem(this.FILE_KEY_PREFIX + uuid);
 
     if (!data) return null;
 
     const json = JSON.parse(data) as SerializedFileJson;
 
-    return AppFile.fromJson(json);
+    return AppFile.fromJson(this.dmOptions, json);
   }
 
   /**
@@ -67,7 +71,7 @@ export class FilesDatabase {
   public storeFile(appFile: AppFile): void {
     // write the file data
     const data = appFile.toJsonString();
-    localStorage.setItem(FilesDatabase.FILE_KEY_PREFIX + appFile.uuid, data);
+    localStorage.setItem(this.FILE_KEY_PREFIX + appFile.uuid, data);
 
     // update the files index
     let list = this.loadFilesIndex();
@@ -80,7 +84,7 @@ export class FilesDatabase {
    * Deletes a file from the local storage, given its UUID
    */
   public deleteFile(uuid: string): void {
-    localStorage.removeItem(FilesDatabase.FILE_KEY_PREFIX + uuid);
+    localStorage.removeItem(this.FILE_KEY_PREFIX + uuid);
 
     let list = this.loadFilesIndex();
     list = list.filter((r) => r.uuid !== uuid);
@@ -105,14 +109,16 @@ export class FilesDatabase {
   /**
    * The key under which the list of all stored files (the index) is stored
    */
-  public static readonly FILES_INDEX_KEY =
-    currentOptions.localStoragePrefix + "docMarkerFileList";
+  public get FILES_INDEX_KEY(): string {
+    return this.dmOptions.localStoragePrefix + "docMarkerFileList";
+  }
 
   /**
    * The key prefix used for storing individual files
    */
-  public static readonly FILE_KEY_PREFIX =
-    currentOptions.localStoragePrefix + "docMarkerFile/"; // + file UUID
+  public get FILE_KEY_PREFIX(): string {
+    return this.dmOptions.localStoragePrefix + "docMarkerFile/"; // + file UUID
+  }
 
   private _onIndexChanged = new SimpleEventDispatcher<FilesDatabaseRecord[]>();
 
@@ -128,7 +134,7 @@ export class FilesDatabase {
    * Loads the index that lists all the stored files
    */
   private loadFilesIndex(): FilesDatabaseRecord[] {
-    const data = localStorage.getItem(FilesDatabase.FILES_INDEX_KEY);
+    const data = localStorage.getItem(this.FILES_INDEX_KEY);
 
     if (!data) {
       // there is no file list, the app was launched for the first time
@@ -152,7 +158,7 @@ export class FilesDatabase {
 
     // throw away files that do not have a corresponding record in the storage
     records = records.filter((r) =>
-      localStorage.getItem(FilesDatabase.FILE_KEY_PREFIX + r.uuid),
+      localStorage.getItem(this.FILE_KEY_PREFIX + r.uuid),
     );
 
     return records;
@@ -164,7 +170,7 @@ export class FilesDatabase {
    */
   private writeFilesIndex(records: FilesDatabaseRecord[]): void {
     const json: object[] = records.map((r) => r.toJson());
-    localStorage.setItem(FilesDatabase.FILES_INDEX_KEY, JSON.stringify(json));
+    localStorage.setItem(this.FILES_INDEX_KEY, JSON.stringify(json));
 
     // fire the change event, with re-loaded values to ensure proper ordering
     this._onIndexChanged.dispatch(this.loadFilesIndex());

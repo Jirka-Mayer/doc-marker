@@ -7,8 +7,8 @@
 declare const process: {
   env: {
     NODE_ENV: string;
-  }
-}
+  };
+};
 
 // fix react-scan warning displayed during build:
 //> @parcel/transformer-typescript-types: Cannot find name 'RenderChange'.
