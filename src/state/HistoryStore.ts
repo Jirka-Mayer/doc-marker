@@ -28,7 +28,7 @@ const DEBOUNCE_TIME_MS = 1000;
  * Set to true when developing the app and debugging the behaviour
  * of this service. It enables verbose console logging.
  */
-const DEBUG = true;
+const DEBUG = false;
 
 function debugLog(...args) {
   if (!DEBUG) return;
