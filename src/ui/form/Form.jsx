@@ -1,7 +1,7 @@
 import { currentOptions } from "../../options"
 import { JsonForms } from "@jsonforms/react"
 import { useAtom } from "jotai"
-import { useCallback, useEffect, useMemo, useState } from "react"
+import { useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { FormDefinition } from "../../../forms/FormDefinition"
 import { formStore, userPreferencesStore } from "../../state"
 import { useTranslation } from "react-i18next"
@@ -10,7 +10,7 @@ import { usePreventScrollOverNumberFields } from "./usePreventScrollOverNumberFi
 import LocalFloristIcon from '@mui/icons-material/LocalFlorist';
 import { createAjv } from "@jsonforms/core"
 import { extractFormDataHierarchy } from "./extractFormDataHierarchy"
-import { useDocMarkerContextState } from "../DocMarkerContext"
+import { DocMarkerContext } from "../DocMarkerContext"
 
 /**
  * Converts AJV errors to string representation for debug printing
@@ -21,7 +21,7 @@ const stringifyErrors = (errors, tabWidth) => JSON.stringify(errors, [
 ], tabWidth);
 
 export function Form() {
-  const { fieldsRepository, historyStore } = useDocMarkerContextState();
+  const { fieldsRepository, historyStore } = useContext(DocMarkerContext);
 
   const [isLoading, setLoading] = useState(false)
 

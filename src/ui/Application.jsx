@@ -11,12 +11,12 @@ import { currentOptions } from "../options"
 import { CreateFileDialog } from "./dialogs/CreateFileDialog"
 import { ReportLanguageDialog } from "./dialogs/ReportLanguageDialog"
 import { RobotPredictionSnackbar } from "./dialogs/RobotPredictionSnackbar"
-import { DocMarkerContext, useDocMarkerContextState } from "./DocMarkerContext"
+import { DocMarkerContext, useConstructContextServices } from "./DocMarkerContext"
 
 const theme = createTheme(currentOptions.theme)
 
 export function Application() {
-  const docMarkerContext = useDocMarkerContextState()
+  const docMarkerContext = useConstructContextServices()
 
   const { fileMetadataStore, fileStateManager } = docMarkerContext;
 

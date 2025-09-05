@@ -77,7 +77,7 @@ export interface DocMarkerContextState {
 /**
  * Creates all services and stores them in the global context
  */
-export function useDocMarkerContextState(): DocMarkerContextState {
+export function useConstructContextServices(): DocMarkerContextState {
   const jotaiStore = useMemo(() => getDefaultStore(), []);
   const filesDatabase = useMemo(() => new FilesDatabase(), []);
   const fileMetadataStore = useMemo(
@@ -109,7 +109,10 @@ export function useDocMarkerContextState(): DocMarkerContextState {
       ),
     [],
   );
-  const historyStore = useMemo(() => new HistoryStore(jotaiStore), []);
+  const historyStore = useMemo(
+    () => new HistoryStore(jotaiStore, robotPredictionStore),
+    [],
+  );
   const fileStateManager = useMemo(
     () =>
       new FileStateManager(

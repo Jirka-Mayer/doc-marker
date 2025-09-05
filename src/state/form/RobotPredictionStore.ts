@@ -10,6 +10,7 @@ import {
 } from "../reportStore";
 import { useMemo } from "react";
 import { FieldsRepository } from "./FieldsRepository";
+import { ISignal, SignalDispatcher } from "strongly-typed-events";
 
 /**
  * Global service that stores predictions and metadata from automated models,
@@ -183,6 +184,10 @@ export class RobotPredictionStore {
     );
   }
 
+  ////////////////////////////
+  // State Mutation Actions //
+  ////////////////////////////
+
   /**
    * Called by the robot predictor to set the raw robot prediction.
    */
@@ -198,6 +203,9 @@ export class RobotPredictionStore {
       ...s,
       isBeingPredicted: false,
     }));
+
+    // raise event
+    this._onHistoryTrackedStateChange.dispatch();
   }
 
   /**
@@ -205,6 +213,9 @@ export class RobotPredictionStore {
    */
   public eraseRobotPrediction(fieldId: string): void {
     this.jotaiStore.set(this.robotPredictionAtoms.get(fieldId), null);
+
+    // raise event
+    this._onHistoryTrackedStateChange.dispatch();
   }
 
   /**
@@ -228,6 +239,8 @@ export class RobotPredictionStore {
       ...s,
       isBeingPredicted: true,
     }));
+
+    // No event: This state is not important to undo/redo
   }
 
   /**
@@ -238,6 +251,8 @@ export class RobotPredictionStore {
       ...s,
       isBeingPredicted: false,
     }));
+
+    // No event: This state is not important to undo/redo
   }
 
   /**
@@ -254,6 +269,8 @@ export class RobotPredictionStore {
         });
       }
     }
+
+    // No event: This state is not important to undo/redo
   }
 
   /**
@@ -265,6 +282,9 @@ export class RobotPredictionStore {
       ...s,
       isHumanVerified: !s.isHumanVerified,
     }));
+
+    // raise event
+    this._onHistoryTrackedStateChange.dispatch();
   }
 
   /**
@@ -283,7 +303,14 @@ export class RobotPredictionStore {
       const robotAtom = this.robotPredictionAtoms.get(fieldId);
       this.jotaiStore.set(robotAtom, null);
     }
+
+    // raise event
+    this._onHistoryTrackedStateChange.dispatch();
   }
+
+  ///////////////////////////////
+  // Serialization and History //
+  ///////////////////////////////
 
   /**
    * Called by the file serializer when a file is being loaded
@@ -301,6 +328,57 @@ export class RobotPredictionStore {
       this.predictionStateAtoms.get(fieldId),
       predictionState,
     );
+  }
+
+  /**
+   * Returns a state snapshot of this state to be stored in history (undo/redo)
+   */
+  public getHistorySnapshotState(): RpsHistorySnapshotState {
+    const preds: RpsHistorySnapshotState = {};
+    for (const fieldId of this.robotPredictionAtoms.keys()) {
+      const r = this.jotaiStore.get(this.robotPredictionAtoms.get(fieldId));
+      const p = this.jotaiStore.get(this.predictionStateAtoms.get(fieldId));
+      preds[fieldId] = {
+        robotPrediction: r,
+        predictionState: {
+          isHumanVerified: p.isHumanVerified,
+        },
+      };
+    }
+    return preds;
+  }
+
+  /**
+   * Resotres this store's state from a history snapshot (on undo/redo)
+   */
+  public restoreFromHistorySnapshotState(state: RpsHistorySnapshotState): void {
+    for (const fieldId of Object.keys(state)) {
+      this.jotaiStore.set(
+        this.robotPredictionAtoms.get(fieldId),
+        state[fieldId].robotPrediction,
+      );
+
+      const p = this.jotaiStore.get(this.predictionStateAtoms.get(fieldId));
+      this.jotaiStore.set(this.predictionStateAtoms.get(fieldId), {
+        ...p,
+        ...state[fieldId].predictionState,
+      });
+    }
+  }
+
+  ////////////
+  // Events //
+  ////////////
+
+  private _onHistoryTrackedStateChange = new SignalDispatcher();
+
+  /**
+   * Event that fires whenever the state tracked by history changes
+   * (so almost everything except isBeingPredicted and similar runtime-only
+   * state)
+   */
+  public get onHistoryTrakcedStateChange(): ISignal {
+    return this._onHistoryTrackedStateChange.asEvent();
   }
 }
 
@@ -429,4 +507,22 @@ export interface PredictionState {
    * (which happens when the user modifies the form data after prediction).
    */
   readonly isHumanVerified: boolean;
+}
+
+/**
+ * Data that is persisted in history snapshots (undo/redo)
+ */
+export interface RpsHistorySnapshotState {
+  // for each field
+  [fieldId: string]: {
+    // store the robot prediction, which is an atomic unit
+    readonly robotPrediction: RobotPrediction | null;
+
+    // and store parts of the in-memory prediction state,
+    // which should be tracked via history
+    // (i.e. isBeingPredicted does not need (and in fact shouldn't be) stored)
+    readonly predictionState: {
+      readonly isHumanVerified: boolean;
+    };
+  };
 }

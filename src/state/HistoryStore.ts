@@ -8,6 +8,10 @@ import { IsoLanguage } from "../IsoLanguage";
 import { TextRange } from "../utils/TextRange";
 import { AppMode } from "./editor/AppMode";
 import { ISimpleEvent, SimpleEventDispatcher } from "strongly-typed-events";
+import {
+  RobotPredictionStore,
+  RpsHistorySnapshotState,
+} from "./form/RobotPredictionStore";
 
 /**
  * Maximum number of items in the history stack
@@ -24,7 +28,7 @@ const DEBOUNCE_TIME_MS = 1000;
  * Set to true when developing the app and debugging the behaviour
  * of this service. It enables verbose console logging.
  */
-const DEBUG = false;
+const DEBUG = true;
 
 function debugLog(...args) {
   if (!DEBUG) return;
@@ -46,9 +50,14 @@ function debugLog(...args) {
  */
 export class HistoryStore {
   private jotaiStore: JotaiStore;
+  private robotPredictionStore: RobotPredictionStore;
 
-  constructor(jotaiStore: JotaiStore) {
+  constructor(
+    jotaiStore: JotaiStore,
+    robotPredictionStore: RobotPredictionStore,
+  ) {
     this.jotaiStore = jotaiStore;
+    this.robotPredictionStore = robotPredictionStore;
 
     this.startObservingApplication();
   }
@@ -206,6 +215,8 @@ export class HistoryStore {
       takenAt: new Date(),
       // making a copy helps bust react caching and force re-renders on undo/redo
       formData: { ...this.jotaiStore.get(formStore.formDataAtom) },
+      fieldRobotPredictions:
+        this.robotPredictionStore.getHistorySnapshotState(),
       reportDelta: this.jotaiStore.get(reportStore.contentAtom),
       reportLanguage: this.jotaiStore.get(reportStore.reportLanguageAtom),
       reportSelection: reportStore.quillExtended.getSelection(),
@@ -231,6 +242,9 @@ export class HistoryStore {
       this.jotaiStore.set(
         reportStore.reportLanguageAtom,
         snapshot.reportLanguage,
+      );
+      this.robotPredictionStore.restoreFromHistorySnapshotState(
+        snapshot.fieldRobotPredictions,
       );
 
       // surrounding state
@@ -261,6 +275,7 @@ export class HistoryStore {
       isCosmeticChange: false,
       takenAt: new Date(),
       formData: null,
+      fieldRobotPredictions: {},
       reportDelta: { ops: [] },
       reportLanguage: null,
       reportSelection: null,
@@ -307,15 +322,20 @@ export class HistoryStore {
 
     // replace last if early enough
     const sameEventName = previousSnapshot.eventName === eventName;
-    const recentEnoughForReplacement =
+    const mergeSnapshot =
       newSnapshot.takenAt.valueOf() - previousSnapshot.takenAt.valueOf() <
       DEBOUNCE_TIME_MS;
-    const performReplacement = sameEventName && recentEnoughForReplacement;
-    if (performReplacement) {
+    if (mergeSnapshot) {
+      const mergedSnapshot = {
+        ...newSnapshot,
+        eventName: sameEventName ? newSnapshot.eventName : "aggregateEvent",
+        cosmeticChange:
+          previousSnapshot.isCosmeticChange || newSnapshot.isCosmeticChange,
+      };
       if (stackCopy.length > 0) {
-        stackCopy[stackCopy.length - 1] = newSnapshot;
+        stackCopy[stackCopy.length - 1] = mergedSnapshot;
       } else {
-        stackCopy.push(newSnapshot); // malformed edgecase when the stack is empty
+        stackCopy.push(mergedSnapshot); // malformed edgecase when the stack is empty
       }
     } // else append new history item
     else {
@@ -337,7 +357,7 @@ export class HistoryStore {
 
     debugLog(
       `Observed '${eventName}' ${cosmeticChange ? "(cosmetic) " : ""}` +
-        `and did STACK ${performReplacement ? "REPLACE" : "APPEND"}, ` +
+        `and did STACK ${mergeSnapshot ? "MERGE" : "APPEND"}, ` +
         `resulting in stack:`,
       pointerCopy,
       stackCopy,
@@ -358,6 +378,10 @@ export class HistoryStore {
   private startObservingApplication(): void {
     formStore.eventEmitter.on("formDataChanged", (e) => {
       this.handleGenuineApplicationStateChange("formDataChanged", false);
+    });
+
+    this.robotPredictionStore.onHistoryTrakcedStateChange.subscribe(() => {
+      this.handleGenuineApplicationStateChange("robotDataChanged", false);
     });
 
     reportStore.eventEmitter.on("reportDeltaChanged", (e) => {
@@ -415,6 +439,11 @@ export interface HistorySnapshot {
    * The data of the from from JSON Forms (a large JSON object)
    */
   readonly formData: any;
+
+  /**
+   * Robot prediction data, including human-annotated data
+   */
+  readonly fieldRobotPredictions: RpsHistorySnapshotState;
 
   /**
    * Delta-representation of the quill rich text editor holding the report text.
