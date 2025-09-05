@@ -3,6 +3,20 @@
 // ambient modules (modules that do not really exist):
 // https://parceljs.org/features/dependency-resolution/#typescript
 
+// fix Parcel's environment variables
+declare const process: {
+  env: {
+    NODE_ENV: string;
+  }
+}
+
+// fix react-scan warning displayed during build:
+//> @parcel/transformer-typescript-types: Cannot find name 'RenderChange'.
+//> /home/jirka/ufal/doc-marker/node_modules/react-scan/dist/index.d.ts:88:21
+//>   changes?: Array<RenderChange>;
+//>                   ^^^^^^^^^^^^ Cannot find name 'RenderChange'.
+declare type RenderChange = any;
+
 // fix SCSS stylesheet modules
 declare module "*.module.scss" {
   const value: Record<string, string>;

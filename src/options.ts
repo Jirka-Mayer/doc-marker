@@ -202,7 +202,7 @@ export interface DmFileOptions {
   /**
    * Callback that is called on file loading, that lets you load custom state
    */
-  onDeserialize: (fileJson: SerializedFileJson) => SerializedFileJson;
+  onDeserialize: (fileJson: SerializedFileJson) => void;
 }
 
 /**
