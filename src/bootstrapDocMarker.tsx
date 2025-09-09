@@ -6,6 +6,7 @@ import {
 } from "./options";
 import { bootstrapLocalization } from "./i18n";
 import * as styles from "./ui/Application.module.scss";
+import { Application } from "./ui/Application";
 
 /**
  * Creates the entire DocMarker application from the given options object.
@@ -41,9 +42,6 @@ export async function bootstrapDocMarker(
   // React slots
   const importedSlots = await dmOptions.slotsImporter();
   addOptions(dmOptions, { slots: importedSlots });
-
-  // defered import so that options are already set when the application is imported
-  const { Application } = await import("./ui/Application");
 
   // create and bind the application
   const root = createRoot(dmOptions.element);
