@@ -34,17 +34,21 @@ export class LocalesRepository {
 
     const allLocales = new Map<string, Locale>();
     for (const localeId of this.allLocaleIds) {
-      allLocales.set(localeId, new Locale(
+      allLocales.set(
         localeId,
-        dmOptions.locales[localeId],
-        dmOptions.fallbackLocale,
-      ));
+        new Locale(
+          localeId,
+          dmOptions.locales[localeId],
+          dmOptions.fallbackLocale,
+        ),
+      );
     }
     this.allLocales = allLocales;
 
-    this.localStorageKey = dmOptions.localStoragePrefix + "docMarkerCurrentLocale";
+    this.localStorageKey =
+      dmOptions.localStoragePrefix + "docMarkerCurrentLocale";
   }
-  
+
   /**
    * Returns the locale wrapper object for a given locale ID
    */
@@ -69,7 +73,7 @@ export class LocalesRepository {
    */
   public restoreLocaleFromStorage(i18n: i18n): void {
     const id = localStorage[this.localStorageKey];
-    
+
     if (id) {
       this.getLocale(id).applyTo(i18n);
     } else {

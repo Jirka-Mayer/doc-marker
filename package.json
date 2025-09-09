@@ -25,8 +25,8 @@
   "scripts": {
     "start": "rm -rf dist .parcel-cache && parcel --target development",
     "build": "rm -rf dist .parcel-cache && parcel build --target library --target types",
-    "prettier-check": "prettier 'src/**/*.{ts,tsx}' --check",
-    "prettier-write": "prettier 'src/**/*.{ts,tsx}' --write",
+    "prettier-check": "prettier 'src/**/*.{ts,tsx}' 'forms/**/*.{ts,tsx}' 'locales/**/*.{ts,tsx}' --check",
+    "prettier-write": "prettier 'src/**/*.{ts,tsx}' 'forms/**/*.{ts,tsx}' 'locales/**/*.{ts,tsx}' --write",
     "prepare": "npm run build"
   },
   "dependencies": {

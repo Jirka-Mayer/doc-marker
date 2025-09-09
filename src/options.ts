@@ -1,8 +1,9 @@
 import _ from "lodash";
-import formDefinitions from "../forms";
 import { SerializedFileJson } from "./state/file/SerializedFileJson";
 import { LocaleDefinitions } from "../locales/LocaleDefinition";
 import { defaultLocaleDefinitions } from "../locales";
+import { defaultFormDefinitions } from "../forms";
+import { FormDefinitions } from "../forms/FormDefinition";
 
 /*
     This file holds the global doc-marker options object,
@@ -51,7 +52,7 @@ export interface DmOptions {
   /**
    * Dictionary of all available forms
    */
-  forms: DmFormsOptions;
+  forms: FormDefinitions;
 
   /**
    * Which form ID to use by default
@@ -113,35 +114,6 @@ export interface DmCustomizationOptions {
    * Logo displayed in the app bar (top left corner of the screen)
    */
   appBarLogoUrl: URL;
-}
-
-/**
- * Dictionary of all available forms
- */
-export interface DmFormsOptions {
-  [formId: string]: FormDefinition;
-}
-
-/**
- * Definition of a single form in the options object
- */
-export interface FormDefinition {
-  /**
-   * Async function that imports the json schema for the form data
-   */
-  dataSchemaImporter: () => Promise<any>;
-
-  /**
-   * Async function that imports the UI schema for the JSON Forms library
-   */
-  uiSchemaImporter: () => Promise<any>;
-
-  /**
-   * Importers for translations of form text into various locales
-   */
-  translationImporters: {
-    [localeId: string]: () => Promise<any>;
-  };
 }
 
 /**
@@ -236,7 +208,7 @@ export type RecursivePartial<T> = {
  */
 export type PartialDmOptions = RecursivePartial<DmOptions> & {
   // see the `mergeOptions` function to learn how partials are merged
-  forms?: DmFormsOptions; // not recursively partial
+  forms?: FormDefinitions; // not recursively partial
 };
 
 export type PartialDmCustomizationOptions =
@@ -249,88 +221,61 @@ export type PartialDmSlotsOptions = RecursivePartial<DmSlotsOptions>;
 /////////////////////////////////////
 
 /**
- * The default values for DocMarker options
+ * Constructs default values for DocMarker options
  */
-export const defaultOptions: DmOptions = {
-  element: null,
-  customization: {
-    name: "Plain DocMarker",
-    version: "1.0.0",
-    appBarLogoUrl: new URL("./img/logo.svg", import.meta.url),
-  },
-  locales: {
-    ...defaultLocaleDefinitions, // imported from "/locales/index.js"
-  },
-  fallbackLocale: "en-GB",
-  theme: {},
-  forms: {
-    ...formDefinitions, // imported from "/forms/index.js"
-  },
-  defaultFormId: "DocMarker Testing Form",
-  formRenderersImporter: async () =>
-    (await import("./ui/form/formRenderersAndCells")).formRenderers,
-  formCellsImporter: async () =>
-    (await import("./ui/form/formRenderersAndCells")).formCells,
-  localStoragePrefix: "DocMarker::",
-  file: {
-    currentVersion: 1,
-    migrations: [
-      /* Example migration definition */
-      // {
-      //   title: "My migration v1 -> v2",
-      //   test: (fileJson) => fileJson["_version"] === 1,
-      //   run: (fileJson) => {
-      //     fileJson["_version"] = 2
-      //     fileJson["foo"] = "bar"
-      //     return fileJson
-      //   }
-      // }
-    ],
-    onSerialize: (fileJson) => fileJson,
-    onCreateEmpty: (fileJson) => fileJson,
-    onDeserialize: (fileJson) => {},
-  },
-  slots: {
-    dialogs: null,
-    toolsMenu: null,
-  },
-  slotsImporter: () => Promise.resolve({}),
-};
-
-/**
- * The globally available options for the DocMarker application
- */
-export const currentOptions: DmOptions = _.merge({}, defaultOptions);
-
-/**
- * Sets the DocMarker global options, used by the bootstrapping function
- *
- * @param givenOptions Subset of options to set
- * @param additive If true, it modifies them relative to their
- * current state, else it resets them to their defaults and then
- * overwrites the provided subset
- */
-export function setOptions(givenOptions: PartialDmOptions, additive = false) {
-  // reset to defaults if not "additive"
-  if (!additive) {
-    // clear current options
-    for (let key in currentOptions) {
-      if (currentOptions.hasOwnProperty(key)) {
-        delete currentOptions[key];
-      }
-    }
-
-    // initialize to default
-    mergeOptions(currentOptions, defaultOptions);
-  }
-
-  // override current options with the given subset
-  mergeOptions(currentOptions, givenOptions);
-
-  return currentOptions;
+export function getDefaultOptions(): DmOptions {
+  return {
+    element: null,
+    customization: {
+      name: "Plain DocMarker",
+      version: "1.0.0",
+      appBarLogoUrl: new URL("./img/logo.svg", import.meta.url),
+    },
+    locales: {
+      ...defaultLocaleDefinitions, // imported from "/locales/index.js"
+    },
+    fallbackLocale: "en-GB",
+    theme: {},
+    forms: {
+      ...defaultFormDefinitions, // imported from "/forms/index.js"
+    },
+    defaultFormId: "DocMarker Testing Form",
+    formRenderersImporter: async () =>
+      (await import("./ui/form/formRenderersAndCells")).formRenderers,
+    formCellsImporter: async () =>
+      (await import("./ui/form/formRenderersAndCells")).formCells,
+    localStoragePrefix: "DocMarker::",
+    file: {
+      currentVersion: 1,
+      migrations: [
+        /* Example migration definition */
+        // {
+        //   title: "My migration v1 -> v2",
+        //   test: (fileJson) => fileJson["_version"] === 1,
+        //   run: (fileJson) => {
+        //     fileJson["_version"] = 2
+        //     fileJson["foo"] = "bar"
+        //     return fileJson
+        //   }
+        // }
+      ],
+      onSerialize: (fileJson) => fileJson,
+      onCreateEmpty: (fileJson) => fileJson,
+      onDeserialize: (fileJson) => {},
+    },
+    slots: {
+      dialogs: null,
+      toolsMenu: null,
+    },
+    slotsImporter: () => Promise.resolve({}),
+  };
 }
 
-function mergeOptions(current: DmOptions, given: PartialDmOptions) {
+/**
+ * Sets additional option values on the given options object,
+ * based on the provided partial options object
+ */
+export function addOptions(current: DmOptions, given: PartialDmOptions): void {
   // do a deep object merge, as this is a sensible default
   _.merge(current, given);
 

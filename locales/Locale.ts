@@ -1,11 +1,10 @@
-import { i18n } from "i18next"
+import { i18n } from "i18next";
 import { LocaleDefinition } from "./LocaleDefinition";
 
 /**
  * Represents a locale for the application
  */
 export class Locale {
-  
   /**
    * ID of this locale
    */
@@ -41,7 +40,7 @@ export class Locale {
     if (this.id !== this.fallbackLocaleId) {
       // load language resources
       const namespaces = await this.definition.importer();
-  
+
       // add all namespaces
       for (let ns in namespaces) {
         i18n.addResourceBundle(this.id, ns, namespaces[ns]);

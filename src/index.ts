@@ -14,13 +14,7 @@ import { bootstrapDocMarker as _bootstrapDocMarker } from "./bootstrapDocMarker"
 /**
  * Default options for DocMarker
  */
-export const defaultOptions = options.defaultOptions;
-
-/**
- * Currently used options
- * (available after the boostrap function has been called)
- */
-export const currentOptions = options.currentOptions;
+export const getDefaultOptions = options.getDefaultOptions;
 
 /**
  * Bootstrap function that creates the DocMarker application

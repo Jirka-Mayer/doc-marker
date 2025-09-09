@@ -15,6 +15,7 @@ import { DummyRobot } from "../robotApi/DummyRobot";
 import { RobotPredictionStore } from "../state/form/RobotPredictionStore";
 import { DmOptions } from "../options";
 import { LocalesRepository } from "../../locales/LocalesRepository";
+import { FormsRepository } from "../../forms/FormsRepository";
 
 /**
  * The DocMarker context acts as a service container for the whole application,
@@ -33,6 +34,11 @@ export interface DocMarkerContextState {
    * Provides a factory and persistance for application locales (translations)
    */
   readonly localesRepository: LocalesRepository;
+
+  /**
+   * Provides a factory for application forms
+   */
+  readonly formsRepository: FormsRepository;
 
   /**
    * The jotai store, that lets us manipulate jotai atoms from outside of react
@@ -94,6 +100,7 @@ export function useConstructContextServices(
   dmOptions: DmOptions,
   localesRepository: LocalesRepository,
 ): DocMarkerContextState {
+  const formsRepository = useMemo(() => new FormsRepository(dmOptions), []);
   const jotaiStore = useMemo(() => getDefaultStore(), []);
   const filesDatabase = useMemo(
     () => new FilesDatabase(dmOptions, jotaiStore),
@@ -157,6 +164,7 @@ export function useConstructContextServices(
     filesDatabase,
     fileSerializer,
     fileStateManager,
+    formsRepository,
     historyStore,
     jotaiStore,
     localesRepository,

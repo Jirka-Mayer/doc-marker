@@ -3,7 +3,7 @@
 import { LocaleDefinitions } from "./LocaleDefinition";
 
 export const defaultLocaleDefinitions: LocaleDefinitions = {
-  "cs": {
+  cs: {
     title: "Česky",
     importer: async () => await import("./cs"),
     momentLocale: "cs",
@@ -18,4 +18,4 @@ export const defaultLocaleDefinitions: LocaleDefinitions = {
     importer: async () => await import("./en-US"),
     momentLocale: "en",
   },
-}
+};
