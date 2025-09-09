@@ -1,7 +1,8 @@
 import _ from "lodash";
-import localeDefinitions from "../locales";
 import formDefinitions from "../forms";
 import { SerializedFileJson } from "./state/file/SerializedFileJson";
+import { LocaleDefinitions } from "../locales/LocaleDefinition";
+import { defaultLocaleDefinitions } from "../locales";
 
 /*
     This file holds the global doc-marker options object,
@@ -31,7 +32,7 @@ export interface DmOptions {
   /**
    * A dictionary of all locales
    */
-  locales: DmLocalesOptions;
+  locales: LocaleDefinitions;
 
   /**
    * Locale ID to be used as the fallback
@@ -112,33 +113,6 @@ export interface DmCustomizationOptions {
    * Logo displayed in the app bar (top left corner of the screen)
    */
   appBarLogoUrl: URL;
-}
-
-/**
- * A dictionary of all locales
- */
-export interface DmLocalesOptions {
-  [localeId: string]: LocaleDefinition;
-}
-
-/**
- * Defines a single locale in the options object
- */
-export interface LocaleDefinition {
-  /**
-   * Human-readabel name of the locale in the locale's language
-   */
-  title: string;
-
-  /**
-   * Async function that loads the locale's i18n namespaces
-   */
-  importer: () => Promise<any>;
-
-  /**
-   * Corresponding locale code for the moment.js library
-   */
-  momentLocale: string;
 }
 
 /**
@@ -285,7 +259,7 @@ export const defaultOptions: DmOptions = {
     appBarLogoUrl: new URL("./img/logo.svg", import.meta.url),
   },
   locales: {
-    ...localeDefinitions, // imported from "/locales/index.js"
+    ...defaultLocaleDefinitions, // imported from "/locales/index.js"
   },
   fallbackLocale: "en-GB",
   theme: {},
@@ -352,6 +326,8 @@ export function setOptions(givenOptions: PartialDmOptions, additive = false) {
 
   // override current options with the given subset
   mergeOptions(currentOptions, givenOptions);
+
+  return currentOptions;
 }
 
 function mergeOptions(current: DmOptions, given: PartialDmOptions) {

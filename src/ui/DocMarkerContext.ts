@@ -14,6 +14,7 @@ import { getDefaultStore } from "jotai";
 import { DummyRobot } from "../robotApi/DummyRobot";
 import { RobotPredictionStore } from "../state/form/RobotPredictionStore";
 import { DmOptions } from "../options";
+import { LocalesRepository } from "../../locales/LocalesRepository";
 
 /**
  * The DocMarker context acts as a service container for the whole application,
@@ -27,6 +28,11 @@ export interface DocMarkerContextState {
    * bootstrap method
    */
   readonly dmOptions: DmOptions;
+
+  /**
+   * Provides a factory and persistance for application locales (translations)
+   */
+  readonly localesRepository: LocalesRepository;
 
   /**
    * The jotai store, that lets us manipulate jotai atoms from outside of react
@@ -86,6 +92,7 @@ export interface DocMarkerContextState {
  */
 export function useConstructContextServices(
   dmOptions: DmOptions,
+  localesRepository: LocalesRepository,
 ): DocMarkerContextState {
   const jotaiStore = useMemo(() => getDefaultStore(), []);
   const filesDatabase = useMemo(
@@ -143,8 +150,8 @@ export function useConstructContextServices(
   );
 
   return {
-    dmOptions,
     autosaveStore,
+    dmOptions,
     fieldsRepository,
     fileMetadataStore,
     filesDatabase,
@@ -152,6 +159,7 @@ export function useConstructContextServices(
     fileStateManager,
     historyStore,
     jotaiStore,
+    localesRepository,
     robotPredictionStore,
     robotPredictor,
   };

@@ -20,6 +20,7 @@ export class FilesDatabase {
     this.dmOptions = dmOptions;
     this.jotaiStore = jotaiStore;
 
+    this.fileListBaseAtom = atom(this.loadFilesIndex());
     this.connectIndexLogicWithJotaiAbstraction();
   }
 
@@ -35,8 +36,7 @@ export class FilesDatabase {
     get(this.fileListBaseAtom),
   );
 
-  private readonly fileListBaseAtom: PrimitiveAtom<FilesDatabaseRecord[]> =
-    atom(this.loadFilesIndex());
+  private readonly fileListBaseAtom: PrimitiveAtom<FilesDatabaseRecord[]>;
 
   /**
    * Makes the jotai atom reflect changes in the files list

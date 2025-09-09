@@ -17,13 +17,18 @@ import {
 } from "./DocMarkerContext";
 import { Theme } from "@emotion/react";
 import { useMemo } from "react";
+import { LocalesRepository } from "../../locales/LocalesRepository";
 
 export interface ApplicationProps {
   readonly dmOptions: DmOptions;
+  readonly localesRepository: LocalesRepository;
 }
 
 export function Application(props: ApplicationProps) {
-  const docMarkerContext = useConstructContextServices(props.dmOptions);
+  const docMarkerContext = useConstructContextServices(
+    props.dmOptions,
+    props.localesRepository,
+  );
   const { dmOptions, fileMetadataStore, fileStateManager } = docMarkerContext;
 
   const theme: Theme = useMemo(() => createTheme(dmOptions.theme), [dmOptions]);
