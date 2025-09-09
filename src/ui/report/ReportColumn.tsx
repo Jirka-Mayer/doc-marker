@@ -1,14 +1,12 @@
 import * as styles from "./ReportColumn.module.scss";
 import { QuillBinder } from "./QuillBinder";
 import { Paper } from "@mui/material";
-import {
-  AppMode,
-  editorStore,
-  userPreferencesStore,
-  reportStore,
-} from "../../state";
+import * as editorStore from "../../state/editorStore";
+import * as reportStore from "../../state/reportStore";
+import * as userPreferencesStore from "../../state/userPreferencesStore";
 import { useAtom } from "jotai";
 import { ReportLanguageButton } from "./ReportLanguageButton";
+import { AppMode } from "../../state/editor/AppMode";
 
 export function ReportColumn() {
   const [appMode] = useAtom(editorStore.appModeAtom);

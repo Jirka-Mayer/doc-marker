@@ -8,8 +8,10 @@ import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
 import FormatStrikethroughIcon from '@mui/icons-material/FormatStrikethrough';
 import FormatSizeIcon from '@mui/icons-material/FormatSize';
 import FormatClearIcon from '@mui/icons-material/FormatClear';
-import { AppMode, editorStore, reportStore } from "../../state";
+import * as editorStore from "../../state/editorStore";
+import * as reportStore from "../../state/reportStore";
 import { DocMarkerContext } from "../DocMarkerContext";
+import { AppMode } from "../../state/editor/AppMode";
 
 export function FormatMenu() {
   const { t } = useTranslation("menus")

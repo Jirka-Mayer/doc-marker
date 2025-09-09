@@ -4,7 +4,7 @@ import { Typography } from "@mui/material";
 import { useContext } from "react";
 import DmLinearLayout from "./DmLinearLayout";
 import { GroupLayoutContext } from "./GroupLayoutContext";
-import { userPreferencesStore } from "../../../state";
+import * as userPreferencesStore from "../../../state/userPreferencesStore";
 import { useAtom } from "jotai";
 import { GroupLayoutContextState } from "./GroupLayoutContext";
 import { Variant } from "@mui/material/styles/createTypography";

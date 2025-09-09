@@ -1,9 +1,11 @@
 import { Typography, useTheme } from "@mui/material";
 import { useAtom } from "jotai";
-import { editorStore, formStore, reportStore, userPreferencesStore } from "../state";
-import { AppMode } from "../state";
+import * as editorStore from "../state/editorStore";
+import * as reportStore from "../state/reportStore";
+import * as userPreferencesStore from "../state/userPreferencesStore";
 import { useContext } from "react";
 import { DocMarkerContext } from "./DocMarkerContext";
+import { AppMode } from "../state/editor/AppMode";
 
 /**
  * A debugging-only bar at the bottom of the application.

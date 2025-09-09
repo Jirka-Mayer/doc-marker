@@ -1,6 +1,7 @@
 import { Menu, MenuList, MenuItem, ListItemIcon, Typography, ListSubheader, Divider, ListItemText } from "@mui/material";
 import { useAtom } from "jotai";
-import { reportStore, editorStore } from "../../../state";
+import * as reportStore from "../../../state/reportStore"
+import * as editorStore from "../../../state/editorStore"
 import { createContextMenuAtoms } from "../utils/createContextMenuAtoms";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import AddLocationIcon from '@mui/icons-material/AddLocation';

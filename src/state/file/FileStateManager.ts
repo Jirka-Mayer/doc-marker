@@ -4,11 +4,12 @@ import {
   SignalDispatcher,
   SimpleEventDispatcher,
 } from "strongly-typed-events";
-import { AppFile, HistoryStore } from "..";
 import { FileMetadataStore } from "./FileMetadataStore";
 import { FilesDatabase } from "./FilesDatabase";
 import { FileSerializer } from "./FileSerializer";
 import { DmOptions } from "../../options";
+import { AppFile } from "./AppFile";
+import { HistoryStore } from "../HistoryStore";
 
 /**
  * Service that provides top-level control over the file-related state

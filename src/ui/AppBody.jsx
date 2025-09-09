@@ -1,9 +1,9 @@
 import { useAtom } from "jotai"
-import { AppMode } from "../state"
-import { editorStore } from "../state"
+import * as editorStore from "../state/editorStore";
 import * as styles from "./AppBody.module.scss"
 import { FormColumn } from "./form/FormColumn"
 import { ReportColumn } from "./report/ReportColumn"
+import { AppMode } from "../state/editor/AppMode";
 
 export function AppBody(props) {
   const {

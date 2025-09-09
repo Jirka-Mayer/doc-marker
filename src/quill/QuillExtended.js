@@ -1,6 +1,4 @@
 import Quill from "quill"
-import Delta from "quill-delta"
-import { AppMode } from "../state"
 import { defineAnonymizationAttributor } from "./anonymization/defineAnonymizationAttributor"
 import {
   allHighlightFormatNames,

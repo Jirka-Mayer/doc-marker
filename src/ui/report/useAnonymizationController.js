@@ -1,5 +1,7 @@
 import { useCallback, useEffect } from "react"
-import { AppMode, editorStore, reportStore } from "../../state"
+import * as reportStore from "../../state/reportStore"
+import * as editorStore from "../../state/editorStore"
+import { AppMode } from "../../state/editor/AppMode"
 import { useAtom } from "jotai"
 import {
   openMenuAtom as openAfterClickMenuAtom

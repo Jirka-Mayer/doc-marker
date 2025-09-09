@@ -1,7 +1,6 @@
 import { Divider, IconButton, Tooltip, ToggleButton, ToggleButtonGroup, Select, MenuItem } from "@mui/material"
 import { useAtomValue } from "jotai"
 import { useTranslation } from "react-i18next"
-import { reportStore } from "../state"
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
@@ -11,6 +10,7 @@ import FormatStrikethroughIcon from '@mui/icons-material/FormatStrikethrough';
 import FormatClearIcon from '@mui/icons-material/FormatClear';
 import { useContext } from "react";
 import { DocMarkerContext } from "./DocMarkerContext";
+import * as reportStore from "../state/reportStore";
 
 export function Toolbar() {
   const { t } = useTranslation("toolbar")

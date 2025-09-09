@@ -1,6 +1,6 @@
 import { Menu, MenuList, MenuItem, ListItemIcon, Typography, ListSubheader, Divider } from "@mui/material";
 import { useAtom } from "jotai";
-import { reportStore } from "../../../state";
+import * as reportStore from "../../../state/reportStore"
 import { createContextMenuAtoms } from "../utils/createContextMenuAtoms";
 import WrongLocationIcon from '@mui/icons-material/WrongLocation';
 import PasswordIcon from '@mui/icons-material/Password';

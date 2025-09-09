@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
 import { useAtomValue, useSetAtom } from "jotai";
-import { reportStore } from "../../state";
+import * as reportStore from "../../state/reportStore";
 import { IsoLanguage, IsoLanguageLabels } from "../../IsoLanguage";
 import { useTranslation } from "react-i18next";
 import { isOpenAtom } from "../dialogs/ReportLanguageDialog";

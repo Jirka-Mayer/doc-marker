@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { reportStore } from "../../../state";
+import * as reportStore from "../../../state/reportStore"
 const quillExtended = reportStore.quillExtended
 
 /**

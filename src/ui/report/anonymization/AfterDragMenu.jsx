@@ -1,6 +1,6 @@
 import { Menu, MenuList, MenuItem, ListItemIcon, Typography, Divider } from "@mui/material";
 import { useAtom } from "jotai";
-import { reportStore } from "../../../state";
+import * as reportStore from "../../../state/reportStore"
 import { createContextMenuAtoms } from "../utils/createContextMenuAtoms";
 import PersonIcon from '@mui/icons-material/Person';
 import CreditCardIcon from '@mui/icons-material/CreditCard';

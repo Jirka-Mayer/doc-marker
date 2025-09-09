@@ -1,8 +1,8 @@
-import { Menu, MenuList, MenuItem, ListItemIcon, Typography, ListSubheader, Divider, ListItemText } from "@mui/material";
+import { Menu, MenuItem, ListItemIcon, Typography, Divider, ListItemText } from "@mui/material";
 import { useAtom } from "jotai";
-import { reportStore, editorStore } from "../../../state";
+import * as reportStore from "../../../state/reportStore"
+import * as editorStore from "../../../state/editorStore"
 import { createContextMenuAtoms } from "../utils/createContextMenuAtoms";
-import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import WrongLocationIcon from '@mui/icons-material/WrongLocation';
 import LocationOffIcon from '@mui/icons-material/LocationOff';

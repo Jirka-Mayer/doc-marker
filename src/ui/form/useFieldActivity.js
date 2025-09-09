@@ -1,5 +1,5 @@
 import { useAtom } from "jotai"
-import { editorStore } from "../../state"
+import * as editorStore from "../../state/editorStore"
 
 export function useFieldActivity(fieldId) {
   const [isFieldActive, setIsFieldActive] = useAtom(

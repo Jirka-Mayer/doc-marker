@@ -3,14 +3,14 @@ import Typography from '@mui/material/Typography'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Paper, Stack, Table, TableBody, TableBody, TableCell, TableContainer, TableHead, TableRow, Tooltip, Link } from "@mui/material"
 import { useContext, useEffect, useState } from "react"
 import { useAtomValue, useSetAtom } from "jotai"
-import { AppFile } from "../state"
 import DeleteIcon from '@mui/icons-material/Delete'
 import DownloadIcon from '@mui/icons-material/Download'
 import { useTranslation } from "react-i18next"
 import { isOpenAtom as isCreateFileDialogOpenAtom } from "./dialogs/CreateFileDialog"
+import { AppFile } from "../state/file/AppFile"
+import { DocMarkerContext } from "./DocMarkerContext"
 
 import packageJson from "../../package.json"
-import { DocMarkerContext } from "./DocMarkerContext"
 const VERSION = packageJson.version
 
 export function WelcomeBody(props) {

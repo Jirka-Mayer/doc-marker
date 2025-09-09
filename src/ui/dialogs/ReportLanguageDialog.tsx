@@ -17,7 +17,7 @@ import {
   IsoLanguageCodes,
   IsoLanguageLabels,
 } from "../../IsoLanguage";
-import { reportStore } from "../../state";
+import * as reportStore from "../../state/reportStore";
 import SearchIcon from "@mui/icons-material/Search";
 import { useEffect, useState } from "react";
 

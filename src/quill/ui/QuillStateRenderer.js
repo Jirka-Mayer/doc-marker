@@ -1,4 +1,4 @@
-import { AppMode } from "../../state"
+import { AppMode } from "../../state/editor/AppMode"
 import { IdToNumberAllocator } from "../utils/IdToNumberAllocator"
 import { styles, activateHighlightValueClassSet } from "./quillStyles"
 

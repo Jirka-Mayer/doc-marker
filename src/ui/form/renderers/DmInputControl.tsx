@@ -17,7 +17,7 @@ import { useFieldActivity } from "../useFieldActivity";
 import HideSourceIcon from "@mui/icons-material/HideSource";
 import { useCallback, useContext, useMemo } from "react";
 import { useNullabilityMiddleware } from "../useNullabilityMiddleware";
-import { userPreferencesStore } from "../../../state";
+import * as userPreferencesStore from "../../../state/userPreferencesStore";
 import { useHighlightPinButton } from "../useHighlightPinButton";
 import { useTheme } from "@emotion/react";
 import { useAtom } from "jotai";

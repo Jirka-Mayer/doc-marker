@@ -1,11 +1,7 @@
-import {
-  AppFile,
-  editorStore,
-  FieldsRepository,
-  formStore,
-  Migration,
-  reportStore,
-} from "..";
+import * as editorStore from "../editorStore";
+import * as formStore from "../formStore";
+import * as reportStore from "../reportStore";
+import { Migration } from "../file/Migration";
 import { DmOptions } from "../../options";
 import * as packageJson from "../../../package.json";
 import { FileMetadataStore } from "./FileMetadataStore";
@@ -19,6 +15,8 @@ import {
   FieldPrediction,
   RobotPredictionStore,
 } from "../form/RobotPredictionStore";
+import { AppFile } from "./AppFile";
+import { FieldsRepository } from "../form/FieldsRepository";
 
 const DOC_MARKER_VERSION: string = packageJson["version"];
 

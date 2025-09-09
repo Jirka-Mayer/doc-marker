@@ -1,5 +1,5 @@
 import { IconButton, Tooltip } from "@mui/material"
-import { reportStore } from "../../state"
+import * as reportStore from "../../state/reportStore"
 import { useFieldHighlights } from "./useFieldHighlights"
 import LocationOnIcon from '@mui/icons-material/LocationOn'
 import * as styles from "./FormColumn.module.scss"

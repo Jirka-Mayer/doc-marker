@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react"
 import * as styles from "./QuillBinder.module.scss"
-import { reportStore, editorStore, userPreferencesStore } from "../../state"
+import * as reportStore from "../../state/reportStore";
+import * as editorStore from "../../state/editorStore";
+import * as userPreferencesStore from "../../state/userPreferencesStore";
 import { useAtom } from "jotai"
 import { useAnnotationController } from "./useAnnotationController"
 import { useAnonymizationController } from "./useAnonymizationController"

@@ -36,9 +36,6 @@ export async function bootstrapDocMarker(
   // localization
   const localesRepository = await bootstrapLocalization(dmOptions);
 
-  // APIs
-  await import("./importApis");
-
   // React slots
   const importedSlots = await dmOptions.slotsImporter();
   addOptions(dmOptions, { slots: importedSlots });

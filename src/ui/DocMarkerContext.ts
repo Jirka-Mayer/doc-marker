@@ -1,13 +1,4 @@
 import { createContext, useMemo } from "react";
-import {
-  AutosaveStore,
-  FieldsRepository,
-  FileMetadataStore,
-  FilesDatabase,
-  FileStateManager,
-  HistoryStore,
-  RobotPredictor,
-} from "../state";
 import { FileSerializer } from "../state/file/FileSerializer";
 import { JotaiStore } from "../state/JotaiStore";
 import { getDefaultStore } from "jotai";
@@ -16,6 +7,13 @@ import { RobotPredictionStore } from "../state/form/RobotPredictionStore";
 import { DmOptions } from "../options";
 import { LocalesRepository } from "../../locales/LocalesRepository";
 import { FormsRepository } from "../../forms/FormsRepository";
+import { AutosaveStore } from "../state/AutosaveStore";
+import { FieldsRepository } from "../state/form/FieldsRepository";
+import { FileMetadataStore } from "../state/file/FileMetadataStore";
+import { FilesDatabase } from "../state/file/FilesDatabase";
+import { FileStateManager } from "../state/file/FileStateManager";
+import { HistoryStore } from "../state/HistoryStore";
+import { RobotPredictor } from "../state/RobotPredictor";
 
 /**
  * The DocMarker context acts as a service container for the whole application,
