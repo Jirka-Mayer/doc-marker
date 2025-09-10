@@ -4,6 +4,7 @@ import { LocaleDefinitions } from "../locales/LocaleDefinition";
 import { defaultLocaleDefinitions } from "../locales";
 import { defaultFormDefinitions } from "../forms";
 import { FormDefinitions } from "../forms/FormDefinition";
+import { RobotInterface } from "./robotApi/RobotInterface";
 
 /*
     This file holds the global doc-marker options object,
@@ -93,6 +94,11 @@ export interface DmOptions {
    * and the response object is merged with the slots option
    */
   slotsImporter: () => Promise<PartialDmSlotsOptions>;
+
+  /**
+   * The robot used for automatic form filling
+   */
+  robot: RobotInterface | null;
 }
 
 /**
@@ -268,6 +274,7 @@ export function getDefaultOptions(): DmOptions {
       toolsMenu: null,
     },
     slotsImporter: () => Promise.resolve({}),
+    robot: null,
   };
 }
 

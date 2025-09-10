@@ -7,7 +7,7 @@ async function main() {
   }
 
   // deferred import so that react-scan is imported first
-  const { bootstrapDocMarker } = await require("../src/index");
+  const { bootstrapDocMarker, DummyRobot } = await require("../src/index");
 
   bootstrapDocMarker({
     element: document.getElementById("doc-marker"),
@@ -29,6 +29,8 @@ async function main() {
         },
       },
     },
+
+    robot: new DummyRobot(),
   });
 }
 

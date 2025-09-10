@@ -25,19 +25,27 @@ export const MAX_ROBOT_API_CONCURRENCY = 5;
 export class RobotPredictor {
   private readonly jotaiStore: JotaiStore;
   private readonly fieldsRepository: FieldsRepository;
-  private readonly robot: RobotInterface;
+  private readonly robot: RobotInterface | null;
   private readonly predictionStore: RobotPredictionStore;
 
   constructor(
     jotaiStore: JotaiStore,
     fieldsRepository: FieldsRepository,
-    robot: RobotInterface,
+    robot: RobotInterface | null,
     predictionStore: RobotPredictionStore,
   ) {
     this.jotaiStore = jotaiStore;
     this.fieldsRepository = fieldsRepository;
     this.robot = robot;
     this.predictionStore = predictionStore;
+  }
+
+  /**
+   * True if a robot implementation was provided in the options
+   * by the doc marker customization
+   */
+  public get isRobotAvailable(): boolean {
+    return this.robot !== null;
   }
 
   //////////////////////////////
@@ -98,6 +106,13 @@ export class RobotPredictor {
    * fields to be predicted from within this set.
    */
   public startPrediction(fieldIdsToBePredicted: string[] | null = null): void {
+    // make sure we have a robot available
+    if (!this.isRobotAvailable) {
+      throw new Error(
+        "Cannot start prediction, no robot implementation was provided.",
+      );
+    }
+
     // make sure no prediction is running
     if (this.isPredictionRunning) {
       throw new Error(
@@ -326,7 +341,7 @@ export class RobotPredictor {
       }
 
       // extract evidences
-      const evidenceResponse = await this.robot.extractEvidences(
+      const evidenceResponse = await this.robot!.extractEvidences(
         {
           reportText: quillExtended.getText() as string,
           reportLanguage: this.jotaiStore.get(reportLanguageAtom),
@@ -343,7 +358,7 @@ export class RobotPredictor {
       }
 
       // predict the answer
-      const predictionResponse = await this.robot.predictAnswer(
+      const predictionResponse = await this.robot!.predictAnswer(
         {
           reportLanguage: this.jotaiStore.get(reportLanguageAtom),
           formId: this.jotaiStore.get(formIdAtom),

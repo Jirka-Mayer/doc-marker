@@ -84,7 +84,11 @@ export function ToolsMenu() {
       >
         <MenuItem
           onClick={handleRobotPredictionClick}
-          disabled={isRobotPredictionRunning || !isFileOpen}
+          disabled={
+            isRobotPredictionRunning ||
+            !isFileOpen ||
+            !robotPredictor.isRobotAvailable
+          }
         >
           <ListItemIcon>
             <SmartToyIcon />
@@ -95,7 +99,12 @@ export function ToolsMenu() {
         </MenuItem>
         <MenuItem
           onClick={predictActiveField}
-          disabled={isRobotPredictionRunning || !isFileOpen || !activeFieldId}
+          disabled={
+            isRobotPredictionRunning ||
+            !isFileOpen ||
+            !activeFieldId ||
+            !robotPredictor.isRobotAvailable
+          }
         >
           <ListItemIcon>
             <SmartButtonIcon />

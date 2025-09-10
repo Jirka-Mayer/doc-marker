@@ -2,7 +2,6 @@ import { createContext, useMemo } from "react";
 import { FileSerializer } from "../state/file/FileSerializer";
 import { JotaiStore } from "../state/JotaiStore";
 import { getDefaultStore } from "jotai";
-import { DummyRobot } from "../robotApi/DummyRobot";
 import { RobotPredictionStore } from "../state/form/RobotPredictionStore";
 import { DmOptions } from "../options";
 import { LocalesRepository } from "../../locales/LocalesRepository";
@@ -129,7 +128,7 @@ export function useConstructContextServices(
       new RobotPredictor(
         jotaiStore,
         fieldsRepository,
-        new DummyRobot(),
+        dmOptions.robot,
         robotPredictionStore,
       ),
     [],
