@@ -275,13 +275,18 @@ export function getDefaultOptions(): DmOptions {
  * Sets additional option values on the given options object,
  * based on the provided partial options object
  */
-export function addOptions(current: DmOptions, given: PartialDmOptions): void {
+export function mergeOptions(
+  current: DmOptions,
+  given: PartialDmOptions,
+): DmOptions {
   // do a deep object merge, as this is a sensible default
-  _.merge(current, given);
+  let merged = _.merge({}, current, given);
 
   // overwrite all theme definitions (no recursive merging)
-  if (given.theme) current.theme = given.theme;
+  if (given.theme) merged.theme = given.theme;
 
   // overwrite all form definitions (no recursive merging)
-  if (given.forms) current.forms = given.forms;
+  if (given.forms) merged.forms = given.forms;
+
+  return merged;
 }

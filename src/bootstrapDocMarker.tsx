@@ -1,5 +1,5 @@
 import {
-  addOptions,
+  mergeOptions,
   DmOptions,
   getDefaultOptions,
   PartialDmOptions,
@@ -15,10 +15,10 @@ import { createRoot } from "react-dom/client";
 export async function bootstrapDocMarker(
   givenOptions: PartialDmOptions,
 ): Promise<void> {
-  const dmOptions: DmOptions = getDefaultOptions();
+  let dmOptions: DmOptions = getDefaultOptions();
 
   // apply given options
-  addOptions(dmOptions, givenOptions);
+  dmOptions = mergeOptions(dmOptions, givenOptions);
 
   if (!dmOptions.element) {
     throw new Error("Missing `element` in the options object.");
@@ -29,12 +29,12 @@ export async function bootstrapDocMarker(
 
   // React slots
   const importedSlots = await dmOptions.slotsImporter();
-  addOptions(dmOptions, { slots: importedSlots });
+  dmOptions = mergeOptions(dmOptions, { slots: importedSlots });
 
   // create and bind the application
   const root = createRoot(dmOptions.element);
   root.render(
     <Application dmOptions={dmOptions} localesRepository={localesRepository} />,
   );
-  dmOptions.element.classList.add(styles["application"]);
+  dmOptions.element!.classList.add(styles["application"]);
 }
