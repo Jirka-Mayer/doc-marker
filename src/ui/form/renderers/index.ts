@@ -5,40 +5,45 @@
 
 // ========== Layouts ==========
 
-import DmLinearLayout, { dmLinearLayoutTester } from "./DmLinearLayout";
-
-import DmGroupLayout, { dmGroupTester } from "./DmGroupLayout";
+import { DmLinearLayout, dmLinearLayoutTester } from "./DmLinearLayout";
+import { DmGroupLayout, dmGroupLayoutTester } from "./DmGroupLayout";
 
 // ========== Controls ==========
 
-import DmTextControl, {
+import {
   dmTextControlTester,
-  DmTextControl as DmTextControlUnwrapped,
+  DmTextControlUnwrapped,
+  DmTextControl,
 } from "./DmTextControl";
 
-import DmIntegerControl, {
+import {
   dmIntegerControlTester,
-  DmIntegerControl as DmIntegerControlUnwrapped,
+  DmIntegerControlUnwrapped,
+  DmIntegerControl,
 } from "./DmIntegerControl";
 
-import DmNumberControl, {
+import {
   dmNumberControlTester,
-  DmNumberControl as DmNumberControlUnwrapped,
+  DmNumberControlUnwrapped,
+  DmNumberControl,
 } from "./DmNumberControl";
 
-import DmBooleanControl, {
+import {
   dmBooleanControlTester,
-  DmBooleanControl as DmBooleanControlUnwrapped,
+  DmBooleanControlUnwrapped,
+  DmBooleanControl,
 } from "./DmBooleanControl";
 
-import DmEnumControl, {
+import {
   dmEnumControlTester,
-  DmEnumControl as DmEnumControlUnwrapped,
+  DmEnumControlUnwrapped,
+  DmEnumControl,
 } from "./DmEnumControl";
 
-import DmDateTimeControl, {
+import {
   dmDateTimeControlTester,
-  DmDateTimeControl as DmDateTimeControlUnwrapped,
+  DmDateTimeControlUnwrapped,
+  DmDateTimeControl,
 } from "./DmDateTimeControl";
 
 // ========== Export ==========
@@ -57,7 +62,7 @@ export {
   DmLinearLayout,
   dmLinearLayoutTester,
   DmGroupLayout,
-  dmGroupTester,
+  dmGroupLayoutTester,
 
   // controls
   DmTextControl,

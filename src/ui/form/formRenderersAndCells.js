@@ -4,7 +4,7 @@
 */
 
 import { dmLinearLayoutTester, DmLinearLayout } from "./renderers"
-import { dmGroupTester, DmGroupLayout } from "./renderers"
+import { dmGroupLayoutTester, DmGroupLayout } from "./renderers"
 import { dmTextControlTester, DmTextControl } from "./renderers"
 import { dmIntegerControlTester, DmIntegerControl } from "./renderers"
 import { dmNumberControlTester, DmNumberControl } from "./renderers"
@@ -23,7 +23,7 @@ export const formRenderers = [
   { tester: dmDateTimeControlTester, renderer: DmDateTimeControl },
 
   // DocMarker layouts
-  { tester: dmGroupTester, renderer: DmGroupLayout },
+  { tester: dmGroupLayoutTester, renderer: DmGroupLayout },
   { tester: dmLinearLayoutTester, renderer: DmLinearLayout },
 
 ]

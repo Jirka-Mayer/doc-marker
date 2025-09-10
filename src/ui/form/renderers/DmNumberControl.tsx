@@ -16,7 +16,7 @@ import {
   numberCoercionFunction,
 } from "./ControlInputNumber";
 
-export function DmNumberControl(props: ControlProps & TranslateProps) {
+export function DmNumberControlUnwrapped(props: ControlProps & TranslateProps) {
   return (
     <DmInputControl
       {...props}
@@ -28,9 +28,9 @@ export function DmNumberControl(props: ControlProps & TranslateProps) {
 
 export const dmNumberControlTester: RankedTester = rankWith(2, isNumberControl);
 
-export default withJsonFormsControlProps(
+export const DmNumberControl = withJsonFormsControlProps(
   withTranslateProps(
     // passes in the "t" prop
-    React.memo(DmNumberControl),
+    React.memo(DmNumberControlUnwrapped),
   ),
 );

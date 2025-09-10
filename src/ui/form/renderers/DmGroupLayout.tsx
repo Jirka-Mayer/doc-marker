@@ -2,14 +2,14 @@ import { LayoutProps, RankedTester, rankWith, uiTypeIs } from "@jsonforms/core";
 import { withJsonFormsLayoutProps } from "@jsonforms/react";
 import { Typography } from "@mui/material";
 import { useContext } from "react";
-import DmLinearLayout from "./DmLinearLayout";
+import { DmLinearLayout } from "./DmLinearLayout";
 import { GroupLayoutContext } from "./GroupLayoutContext";
 import * as userPreferencesStore from "../../../state/userPreferencesStore";
 import { useAtom } from "jotai";
 import { GroupLayoutContextState } from "./GroupLayoutContext";
 import { Variant } from "@mui/material/styles/createTypography";
 
-function DmGroupLayout(props: LayoutProps) {
+function DmGroupLayoutUnwrapped(props: LayoutProps) {
   const { label, visible } = props;
 
   const { depth } = useContext<GroupLayoutContextState>(GroupLayoutContext);
@@ -61,6 +61,6 @@ function DmGroupLayout(props: LayoutProps) {
   );
 }
 
-export default withJsonFormsLayoutProps(DmGroupLayout);
+export const DmGroupLayout = withJsonFormsLayoutProps(DmGroupLayoutUnwrapped);
 
-export const dmGroupTester: RankedTester = rankWith(1, uiTypeIs("Group"));
+export const dmGroupLayoutTester: RankedTester = rankWith(1, uiTypeIs("Group"));

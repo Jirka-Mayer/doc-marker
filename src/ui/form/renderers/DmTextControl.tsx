@@ -13,7 +13,7 @@ import {
 import { DmInputControl } from "./DmInputControl";
 import { ControlInputText, textCoercionFunction } from "./ControlInputText";
 
-export function DmTextControl(props: ControlProps & TranslateProps) {
+export function DmTextControlUnwrapped(props: ControlProps & TranslateProps) {
   return (
     <DmInputControl
       {...props}
@@ -25,9 +25,9 @@ export function DmTextControl(props: ControlProps & TranslateProps) {
 
 export const dmTextControlTester: RankedTester = rankWith(1, isStringControl);
 
-export default withJsonFormsControlProps(
+export const DmTextControl = withJsonFormsControlProps(
   withTranslateProps(
     // passes in the "t" prop
-    React.memo(DmTextControl),
+    React.memo(DmTextControlUnwrapped),
   ),
 );

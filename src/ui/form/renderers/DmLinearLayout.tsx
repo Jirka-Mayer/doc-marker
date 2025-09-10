@@ -27,7 +27,7 @@ function renderLayoutElements(props: LayoutProps, elements: UISchemaElement[]) {
   ));
 }
 
-function DmLinearLayout(props: LayoutProps) {
+function DmLinearLayoutUnwrapped(props: LayoutProps) {
   const { uischema, visible } = props;
 
   const layout = uischema as Layout;
@@ -55,7 +55,7 @@ function DmLinearLayout(props: LayoutProps) {
   );
 }
 
-export default withJsonFormsLayoutProps(DmLinearLayout);
+export const DmLinearLayout = withJsonFormsLayoutProps(DmLinearLayoutUnwrapped);
 
 export const dmLinearLayoutTester: RankedTester = rankWith(
   1,

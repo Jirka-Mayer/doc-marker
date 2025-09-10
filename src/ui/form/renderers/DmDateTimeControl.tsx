@@ -21,7 +21,9 @@ import {
 } from "./ControlInputDateTime";
 import { InputCoercionFunction } from "./InputCoercionFunction";
 
-export function DmDateTimeControl(props: ControlProps & TranslateProps) {
+export function DmDateTimeControlUnwrapped(
+  props: ControlProps & TranslateProps,
+) {
   // "date", "time", "date-time"
   const pickerVariant: PickerVariant =
     (props.schema.format as PickerVariant) || "date-time";
@@ -47,10 +49,10 @@ export const dmDateTimeControlTester: RankedTester = rankWith(
   or(isDateControl, isTimeControl, isDateTimeControl),
 );
 
-export default withJsonFormsControlProps(
+export const DmDateTimeControl = withJsonFormsControlProps(
   // passes in the "options" prop
   withTranslateProps(
     // passes in the "t" prop
-    React.memo(DmDateTimeControl),
+    React.memo(DmDateTimeControlUnwrapped),
   ),
 );

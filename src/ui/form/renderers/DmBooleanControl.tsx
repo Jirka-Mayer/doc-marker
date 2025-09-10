@@ -16,7 +16,9 @@ import {
   ControlInputBoolean,
 } from "./ControlInputBoolean";
 
-export function DmBooleanControl(props: ControlProps & TranslateProps) {
+export function DmBooleanControlUnwrapped(
+  props: ControlProps & TranslateProps,
+) {
   return (
     <DmInputControl
       {...props}
@@ -32,9 +34,9 @@ export const dmBooleanControlTester: RankedTester = rankWith(
   isBooleanControl,
 );
 
-export default withJsonFormsControlProps(
+export const DmBooleanControl = withJsonFormsControlProps(
   withTranslateProps(
     // passes in the "t" prop
-    React.memo(DmBooleanControl),
+    React.memo(DmBooleanControlUnwrapped),
   ),
 );

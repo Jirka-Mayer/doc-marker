@@ -14,7 +14,9 @@ import { DmInputControl } from "./DmInputControl";
 import { ControlInputInteger } from "./ControlInputInteger";
 import { integerCoercionFunction } from "./ControlInputInteger";
 
-export function DmIntegerControl(props: ControlProps & TranslateProps) {
+export function DmIntegerControlUnwrapped(
+  props: ControlProps & TranslateProps,
+) {
   return (
     <DmInputControl
       {...props}
@@ -29,9 +31,9 @@ export const dmIntegerControlTester: RankedTester = rankWith(
   isIntegerControl,
 );
 
-export default withJsonFormsControlProps(
+export const DmIntegerControl = withJsonFormsControlProps(
   withTranslateProps(
     // passes in the "t" prop
-    React.memo(DmIntegerControl),
+    React.memo(DmIntegerControlUnwrapped),
   ),
 );

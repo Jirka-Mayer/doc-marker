@@ -18,7 +18,7 @@ import {
 } from "./ControlInputSelect";
 import { InputCoercionFunction } from "./InputCoercionFunction";
 
-export function DmEnumControl(
+export function DmEnumControlUnwrapped(
   props: ControlProps & OwnPropsOfEnum & TranslateProps,
 ) {
   const optionValues: any[] = React.useMemo(
@@ -46,7 +46,7 @@ export function DmEnumControl(
 export const dmEnumControlTester: RankedTester = rankWith(2, isEnumControl);
 
 // passes in the "options" prop
-export default withJsonFormsEnumProps(
+export const DmEnumControl = withJsonFormsEnumProps(
   // passes in the "t" prop
-  withTranslateProps(React.memo(DmEnumControl)),
+  withTranslateProps(React.memo(DmEnumControlUnwrapped)),
 );
