@@ -83,7 +83,7 @@ export class AutosaveStore {
 
   // === autosave logic ===
 
-  private autosaveTimeoutId: NodeJS.Timeout | null = null;
+  private autosaveTimeoutId: any | null = null;
 
   private scheduleAutosave() {
     this.cancelScheduledAutosave();

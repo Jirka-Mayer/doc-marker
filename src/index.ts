@@ -13,7 +13,7 @@ import "./parcel.d";
 // Options & Boostrapping //
 ////////////////////////////
 
-import {
+export type {
   DmOptions,
   DmCustomizationOptions,
   DmFileOptions,
@@ -22,100 +22,96 @@ import {
   PartialDmOptions,
   PartialDmCustomizationOptions,
   PartialDmSlotsOptions,
-  getDefaultOptions,
 } from "./options";
 
-import { bootstrapDocMarker } from "./bootstrapDocMarker";
+export { getDefaultOptions } from "./options";
 
-export {
-  DmOptions,
-  DmCustomizationOptions,
-  DmFileOptions,
-  FileMigration,
-  DmSlotsOptions,
-  PartialDmOptions,
-  PartialDmCustomizationOptions,
-  PartialDmSlotsOptions,
-  getDefaultOptions,
-  bootstrapDocMarker,
-};
+export { bootstrapDocMarker } from "./bootstrapDocMarker";
 
 ///////////////////////////////////////////////
 // Application Services and DocMarkerContext //
 ///////////////////////////////////////////////
 
-import { DocMarkerContext, DocMarkerContextState } from "./ui/DocMarkerContext";
-export { DocMarkerContext, DocMarkerContextState };
+export { DocMarkerContext } from "./ui/DocMarkerContext";
+export type { DocMarkerContextState } from "./ui/DocMarkerContext";
 
-import { AutosaveStore } from "./state/AutosaveStore";
-import { FieldsRepository } from "./state/form/FieldsRepository";
-import { FileMetadataStore } from "./state/file/FileMetadataStore";
-import { FilesDatabase } from "./state/file/FilesDatabase";
-import { FileSerializer } from "./state/file/FileSerializer";
-import { FileStateManager } from "./state/file/FileStateManager";
-import { FormsRepository } from "../forms/FormsRepository";
-import { HistoryStore } from "./state/HistoryStore";
-import { JotaiStore } from "./state/JotaiStore.d";
-import { LocalesRepository } from "../locales/LocalesRepository";
-import { RobotPredictionStore } from "./state/form/RobotPredictionStore";
-import { RobotPredictor } from "./state/RobotPredictor";
+export { AutosaveStore } from "./state/AutosaveStore";
+export { FieldsRepository } from "./state/form/FieldsRepository";
+export { FileMetadataStore } from "./state/file/FileMetadataStore";
+export { FilesDatabase } from "./state/file/FilesDatabase";
+export { FileSerializer } from "./state/file/FileSerializer";
+export { FileStateManager } from "./state/file/FileStateManager";
+export { FormsRepository } from "../forms/FormsRepository";
+export { HistoryStore } from "./state/HistoryStore";
+export { LocalesRepository } from "../locales/LocalesRepository";
+export { RobotPredictionStore } from "./state/form/RobotPredictionStore";
+export { RobotPredictor } from "./state/RobotPredictor";
 
-export {
-  AutosaveStore,
-  FieldsRepository,
-  FileMetadataStore,
-  FilesDatabase,
-  FileSerializer,
-  FileStateManager,
-  FormsRepository,
-  HistoryStore,
-  JotaiStore,
-  LocalesRepository,
-  RobotPredictionStore,
-  RobotPredictor,
-};
+export type { JotaiStore } from "./state/JotaiStore.d";
+export type { RobotInterface } from "./robotApi/RobotInterface";
+export type { AnswerPredictionRequest } from "./robotApi/AnswerPredictionRequest";
+export type { AnswerPredictionResponse } from "./robotApi/AnswerPredictionResponse";
+export type { EvidenceExtractionRequest } from "./robotApi/EvidenceExtractionRequest";
+export type { EvidenceExtractionResponse } from "./robotApi/EvidenceExtractionResponse";
+export type { ExtractedEvidence } from "./robotApi/ExtractedEvidence";
+export type {
+  RobotPrediction,
+  FieldPrediction,
+  PredictionState,
+} from "./state/form/RobotPredictionStore";
 
 // legacy static stores that have yet to be refactored into services
 import * as editorStore from "./state/editorStore";
 import * as formStore from "./state/formStore";
 import * as reportStore from "./state/reportStore";
 import * as userPreferencesStore from "./state/userPreferencesStore";
-
 export { editorStore, formStore, reportStore, userPreferencesStore };
 
 ////////////////////
 // Public Classes //
 ////////////////////
 
-import { AppFile } from "./state/file/AppFile";
-import { AppMode } from "./state/editor/AppMode";
-import { AtomGroup } from "./state/AtomGroup";
-import { FilesDatabaseRecord } from "./state/file/FilesDatabaseRecord";
-import { Migration } from "./state/file/Migration";
+export { AppFile } from "./state/file/AppFile";
+export { AppMode } from "./state/editor/AppMode";
+export { AtomGroup } from "./state/AtomGroup";
+export { FilesDatabaseRecord } from "./state/file/FilesDatabaseRecord";
+export { Form } from "../forms/Form";
+export { Locale } from "../locales/Locale";
+export { Migration } from "./state/file/Migration";
 
-export { AppFile, AppMode, AtomGroup, FilesDatabaseRecord, Migration };
+//////////////////
+// Public Types //
+//////////////////
+
+export type {
+  FormDefinitions,
+  FormTranslationImporters,
+} from "../forms/FormDefinition";
+export type { LocaleDefinitions } from "../locales/LocaleDefinition";
+export type { SerializedFileJson } from "./state/file/SerializedFileJson";
+export type { TextRange } from "./utils/TextRange";
+export type {
+  QDelta,
+  QOperation,
+  QInsertOp,
+  QInsertEmbedOp,
+  QDeleteOp,
+  QRetainOp,
+  QAttributes,
+} from "./quill/QDelta";
+export type { IsoLanguage } from "./IsoLanguage";
 
 ///////////////////
 // Form UI Utils //
 ///////////////////
 
-import { useDebouncedChange as useDebounceChangeWithCancel } from "./ui/form/useDebounceChangeWithCancel";
-import { useFieldActivity } from "./ui/form/useFieldActivity";
-import { useFieldHighlights } from "./ui/form/useFieldHighlights";
-import { useHighlightPinButton } from "./ui/form/useHighlightPinButton";
-import { useNullabilityMiddleware } from "./ui/form/useNullabilityMiddleware";
-import { usePreventScrollOverNumberFields } from "./ui/form/usePreventScrollOverNumberFields";
+export { useDebouncedChange as useDebounceChangeWithCancel } from "./ui/form/useDebounceChangeWithCancel";
+export { useFieldActivity } from "./ui/form/useFieldActivity";
+export { useFieldHighlights } from "./ui/form/useFieldHighlights";
+export { useHighlightPinButton } from "./ui/form/useHighlightPinButton";
+export { useNullabilityMiddleware } from "./ui/form/useNullabilityMiddleware";
+export { usePreventScrollOverNumberFields } from "./ui/form/usePreventScrollOverNumberFields";
 
 import * as renderers from "./ui/form/renderers";
 import * as rendererStyles from "./ui/form/renderers/renderers.module.scss";
-
-export {
-  useDebounceChangeWithCancel,
-  useFieldActivity,
-  useFieldHighlights,
-  useHighlightPinButton,
-  useNullabilityMiddleware,
-  usePreventScrollOverNumberFields,
-  renderers,
-  rendererStyles,
-};
+export { renderers, rendererStyles };

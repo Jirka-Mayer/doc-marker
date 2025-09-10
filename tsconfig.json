@@ -4,6 +4,7 @@
     "module": "es2020",
     "strictNullChecks": true,
     "jsx": "react-jsx",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true
   }
 }

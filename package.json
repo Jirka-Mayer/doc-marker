@@ -8,7 +8,7 @@
   },
   "source": "src/index.ts",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types.d.ts",
   "targets": {
     "library": {
       "isLibrary": true,
@@ -23,8 +23,11 @@
     }
   },
   "scripts": {
-    "start": "rm -rf dist .parcel-cache && parcel --target development",
-    "build": "rm -rf dist .parcel-cache && parcel build --target library --target types",
+    "clean": "rm -rf dist .parcel-cache",
+    "start": "npm run clean && parcel --target development",
+    "build": "npm run clean && npm run build:code && npm run build:types",
+    "build:code": "parcel build --target library",
+    "build:types": "parcel build --target types",
     "prettier-check": "prettier 'src/**/*.{ts,tsx}' 'forms/**/*.{ts,tsx}' 'locales/**/*.{ts,tsx}' --check",
     "prettier-write": "prettier 'src/**/*.{ts,tsx}' 'forms/**/*.{ts,tsx}' 'locales/**/*.{ts,tsx}' --write",
     "prepare": "npm run build"
