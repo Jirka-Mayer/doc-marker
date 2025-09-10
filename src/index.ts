@@ -46,8 +46,9 @@ export { HistoryStore } from "./state/HistoryStore";
 export { LocalesRepository } from "../locales/LocalesRepository";
 export { RobotPredictionStore } from "./state/form/RobotPredictionStore";
 export { RobotPredictor } from "./state/RobotPredictor";
+export { DummyRobot } from "./robotApi/DummyRobot";
 
-export type { JotaiStore } from "./state/JotaiStore.d";
+export type { JotaiStore } from "./state/JotaiStore";
 export type { RobotInterface } from "./robotApi/RobotInterface";
 export type { AnswerPredictionRequest } from "./robotApi/AnswerPredictionRequest";
 export type { AnswerPredictionResponse } from "./robotApi/AnswerPredictionResponse";
