@@ -7,6 +7,7 @@ import {
 import { bootstrapLocalization } from "./i18n";
 import * as styles from "./ui/Application.module.scss";
 import { Application } from "./ui/Application";
+import { createRoot } from "react-dom/client";
 
 /**
  * Creates the entire DocMarker application from the given options object.
@@ -22,16 +23,6 @@ export async function bootstrapDocMarker(
   if (!dmOptions.element) {
     throw new Error("Missing `element` in the options object.");
   }
-
-  // Debugging tool that displays react re-renders of components.
-  // Must be imported before React and React DOM.
-  // https://github.com/aidenybai/react-scan
-  if (process.env.NODE_ENV === "development") {
-    await import("react-scan");
-  }
-
-  // react import defered after react-scan
-  const { createRoot } = await import("react-dom/client");
 
   // localization
   const localesRepository = await bootstrapLocalization(dmOptions);
