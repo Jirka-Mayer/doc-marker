@@ -21,9 +21,9 @@ export function useAnnotationController() {
   const [,openAfterClickMenu] = useAtom(openAfterClickMenuAtom)
   const [,openAfterDragMenu] = useAtom(openAfterDragMenuAtom)
   
-  const onSelectionChange = useCallback((range, oldRange, source) => {
+  const onSelectionChange = useCallback((e) => {
     handleSelectionChange(
-      range,
+      e.range,
       activeFieldId,
       openAfterClickMenu,
       openAfterDragMenu
@@ -33,13 +33,13 @@ export function useAnnotationController() {
   function attach() {
     quillExtended.disable()
     quillExtended.enableWordSelection()
-    quillExtended.on("selection-change", onSelectionChange)
+    quillExtended.onSelectionChanged.subscribe(onSelectionChange)
   }
 
   function detach() {
     quillExtended.enable()
     quillExtended.disableWordSelection()
-    quillExtended.off("selection-change", onSelectionChange)
+    quillExtended.onSelectionChanged.unsubscribe(onSelectionChange)
   }
 
   // connect with react

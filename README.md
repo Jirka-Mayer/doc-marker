@@ -1,5 +1,4 @@
-DocMarker
-=========
+# DocMarker
 
 <img src="src/img/logo.svg" alt="DocMarker" width="512" />
 
@@ -12,6 +11,11 @@ DocMarker is meant to be extended with your own forms (or even custom logic). Th
 The customization works by treating this repository as an NPM library that you include in your project. You then use this library in a simple HTML file, providing a configuration object that specifies any overrides. You build the whole system using [Parcel](https://parceljs.org/), which produces your final single-page web application.
 
 For more information on how to create your own customization see the folder [`example-customization`](example-customization).
+
+
+## Documentation
+
+- [Quill Extended](docs/quill-extended.md)
 
 
 ## Development

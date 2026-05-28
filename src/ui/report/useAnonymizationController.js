@@ -17,20 +17,20 @@ export function useAnonymizationController() {
   const [,openAfterClickMenu] = useAtom(openAfterClickMenuAtom)
   const [,openAfterDragMenu] = useAtom(openAfterDragMenuAtom)
 
-  const onSelectionChange = useCallback((range, oldRange, source) => {
-    handleSelectionChange(range, openAfterClickMenu, openAfterDragMenu)
+  const onSelectionChange = useCallback((e) => {
+    handleSelectionChange(e.range, openAfterClickMenu, openAfterDragMenu)
   }, [])
 
   function attach() {
     quillExtended.disable()
     quillExtended.enableWordSelection()
-    quillExtended.on("selection-change", onSelectionChange)
+    quillExtended.onSelectionChanged.subscribe(onSelectionChange)
   }
 
   function detach() {
     quillExtended.enable()
     quillExtended.disableWordSelection()
-    quillExtended.off("selection-change", onSelectionChange)
+    quillExtended.onSelectionChanged.unsubscribe(onSelectionChange)
   }
 
   // connect with react

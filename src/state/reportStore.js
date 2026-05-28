@@ -86,13 +86,13 @@ function handleTextChange() {
 
 const handleTextChangeDebounced = _.debounce(handleTextChange, 300)
 
-quillExtended.on("text-change", (delta, oldContents, source) => {
+quillExtended.onTextChanged.subscribe((e) => {
   // selection and formats are always updated immediately
   jotaiStore.set(selectionRangeBaseAtom, quillExtended.getSelection())
   jotaiStore.set(selectionFormatsBaseAtom, quillExtended.getFormat())
 
   // debounce user changes
-  if (source === "user") {
+  if (e.source === "user") {
     handleTextChangeDebounced()
     return
   }
@@ -102,14 +102,14 @@ quillExtended.on("text-change", (delta, oldContents, source) => {
   handleTextChange()
 })
 
-quillExtended.on("selection-change", (range, oldRange, source) => {
+quillExtended.onSelectionChanged.subscribe((e) => {
   // selection and formats are always updated immediately
-  jotaiStore.set(selectionRangeBaseAtom, range)
+  jotaiStore.set(selectionRangeBaseAtom, e.range)
   jotaiStore.set(selectionFormatsBaseAtom, quillExtended.getFormat())
 })
 
 // emitted when formats change without selection or text change
 // (clicking a format button with the caret inside text)
-quillExtended.on("format-change", (formats) => {
+quillExtended.onSelectedFormatChanged.subscribe((formats) => {
   jotaiStore.set(selectionFormatsBaseAtom, formats)
 })
