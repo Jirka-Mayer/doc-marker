@@ -46,6 +46,18 @@ export class HighlightsAllocator {
     this.idToNumber = new Map<string, number>();
   }
 
+  /**
+   * Constructs a visualization of highlights
+   * ID mapping for debugging purposes
+   */
+  public renderHighlightIdMap(): string {
+    let text = "";
+    for (let k of this.idToNumber.keys()) {
+      text += k + " => " + this.idToNumber.get(k) + "\n";
+    }
+    return text;
+  }
+
   //////////////////////////
   // Managing allocations //
   //////////////////////////

@@ -1,6 +1,5 @@
 import { Atom, atom, PrimitiveAtom } from "jotai";
 import * as formStore from "./formStore";
-import * as reportStore from "./reportStore";
 import * as editorStore from "./editorStore";
 import { JotaiStore } from "./JotaiStore";
 import { QDelta } from "../quill/QDelta";
@@ -12,6 +11,8 @@ import {
   RobotPredictionStore,
   RpsHistorySnapshotState,
 } from "./form/RobotPredictionStore";
+import { ReportStore } from "./ReportStore";
+import { QuillExtended } from "../quill/QuillExtended";
 
 /**
  * Maximum number of items in the history stack
@@ -50,13 +51,18 @@ function debugLog(...args) {
  */
 export class HistoryStore {
   private jotaiStore: JotaiStore;
+  private quillExtended: QuillExtended;
+  private reportStore: ReportStore;
   private robotPredictionStore: RobotPredictionStore;
 
   constructor(
     jotaiStore: JotaiStore,
+    quillExtended: QuillExtended,
+    reportStore: ReportStore,
     robotPredictionStore: RobotPredictionStore,
   ) {
     this.jotaiStore = jotaiStore;
+    this.reportStore = reportStore;
     this.robotPredictionStore = robotPredictionStore;
 
     this.startObservingApplication();
@@ -217,9 +223,9 @@ export class HistoryStore {
       formData: { ...this.jotaiStore.get(formStore.formDataAtom) },
       fieldRobotPredictions:
         this.robotPredictionStore.getHistorySnapshotState(),
-      reportDelta: this.jotaiStore.get(reportStore.contentAtom),
-      reportLanguage: this.jotaiStore.get(reportStore.reportLanguageAtom),
-      reportSelection: reportStore.quillExtended.getSelection(),
+      reportDelta: this.reportStore.content,
+      reportLanguage: this.reportStore.reportLanguage,
+      reportSelection: this.reportStore.selectionRange,
       appMode: this.jotaiStore.get(editorStore.appModeAtom),
       activeFieldId: this.jotaiStore.get(editorStore.activeFieldIdAtom),
     };
@@ -238,18 +244,15 @@ export class HistoryStore {
 
       // essential state
       this.jotaiStore.set(formStore.formDataAtom, snapshot.formData);
-      reportStore.quillExtended.setContents(snapshot.reportDelta, "api");
-      this.jotaiStore.set(
-        reportStore.reportLanguageAtom,
-        snapshot.reportLanguage,
-      );
+      this.quillExtended.setContents(snapshot.reportDelta, "api");
+      this.reportStore.reportLanguage = snapshot.reportLanguage;
       this.robotPredictionStore.restoreFromHistorySnapshotState(
         snapshot.fieldRobotPredictions,
       );
 
       // surrounding state
       if (snapshot.reportSelection !== null) {
-        reportStore.quillExtended.setSelection(
+        this.quillExtended.setSelection(
           snapshot.reportSelection.index,
           snapshot.reportSelection.length,
           "api",
@@ -384,11 +387,11 @@ export class HistoryStore {
       this.handleGenuineApplicationStateChange("robotDataChanged", false);
     });
 
-    reportStore.eventEmitter.on("reportDeltaChanged", (e) => {
+    this.reportStore.onReportDeltaChanged.subscribe(() => {
       this.handleGenuineApplicationStateChange("reportDeltaChanged", false);
     });
 
-    reportStore.eventEmitter.on("reportLanguageChanged", (e) => {
+    this.reportStore.onReportLanguageChanged.subscribe((e) => {
       this.handleGenuineApplicationStateChange("reportLanguageChanged", false);
     });
 

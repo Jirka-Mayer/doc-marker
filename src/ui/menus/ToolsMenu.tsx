@@ -8,16 +8,16 @@ import {
 } from "@mui/material";
 import { useContext, useState } from "react";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
-import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useTranslation } from "react-i18next";
 import { DocMarkerContext } from "../DocMarkerContext";
 import { activeFieldIdAtom } from "../../state/editor/fieldActivityStore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
-import { highlightsAtom } from "../../state/report/highlightsStore";
 import SmartButtonIcon from "@mui/icons-material/SmartButton";
 
 export function ToolsMenu() {
+  const { quillExtended } = useContext(DocMarkerContext);
   const { t } = useTranslation("menus");
 
   const {
@@ -44,16 +44,21 @@ export function ToolsMenu() {
     robotPredictor.isPredictionRunningAtom,
   );
   const activeFieldId = useAtomValue(activeFieldIdAtom);
-  const setHighlights = useSetAtom(highlightsAtom);
 
   // === click handlers ===
 
   function handleRobotPredictionClick() {
+    // TODO: check the report has a language set
+    alert("TODO: check that the report has a language set");
+
     robotPredictor.startPrediction();
     closeMenu();
   }
 
   function predictActiveField() {
+    // TODO: check the report has a language set
+    alert("TODO: check that the report has a language set");
+
     robotPredictor.startPrediction([activeFieldId]);
     closeMenu();
   }
@@ -65,7 +70,7 @@ export function ToolsMenu() {
 
   function eraseAllFormData() {
     fieldsRepository.eraseAllFieldValues();
-    setHighlights({}); // TODO: this does not work!
+    quillExtended.removeAllHighlights();
     robotPredictionStore.eraseAllPredictionData();
     closeMenu();
   }

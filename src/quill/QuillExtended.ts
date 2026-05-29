@@ -97,7 +97,7 @@ export class QuillExtended {
         toolbar: false,
         history: false,
       },
-      placeholder: "Paste source text in here...",
+      placeholder: "Paste source text in here...", // overriden by QuillBinder
       formats: [
         // inline
         "bold",
@@ -201,6 +201,22 @@ export class QuillExtended {
     this.stateRenderer.renderAppMode(appMode);
   }
 
+  /**
+   * Change the placeholder text (e.g. when the language changes)
+   * Used by the QuillBinder
+   */
+  public setPlaceholderText(placeholder: string): void {
+    this.quill.root.dataset.placeholder = placeholder;
+  }
+
+  /**
+   * Constructs a visualization of highlights
+   * ID mapping for debugging purposes
+   */
+  public renderHighlightIdMap(): string {
+    return this.highlightsAllocator.renderHighlightIdMap();
+  }
+
   //////////////////////////
   // Translated Quill API //
   //////////////////////////
@@ -295,7 +311,7 @@ export class QuillExtended {
   }
 
   public removeFormat(
-    range: QRange | null | undefined,
+    range: QRange | null | undefined = undefined,
     source: QSource = "api",
   ): void {
     if (!range) {
@@ -333,6 +349,21 @@ export class QuillExtended {
 
   public getBounds(index: number, length: number = 0): QBounds {
     return this.quill.getBounds(index, length);
+  }
+
+  /**
+   * Same as getBound, but relative to the whole page,
+   * not just to the quill HTML element
+   */
+  public getBoundsInPage(index: number, length: number = 0): QBounds {
+    const bounds = this.getBounds(index, length);
+    const rect = this.quillElement.getBoundingClientRect();
+    return {
+      top: rect.top + bounds.top,
+      left: rect.left + bounds.left,
+      width: bounds.width,
+      height: bounds.height,
+    };
   }
 
   public getSelection(focus: boolean = false): QRange | null {
@@ -671,5 +702,17 @@ export class QuillExtended {
       behavior: "smooth",
       block: "center",
     });
+  }
+
+  /**
+   * Removes all highlights formatting from the report text
+   */
+  public removeAllHighlights(source: QSource = "api"): void {
+    const attributes: QAttributes = {};
+    for (const number of allHighlightNumbers) {
+      attributes["highlight-" + number] = "";
+    }
+
+    this.quill.formatText(0, this.getText().length, attributes, source);
   }
 }

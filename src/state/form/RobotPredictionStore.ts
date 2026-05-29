@@ -3,14 +3,11 @@ import { AtomGroup } from "../AtomGroup";
 import { JotaiStore } from "../JotaiStore";
 import { ExtractedEvidence } from "../../robotApi/ExtractedEvidence";
 import { TextRange } from "../../utils/TextRange";
-import {
-  quillExtended,
-  textAtom,
-  getFieldHighlightsAtom,
-} from "../reportStore";
 import { useMemo } from "react";
 import { FieldsRepository } from "./FieldsRepository";
 import { ISignal, SignalDispatcher } from "strongly-typed-events";
+import { QuillExtended } from "../../quill/QuillExtended";
+import { ReportStore } from "../ReportStore";
 
 /**
  * Global service that stores predictions and metadata from automated models,
@@ -19,36 +16,37 @@ import { ISignal, SignalDispatcher } from "strongly-typed-events";
  */
 export class RobotPredictionStore {
   private readonly jotaiStore: JotaiStore;
+  private readonly quillExtended: QuillExtended;
+  private readonly reportStore: ReportStore;
   private readonly fieldsRepository: FieldsRepository;
 
   /**
    * Atoms that hold the raw robot prediction. If no prediction was made
    * for the field, than the value is null.
    */
-  private readonly robotPredictionAtoms: AtomGroup<
+  private readonly robotPredictionAtoms = new AtomGroup<
     PrimitiveAtom<RobotPrediction | null>
-  >;
+  >((key: string) => atom(null));
 
-  private readonly predictionStateAtoms: AtomGroup<
+  private readonly predictionStateAtoms = new AtomGroup<
     PrimitiveAtom<PredictionState>
-  >;
+  >((key: string) =>
+    atom({
+      isBeingPredicted: false,
+      isHumanVerified: false,
+    }),
+  );
 
-  constructor(jotaiStore: JotaiStore, fieldsRepository: FieldsRepository) {
+  constructor(
+    jotaiStore: JotaiStore,
+    quillExtended: QuillExtended,
+    reportStore: ReportStore,
+    fieldsRepository: FieldsRepository,
+  ) {
     this.jotaiStore = jotaiStore;
+    this.quillExtended = quillExtended;
+    this.reportStore = reportStore;
     this.fieldsRepository = fieldsRepository;
-
-    this.robotPredictionAtoms = new AtomGroup<
-      PrimitiveAtom<RobotPrediction | null>
-    >((key: string) => atom(null), jotaiStore);
-
-    this.predictionStateAtoms = new AtomGroup<PrimitiveAtom<PredictionState>>(
-      (key: string) =>
-        atom({
-          isBeingPredicted: false,
-          isHumanVerified: false,
-        }),
-      jotaiStore,
-    );
   }
 
   /**
@@ -145,9 +143,9 @@ export class RobotPredictionStore {
   public getFieldPrediction(fieldId: string): FieldPrediction {
     const robot = this.jotaiStore.get(this.robotPredictionAtoms.get(fieldId));
     const state = this.jotaiStore.get(this.predictionStateAtoms.get(fieldId));
-    const reportText = quillExtended.getText();
+    const reportText = this.quillExtended.getText();
     const fieldHighlights: TextRange[] = this.jotaiStore.get(
-      getFieldHighlightsAtom(fieldId),
+      this.reportStore.getFieldHighlightsAtom(fieldId),
     );
     const fieldData = this.fieldsRepository.fields.get(fieldId)?.data;
 
@@ -166,9 +164,9 @@ export class RobotPredictionStore {
   public useFieldPrediction(fieldId: string, fieldData: any): FieldPrediction {
     const robot = useAtomValue(this.robotPredictionAtoms.get(fieldId));
     const state = useAtomValue(this.predictionStateAtoms.get(fieldId));
-    const reportText = useAtomValue(textAtom);
+    const reportText = useAtomValue(this.reportStore.textAtom);
     const fieldHighlights: TextRange[] = useAtomValue(
-      getFieldHighlightsAtom(fieldId),
+      this.reportStore.getFieldHighlightsAtom(fieldId),
     );
 
     return useMemo(

@@ -1,12 +1,14 @@
 import { Box, Button, Typography } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
 import { useAtomValue, useSetAtom } from "jotai";
-import * as reportStore from "../../state/reportStore";
 import { IsoLanguage, IsoLanguageLabels } from "../../IsoLanguage";
 import { useTranslation } from "react-i18next";
 import { isOpenAtom } from "../dialogs/ReportLanguageDialog";
+import { useContext } from "react";
+import { DocMarkerContext } from "../DocMarkerContext";
 
 export function ReportLanguageButton() {
+  const { reportStore } = useContext(DocMarkerContext);
   const { t } = useTranslation("reportLanguageButtonAndDialog");
 
   const reportLanguage = useAtomValue<IsoLanguage | null>(

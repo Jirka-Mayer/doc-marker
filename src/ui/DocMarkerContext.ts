@@ -13,6 +13,8 @@ import { FilesDatabase } from "../state/file/FilesDatabase";
 import { FileStateManager } from "../state/file/FileStateManager";
 import { HistoryStore } from "../state/HistoryStore";
 import { RobotPredictor } from "../state/RobotPredictor";
+import { QuillExtended } from "../quill/QuillExtended";
+import { ReportStore } from "../state/ReportStore";
 
 /**
  * The DocMarker context acts as a service container for the whole application,
@@ -51,6 +53,20 @@ export interface DocMarkerContextState {
    * Holds metadata about the currently openned file
    */
   readonly fileMetadataStore: FileMetadataStore;
+
+  /**
+   * Holds the text in the report column. Is fully non-React,
+   * but should be used to command changes to the state
+   * and possibly query the state from outside React.
+   */
+  readonly quillExtended: QuillExtended;
+
+  /**
+   * Encapsulates the report column text state in a way
+   * that's consumable by React (read-only) and also holds
+   * additional state that is not already present in QuillExtended.
+   */
+  readonly reportStore: ReportStore;
 
   /**
    * Keeps track of fields in the form, their visibility and value
@@ -107,9 +123,20 @@ export function useConstructContextServices(
     () => new FileMetadataStore(jotaiStore),
     [],
   );
+  const quillExtended = useMemo(() => new QuillExtended(), []);
+  const reportStore = useMemo(
+    () => new ReportStore(jotaiStore, quillExtended),
+    [],
+  );
   const fieldsRepository = useMemo(() => new FieldsRepository(jotaiStore), []);
   const robotPredictionStore = useMemo(
-    () => new RobotPredictionStore(jotaiStore, fieldsRepository),
+    () =>
+      new RobotPredictionStore(
+        jotaiStore,
+        quillExtended,
+        reportStore,
+        fieldsRepository,
+      ),
     [],
   );
   const fileSerializer = useMemo(
@@ -118,6 +145,8 @@ export function useConstructContextServices(
         dmOptions,
         jotaiStore,
         fileMetadataStore,
+        quillExtended,
+        reportStore,
         fieldsRepository,
         robotPredictionStore,
       ),
@@ -127,6 +156,8 @@ export function useConstructContextServices(
     () =>
       new RobotPredictor(
         jotaiStore,
+        quillExtended,
+        reportStore,
         fieldsRepository,
         dmOptions.robot,
         robotPredictionStore,
@@ -134,7 +165,13 @@ export function useConstructContextServices(
     [],
   );
   const historyStore = useMemo(
-    () => new HistoryStore(jotaiStore, robotPredictionStore),
+    () =>
+      new HistoryStore(
+        jotaiStore,
+        quillExtended,
+        reportStore,
+        robotPredictionStore,
+      ),
     [],
   );
   const fileStateManager = useMemo(
@@ -158,6 +195,8 @@ export function useConstructContextServices(
     dmOptions,
     fieldsRepository,
     fileMetadataStore,
+    quillExtended,
+    reportStore,
     filesDatabase,
     fileSerializer,
     fileStateManager,

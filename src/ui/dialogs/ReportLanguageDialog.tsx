@@ -17,13 +17,14 @@ import {
   IsoLanguageCodes,
   IsoLanguageLabels,
 } from "../../IsoLanguage";
-import * as reportStore from "../../state/reportStore";
 import SearchIcon from "@mui/icons-material/Search";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { DocMarkerContext } from "../DocMarkerContext";
 
 export const isOpenAtom = atom<boolean>(false);
 
 export function ReportLanguageDialog() {
+  const { reportStore } = useContext(DocMarkerContext);
   const { t } = useTranslation("reportLanguageButtonAndDialog");
 
   const [isOpen, setIsOpen] = useAtom(isOpenAtom);

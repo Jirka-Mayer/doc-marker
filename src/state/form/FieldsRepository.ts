@@ -17,11 +17,6 @@ export class FieldsRepository {
 
   constructor(jotaiStore: JotaiStore) {
     this.jotaiStore = jotaiStore;
-
-    this.changeSignalAtoms = new AtomGroup<SignalAtomWrapper>(
-      (key: string) => new SignalAtomWrapper(),
-      this.jotaiStore,
-    );
   }
 
   /**
@@ -117,7 +112,9 @@ export class FieldsRepository {
    * Signal atoms, one for each field, that get triggered when the field
    * is created, updated, or destroyed
    */
-  private changeSignalAtoms: AtomGroup<SignalAtomWrapper>;
+  private changeSignalAtoms = new AtomGroup<SignalAtomWrapper>(
+    (key: string) => new SignalAtomWrapper(),
+  );
 
   ////////////////////////////////
   // Repository Connection Hook //

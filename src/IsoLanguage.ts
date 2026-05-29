@@ -1,5 +1,5 @@
 /**
- * ISO 369 Language codes
+ * ISO 639 Language codes
  * Only a popular subset, can be extended with a PR.
  * Taken from wikipedia: https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
  */

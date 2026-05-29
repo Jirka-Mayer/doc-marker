@@ -1,45 +1,48 @@
-import { Menu, MenuList, MenuItem, ListItemIcon, Typography, Divider } from "@mui/material";
-import { useAtom } from "jotai";
-import * as reportStore from "../../../state/reportStore"
-import { createContextMenuAtoms } from "../utils/createContextMenuAtoms";
-import PersonIcon from '@mui/icons-material/Person';
-import CreditCardIcon from '@mui/icons-material/CreditCard';
-import CallIcon from '@mui/icons-material/Call';
-import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
-import StarIcon from '@mui/icons-material/Star';
+import {
+  Menu,
+  MenuList,
+  MenuItem,
+  ListItemIcon,
+  Typography,
+  Divider,
+} from "@mui/material";
+import { useAtomValue } from "jotai";
+import PersonIcon from "@mui/icons-material/Person";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import CallIcon from "@mui/icons-material/Call";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import StarIcon from "@mui/icons-material/Star";
+import { useContext } from "react";
+import { DocMarkerContext } from "../../DocMarkerContext";
+import { ContextMenuController } from "../ContextMenuController";
 
-const {
-  anchorTextRangeAtom,
-  anchorPositionAtom,
-  closeMenuAtom,
-  openMenuAtom
-} = createContextMenuAtoms()
+export function AfterDragMenu(props: { cmc: ContextMenuController }) {
+  const { cmc } = props;
+  const { quillExtended } = useContext(DocMarkerContext);
 
-export { openMenuAtom }
-
-export function AfterDragMenu() {
-  const [anchorTextRange] = useAtom(anchorTextRangeAtom)
-  const [anchorPosition] = useAtom(anchorPositionAtom)
-  const [,closeMenu] = useAtom(closeMenuAtom)
+  const anchorTextRange = useAtomValue(cmc.anchorTextRangeAtom);
+  const anchorPosition = useAtomValue(cmc.anchorPositionAtom);
 
   function kindSelected(kindId) {
-    reportStore.quillExtended.anonymizeText(
-      anchorTextRange.index,
-      anchorTextRange.length,
-      kindId
-    )
-    
-    closeMenu()
+    if (anchorTextRange !== null) {
+      quillExtended.anonymizeText(
+        anchorTextRange.index,
+        anchorTextRange.length,
+        kindId,
+      );
+    }
+
+    cmc.closeMenu();
   }
-  
+
   return (
     <>
       <Menu
         id="anonymization-after-drag-context-menu"
         anchorReference="anchorPosition"
-        anchorPosition={anchorPosition}
+        anchorPosition={anchorPosition || undefined}
         open={anchorPosition !== null}
-        onClose={closeMenu}
+        onClose={() => cmc.closeMenu()}
       >
         <MenuItem onClick={() => kindSelected("name-person")}>
           <ListItemIcon>
@@ -77,5 +80,5 @@ export function AfterDragMenu() {
         </MenuItem>
       </Menu>
     </>
-  )
+  );
 }

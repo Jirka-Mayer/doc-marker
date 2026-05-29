@@ -1,16 +1,14 @@
-import { JotaiStore } from "./JotaiStore";
-
 /**
- * A dictionary of atoms that can be accessed by some key
+ * A dictionary of atoms that can be accessed by some key.
+ * The provided factory function makes it so that any
+ * requested key will always return some atom.
+ * Keys are string-based.
  */
 export class AtomGroup<TAtom> {
-  private jotaiStore: JotaiStore;
-
   private readonly atoms: { [key: string]: TAtom } = {};
   private readonly atomFactory: (key: string) => TAtom;
 
-  constructor(atomFactory: (key: string) => TAtom, jotaiStore: JotaiStore) {
-    this.jotaiStore = jotaiStore;
+  constructor(atomFactory: (key: string) => TAtom) {
     this.atomFactory = atomFactory;
   }
 

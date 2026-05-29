@@ -1,6 +1,5 @@
 import * as editorStore from "../editorStore";
 import * as formStore from "../formStore";
-import * as reportStore from "../reportStore";
 import { Migration } from "../file/Migration";
 import { DmOptions } from "../../options";
 import * as packageJson from "../../../package.json";
@@ -17,6 +16,9 @@ import {
 } from "../form/RobotPredictionStore";
 import { AppFile } from "./AppFile";
 import { FieldsRepository } from "../form/FieldsRepository";
+import { QuillExtended } from "../../quill/QuillExtended";
+import { ReportStore } from "../ReportStore";
+import { IsoLanguage } from "../../IsoLanguage";
 
 const DOC_MARKER_VERSION: string = packageJson["version"];
 
@@ -31,6 +33,8 @@ export class FileSerializer {
   private readonly dmOptions: DmOptions;
   private readonly jotaiStore: JotaiStore;
   private readonly fileMeta: FileMetadataStore;
+  private readonly quillExtended: QuillExtended;
+  private readonly reportStore: ReportStore;
   private readonly fieldsRepository: FieldsRepository;
   private readonly robotPredictionStore: RobotPredictionStore;
 
@@ -38,12 +42,16 @@ export class FileSerializer {
     dmOptions: DmOptions,
     jotaiStore: JotaiStore,
     fileMeta: FileMetadataStore,
+    quillExtended: QuillExtended,
+    reportStore: ReportStore,
     fieldsRepository: FieldsRepository,
     robotPredictionStore: RobotPredictionStore,
   ) {
     this.dmOptions = dmOptions;
     this.jotaiStore = jotaiStore;
     this.fileMeta = fileMeta;
+    this.quillExtended = quillExtended;
+    this.reportStore = reportStore;
     this.fieldsRepository = fieldsRepository;
     this.robotPredictionStore = robotPredictionStore;
   }
@@ -73,11 +81,10 @@ export class FileSerializer {
       _formId: this.jotaiStore.get(formStore.formIdAtom),
       _formData: this.fieldsRepository.getExportedFormData(),
 
-      _reportDelta: this.jotaiStore.get(reportStore.contentAtom),
-      _reportText: reportStore.quillExtended.getText(),
-      _reportLanguage:
-        this.jotaiStore.get(reportStore.reportLanguageAtom) || undefined,
-      _highlights: this.jotaiStore.get(reportStore.highlightsAtom),
+      _reportDelta: this.reportStore.content,
+      _reportText: this.reportStore.text,
+      _reportLanguage: this.reportStore.reportLanguage || undefined,
+      _highlights: this.jotaiStore.get(this.reportStore.highlightsAtom),
       _robotPredictions: this.serializeRobotPredictions(),
     };
 
@@ -141,12 +148,10 @@ export class FileSerializer {
     this.jotaiStore.set(formStore.formIdAtom, json._formId);
     this.jotaiStore.set(formStore.formDataAtom, json._formData);
 
-    reportStore.quillExtended.setContents(json._reportDelta, "api");
+    this.quillExtended.setContents(json._reportDelta, "api");
     // _reportText is ignored, since it is computable from the delta
-    this.jotaiStore.set(
-      reportStore.reportLanguageAtom,
-      json._reportLanguage || null,
-    );
+    this.reportStore.reportLanguage = (json._reportLanguage ||
+      null) as IsoLanguage | null;
     // _highlights are ignored, since they are computable from the delta
     this.deserializeRobotPredictions(json._robotPredictions || {});
 

@@ -4,13 +4,10 @@ import { FieldsRepository } from "./form/FieldsRepository";
 import { timeoutAsync } from "../utils/timeoutAsync";
 import { SemaphoreAsync } from "../utils/SemaphoreAsync";
 import { RobotInterface } from "../robotApi/RobotInterface";
-import {
-  quillExtended,
-  reportLanguageAtom,
-  getFieldHighlightsAtom,
-} from "./reportStore";
 import { formIdAtom } from "./formStore";
 import { RobotPredictionStore } from "./form/RobotPredictionStore";
+import { QuillExtended } from "../quill/QuillExtended";
+import { ReportStore } from "./ReportStore";
 
 /**
  * Maximum number of API requests allowed to run in parallel
@@ -24,17 +21,23 @@ export const MAX_ROBOT_API_CONCURRENCY = 5;
  */
 export class RobotPredictor {
   private readonly jotaiStore: JotaiStore;
+  private readonly quillExtended: QuillExtended;
+  private readonly reportStore: ReportStore;
   private readonly fieldsRepository: FieldsRepository;
   private readonly robot: RobotInterface | null;
   private readonly predictionStore: RobotPredictionStore;
 
   constructor(
     jotaiStore: JotaiStore,
+    quillExtended: QuillExtended,
+    reportStore: ReportStore,
     fieldsRepository: FieldsRepository,
     robot: RobotInterface | null,
     predictionStore: RobotPredictionStore,
   ) {
     this.jotaiStore = jotaiStore;
+    this.quillExtended = quillExtended;
+    this.reportStore = reportStore;
     this.fieldsRepository = fieldsRepository;
     this.robot = robot;
     this.predictionStore = predictionStore;
@@ -100,12 +103,19 @@ export class RobotPredictor {
 
   /**
    * Starts a prediction on the provided set of fields. If omitted, all form
-   * fields are consiconsidered. Not all of the provided fields may be
+   * fields are considered. Not all of the provided fields may be
    * predicted, because they may remain invisible or are already filled-out
    * by the user. In that case the algorithm finishes, when there are no more
    * fields to be predicted from within this set.
    */
   public startPrediction(fieldIdsToBePredicted: string[] | null = null): void {
+    // make sure there is a known language for the report
+    if (this.reportStore.reportLanguage === null) {
+      throw new Error(
+        "Report language must be set before running robot prediction.",
+      );
+    }
+
     // make sure we have a robot available
     if (!this.isRobotAvailable) {
       throw new Error(
@@ -287,7 +297,7 @@ export class RobotPredictor {
 
       // the field must have no highlights
       const highlights = this.jotaiStore.get(
-        getFieldHighlightsAtom(fieldId),
+        this.reportStore.getFieldHighlightsAtom(fieldId),
       ) as any[];
       if (highlights.length > 0) {
         continue;
@@ -340,11 +350,18 @@ export class RobotPredictor {
         return; // only from the semaphore block! But there's nothing past it.
       }
 
+      const reportLanguage = this.reportStore.reportLanguage;
+      // someone changed the language in the middle of inference
+      // (the inference cannot be started with null language)
+      if (reportLanguage === null) {
+        return; // only from the semaphore block!
+      }
+
       // extract evidences
       const evidenceResponse = await this.robot!.extractEvidences(
         {
-          reportText: quillExtended.getText() as string,
-          reportLanguage: this.jotaiStore.get(reportLanguageAtom),
+          reportText: this.quillExtended.getText(),
+          reportLanguage: reportLanguage,
           formId: this.jotaiStore.get(formIdAtom),
           fieldId: fieldId,
         },
@@ -360,7 +377,7 @@ export class RobotPredictor {
       // predict the answer
       const predictionResponse = await this.robot!.predictAnswer(
         {
-          reportLanguage: this.jotaiStore.get(reportLanguageAtom),
+          reportLanguage: reportLanguage,
           formId: this.jotaiStore.get(formIdAtom),
           fieldId: fieldId,
           evidences: evidenceResponse.evidences,
@@ -370,7 +387,7 @@ export class RobotPredictor {
 
       // create highlights from evidences
       for (const evidence of evidenceResponse.evidences) {
-        quillExtended.highlightText(
+        this.quillExtended.highlightText(
           evidence.range.index,
           evidence.range.length,
           fieldId,

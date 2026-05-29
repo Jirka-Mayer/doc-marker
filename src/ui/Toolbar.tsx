@@ -1,32 +1,41 @@
-import { Divider, IconButton, Tooltip, ToggleButton, ToggleButtonGroup, Select, MenuItem } from "@mui/material"
-import { useAtomValue } from "jotai"
-import { useTranslation } from "react-i18next"
-import UndoIcon from '@mui/icons-material/Undo';
-import RedoIcon from '@mui/icons-material/Redo';
-import FormatBoldIcon from '@mui/icons-material/FormatBold';
-import FormatItalicIcon from '@mui/icons-material/FormatItalic';
-import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
-import FormatStrikethroughIcon from '@mui/icons-material/FormatStrikethrough';
-import FormatClearIcon from '@mui/icons-material/FormatClear';
+import {
+  Divider,
+  IconButton,
+  Tooltip,
+  ToggleButton,
+  ToggleButtonGroup,
+  Select,
+  MenuItem,
+} from "@mui/material";
+import { useAtomValue } from "jotai";
+import { useTranslation } from "react-i18next";
+import UndoIcon from "@mui/icons-material/Undo";
+import RedoIcon from "@mui/icons-material/Redo";
+import FormatBoldIcon from "@mui/icons-material/FormatBold";
+import FormatItalicIcon from "@mui/icons-material/FormatItalic";
+import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
+import FormatStrikethroughIcon from "@mui/icons-material/FormatStrikethrough";
+import FormatClearIcon from "@mui/icons-material/FormatClear";
 import { useContext } from "react";
 import { DocMarkerContext } from "./DocMarkerContext";
-import * as reportStore from "../state/reportStore";
 
 export function Toolbar() {
-  const { t } = useTranslation("toolbar")
+  const { quillExtended, reportStore } = useContext(DocMarkerContext);
+  const { t } = useTranslation("toolbar");
 
-  const { historyStore } = useContext(DocMarkerContext)
+  const { historyStore } = useContext(DocMarkerContext);
 
-  const canUndo = useAtomValue(historyStore.canUndoAtom)
-  const canRedo = useAtomValue(historyStore.canRedoAtom)
+  const canUndo = useAtomValue(historyStore.canUndoAtom);
+  const canRedo = useAtomValue(historyStore.canRedoAtom);
 
-  const selectionFormats = useAtomValue(reportStore.selectionFormatsAtom)
+  const selectionFormats = useAtomValue(reportStore.selectionFormatsAtom);
 
-  function toggleSelectionFormat(name, value = true) {
-    if (selectionFormats[name] !== value)
-      reportStore.quillExtended.format(name, value)
-    else
-      reportStore.quillExtended.format(name, false)
+  function toggleSelectionFormat(name: string, value: any = true) {
+    if (selectionFormats[name] !== value) {
+      quillExtended.format(name, value);
+    } else {
+      quillExtended.format(name, false);
+    }
   }
 
   return (
@@ -35,7 +44,7 @@ export function Toolbar() {
         <span>
           <IconButton
             color="default"
-            sx={{ p: '10px' }}
+            sx={{ p: "10px" }}
             disabled={!canUndo}
             onClick={() => historyStore.performUndo()}
           >
@@ -48,7 +57,7 @@ export function Toolbar() {
         <span>
           <IconButton
             color="default"
-            sx={{ p: '10px' }}
+            sx={{ p: "10px" }}
             disabled={!canRedo}
             onClick={() => historyStore.performRedo()}
           >
@@ -57,24 +66,22 @@ export function Toolbar() {
         </span>
       </Tooltip>
 
-      <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical"/>
+      <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
 
-      <div style={{minWidth: "150px", padding: "0 16px"}}>
+      <div style={{ minWidth: "150px", padding: "0 16px" }}>
         <Select
           value={selectionFormats["header"] || "false"}
-          onChange={e => toggleSelectionFormat("header", JSON.parse(e.target.value))}
+          onChange={(e) =>
+            toggleSelectionFormat("header", JSON.parse(e.target.value))
+          }
           fullWidth={true}
           variant="standard"
         >
-          <MenuItem
-            value={"false"}
-            key={"false"}
-          >{t("normalText")}</MenuItem>
-          {[1, 2, 3, 4, 5, 6].map(i => (
-            <MenuItem
-              value={"" + i}
-              key={"" + i}
-            >
+          <MenuItem value={"false"} key={"false"}>
+            {t("normalText")}
+          </MenuItem>
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <MenuItem value={"" + i} key={"" + i}>
               {t("header") + " " + i}
             </MenuItem>
           ))}
@@ -124,14 +131,13 @@ export function Toolbar() {
         <span>
           <IconButton
             color="default"
-            sx={{ p: '10px' }}
-            onClick={() => reportStore.quillExtended.removeFormat()}
+            sx={{ p: "10px" }}
+            onClick={() => quillExtended.removeFormat()}
           >
             <FormatClearIcon />
           </IconButton>
         </span>
       </Tooltip>
-
     </>
-  )
+  );
 }

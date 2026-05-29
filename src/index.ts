@@ -35,6 +35,7 @@ export { bootstrapDocMarker } from "./bootstrapDocMarker";
 export { DocMarkerContext } from "./ui/DocMarkerContext";
 export type { DocMarkerContextState } from "./ui/DocMarkerContext";
 
+export { ReportStore } from "./state/ReportStore";
 export { AutosaveStore } from "./state/AutosaveStore";
 export { FieldsRepository } from "./state/form/FieldsRepository";
 export { FileMetadataStore } from "./state/file/FileMetadataStore";
@@ -64,9 +65,8 @@ export type {
 // legacy static stores that have yet to be refactored into services
 import * as editorStore from "./state/editorStore";
 import * as formStore from "./state/formStore";
-import * as reportStore from "./state/reportStore";
 import * as userPreferencesStore from "./state/userPreferencesStore";
-export { editorStore, formStore, reportStore, userPreferencesStore };
+export { editorStore, formStore, userPreferencesStore };
 
 ////////////////////
 // Public Classes //

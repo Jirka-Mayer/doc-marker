@@ -2,17 +2,21 @@ import * as styles from "./ReportColumn.module.scss";
 import { QuillBinder } from "./QuillBinder";
 import { Paper } from "@mui/material";
 import * as editorStore from "../../state/editorStore";
-import * as reportStore from "../../state/reportStore";
 import * as userPreferencesStore from "../../state/userPreferencesStore";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { ReportLanguageButton } from "./ReportLanguageButton";
 import { AppMode } from "../../state/editor/AppMode";
+import { useContext } from "react";
+import { DocMarkerContext } from "../DocMarkerContext";
 
 export function ReportColumn() {
-  const [appMode] = useAtom(editorStore.appModeAtom);
-  const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom);
-  const [content] = useAtom(reportStore.contentAtom);
-  const [highlights] = useAtom(reportStore.highlightsAtom);
+  const { reportStore } = useContext(DocMarkerContext);
+  const appMode = useAtomValue(editorStore.appModeAtom);
+  const displayDebugInfo = useAtomValue(
+    userPreferencesStore.displayDebugInfoAtom,
+  );
+  const content = useAtomValue(reportStore.contentAtom);
+  const highlights = useAtomValue(reportStore.highlightsAtom);
 
   const paperVisible = appMode === AppMode.EDIT_TEXT;
 
