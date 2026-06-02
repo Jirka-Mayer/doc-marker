@@ -1,23 +1,19 @@
 import { Typography, useTheme } from "@mui/material";
 import { useAtomValue } from "jotai";
-import * as editorStore from "../state/editorStore";
-import * as userPreferencesStore from "../state/userPreferencesStore";
 import { useContext } from "react";
 import { DocMarkerContext } from "./DocMarkerContext";
-import { AppMode } from "../state/editor/AppMode";
+import { AppMode } from "../state/AppMode";
 
 /**
  * A debugging-only bar at the bottom of the application.
  */
 export function StatusBar() {
-  const { reportStore } = useContext(DocMarkerContext);
   const theme = useTheme();
 
-  const { fileMetadataStore, fieldsRepository } = useContext(DocMarkerContext);
+  const { fileMetadataStore, fieldsRepository, reportStore, editorStore } =
+    useContext(DocMarkerContext);
 
-  const displayDebugInfo = useAtomValue(
-    userPreferencesStore.displayDebugInfoAtom,
-  );
+  const displayDebugInfo = useAtomValue(editorStore.displayDebugInfoAtom);
 
   const appMode = useAtomValue(editorStore.appModeAtom);
   const fileUuid = useAtomValue(fileMetadataStore.fileUuidAtom);
@@ -26,7 +22,9 @@ export function StatusBar() {
   const selection = useAtomValue(reportStore.selectionRangeAtom);
 
   const activeFieldId = useAtomValue(editorStore.activeFieldIdAtom);
-  const activeFieldValue = fieldsRepository.useExportedValueOf(activeFieldId);
+  const activeFieldValue = activeFieldId
+    ? fieldsRepository.useExportedValueOf(activeFieldId)
+    : undefined;
 
   ////////////
   // Render //

@@ -8,16 +8,15 @@ import {
 } from "@mui/material";
 import { useContext, useState } from "react";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtomValue } from "jotai";
 import { useTranslation } from "react-i18next";
 import { DocMarkerContext } from "../DocMarkerContext";
-import { activeFieldIdAtom } from "../../state/editor/fieldActivityStore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import SmartButtonIcon from "@mui/icons-material/SmartButton";
 
 export function ToolsMenu() {
-  const { quillExtended } = useContext(DocMarkerContext);
+  const { quillExtended, editorStore } = useContext(DocMarkerContext);
   const { t } = useTranslation("menus");
 
   const {
@@ -39,11 +38,11 @@ export function ToolsMenu() {
 
   // === used state ===
 
-  const [isFileOpen] = useAtom(fileMetadataStore.isFileOpenAtom);
+  const isFileOpen = useAtomValue(fileMetadataStore.isFileOpenAtom);
   const isRobotPredictionRunning = useAtomValue(
     robotPredictor.isPredictionRunningAtom,
   );
-  const activeFieldId = useAtomValue(activeFieldIdAtom);
+  const activeFieldId = useAtomValue(editorStore.activeFieldIdAtom);
 
   // === click handlers ===
 
@@ -58,12 +57,17 @@ export function ToolsMenu() {
   function predictActiveField() {
     // TODO: check the report has a language set
     alert("TODO: check that the report has a language set");
-
+    if (activeFieldId === null) {
+      return;
+    }
     robotPredictor.startPrediction([activeFieldId]);
     closeMenu();
   }
 
   function eraseRobotDataForField() {
+    if (activeFieldId === null) {
+      return;
+    }
     robotPredictionStore.eraseRobotPrediction(activeFieldId);
     closeMenu();
   }

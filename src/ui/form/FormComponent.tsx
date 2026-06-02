@@ -1,9 +1,8 @@
 import { JsonForms } from "@jsonforms/react";
-import { useAtom } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Form } from "../../../forms/Form";
 import * as formStore from "../../state/formStore";
-import * as userPreferencesStore from "../../state/userPreferencesStore";
 import { useTranslation } from "react-i18next";
 import { CircularProgress, Typography } from "@mui/material";
 import { usePreventScrollOverNumberFields } from "./usePreventScrollOverNumberFields";
@@ -36,17 +35,18 @@ export function FormComponent() {
     historyStore,
     formsRepository,
     localesRepository,
+    editorStore,
   } = useContext(DocMarkerContext);
 
   const [isLoading, setLoading] = useState<boolean>(false);
 
-  const [formId] = useAtom<string>(formStore.formIdAtom);
+  const formId = useAtomValue<string>(formStore.formIdAtom);
   const [dataSchema, setDataSchema] = useState<any>({});
   const [uiSchema, setUiSchema] = useState<any>({});
   const [formRenderers, setFormRenderers] = useState<any[]>([]);
   const [formCells, setFormCells] = useState<any[]>([]);
 
-  const [reloadTrigger] = useAtom(formStore.formReloadTriggerAtom);
+  const reloadTrigger = useAtomValue(formStore.formReloadTriggerAtom);
   const [formErrors, setFormErrors] = useAtom(formStore.formErrorsAtom);
   const [formRenderingData, setFormRenderingData] = useAtom(
     formStore.formDataRenderingAtom,
@@ -62,7 +62,7 @@ export function FormComponent() {
     [dataSchema],
   );
 
-  const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom);
+  const displayDebugInfo = useAtomValue(editorStore.displayDebugInfoAtom);
 
   const { i18n } = useTranslation();
 

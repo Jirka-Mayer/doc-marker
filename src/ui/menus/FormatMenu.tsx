@@ -16,12 +16,12 @@ import FormatUnderlinedIcon from "@mui/icons-material/FormatUnderlined";
 import FormatStrikethroughIcon from "@mui/icons-material/FormatStrikethrough";
 import FormatSizeIcon from "@mui/icons-material/FormatSize";
 import FormatClearIcon from "@mui/icons-material/FormatClear";
-import * as editorStore from "../../state/editorStore";
 import { DocMarkerContext } from "../DocMarkerContext";
-import { AppMode } from "../../state/editor/AppMode";
+import { AppMode } from "../../state/AppMode";
 
 export function FormatMenu() {
-  const { quillExtended, reportStore } = useContext(DocMarkerContext);
+  const { quillExtended, reportStore, editorStore } =
+    useContext(DocMarkerContext);
   const { t } = useTranslation("menus");
 
   const { fileMetadataStore } = useContext(DocMarkerContext);

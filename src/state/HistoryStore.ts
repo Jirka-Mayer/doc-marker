@@ -1,11 +1,10 @@
 import { Atom, atom, PrimitiveAtom } from "jotai";
 import * as formStore from "./formStore";
-import * as editorStore from "./editorStore";
 import { JotaiStore } from "./JotaiStore";
 import { QDelta } from "../quill/QDelta";
 import { IsoLanguage } from "../IsoLanguage";
 import { TextRange } from "../utils/TextRange";
-import { AppMode } from "./editor/AppMode";
+import { AppMode } from "./AppMode";
 import { ISimpleEvent, SimpleEventDispatcher } from "strongly-typed-events";
 import {
   RobotPredictionStore,
@@ -13,6 +12,7 @@ import {
 } from "./form/RobotPredictionStore";
 import { ReportStore } from "./ReportStore";
 import { QuillExtended } from "../quill/QuillExtended";
+import { EditorStore } from "./EditorStore";
 
 /**
  * Maximum number of items in the history stack
@@ -50,19 +50,23 @@ function debugLog(...args) {
  * Inspired by: https://quilljs.com/docs/modules/history/
  */
 export class HistoryStore {
-  private jotaiStore: JotaiStore;
-  private quillExtended: QuillExtended;
-  private reportStore: ReportStore;
-  private robotPredictionStore: RobotPredictionStore;
+  private readonly jotaiStore: JotaiStore;
+  private readonly quillExtended: QuillExtended;
+  private readonly reportStore: ReportStore;
+  private readonly editorStore: EditorStore;
+  private readonly robotPredictionStore: RobotPredictionStore;
 
   constructor(
     jotaiStore: JotaiStore,
     quillExtended: QuillExtended,
     reportStore: ReportStore,
+    editorStore: EditorStore,
     robotPredictionStore: RobotPredictionStore,
   ) {
     this.jotaiStore = jotaiStore;
+    this.quillExtended = quillExtended;
     this.reportStore = reportStore;
+    this.editorStore = editorStore;
     this.robotPredictionStore = robotPredictionStore;
 
     this.startObservingApplication();
@@ -226,8 +230,8 @@ export class HistoryStore {
       reportDelta: this.reportStore.content,
       reportLanguage: this.reportStore.reportLanguage,
       reportSelection: this.reportStore.selectionRange,
-      appMode: this.jotaiStore.get(editorStore.appModeAtom),
-      activeFieldId: this.jotaiStore.get(editorStore.activeFieldIdAtom),
+      appMode: this.editorStore.appMode,
+      activeFieldId: this.editorStore.activeFieldId,
     };
     debugLog("Taking a HistorySnapshot now!", snapshot);
     return snapshot;
@@ -258,11 +262,8 @@ export class HistoryStore {
           "api",
         );
       }
-      this.jotaiStore.set(editorStore.appModeAtom, snapshot.appMode);
-      this.jotaiStore.set(
-        editorStore.activeFieldIdAtom,
-        snapshot.activeFieldId,
-      );
+      this.editorStore.appMode = snapshot.appMode;
+      this.editorStore.activeFieldId = snapshot.activeFieldId;
     } finally {
       // enable state change handling again
       this.isStateObservationEnabled = true;
@@ -395,7 +396,7 @@ export class HistoryStore {
       this.handleGenuineApplicationStateChange("reportLanguageChanged", false);
     });
 
-    editorStore.eventEmitter.on("appModeChanged", (e) => {
+    this.editorStore.onAppModeEntered.subscribe(() => {
       this.handleGenuineApplicationStateChange("appModeChanged", true);
     });
   }

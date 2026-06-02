@@ -1,4 +1,4 @@
-import { AppMode } from "../../state/editor/AppMode";
+import { AppMode } from "../../state/AppMode";
 import { HighlightsAllocator } from "../highlights/HighlightsAllocator";
 import { styles, activateHighlightValueClassSet } from "./quillStyles";
 

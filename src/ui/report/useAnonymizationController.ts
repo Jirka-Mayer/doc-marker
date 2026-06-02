@@ -1,14 +1,15 @@
 import { useCallback, useEffect } from "react";
-import * as editorStore from "../../state/editorStore";
-import { AppMode } from "../../state/editor/AppMode";
+import { AppMode } from "../../state/AppMode";
 import { useAtomValue } from "jotai";
 import { QuillExtended } from "../../quill/QuillExtended";
 import { ContextMenuController } from "./ContextMenuController";
 import { AnnotationControllerProps } from "./useAnnotationController";
 import { TextRange } from "../../utils/TextRange";
+import { EditorStore } from "../../state/EditorStore";
 
 export interface AnnonymizationControllerProps {
   readonly quillExtended: QuillExtended;
+  readonly editorStore: EditorStore;
   readonly clickCmc: ContextMenuController;
   readonly dragCmc: ContextMenuController;
 }
@@ -16,7 +17,7 @@ export interface AnnonymizationControllerProps {
 export function useAnonymizationController(
   props: AnnonymizationControllerProps,
 ) {
-  const appMode = useAtomValue(editorStore.appModeAtom);
+  const appMode = useAtomValue(props.editorStore.appModeAtom);
 
   const onSelectionChange = useCallback((e) => {
     handleSelectionChange(props, e.range);

@@ -12,7 +12,7 @@ import { QuillStateRenderer } from "./ui/QuillStateRenderer";
 import { getInlineFormatRange } from "./getInlineFormatRange";
 import { htmlTableToDelta } from "./htmlTableToDelta";
 import { contentsToHighlights } from "./highlights/contentsToHighlights";
-import { AppMode } from "../state/editor/AppMode";
+import { AppMode } from "../state/AppMode";
 import { QAttributes, QDelta } from "./QDelta";
 import { QSource } from "./QSource";
 import { QRange } from "./QRange";

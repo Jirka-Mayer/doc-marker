@@ -7,7 +7,6 @@ import {
   ListItemText,
 } from "@mui/material";
 import { useAtomValue } from "jotai";
-import * as editorStore from "../../../state/editorStore";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AddLocationIcon from "@mui/icons-material/AddLocation";
 import { useTranslation } from "react-i18next";
@@ -17,16 +16,17 @@ import { ContextMenuController } from "../ContextMenuController";
 
 export function AfterDragMenu(props: { cmc: ContextMenuController }) {
   const { cmc } = props;
-  const { quillExtended, reportStore } = useContext(DocMarkerContext);
+  const { quillExtended, reportStore, editorStore } =
+    useContext(DocMarkerContext);
   const { t } = useTranslation("annotationContextMenus");
 
   const anchorTextRange = useAtomValue(cmc.anchorTextRangeAtom);
   const anchorPosition = useAtomValue(cmc.anchorPositionAtom);
 
   const activeFieldId = useAtomValue(editorStore.activeFieldIdAtom);
-  const activeFieldHighlights = useAtomValue(
-    reportStore.getFieldHighlightsAtom(activeFieldId),
-  );
+  const activeFieldHighlights = activeFieldId
+    ? useAtomValue(reportStore.getFieldHighlightsAtom(activeFieldId))
+    : [];
   const alreadyHasHighlight = activeFieldHighlights.length > 0;
 
   function addHighlight() {

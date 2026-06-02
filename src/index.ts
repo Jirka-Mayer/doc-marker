@@ -48,6 +48,7 @@ export { LocalesRepository } from "../locales/LocalesRepository";
 export { RobotPredictionStore } from "./state/form/RobotPredictionStore";
 export { RobotPredictor } from "./state/RobotPredictor";
 export { DummyRobot } from "./robotApi/DummyRobot";
+export { EditorStore } from "./state/EditorStore";
 
 export type { JotaiStore } from "./state/JotaiStore";
 export type { RobotInterface } from "./robotApi/RobotInterface";
@@ -63,17 +64,15 @@ export type {
 } from "./state/form/RobotPredictionStore";
 
 // legacy static stores that have yet to be refactored into services
-import * as editorStore from "./state/editorStore";
 import * as formStore from "./state/formStore";
-import * as userPreferencesStore from "./state/userPreferencesStore";
-export { editorStore, formStore, userPreferencesStore };
+export { formStore };
 
 ////////////////////
 // Public Classes //
 ////////////////////
 
 export { AppFile } from "./state/file/AppFile";
-export { AppMode } from "./state/editor/AppMode";
+export { AppMode } from "./state/AppMode";
 export { AtomGroup } from "./state/AtomGroup";
 export { FilesDatabaseRecord } from "./state/file/FilesDatabaseRecord";
 export { Form } from "../forms/Form";

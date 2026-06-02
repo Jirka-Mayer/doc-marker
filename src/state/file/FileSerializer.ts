@@ -1,4 +1,3 @@
-import * as editorStore from "../editorStore";
 import * as formStore from "../formStore";
 import { Migration } from "../file/Migration";
 import { DmOptions } from "../../options";
@@ -19,6 +18,8 @@ import { FieldsRepository } from "../form/FieldsRepository";
 import { QuillExtended } from "../../quill/QuillExtended";
 import { ReportStore } from "../ReportStore";
 import { IsoLanguage } from "../../IsoLanguage";
+import { EditorStore } from "../EditorStore";
+import { AppMode } from "../AppMode";
 
 const DOC_MARKER_VERSION: string = packageJson["version"];
 
@@ -36,6 +37,7 @@ export class FileSerializer {
   private readonly quillExtended: QuillExtended;
   private readonly reportStore: ReportStore;
   private readonly fieldsRepository: FieldsRepository;
+  private readonly editorStore: EditorStore;
   private readonly robotPredictionStore: RobotPredictionStore;
 
   constructor(
@@ -45,6 +47,7 @@ export class FileSerializer {
     quillExtended: QuillExtended,
     reportStore: ReportStore,
     fieldsRepository: FieldsRepository,
+    editorStore: EditorStore,
     robotPredictionStore: RobotPredictionStore,
   ) {
     this.dmOptions = dmOptions;
@@ -53,6 +56,7 @@ export class FileSerializer {
     this.quillExtended = quillExtended;
     this.reportStore = reportStore;
     this.fieldsRepository = fieldsRepository;
+    this.editorStore = editorStore;
     this.robotPredictionStore = robotPredictionStore;
   }
 
@@ -76,7 +80,7 @@ export class FileSerializer {
       _createdAt: this.fileMeta.fileCreatedAt.toISOString(),
       _updatedAt: new Date().toISOString(),
 
-      _appMode: this.jotaiStore.get(editorStore.appModeAtom),
+      _appMode: this.editorStore.appMode,
 
       _formId: this.jotaiStore.get(formStore.formIdAtom),
       _formData: this.fieldsRepository.getExportedFormData(),
@@ -143,7 +147,7 @@ export class FileSerializer {
     this.fileMeta.fileCreatedAt = new Date(json._createdAt);
     // _updatedAt is ignored, since it's overwritten during save anyways
 
-    this.jotaiStore.set(editorStore.appModeAtom, json._appMode);
+    this.editorStore.appMode = json._appMode as AppMode;
 
     this.jotaiStore.set(formStore.formIdAtom, json._formId);
     this.jotaiStore.set(formStore.formDataAtom, json._formData);

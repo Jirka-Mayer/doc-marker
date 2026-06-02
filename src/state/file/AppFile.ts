@@ -1,7 +1,7 @@
 import { DmOptions } from "../../options";
 import * as uuid from "uuid";
 import * as packageJson from "../../../package.json";
-import { AppMode } from "../editor/AppMode";
+import { AppMode } from "../AppMode";
 import { SerializedFileJson } from "./SerializedFileJson";
 
 const DOC_MARKER_VERSION = packageJson["version"] as string;

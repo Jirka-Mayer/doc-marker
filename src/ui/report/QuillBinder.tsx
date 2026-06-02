@@ -1,7 +1,5 @@
 import { useContext, useEffect, useMemo, useRef } from "react";
 import * as styles from "./QuillBinder.module.scss"; // must be referenced to be included in CSS
-import * as editorStore from "../../state/editorStore";
-import * as userPreferencesStore from "../../state/userPreferencesStore";
 import { useAtomValue } from "jotai";
 import { useAnnotationController } from "./useAnnotationController";
 import { useAnonymizationController } from "./useAnonymizationController";
@@ -19,16 +17,16 @@ import { ContextMenuController } from "./ContextMenuController";
  * Binds the quill instance with the DOM as a react component
  */
 export function QuillBinder() {
-  const { jotaiStore, quillExtended } = useContext(DocMarkerContext);
   const { t } = useTranslation("quill");
+
+  const { jotaiStore, quillExtended, editorStore } =
+    useContext(DocMarkerContext);
 
   const theme = useTheme() as any;
 
   const appMode = useAtomValue(editorStore.appModeAtom);
   const activeFieldId = useAtomValue(editorStore.activeFieldIdAtom);
-  const displayDebugInfo = useAtomValue(
-    userPreferencesStore.displayDebugInfoAtom,
-  );
+  const displayDebugInfo = useAtomValue(editorStore.displayDebugInfoAtom);
 
   // context menu controllers
   const anonymizationClickCMC = useMemo(
@@ -101,11 +99,13 @@ export function QuillBinder() {
   // app mode controllers
   useAnonymizationController({
     quillExtended,
+    editorStore,
     clickCmc: anonymizationClickCMC,
     dragCmc: anonymizationDragCMC,
   });
   useAnnotationController({
     quillExtended,
+    editorStore,
     clickCmc: annotationClickCMC,
     dragCmc: annotationDragCMC,
   });

@@ -1,69 +1,74 @@
-import { Button, Menu, MenuItem, ListItemIcon, Typography, Divider } from "@mui/material";
+import {
+  Button,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  Typography,
+  Divider,
+} from "@mui/material";
 import { useState, useCallback, useEffect, useContext } from "react";
-import BugReportIcon from '@mui/icons-material/BugReport'
-import LocationOnIcon from '@mui/icons-material/LocationOn'
-import ReadMoreIcon from '@mui/icons-material/ReadMore'
-import ContentCutIcon from '@mui/icons-material/ContentCut'
-import { useAtom } from "jotai"
-import * as editorStore from "../../state/editorStore";
-import * as userPreferencesStore from "../../state/userPreferencesStore";
+import BugReportIcon from "@mui/icons-material/BugReport";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import ReadMoreIcon from "@mui/icons-material/ReadMore";
+import ContentCutIcon from "@mui/icons-material/ContentCut";
+import { useAtom } from "jotai";
 import { useTranslation } from "react-i18next";
 import { DocMarkerContext } from "../DocMarkerContext";
-import { AppMode } from "../../state/editor/AppMode";
+import { AppMode } from "../../state/AppMode";
 
 export function ViewMenu() {
-  const { t } = useTranslation("menus")
+  const { editorStore } = useContext(DocMarkerContext);
+  const { t } = useTranslation("menus");
 
   const { fileMetadataStore } = useContext(DocMarkerContext);
 
-  const [anchorEl, setAnchorEl] = useState(null)
-  const open = Boolean(anchorEl)
+  const [anchorEl, setAnchorEl] = useState<any>(null);
+  const open = Boolean(anchorEl);
   function onMenuClick(e) {
-    setAnchorEl(e.target)
+    setAnchorEl(e.target);
   }
   function closeMenu() {
-    setAnchorEl(null)
+    setAnchorEl(null);
   }
 
   // === used state ===
 
-  const [isFileOpen] = useAtom(fileMetadataStore.isFileOpenAtom)
-  const [appMode, setAppMode] = useAtom(editorStore.appModeAtom)
+  const [isFileOpen] = useAtom(fileMetadataStore.isFileOpenAtom);
+  const [appMode, setAppMode] = useAtom(editorStore.appModeAtom);
   const [displayDebugInfo, setDisplayDebugInfo] = useAtom(
-    userPreferencesStore.displayDebugInfoAtom
-  )
+    editorStore.displayDebugInfoAtom,
+  );
 
   // === click handlers ===
 
   function onDisplayDebugInfoClick() {
-    setDisplayDebugInfo(!displayDebugInfo)
-    closeMenu()
+    setDisplayDebugInfo(!displayDebugInfo);
+    closeMenu();
   }
 
   // === keyboard shortcuts ===
 
   const handleKeydown = useCallback((e) => {
     if (e.key.toLowerCase() === "f12" && e.ctrlKey) {
-      onDisplayDebugInfoClick()
-      e.preventDefault()
+      onDisplayDebugInfoClick();
+      e.preventDefault();
     }
-  })
+  }, []);
 
   useEffect(() => {
-    document.addEventListener("keydown", handleKeydown)
+    document.addEventListener("keydown", handleKeydown);
     return () => {
-      document.removeEventListener("keydown", handleKeydown)
-    }
-  })
+      document.removeEventListener("keydown", handleKeydown);
+    };
+  });
 
   // === rendering ===
 
   return (
     <>
-      <Button
-        size="small"
-        onClick={onMenuClick}
-      >{ t("view.headButton") }</Button>
+      <Button size="small" onClick={onMenuClick}>
+        {t("view.headButton")}
+      </Button>
       <Menu
         id="view-menu"
         anchorEl={anchorEl}
@@ -79,9 +84,7 @@ export function ViewMenu() {
           <ListItemIcon>
             <ReadMoreIcon />
           </ListItemIcon>
-          <Typography variant="inherit">
-            { t("view.textEditingMode") }
-          </Typography>
+          <Typography variant="inherit">{t("view.textEditingMode")}</Typography>
         </MenuItem>
         <MenuItem
           onClick={() => setAppMode(AppMode.ANONYMIZE)}
@@ -92,7 +95,7 @@ export function ViewMenu() {
             <ContentCutIcon />
           </ListItemIcon>
           <Typography variant="inherit">
-            { t("view.anonymizationMode") }
+            {t("view.anonymizationMode")}
           </Typography>
         </MenuItem>
         <MenuItem
@@ -103,11 +106,9 @@ export function ViewMenu() {
           <ListItemIcon>
             <LocationOnIcon />
           </ListItemIcon>
-          <Typography variant="inherit">
-            { t("view.annotationMode") }
-          </Typography>
+          <Typography variant="inherit">{t("view.annotationMode")}</Typography>
         </MenuItem>
-        
+
         <Divider />
 
         <MenuItem selected={displayDebugInfo} onClick={onDisplayDebugInfoClick}>
@@ -115,7 +116,7 @@ export function ViewMenu() {
             <BugReportIcon />
           </ListItemIcon>
           <Typography variant="inherit">
-            { t("view.displayDebugInfo") }
+            {t("view.displayDebugInfo")}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
             Ctrl + F12
@@ -123,5 +124,5 @@ export function ViewMenu() {
         </MenuItem>
       </Menu>
     </>
-  )
+  );
 }

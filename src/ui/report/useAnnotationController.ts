@@ -1,17 +1,17 @@
-import { useCallback, useContext, useEffect } from "react";
-import * as editorStore from "../../state/editorStore";
-import { AppMode } from "../../state/editor/AppMode";
+import { useCallback, useEffect } from "react";
+import { AppMode } from "../../state/AppMode";
 import { useAtomValue } from "jotai";
-import { DocMarkerContext } from "../DocMarkerContext";
 import { TextRange } from "../../utils/TextRange";
 import {
   QuillExtended,
   SelectionChangedEventArgs,
 } from "../../quill/QuillExtended";
 import { ContextMenuController } from "./ContextMenuController";
+import { EditorStore } from "../../state/EditorStore";
 
 export interface AnnotationControllerProps {
   readonly quillExtended: QuillExtended;
+  readonly editorStore: EditorStore;
   readonly clickCmc: ContextMenuController;
   readonly dragCmc: ContextMenuController;
 }
@@ -20,8 +20,8 @@ export interface AnnotationControllerProps {
  * Controls report-related UI in the annotation mode
  */
 export function useAnnotationController(props: AnnotationControllerProps) {
-  const appMode = useAtomValue(editorStore.appModeAtom);
-  const activeFieldId = useAtomValue(editorStore.activeFieldIdAtom);
+  const appMode = useAtomValue(props.editorStore.appModeAtom);
+  const activeFieldId = useAtomValue(props.editorStore.activeFieldIdAtom);
 
   const onSelectionChange = useCallback(
     (e: SelectionChangedEventArgs) => {

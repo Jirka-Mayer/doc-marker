@@ -4,17 +4,19 @@ import { Typography } from "@mui/material";
 import { useContext } from "react";
 import { DmLinearLayout } from "./DmLinearLayout";
 import { GroupLayoutContext } from "./GroupLayoutContext";
-import * as userPreferencesStore from "../../../state/userPreferencesStore";
 import { useAtom } from "jotai";
 import { GroupLayoutContextState } from "./GroupLayoutContext";
 import { Variant } from "@mui/material/styles/createTypography";
+import { DocMarkerContext } from "../../DocMarkerContext";
 
 function DmGroupLayoutUnwrapped(props: LayoutProps) {
+  const { editorStore } = useContext(DocMarkerContext);
+
   const { label, visible } = props;
 
   const { depth } = useContext<GroupLayoutContextState>(GroupLayoutContext);
 
-  const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom);
+  const [displayDebugInfo] = useAtom(editorStore.displayDebugInfoAtom);
 
   let variant: Variant = "h3";
   let fontSize = "48px";

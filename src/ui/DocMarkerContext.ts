@@ -15,6 +15,7 @@ import { HistoryStore } from "../state/HistoryStore";
 import { RobotPredictor } from "../state/RobotPredictor";
 import { QuillExtended } from "../quill/QuillExtended";
 import { ReportStore } from "../state/ReportStore";
+import { EditorStore } from "../state/EditorStore";
 
 /**
  * The DocMarker context acts as a service container for the whole application,
@@ -74,6 +75,13 @@ export interface DocMarkerContextState {
   readonly fieldsRepository: FieldsRepository;
 
   /**
+   * Holds application state needed for the UI of the editor,
+   * which does not belong to the annotated data.
+   * (application modes, active field, etc.)
+   */
+  readonly editorStore: EditorStore;
+
+  /**
    * Keeps state related to the automatic robot form filling
    */
   readonly robotPredictionStore: RobotPredictionStore;
@@ -129,6 +137,7 @@ export function useConstructContextServices(
     [],
   );
   const fieldsRepository = useMemo(() => new FieldsRepository(jotaiStore), []);
+  const editorStore = useMemo(() => new EditorStore(jotaiStore), []);
   const robotPredictionStore = useMemo(
     () =>
       new RobotPredictionStore(
@@ -148,6 +157,7 @@ export function useConstructContextServices(
         quillExtended,
         reportStore,
         fieldsRepository,
+        editorStore,
         robotPredictionStore,
       ),
     [],
@@ -170,6 +180,7 @@ export function useConstructContextServices(
         jotaiStore,
         quillExtended,
         reportStore,
+        editorStore,
         robotPredictionStore,
       ),
     [],
@@ -206,6 +217,7 @@ export function useConstructContextServices(
     localesRepository,
     robotPredictionStore,
     robotPredictor,
+    editorStore,
   };
 }
 

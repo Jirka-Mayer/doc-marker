@@ -11,16 +11,13 @@ import {
   Backdrop,
   CircularProgress,
 } from "@mui/material";
-import SmartToyIcon from "@mui/icons-material/SmartToy";
-import CheckIcon from "@mui/icons-material/Check";
 import { useFieldActivity } from "../useFieldActivity";
 import HideSourceIcon from "@mui/icons-material/HideSource";
 import { useCallback, useContext, useMemo } from "react";
 import { useNullabilityMiddleware } from "../useNullabilityMiddleware";
-import * as userPreferencesStore from "../../../state/userPreferencesStore";
 import { useHighlightPinButton } from "../useHighlightPinButton";
 import { useTheme } from "@emotion/react";
-import { useAtom } from "jotai";
+import { useAtomValue } from "jotai";
 import { DocMarkerContext } from "../../DocMarkerContext";
 import { ControlProps } from "@jsonforms/core";
 import { WithInput } from "@jsonforms/material-renderers";
@@ -62,7 +59,7 @@ export function DmInputControl(
   const htmlId: string = id + "-input";
 
   // get access to the global context
-  const { fieldsRepository, robotPredictionStore } =
+  const { fieldsRepository, robotPredictionStore, editorStore } =
     useContext(DocMarkerContext);
 
   // === field activity ===
@@ -139,7 +136,7 @@ export function DmInputControl(
 
   // === debugging ===
 
-  const [displayDebugInfo] = useAtom(userPreferencesStore.displayDebugInfoAtom);
+  const displayDebugInfo = useAtomValue(editorStore.displayDebugInfoAtom);
 
   /////////////
   // Actions //
