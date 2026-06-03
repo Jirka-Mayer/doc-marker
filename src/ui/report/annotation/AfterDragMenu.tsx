@@ -6,13 +6,16 @@ import {
   Divider,
   ListItemText,
 } from "@mui/material";
-import { useAtomValue } from "jotai";
+import { atom, useAtomValue } from "jotai";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import AddLocationIcon from "@mui/icons-material/AddLocation";
 import { useTranslation } from "react-i18next";
 import { useContext } from "react";
 import { DocMarkerContext } from "../../DocMarkerContext";
 import { ContextMenuController } from "../ContextMenuController";
+import { TextRange } from "../../../utils/TextRange";
+
+const emptyRangeAtom = atom<TextRange[]>([]);
 
 export function AfterDragMenu(props: { cmc: ContextMenuController }) {
   const { cmc } = props;
@@ -24,9 +27,11 @@ export function AfterDragMenu(props: { cmc: ContextMenuController }) {
   const anchorPosition = useAtomValue(cmc.anchorPositionAtom);
 
   const activeFieldId = useAtomValue(editorStore.activeFieldIdAtom);
-  const activeFieldHighlights = activeFieldId
-    ? useAtomValue(reportStore.getFieldHighlightsAtom(activeFieldId))
-    : [];
+  const activeFieldHighlights = useAtomValue(
+    activeFieldId
+      ? reportStore.getFieldHighlightsAtom(activeFieldId)
+      : emptyRangeAtom,
+  );
   const alreadyHasHighlight = activeFieldHighlights.length > 0;
 
   function addHighlight() {

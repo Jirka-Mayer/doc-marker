@@ -1,5 +1,4 @@
 import { Atom, atom, PrimitiveAtom } from "jotai";
-import * as formStore from "./formStore";
 import { JotaiStore } from "./JotaiStore";
 import { QDelta } from "../quill/QDelta";
 import { IsoLanguage } from "../IsoLanguage";
@@ -13,6 +12,7 @@ import {
 import { ReportStore } from "./ReportStore";
 import { QuillExtended } from "../quill/QuillExtended";
 import { EditorStore } from "./EditorStore";
+import { FormStore } from "./FormStore";
 
 /**
  * Maximum number of items in the history stack
@@ -53,6 +53,7 @@ export class HistoryStore {
   private readonly jotaiStore: JotaiStore;
   private readonly quillExtended: QuillExtended;
   private readonly reportStore: ReportStore;
+  private readonly formStore: FormStore;
   private readonly editorStore: EditorStore;
   private readonly robotPredictionStore: RobotPredictionStore;
 
@@ -60,12 +61,14 @@ export class HistoryStore {
     jotaiStore: JotaiStore,
     quillExtended: QuillExtended,
     reportStore: ReportStore,
+    formStore: FormStore,
     editorStore: EditorStore,
     robotPredictionStore: RobotPredictionStore,
   ) {
     this.jotaiStore = jotaiStore;
     this.quillExtended = quillExtended;
     this.reportStore = reportStore;
+    this.formStore = formStore;
     this.editorStore = editorStore;
     this.robotPredictionStore = robotPredictionStore;
 
@@ -224,7 +227,7 @@ export class HistoryStore {
       isCosmeticChange: isCosmeticChange,
       takenAt: new Date(),
       // making a copy helps bust react caching and force re-renders on undo/redo
-      formData: { ...this.jotaiStore.get(formStore.formDataAtom) },
+      formData: { ...this.formStore.formData },
       fieldRobotPredictions:
         this.robotPredictionStore.getHistorySnapshotState(),
       reportDelta: this.reportStore.content,
@@ -247,7 +250,7 @@ export class HistoryStore {
       this.isStateObservationEnabled = false;
 
       // essential state
-      this.jotaiStore.set(formStore.formDataAtom, snapshot.formData);
+      this.formStore.formData = snapshot.formData;
       this.quillExtended.setContents(snapshot.reportDelta, "api");
       this.reportStore.reportLanguage = snapshot.reportLanguage;
       this.robotPredictionStore.restoreFromHistorySnapshotState(
@@ -380,7 +383,7 @@ export class HistoryStore {
    * Registers event listeners to observe the application state
    */
   private startObservingApplication(): void {
-    formStore.eventEmitter.on("formDataChanged", (e) => {
+    this.formStore.onFormDataChanged.subscribe((e) => {
       this.handleGenuineApplicationStateChange("formDataChanged", false);
     });
 

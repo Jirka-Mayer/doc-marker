@@ -5,6 +5,7 @@ import { AtomGroup } from "../AtomGroup";
 import { SignalAtomWrapper } from "../../utils/SignalAtomWrapper";
 import { JotaiStore } from "../JotaiStore";
 import { useAtomValue } from "jotai";
+import { FormData } from "../FormStore";
 
 /**
  * Global service that keeps track of all currently rendered fields in the
@@ -178,9 +179,9 @@ export class FieldsRepository {
    * This function is used during file serialization, to get rid of the
    * in-memory old values stored for invisible form fields.
    */
-  public getExportedFormData(): any {
+  public getExportedFormData(): FormData {
     const fieldIds = [...this._fields.keys()].sort();
-    const exportedData: any = {};
+    const exportedData: FormData = {};
     for (const fieldId of fieldIds) {
       const path = fieldId; // path through the JSON object IS the field ID
       const value = this._fields.get(fieldId)?.exportedData;
@@ -194,15 +195,27 @@ export class FieldsRepository {
   }
 
   /**
-   * React hook that lets one field observe the exported value of another field
+   * React hook that lets one field observe the exported value of another field.
+   * Null field ID is allowed to ease usage of this hook and for null field ID,
+   * undefined is returned as its exported value.
    */
-  public useExportedValueOf(fieldId: string): any {
+  public useExportedValueOf(fieldId: string | null): any {
     // subscribe to the signal atom of the observed field
-    useAtomValue(this.changeSignalAtoms.get(fieldId).getSignalAtom());
+    // (use an atom even if null field ID provided to keep the
+    // same number of react hooks invoked to prevent react from screaming)
+    useAtomValue(this.changeSignalAtoms.get(fieldId || "").getSignalAtom());
+
+    // no field ID given
+    if (fieldId === null) {
+      return undefined;
+    }
 
     // retrieve the exported value
     const field = this._fields.get(fieldId);
-    return field === undefined ? undefined : field.exportedData;
+    if (field === undefined) {
+      return undefined;
+    }
+    return field.exportedData;
   }
 }
 

@@ -2,19 +2,25 @@ import { JsonForms } from "@jsonforms/react";
 import { useAtom, useAtomValue } from "jotai";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Form } from "../../../forms/Form";
-import * as formStore from "../../state/formStore";
 import { useTranslation } from "react-i18next";
 import { CircularProgress, Typography } from "@mui/material";
 import { usePreventScrollOverNumberFields } from "./usePreventScrollOverNumberFields";
 import LocalFloristIcon from "@mui/icons-material/LocalFlorist";
-import { createAjv } from "@jsonforms/core";
+import {
+  createAjv,
+  JsonFormsCellRendererRegistryEntry,
+  JsonFormsRendererRegistryEntry,
+  UISchemaElement,
+} from "@jsonforms/core";
 import { extractFormDataHierarchy } from "./extractFormDataHierarchy";
 import { DocMarkerContext } from "../DocMarkerContext";
+import { JsonSchema } from "@jsonforms/core";
+import { FormData, FormErrors } from "../../state/FormStore";
 
 /**
  * Converts AJV errors to string representation for debug printing
  */
-const stringifyErrors = (errors, tabWidth) =>
+const stringifyErrors = (errors: any, tabWidth: number) =>
   JSON.stringify(
     errors,
     [
@@ -36,27 +42,33 @@ export function FormComponent() {
     formsRepository,
     localesRepository,
     editorStore,
+    formStore,
   } = useContext(DocMarkerContext);
 
   const [isLoading, setLoading] = useState<boolean>(false);
 
-  const formId = useAtomValue<string>(formStore.formIdAtom);
-  const [dataSchema, setDataSchema] = useState<any>({});
-  const [uiSchema, setUiSchema] = useState<any>({});
-  const [formRenderers, setFormRenderers] = useState<any[]>([]);
-  const [formCells, setFormCells] = useState<any[]>([]);
+  const formId = useAtomValue(formStore.formIdAtom);
+  const [dataSchema, setDataSchema] = useState<JsonSchema>({});
+  const [uiSchema, setUiSchema] = useState<UISchemaElement | undefined>(
+    undefined,
+  );
+  const [formRenderers, setFormRenderers] = useState<
+    JsonFormsRendererRegistryEntry[]
+  >([]);
+  const [formCells, setFormCells] = useState<
+    JsonFormsCellRendererRegistryEntry[]
+  >([]);
 
-  const reloadTrigger = useAtomValue(formStore.formReloadTriggerAtom);
-  const [formErrors, setFormErrors] = useAtom(formStore.formErrorsAtom);
+  const reloadTrigger = useAtomValue(formStore.internal.formReloadTriggerAtom);
   const [formRenderingData, setFormRenderingData] = useAtom(
-    formStore.formDataRenderingAtom,
+    formStore.internal.formDataRenderingAtom,
   );
   const [formExternalData, setFormExternalData] = useAtom(
     formStore.formDataAtom,
   );
 
-  const [exportedData, setExportedData] = useState<any>({});
-  const [exportedErrors, setExportedErrors] = useState<any>({});
+  const [exportedData, setExportedData] = useState<FormData>({});
+  const [exportedErrors, setExportedErrors] = useState<FormErrors>(undefined);
   const ajvValidator = useMemo(
     () => createAjv().compile(dataSchema),
     [dataSchema],
@@ -73,7 +85,7 @@ export function FormComponent() {
   useEffect(() => {
     if (formId === null) {
       setDataSchema({});
-      setUiSchema({});
+      setUiSchema(undefined);
       setLoading(false);
       return;
     }
@@ -157,14 +169,14 @@ export function FormComponent() {
           cells={formCells}
           onChange={({ data, errors }) => {
             setFormRenderingData(data);
-            setFormErrors(errors);
+            formStore.internal.setFormErrors(errors);
 
             // exported data and errors
             const _exportedData = fieldsRepository.getExportedFormData();
             ajvValidator(_exportedData);
             const _exportedErrors = ajvValidator.errors;
             setExportedData(_exportedData);
-            setExportedErrors(_exportedErrors);
+            setExportedErrors(_exportedErrors || undefined);
           }}
           i18n={{
             locale: i18n.language,

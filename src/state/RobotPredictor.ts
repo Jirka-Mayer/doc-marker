@@ -4,10 +4,10 @@ import { FieldsRepository } from "./form/FieldsRepository";
 import { timeoutAsync } from "../utils/timeoutAsync";
 import { SemaphoreAsync } from "../utils/SemaphoreAsync";
 import { RobotInterface } from "../robotApi/RobotInterface";
-import { formIdAtom } from "./formStore";
 import { RobotPredictionStore } from "./form/RobotPredictionStore";
 import { QuillExtended } from "../quill/QuillExtended";
 import { ReportStore } from "./ReportStore";
+import { FormStore } from "./FormStore";
 
 /**
  * Maximum number of API requests allowed to run in parallel
@@ -23,6 +23,7 @@ export class RobotPredictor {
   private readonly jotaiStore: JotaiStore;
   private readonly quillExtended: QuillExtended;
   private readonly reportStore: ReportStore;
+  private readonly formStore: FormStore;
   private readonly fieldsRepository: FieldsRepository;
   private readonly robot: RobotInterface | null;
   private readonly predictionStore: RobotPredictionStore;
@@ -31,6 +32,7 @@ export class RobotPredictor {
     jotaiStore: JotaiStore,
     quillExtended: QuillExtended,
     reportStore: ReportStore,
+    formStore: FormStore,
     fieldsRepository: FieldsRepository,
     robot: RobotInterface | null,
     predictionStore: RobotPredictionStore,
@@ -38,6 +40,7 @@ export class RobotPredictor {
     this.jotaiStore = jotaiStore;
     this.quillExtended = quillExtended;
     this.reportStore = reportStore;
+    this.formStore = formStore;
     this.fieldsRepository = fieldsRepository;
     this.robot = robot;
     this.predictionStore = predictionStore;
@@ -362,7 +365,7 @@ export class RobotPredictor {
         {
           reportText: this.quillExtended.getText(),
           reportLanguage: reportLanguage,
-          formId: this.jotaiStore.get(formIdAtom),
+          formId: this.formStore.formId!,
           fieldId: fieldId,
         },
         this.abortController!.signal,
@@ -378,7 +381,7 @@ export class RobotPredictor {
       const predictionResponse = await this.robot!.predictAnswer(
         {
           reportLanguage: reportLanguage,
-          formId: this.jotaiStore.get(formIdAtom),
+          formId: this.formStore.formId!,
           fieldId: fieldId,
           evidences: evidenceResponse.evidences,
         },

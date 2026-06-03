@@ -16,6 +16,7 @@ import { RobotPredictor } from "../state/RobotPredictor";
 import { QuillExtended } from "../quill/QuillExtended";
 import { ReportStore } from "../state/ReportStore";
 import { EditorStore } from "../state/EditorStore";
+import { FormStore } from "../state/FormStore";
 
 /**
  * The DocMarker context acts as a service container for the whole application,
@@ -68,6 +69,12 @@ export interface DocMarkerContextState {
    * additional state that is not already present in QuillExtended.
    */
   readonly reportStore: ReportStore;
+
+  /**
+   * Encapsulates the JSON Forms form data state in a way
+   * that makes it easy to consume from the rest of the application.
+   */
+  readonly formStore: FormStore;
 
   /**
    * Keeps track of fields in the form, their visibility and value
@@ -136,6 +143,7 @@ export function useConstructContextServices(
     () => new ReportStore(jotaiStore, quillExtended),
     [],
   );
+  const formStore = useMemo(() => new FormStore(jotaiStore), []);
   const fieldsRepository = useMemo(() => new FieldsRepository(jotaiStore), []);
   const editorStore = useMemo(() => new EditorStore(jotaiStore), []);
   const robotPredictionStore = useMemo(
@@ -156,6 +164,7 @@ export function useConstructContextServices(
         fileMetadataStore,
         quillExtended,
         reportStore,
+        formStore,
         fieldsRepository,
         editorStore,
         robotPredictionStore,
@@ -168,6 +177,7 @@ export function useConstructContextServices(
         jotaiStore,
         quillExtended,
         reportStore,
+        formStore,
         fieldsRepository,
         dmOptions.robot,
         robotPredictionStore,
@@ -180,6 +190,7 @@ export function useConstructContextServices(
         jotaiStore,
         quillExtended,
         reportStore,
+        formStore,
         editorStore,
         robotPredictionStore,
       ),
@@ -208,6 +219,7 @@ export function useConstructContextServices(
     fileMetadataStore,
     quillExtended,
     reportStore,
+    formStore,
     filesDatabase,
     fileSerializer,
     fileStateManager,

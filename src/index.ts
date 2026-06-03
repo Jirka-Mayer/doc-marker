@@ -36,6 +36,7 @@ export { DocMarkerContext } from "./ui/DocMarkerContext";
 export type { DocMarkerContextState } from "./ui/DocMarkerContext";
 
 export { ReportStore } from "./state/ReportStore";
+export { FormStore } from "./state/FormStore";
 export { AutosaveStore } from "./state/AutosaveStore";
 export { FieldsRepository } from "./state/form/FieldsRepository";
 export { FileMetadataStore } from "./state/file/FileMetadataStore";
@@ -62,10 +63,6 @@ export type {
   FieldPrediction,
   PredictionState,
 } from "./state/form/RobotPredictionStore";
-
-// legacy static stores that have yet to be refactored into services
-import * as formStore from "./state/formStore";
-export { formStore };
 
 ////////////////////
 // Public Classes //

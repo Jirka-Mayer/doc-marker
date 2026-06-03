@@ -22,9 +22,7 @@ export function StatusBar() {
   const selection = useAtomValue(reportStore.selectionRangeAtom);
 
   const activeFieldId = useAtomValue(editorStore.activeFieldIdAtom);
-  const activeFieldValue = activeFieldId
-    ? fieldsRepository.useExportedValueOf(activeFieldId)
-    : undefined;
+  const activeFieldValue = fieldsRepository.useExportedValueOf(activeFieldId);
 
   ////////////
   // Render //

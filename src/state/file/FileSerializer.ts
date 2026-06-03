@@ -1,4 +1,3 @@
-import * as formStore from "../formStore";
 import { Migration } from "../file/Migration";
 import { DmOptions } from "../../options";
 import * as packageJson from "../../../package.json";
@@ -20,6 +19,7 @@ import { ReportStore } from "../ReportStore";
 import { IsoLanguage } from "../../IsoLanguage";
 import { EditorStore } from "../EditorStore";
 import { AppMode } from "../AppMode";
+import { FormStore } from "../FormStore";
 
 const DOC_MARKER_VERSION: string = packageJson["version"];
 
@@ -36,6 +36,7 @@ export class FileSerializer {
   private readonly fileMeta: FileMetadataStore;
   private readonly quillExtended: QuillExtended;
   private readonly reportStore: ReportStore;
+  private readonly formStore: FormStore;
   private readonly fieldsRepository: FieldsRepository;
   private readonly editorStore: EditorStore;
   private readonly robotPredictionStore: RobotPredictionStore;
@@ -46,6 +47,7 @@ export class FileSerializer {
     fileMeta: FileMetadataStore,
     quillExtended: QuillExtended,
     reportStore: ReportStore,
+    formStore: FormStore,
     fieldsRepository: FieldsRepository,
     editorStore: EditorStore,
     robotPredictionStore: RobotPredictionStore,
@@ -55,6 +57,7 @@ export class FileSerializer {
     this.fileMeta = fileMeta;
     this.quillExtended = quillExtended;
     this.reportStore = reportStore;
+    this.formStore = formStore;
     this.fieldsRepository = fieldsRepository;
     this.editorStore = editorStore;
     this.robotPredictionStore = robotPredictionStore;
@@ -82,7 +85,7 @@ export class FileSerializer {
 
       _appMode: this.editorStore.appMode,
 
-      _formId: this.jotaiStore.get(formStore.formIdAtom),
+      _formId: this.formStore.formId!,
       _formData: this.fieldsRepository.getExportedFormData(),
 
       _reportDelta: this.reportStore.content,
@@ -149,8 +152,8 @@ export class FileSerializer {
 
     this.editorStore.appMode = json._appMode as AppMode;
 
-    this.jotaiStore.set(formStore.formIdAtom, json._formId);
-    this.jotaiStore.set(formStore.formDataAtom, json._formData);
+    this.formStore.formId = json._formId;
+    this.formStore.formData = json._formData;
 
     this.quillExtended.setContents(json._reportDelta, "api");
     // _reportText is ignored, since it is computable from the delta
@@ -162,7 +165,7 @@ export class FileSerializer {
     // === post-deserialization logic ===
 
     // force the form reload
-    this.jotaiStore.set(formStore.formReloadTriggerAtom);
+    this.formStore.triggerFormReload();
 
     // let the customization deserialize its own additional state
     this.dmOptions.file.onDeserialize(json);
