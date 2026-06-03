@@ -5,7 +5,7 @@ import { StatusBar } from "./StatusBar";
 import { AppBody } from "./AppBody";
 import { useAtom } from "jotai";
 import { ChangeLocaleDialog } from "./dialogs/ChangeLocaleDialog";
-import useUnload from "../utils/useUnload";
+import { useUnload } from "../utils/useUnload";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { DmOptions } from "../options";
 import { CreateFileDialog } from "./dialogs/CreateFileDialog";

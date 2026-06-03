@@ -1,4 +1,4 @@
-import { Migration } from "../file/Migration";
+import { Migration } from "./Migration";
 import { DmOptions } from "../../options";
 import * as packageJson from "../../../package.json";
 import { FileMetadataStore } from "./FileMetadataStore";
