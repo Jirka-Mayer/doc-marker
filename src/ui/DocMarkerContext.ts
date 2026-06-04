@@ -17,6 +17,7 @@ import { QuillExtended } from "../quill/QuillExtended";
 import { ReportStore } from "../state/ReportStore";
 import { EditorStore } from "../state/EditorStore";
 import { FormStore } from "../state/FormStore";
+import { FieldTimestampStore } from "../state/form/FieldTimestampStore";
 
 /**
  * The DocMarker context acts as a service container for the whole application,
@@ -94,6 +95,11 @@ export interface DocMarkerContextState {
   readonly robotPredictionStore: RobotPredictionStore;
 
   /**
+   * Remembers the last-modified timestamps for individual fields
+   */
+  readonly fieldTimestampStore: FieldTimestampStore;
+
+  /**
    * Is responsible purely for serialization and deserialization
    * of files. During deserialization, it hydrates all the stores.
    * During serialization, it reads those stores and creates the JSON file.
@@ -156,6 +162,10 @@ export function useConstructContextServices(
       ),
     [],
   );
+  const fieldTimestampStore = useMemo(
+    () => new FieldTimestampStore(jotaiStore, fieldsRepository),
+    [],
+  );
   const fileSerializer = useMemo(
     () =>
       new FileSerializer(
@@ -168,6 +178,7 @@ export function useConstructContextServices(
         fieldsRepository,
         editorStore,
         robotPredictionStore,
+        fieldTimestampStore,
       ),
     [],
   );
@@ -227,6 +238,7 @@ export function useConstructContextServices(
     historyStore,
     jotaiStore,
     localesRepository,
+    fieldTimestampStore,
     robotPredictionStore,
     robotPredictor,
     editorStore,

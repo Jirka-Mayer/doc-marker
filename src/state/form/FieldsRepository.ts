@@ -7,6 +7,30 @@ import { JotaiStore } from "../JotaiStore";
 import { useAtomValue } from "jotai";
 import { FormData } from "../FormStore";
 
+export interface OnChangeEventArgs {
+  /**
+   * Which field ID does this event concern?
+   */
+  readonly fieldId: string;
+
+  /**
+   * State of the field before the change,
+   * undefined for creation event.
+   */
+  readonly oldFieldState?: Field;
+
+  /**
+   * State of the field after the change,
+   * undefined for destruction event.
+   */
+  readonly newFieldState?: Field;
+
+  /**
+   * What kind of field change is this?
+   */
+  readonly type: "creation" | "update" | "destruction";
+}
+
 /**
  * Global service that keeps track of all currently rendered fields in the
  * form, provides data about their current state and allows their control
@@ -98,22 +122,22 @@ export class FieldsRepository {
   // Events //
   ////////////
 
-  private _onChange = new SimpleEventDispatcher<string>();
-
   /**
    * Event gets fired each time a field in the list of all fields changes
    * value, gets created, or gets destoryed. The field ID is provided as the
    * argument to the event handler.
    */
-  public get onChange(): ISimpleEvent<string> {
-    return this._onChange.asEvent();
+  public get onChange(): ISimpleEvent<OnChangeEventArgs> {
+    return this.onChangeDispatcher.asEvent();
   }
+  private readonly onChangeDispatcher =
+    new SimpleEventDispatcher<OnChangeEventArgs>();
 
   /**
    * Signal atoms, one for each field, that get triggered when the field
    * is created, updated, or destroyed
    */
-  private changeSignalAtoms = new AtomGroup<SignalAtomWrapper>(
+  private readonly changeSignalAtoms = new AtomGroup<SignalAtomWrapper>(
     (key: string) => new SignalAtomWrapper(),
   );
 
@@ -122,14 +146,31 @@ export class FieldsRepository {
   ////////////////////////////////
 
   private handleFieldCreatedOrUpdated(field: Field & FieldInternal) {
+    const isCreation = !this.fields.has(field.fieldId);
+    const oldFieldState = this._fields.get(field.fieldId);
+
     this._fields.set(field.fieldId, field);
-    this._onChange.dispatch(field.fieldId);
+
+    this.onChangeDispatcher.dispatch({
+      fieldId: field.fieldId,
+      newFieldState: field,
+      oldFieldState: oldFieldState,
+      type: isCreation ? "creation" : "update",
+    });
     this.changeSignalAtoms.get(field.fieldId).signal(this.jotaiStore.set);
   }
 
   private handleFieldDestroyed(fieldId: string) {
+    const oldFieldState = this._fields.get(fieldId);
+
     this._fields.delete(fieldId);
-    this._onChange.dispatch(fieldId);
+
+    this.onChangeDispatcher.dispatch({
+      fieldId: fieldId,
+      newFieldState: undefined,
+      oldFieldState: oldFieldState,
+      type: "destruction",
+    });
     this.changeSignalAtoms.get(fieldId).signal(this.jotaiStore.set);
   }
 
@@ -148,7 +189,7 @@ export class FieldsRepository {
       [fieldId, handleChange],
     );
 
-    // field construction & update handler
+    // field creation & update handler
     useEffect(() => {
       this.handleFieldCreatedOrUpdated({
         fieldId,

@@ -19,6 +19,7 @@ import { IsoLanguage } from "../../IsoLanguage";
 import { EditorStore } from "../EditorStore";
 import { AppMode } from "../AppMode";
 import { FormStore } from "../FormStore";
+import { FieldTimestampStore } from "../form/FieldTimestampStore";
 
 const DOC_MARKER_VERSION: string = packageJson["version"];
 
@@ -39,6 +40,7 @@ export class FileSerializer {
   private readonly fieldsRepository: FieldsRepository;
   private readonly editorStore: EditorStore;
   private readonly robotPredictionStore: RobotPredictionStore;
+  private readonly fieldTimestampStore: FieldTimestampStore;
 
   constructor(
     dmOptions: DmOptions,
@@ -50,6 +52,7 @@ export class FileSerializer {
     fieldsRepository: FieldsRepository,
     editorStore: EditorStore,
     robotPredictionStore: RobotPredictionStore,
+    fieldTimestampStore: FieldTimestampStore,
   ) {
     this.dmOptions = dmOptions;
     this.jotaiStore = jotaiStore;
@@ -60,6 +63,7 @@ export class FileSerializer {
     this.fieldsRepository = fieldsRepository;
     this.editorStore = editorStore;
     this.robotPredictionStore = robotPredictionStore;
+    this.fieldTimestampStore = fieldTimestampStore;
   }
 
   /**
@@ -92,6 +96,7 @@ export class FileSerializer {
       _reportLanguage: this.reportStore.reportLanguage || undefined,
       _highlights: this.jotaiStore.get(this.reportStore.highlightsAtom),
       _robotPredictions: this.serializeRobotPredictions(),
+      _fieldTimestamps: this.fieldTimestampStore.serialize(),
     };
 
     fileJson = this.dmOptions.file.onSerialize(fileJson) as SerializedFileJson;
@@ -157,10 +162,12 @@ export class FileSerializer {
       null) as IsoLanguage | null;
     // _highlights are ignored, since they are computable from the delta
     this.deserializeRobotPredictions(json._robotPredictions || {});
+    this.fieldTimestampStore.deserialize(json._fieldTimestamps);
 
     // === post-deserialization logic ===
 
     // force the form reload
+    // (this triggers old form component destruction and re-creation)
     this.formStore.triggerFormReload();
 
     // let the customization deserialize its own additional state

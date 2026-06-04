@@ -120,6 +120,15 @@ export interface SerializedFileJson {
    * This whole field may be missing, in which case there are no predictions.
    */
   _robotPredictions?: SerializedRobotPredictions;
+
+  /**
+   * ISO 8601 timestamps of when each field was last modified by the user.
+   * Missing fields have never been modified or the information is not known.
+   * Example value: "2023-03-14T11:11:18Z"
+   */
+  _fieldTimestamps?: {
+    [formFieldId: string]: string;
+  };
 }
 
 /**

@@ -10,8 +10,13 @@ import { AppMode } from "../state/AppMode";
 export function StatusBar() {
   const theme = useTheme();
 
-  const { fileMetadataStore, fieldsRepository, reportStore, editorStore } =
-    useContext(DocMarkerContext);
+  const {
+    fileMetadataStore,
+    fieldsRepository,
+    reportStore,
+    editorStore,
+    fieldTimestampStore,
+  } = useContext(DocMarkerContext);
 
   const displayDebugInfo = useAtomValue(editorStore.displayDebugInfoAtom);
 
@@ -23,6 +28,9 @@ export function StatusBar() {
 
   const activeFieldId = useAtomValue(editorStore.activeFieldIdAtom);
   const activeFieldValue = fieldsRepository.useExportedValueOf(activeFieldId);
+  const activeFieldTimestamp = useAtomValue(
+    fieldTimestampStore.timestampAtoms.get(activeFieldId || ""),
+  );
 
   ////////////
   // Render //
@@ -59,6 +67,9 @@ export function StatusBar() {
             {activeFieldValue === undefined
               ? "undefined"
               : JSON.stringify(activeFieldValue)}
+            &nbsp;&nbsp;•&nbsp;&nbsp;
+            <strong>Active field timestamp:</strong>{" "}
+            {activeFieldTimestamp?.toISOString() || "null"}
           </>
         )}
       </Typography>
