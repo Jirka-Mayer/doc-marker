@@ -13,11 +13,12 @@ import { getInlineFormatRange } from "./getInlineFormatRange";
 import { htmlTableToDelta } from "./htmlTableToDelta";
 import { contentsToHighlights } from "./highlights/contentsToHighlights";
 import { AppMode } from "../state/AppMode";
-import { QAttributes, QDelta } from "./QDelta";
+import { isInsert, QAttributes, QDelta } from "./QDelta";
 import { QSource } from "./QSource";
 import { QRange } from "./QRange";
 import { QBounds } from "./QBounds";
 import { ISimpleEvent, SimpleEventDispatcher } from "strongly-typed-events";
+import { EditorStore } from "../state/EditorStore";
 
 // extend Quill with custom attributors
 defineAnonymizationAttributor();
@@ -42,6 +43,8 @@ export interface SelectionChangedEventArgs {
  * some additional API for the extended logic.
  */
 export class QuillExtended {
+  private readonly editorStore: EditorStore;
+
   private readonly containerElement: HTMLDivElement;
   private readonly quillElement: HTMLDivElement;
 
@@ -57,7 +60,9 @@ export class QuillExtended {
    * extended class creates its own container element in order to bind
    * to DOM dynamically and play well with React. Also no options are needed.
    */
-  constructor() {
+  constructor(editorStore: EditorStore) {
+    this.editorStore = editorStore;
+
     // one container element containing everything
     // the quill-instance element is inside
     this.containerElement = document.createElement("div");
@@ -86,6 +91,10 @@ export class QuillExtended {
 
     // converts between in internal and exteral delta format
     this.deltaMapper = new DeltaMapper(this.highlightsAllocator);
+
+    // forget anonymized text when app mode changes to anything
+    // other than the anonymization mode
+    this.registerAnonymizationAppModeListener();
   }
 
   private quill_constructInstance(): Quill {
@@ -257,6 +266,20 @@ export class QuillExtended {
     const internalDelta = this.deltaMapper.importDelta(delta);
     this.quill.setContents(internalDelta, source);
 
+    this.refreshHighlightsDueToContentUpdate();
+  }
+
+  // MISSING: setText
+
+  public updateContents(delta: QDelta, source: QSource = "api"): void {
+    // import delta
+    const internalDelta = this.deltaMapper.importDelta(delta);
+    this.quill.updateContents(internalDelta, source);
+
+    this.refreshHighlightsDueToContentUpdate();
+  }
+
+  private refreshHighlightsDueToContentUpdate(): void {
     // release unused allocator numbers
     const newExternalContents = this.getContents();
     let newHighlights = contentsToHighlights(newExternalContents);
@@ -265,10 +288,6 @@ export class QuillExtended {
     // re-render active highlight (due to the allocator release)
     this.stateRenderer.refresh();
   }
-
-  // MISSING: setText
-
-  // MISSING: updateContents
 
   // Formatting //
   // ---------- //
@@ -549,6 +568,7 @@ export class QuillExtended {
 
   /**
    * Anonymizes (or removes anonymization) of a given kind in a given range
+   * (handles only the anonymized text format, does not forget the text itself)
    * @param {number} index Range start
    * @param {number} length Range length
    * @param {string} kindId Kind of the anonymized data
@@ -589,6 +609,82 @@ export class QuillExtended {
    */
   public getAnonymization(index: number, length: number): string | null {
     return this.quill.getFormat(index, length)["anonymized"] || null;
+  }
+
+  /**
+   * Replaces anonmized text in the given range with asterisks.
+   * The text format within this range should be uniform, otherwise
+   * it may get edited.
+   */
+  public forgetTextAt(range: QRange): void {
+    const text = this.getText(range.index, range.length);
+    const format = this.getFormat(range);
+    this.updateContents({
+      ops: [
+        {
+          retain: range.index,
+        },
+        {
+          delete: range.length,
+        },
+        {
+          insert: this.asteriskizeString(text),
+          attributes: format, // preserves the anonymized region
+        },
+      ],
+    });
+  }
+
+  /**
+   * Replaces all meaningful characters of a string with asterisks
+   */
+  private asteriskizeString(input: string): string {
+    return [...input]
+      .map((c) => {
+        if (c === " " || c === "\n" || c === "\r" || c === "\t") {
+          return c;
+        }
+
+        return "*";
+      })
+      .join("");
+  }
+
+  /**
+   * Goes over the whole content of the editor and forgets
+   * (replaces with asterisks) all text that is anonymized
+   * (marked in anonymization format of any kind).
+   */
+  public forgetAllAnonymizedText(): void {
+    // get the current contents delta
+    const contents = this.getContents();
+
+    // go over all inserts and asteriskize anonymization inserts
+    for (let op of contents.ops) {
+      if (isInsert(op)) {
+        if (op.attributes && op.attributes["anonymized"]) {
+          op.insert = this.asteriskizeString(op.insert);
+        }
+      } else {
+        throw new Error("Unexpected operation type");
+      }
+    }
+
+    // write back the updated contents delta
+    this.setContents(contents);
+  }
+
+  /**
+   * Register an event handler for app mode change such that
+   * when the user changes to any other mode than anonymization
+   * mode, we will trigger anonymized text forgetting.
+   */
+  private registerAnonymizationAppModeListener(): void {
+    this.editorStore.onAppModeEntered.subscribe(() => {
+      if (this.editorStore.appMode !== AppMode.ANONYMIZE) {
+        this.forgetAllAnonymizedText();
+      }
+    });
   }
 
   // Events //

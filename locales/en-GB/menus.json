@@ -17,7 +17,8 @@
     "headButton": "Edit",
 
     "undo": "Undo",
-    "redo": "Redo"
+    "redo": "Redo",
+    "forgetText": "Forget anonymized text"
   },
 
   "view": {

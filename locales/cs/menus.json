@@ -17,7 +17,8 @@
     "headButton": "Upravit",
 
     "undo": "Zpět",
-    "redo": "Znovu"
+    "redo": "Znovu",
+    "forgetText": "Zapomenout anonymizovaný text"
   },
 
   "view": {

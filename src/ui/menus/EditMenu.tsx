@@ -11,11 +11,13 @@ import { useAtom } from "jotai";
 import UndoIcon from "@mui/icons-material/Undo";
 import RedoIcon from "@mui/icons-material/Redo";
 import { DocMarkerContext } from "../DocMarkerContext";
+import PasswordIcon from "@mui/icons-material/Password";
 
 export function EditMenu() {
   const { t } = useTranslation("menus");
 
-  const { fileMetadataStore, historyStore } = useContext(DocMarkerContext);
+  const { fileMetadataStore, historyStore, quillExtended } =
+    useContext(DocMarkerContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -51,31 +53,43 @@ export function EditMenu() {
     // closeMenu() // let's keep the menu open for repeated clicks
   }
 
+  function onForgetClick() {
+    if (!isFileOpen) {
+      return;
+    }
+    quillExtended.forgetAllAnonymizedText();
+
+    closeMenu();
+  }
+
   // === keyboard shortcuts ===
 
-  const handleKeydown = useCallback((e) => {
-    if (e.key.toLowerCase() === "z" && e.ctrlKey && !e.shiftKey) {
-      onUndoClick();
-      e.preventDefault();
-    }
+  const handleKeydown = useCallback(
+    (e) => {
+      if (e.key.toLowerCase() === "z" && e.ctrlKey && !e.shiftKey) {
+        onUndoClick();
+        e.preventDefault();
+      }
 
-    if (e.key.toLowerCase() === "z" && e.ctrlKey && e.shiftKey) {
-      onRedoClick();
-      e.preventDefault();
-    }
+      if (e.key.toLowerCase() === "z" && e.ctrlKey && e.shiftKey) {
+        onRedoClick();
+        e.preventDefault();
+      }
 
-    if (e.key.toLowerCase() === "y" && e.ctrlKey) {
-      onRedoClick();
-      e.preventDefault();
-    }
-  }, []);
+      if (e.key.toLowerCase() === "y" && e.ctrlKey) {
+        onRedoClick();
+        e.preventDefault();
+      }
+    },
+    [isFileOpen, canUndo, canRedo],
+  );
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeydown);
     return () => {
       document.removeEventListener("keydown", handleKeydown);
     };
-  });
+  }, [isFileOpen, canUndo, canRedo]);
 
   // === rendering ===
 
@@ -109,6 +123,13 @@ export function EditMenu() {
           <Typography variant="body2" color="text.secondary" sx={{ ml: 2 }}>
             Ctrl + Y
           </Typography>
+        </MenuItem>
+
+        <MenuItem onClick={onForgetClick} disabled={!isFileOpen}>
+          <ListItemIcon>
+            <PasswordIcon />
+          </ListItemIcon>
+          <Typography variant="inherit">{t("edit.forgetText")}</Typography>
         </MenuItem>
       </Menu>
     </>

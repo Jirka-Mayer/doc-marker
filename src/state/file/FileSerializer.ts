@@ -7,7 +7,6 @@ import {
   SerializedFileJson,
   SerializedRobotPredictions,
 } from "./SerializedFileJson";
-import { forgetAnonymizedText } from "./forgetAnonymizedText";
 import {
   FieldPrediction,
   RobotPredictionStore,
@@ -94,9 +93,6 @@ export class FileSerializer {
       _highlights: this.jotaiStore.get(this.reportStore.highlightsAtom),
       _robotPredictions: this.serializeRobotPredictions(),
     };
-
-    // TODO: anonymization must be done earlier!
-    fileJson = forgetAnonymizedText(fileJson);
 
     fileJson = this.dmOptions.file.onSerialize(fileJson) as SerializedFileJson;
 

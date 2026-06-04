@@ -57,6 +57,13 @@ export interface DocMarkerContextState {
   readonly fileMetadataStore: FileMetadataStore;
 
   /**
+   * Holds application state needed for the UI of the editor,
+   * which does not belong to the annotated data.
+   * (application modes, active field, etc.)
+   */
+  readonly editorStore: EditorStore;
+
+  /**
    * Holds the text in the report column. Is fully non-React,
    * but should be used to command changes to the state
    * and possibly query the state from outside React.
@@ -80,13 +87,6 @@ export interface DocMarkerContextState {
    * Keeps track of fields in the form, their visibility and value
    */
   readonly fieldsRepository: FieldsRepository;
-
-  /**
-   * Holds application state needed for the UI of the editor,
-   * which does not belong to the annotated data.
-   * (application modes, active field, etc.)
-   */
-  readonly editorStore: EditorStore;
 
   /**
    * Keeps state related to the automatic robot form filling
@@ -138,14 +138,14 @@ export function useConstructContextServices(
     () => new FileMetadataStore(jotaiStore),
     [],
   );
-  const quillExtended = useMemo(() => new QuillExtended(), []);
+  const editorStore = useMemo(() => new EditorStore(jotaiStore), []);
+  const quillExtended = useMemo(() => new QuillExtended(editorStore), []);
   const reportStore = useMemo(
     () => new ReportStore(jotaiStore, quillExtended),
     [],
   );
   const formStore = useMemo(() => new FormStore(jotaiStore), []);
   const fieldsRepository = useMemo(() => new FieldsRepository(jotaiStore), []);
-  const editorStore = useMemo(() => new EditorStore(jotaiStore), []);
   const robotPredictionStore = useMemo(
     () =>
       new RobotPredictionStore(

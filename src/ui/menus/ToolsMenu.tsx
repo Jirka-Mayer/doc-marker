@@ -14,9 +14,9 @@ import { DocMarkerContext } from "../DocMarkerContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import SmartButtonIcon from "@mui/icons-material/SmartButton";
+import { AppMode } from "../../state/AppMode";
 
 export function ToolsMenu() {
-  const { quillExtended, editorStore } = useContext(DocMarkerContext);
   const { t } = useTranslation("menus");
 
   const {
@@ -25,6 +25,8 @@ export function ToolsMenu() {
     robotPredictor,
     robotPredictionStore,
     fieldsRepository,
+    quillExtended,
+    editorStore,
   } = useContext(DocMarkerContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -43,6 +45,7 @@ export function ToolsMenu() {
     robotPredictor.isPredictionRunningAtom,
   );
   const activeFieldId = useAtomValue(editorStore.activeFieldIdAtom);
+  const appMode = useAtomValue(editorStore.appModeAtom);
 
   // === click handlers ===
 
@@ -94,6 +97,7 @@ export function ToolsMenu() {
         <MenuItem
           onClick={handleRobotPredictionClick}
           disabled={
+            appMode !== AppMode.ANNOTATE_HIGHLIGHTS ||
             isRobotPredictionRunning ||
             !isFileOpen ||
             !robotPredictor.isRobotAvailable
@@ -109,6 +113,7 @@ export function ToolsMenu() {
         <MenuItem
           onClick={predictActiveField}
           disabled={
+            appMode !== AppMode.ANNOTATE_HIGHLIGHTS ||
             isRobotPredictionRunning ||
             !isFileOpen ||
             !activeFieldId ||
@@ -124,7 +129,11 @@ export function ToolsMenu() {
         </MenuItem>
         <MenuItem
           onClick={eraseRobotDataForField}
-          disabled={!isFileOpen || !activeFieldId}
+          disabled={
+            appMode !== AppMode.ANNOTATE_HIGHLIGHTS ||
+            !isFileOpen ||
+            !activeFieldId
+          }
         >
           <ListItemIcon>
             <DeleteIcon />
@@ -136,7 +145,10 @@ export function ToolsMenu() {
 
         <Divider />
 
-        <MenuItem onClick={eraseAllFormData} disabled={!isFileOpen}>
+        <MenuItem
+          onClick={eraseAllFormData}
+          disabled={appMode !== AppMode.ANNOTATE_HIGHLIGHTS || !isFileOpen}
+        >
           <ListItemIcon>
             <DeleteSweepIcon />
           </ListItemIcon>

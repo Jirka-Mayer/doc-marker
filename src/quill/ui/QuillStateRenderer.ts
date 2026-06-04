@@ -2,8 +2,6 @@ import { AppMode } from "../../state/AppMode";
 import { HighlightsAllocator } from "../highlights/HighlightsAllocator";
 import { styles, activateHighlightValueClassSet } from "./quillStyles";
 
-// TODO: dissolve into QuillExtended
-
 /**
  * Class responsible for setting the proper CSS classes on the quill element
  */

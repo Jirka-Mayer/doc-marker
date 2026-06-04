@@ -48,19 +48,22 @@ export function ViewMenu() {
 
   // === keyboard shortcuts ===
 
-  const handleKeydown = useCallback((e) => {
-    if (e.key.toLowerCase() === "f12" && e.ctrlKey) {
-      onDisplayDebugInfoClick();
-      e.preventDefault();
-    }
-  }, []);
+  const handleKeydown = useCallback(
+    (e) => {
+      if (e.key.toLowerCase() === "f12" && e.ctrlKey) {
+        onDisplayDebugInfoClick();
+        e.preventDefault();
+      }
+    },
+    [displayDebugInfo],
+  );
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeydown);
     return () => {
       document.removeEventListener("keydown", handleKeydown);
     };
-  });
+  }, [displayDebugInfo]);
 
   // === rendering ===
 

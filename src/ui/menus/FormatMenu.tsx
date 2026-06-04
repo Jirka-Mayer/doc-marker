@@ -20,11 +20,10 @@ import { DocMarkerContext } from "../DocMarkerContext";
 import { AppMode } from "../../state/AppMode";
 
 export function FormatMenu() {
-  const { quillExtended, reportStore, editorStore } =
-    useContext(DocMarkerContext);
   const { t } = useTranslation("menus");
 
-  const { fileMetadataStore } = useContext(DocMarkerContext);
+  const { quillExtended, reportStore, editorStore, fileMetadataStore } =
+    useContext(DocMarkerContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -70,27 +69,30 @@ export function FormatMenu() {
 
   // === keyboard shortcuts ===
 
-  const handleKeydown = useCallback((e) => {
-    if (e.key.toLowerCase() === "b" && e.ctrlKey) {
-      onFormatClick("bold");
-      e.preventDefault();
-    }
-    if (e.key.toLowerCase() === "i" && e.ctrlKey) {
-      onFormatClick("italic");
-      e.preventDefault();
-    }
-    if (e.key.toLowerCase() === "u" && e.ctrlKey) {
-      onFormatClick("underline");
-      e.preventDefault();
-    }
-  }, []);
+  const handleKeydown = useCallback(
+    (e) => {
+      if (e.key.toLowerCase() === "b" && e.ctrlKey) {
+        onFormatClick("bold");
+        e.preventDefault();
+      }
+      if (e.key.toLowerCase() === "i" && e.ctrlKey) {
+        onFormatClick("italic");
+        e.preventDefault();
+      }
+      if (e.key.toLowerCase() === "u" && e.ctrlKey) {
+        onFormatClick("underline");
+        e.preventDefault();
+      }
+    },
+    [isFileOpen, appMode, selectionFormats],
+  );
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeydown);
     return () => {
       document.removeEventListener("keydown", handleKeydown);
     };
-  });
+  }, [isFileOpen, appMode, selectionFormats]);
 
   // === rendering ===
 

@@ -1,11 +1,9 @@
 import {
   Menu,
-  MenuList,
   MenuItem,
   ListItemIcon,
   Typography,
   ListSubheader,
-  Divider,
 } from "@mui/material";
 import { useAtomValue } from "jotai";
 import WrongLocationIcon from "@mui/icons-material/WrongLocation";
@@ -40,11 +38,13 @@ export function AfterClickMenu(props: { cmc: ContextMenuController }) {
     cmc.closeMenu();
   }
 
-  // function forgetText() {
-  //   // TODO: add the text forgetting logic to quill
+  function forgetText() {
+    if (anchorTextRange !== null) {
+      quillExtended.forgetTextAt(anchorTextRange);
+    }
 
-  //   closeMenu()
-  // }
+    cmc.closeMenu();
+  }
 
   return (
     <>
@@ -67,12 +67,12 @@ export function AfterClickMenu(props: { cmc: ContextMenuController }) {
           </Typography>
         </MenuItem>
 
-        {/* <MenuItem onClick={forgetText}>
+        <MenuItem onClick={forgetText}>
           <ListItemIcon>
             <PasswordIcon />
           </ListItemIcon>
           <Typography variant="inherit">Forget text now</Typography>
-        </MenuItem> */}
+        </MenuItem>
       </Menu>
     </>
   );

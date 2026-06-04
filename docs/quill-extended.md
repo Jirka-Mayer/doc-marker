@@ -267,8 +267,6 @@ There are these events available:
 | `-` | `editor-change` | Combines previous two, not exposed in `QuillExtended` |
 | `onSelectedFormatChanged` | `-` | Fires when the set of formats under the cursor change - used to update the Toolbar UI through React. Event introduced by the `QuillExtended` wrapper. |
 
-TODO: add the asterisking method to quill
-
 
 ## History
 
@@ -310,7 +308,7 @@ This is an overview of [Quill API methods](https://v1.quilljs.com/docs/api) that
 | ❌ | `insertText` | |
 | ✅ | `setContents` | Mapping deltas |
 | ❌ | `setText` | |
-| ❌ | `updateContents` | |
+| ✅ | `updateContents` | Mapping deltas |
 | | **Formatting** | |
 | ✅ | `format` | Mapping deltas |
 | ✅ | `formatLine` | Mapping deltas |
