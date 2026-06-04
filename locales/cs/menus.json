@@ -47,6 +47,7 @@
     "headButton": "Nástroje",
 
     "fillOutAutomatically": "Vyplnit formulář automaticky",
+    "missingReportLanguage": "Prosím, vyplňte jazyk, kterým je psaný text zprávy, předtím než spustíte automatické zpracování.",
     "robotPredictionSnackbar": {
       "message": "Vyplňuji formulář...",
       "abort": "Zastavit"

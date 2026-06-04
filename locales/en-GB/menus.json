@@ -47,6 +47,7 @@
     "headButton": "Tools",
 
     "fillOutAutomatically": "Fill out form automatically",
+    "missingReportLanguage": "Please, specify the language of the report text before starting automatic processing.",
     "robotPredictionSnackbar": {
       "message": "Filling out the form...",
       "abort": "Abort"

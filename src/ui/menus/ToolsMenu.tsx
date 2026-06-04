@@ -27,6 +27,7 @@ export function ToolsMenu() {
     fieldsRepository,
     quillExtended,
     editorStore,
+    reportStore,
   } = useContext(DocMarkerContext);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -50,16 +51,23 @@ export function ToolsMenu() {
   // === click handlers ===
 
   function handleRobotPredictionClick() {
-    // TODO: check the report has a language set
-    alert("TODO: check that the report has a language set");
+    // make sure that the report language is set
+    if (reportStore.reportLanguage === null) {
+      alert(t("tools.missingReportLanguage"));
+      return;
+    }
 
     robotPredictor.startPrediction();
     closeMenu();
   }
 
   function predictActiveField() {
-    // TODO: check the report has a language set
-    alert("TODO: check that the report has a language set");
+    // make sure that the report language is set
+    if (reportStore.reportLanguage === null) {
+      alert(t("tools.missingReportLanguage"));
+      return;
+    }
+
     if (activeFieldId === null) {
       return;
     }
