@@ -32,13 +32,13 @@ export function useAnnotationController(props: AnnotationControllerProps) {
 
   function attach() {
     props.quillExtended.disable();
-    props.quillExtended.enableWordSelection();
+    // props.quillExtended.enableWordSelection();
     props.quillExtended.onSelectionChanged.subscribe(onSelectionChange);
   }
 
   function detach() {
     props.quillExtended.enable();
-    props.quillExtended.disableWordSelection();
+    // props.quillExtended.disableWordSelection();
     props.quillExtended.onSelectionChanged.unsubscribe(onSelectionChange);
   }
 

@@ -3,7 +3,8 @@
 ///////////////////
 
 .anonymization-mode :global(.ql-editor) > * {
-  cursor: cell;
+  // cursor: cell; // disabled word-selected
+  cursor: text;
 }
 
 .anonymization--name-person, // name of a person
@@ -26,7 +27,8 @@
 ////////////////
 
 .annotating-mode :global(.ql-editor) > * {
-  cursor: cell;
+  // cursor: cell; // disabled word-selected
+  cursor: text;
 }
 
 @for $i from 0 to 1000 {
