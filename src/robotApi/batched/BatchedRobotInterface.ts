@@ -21,7 +21,7 @@ export abstract class BatchedRobotInterface implements RobotInterface {
   abstract get maxFieldRequestConcurrency(): number;
 
   /**
-   * How many requests to aggreage together into batch (at most)
+   * How many requests to aggregate together into batch (at most)
    */
   abstract get batchSize(): number;
 
@@ -111,20 +111,20 @@ export abstract class BatchedRobotInterface implements RobotInterface {
    * by the BatchedRobotInterface when a batch is to be submitted.
    * Aborting should not throw, instead, null should be returned.
    */
-  protected abstract extractEvidencesBatched: (
+  protected abstract extractEvidencesBatched(
     batchRequest: EvidenceExtractionBatchRequest,
     abortSignal: AbortSignal,
-  ) => Promise<EvidenceExtractionResponse[] | null>;
+  ): Promise<EvidenceExtractionResponse[] | null>;
 
   /**
    * Batched variant of answer prediction, called automatically
    * by the BatchedRobotInterface when a batch is to be submitted.
    * Aborting should not throw, instead, null should be returned.
    */
-  public predictAnswerBatched: (
+  protected abstract predictAnswerBatched(
     batchRequest: AnswerPredictionBatchRequest,
     abortSignal: AbortSignal,
-  ) => Promise<AnswerPredictionResponse[] | null>;
+  ): Promise<AnswerPredictionResponse[] | null>;
 }
 
 /**
