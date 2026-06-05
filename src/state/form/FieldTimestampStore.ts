@@ -47,12 +47,6 @@ export class FieldTimestampStore {
    * by interacting with the UI, not by openning/loading a file.
    */
   private onFieldModifiedByUser(fieldId: string): void {
-    console.log(
-      "UPDATE:",
-      fieldId,
-      this.fieldsRepository.fields.get(fieldId)?.exportedData,
-    );
-
     // update the field's timestamp
     this.jotaiStore.set(this.timestampAtoms.get(fieldId), new Date());
   }

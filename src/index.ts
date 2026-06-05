@@ -49,6 +49,7 @@ export { LocalesRepository } from "../locales/LocalesRepository";
 export { RobotPredictionStore } from "./state/form/RobotPredictionStore";
 export { RobotPredictor } from "./state/RobotPredictor";
 export { DummyRobot } from "./robotApi/DummyRobot";
+export { BatchedRobotInterface } from "./robotApi/batched/BatchedRobotInterface";
 export { EditorStore } from "./state/EditorStore";
 
 export type { JotaiStore } from "./state/JotaiStore";
@@ -58,7 +59,6 @@ export type { AnswerPredictionResponse } from "./robotApi/AnswerPredictionRespon
 export type { EvidenceExtractionRequest } from "./robotApi/EvidenceExtractionRequest";
 export type { EvidenceExtractionResponse } from "./robotApi/EvidenceExtractionResponse";
 export type { ExtractedEvidence } from "./robotApi/ExtractedEvidence";
-export type { BatchedRobotInterface } from "./robotApi/batched/BatchedRobotInterface";
 export type {
   AnswerPredictionBatchRequest,
   FieldQuestion,

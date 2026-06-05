@@ -359,6 +359,11 @@ export class RobotPredictor {
         return; // only from the semaphore block!
       }
 
+      // in case we were aborted and the controller no longer exists
+      if (this.abortController === null) {
+        return;
+      }
+
       // extract evidences
       const evidenceResponse = await this.robot!.extractEvidences(
         {
@@ -367,7 +372,7 @@ export class RobotPredictor {
           formId: this.formStore.formId!,
           fieldId: fieldId,
         },
-        this.abortController!.signal,
+        this.abortController.signal,
       );
 
       // the evidence extraction request was aborted
@@ -381,6 +386,11 @@ export class RobotPredictor {
         return; // from the semaphore block only
       }
 
+      // in case we were aborted and the controller no longer exists
+      if (this.abortController === null) {
+        return;
+      }
+
       // predict the answer
       const predictionResponse = await this.robot!.predictAnswer(
         {
@@ -389,7 +399,7 @@ export class RobotPredictor {
           fieldId: fieldId,
           evidences: evidenceResponse.evidences,
         },
-        this.abortController!.signal,
+        this.abortController.signal,
       );
 
       // the answer prediction request was aborted
