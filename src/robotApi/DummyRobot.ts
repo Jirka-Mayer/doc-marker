@@ -8,13 +8,24 @@ import { RobotInterface } from "./RobotInterface";
 
 export class DummyRobot implements RobotInterface {
   /**
+   * Process at most 5 fields at a time (in parallel)
+   */
+  public readonly maxFieldRequestConcurrency: number = 5;
+
+  /**
    * Extracts a list of evidences for a single form field (a single question)
+   * Aborting should not throw, instead, null should be returned.
    */
   public async extractEvidences(
     request: EvidenceExtractionRequest,
     abortSignal: AbortSignal,
-  ): Promise<EvidenceExtractionResponse> {
+  ): Promise<EvidenceExtractionResponse | null> {
     await timeoutAsync(1_000);
+
+    // simulate aborting
+    if (abortSignal.aborted) {
+      return null;
+    }
 
     const generateEvidence = (): ExtractedEvidence => {
       const length = Math.ceil(5 + Math.random() * 45);
@@ -38,13 +49,19 @@ export class DummyRobot implements RobotInterface {
 
   /**
    * Attempts to predict an anwer for a form field (a question) given
-   * the set of previously-extracted (or human-provided) evidences
+   * the set of previously-extracted (or human-provided) evidences.
+   * Aborting should not throw, instead, null should be returned.
    */
   public async predictAnswer(
     request: AnswerPredictionRequest,
     abortSignal: AbortSignal,
-  ): Promise<AnswerPredictionResponse> {
+  ): Promise<AnswerPredictionResponse | null> {
     await timeoutAsync(1_000);
+
+    // simulate aborting
+    if (abortSignal.aborted) {
+      return null;
+    }
 
     return {
       answer:

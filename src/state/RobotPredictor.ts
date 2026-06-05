@@ -10,11 +10,6 @@ import { ReportStore } from "./ReportStore";
 import { FormStore } from "./FormStore";
 
 /**
- * Maximum number of API requests allowed to run in parallel
- */
-export const MAX_ROBOT_API_CONCURRENCY = 5;
-
-/**
  * This service is responsible for orchestrating the top-level robot
  * prediction logic. When the user interacts with the UI, this service
  * is being interacted with.
@@ -44,6 +39,10 @@ export class RobotPredictor {
     this.fieldsRepository = fieldsRepository;
     this.robot = robot;
     this.predictionStore = predictionStore;
+
+    this.semaphore = new SemaphoreAsync(
+      this.robot?.maxFieldRequestConcurrency || 1,
+    );
   }
 
   /**
@@ -101,7 +100,7 @@ export class RobotPredictor {
     if (!this.isPredictionRunning) {
       return;
     }
-    this.abortController?.abort();
+    this.abortController?.abort("User cancelled the robot prediction.");
   }
 
   /**
@@ -340,7 +339,7 @@ export class RobotPredictor {
   /**
    * Limits API requesting concurrency
    */
-  private readonly semaphore = new SemaphoreAsync(MAX_ROBOT_API_CONCURRENCY);
+  private readonly semaphore: SemaphoreAsync;
 
   /**
    * Runs robot prediction on a single form field
@@ -371,6 +370,11 @@ export class RobotPredictor {
         this.abortController!.signal,
       );
 
+      // the evidence extraction request was aborted
+      if (evidenceResponse === null) {
+        return; // from the semaphore block only
+      }
+
       // if there were no evidences extracted, abort the prediction
       // for this field
       if (evidenceResponse.evidences === null) {
@@ -387,6 +391,11 @@ export class RobotPredictor {
         },
         this.abortController!.signal,
       );
+
+      // the answer prediction request was aborted
+      if (predictionResponse === null) {
+        return; // from the semaphore block only
+      }
 
       // create highlights from evidences
       for (const evidence of evidenceResponse.evidences) {
