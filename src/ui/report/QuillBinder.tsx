@@ -122,7 +122,7 @@ export function QuillBinder() {
   // this is just to bind the scss file, so that parcel does not
   // prune it away. All styles there are defined globally,
   // so no class names need to be referenced.
-  styles["ql-editor"];
+  styles;
 
   return (
     <>
