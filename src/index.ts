@@ -58,6 +58,9 @@ export type { AnswerPredictionResponse } from "./robotApi/AnswerPredictionRespon
 export type { EvidenceExtractionRequest } from "./robotApi/EvidenceExtractionRequest";
 export type { EvidenceExtractionResponse } from "./robotApi/EvidenceExtractionResponse";
 export type { ExtractedEvidence } from "./robotApi/ExtractedEvidence";
+export type { BatchedRobotInterface } from "./robotApi/batched/BatchedRobotInterface";
+export type { AnswerPredictionBatchRequest, FieldQuestion } from "./robotApi/batched/AnswerPredictionBatchRequest";
+export type { EvidenceExtractionBatchRequest } from "./robotApi/batched/EvidenceExtractionBatchRequest";
 export type {
   RobotPrediction,
   FieldPrediction,
