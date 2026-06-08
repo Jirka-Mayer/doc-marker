@@ -442,6 +442,16 @@ export interface FieldPrediction {
  */
 export interface RobotPrediction {
   /**
+   * The plain-text of the report that was provided to the robot.
+   * This copy exists, because the report text may have been modified
+   * by the user after the prediction and so we keep this copy to
+   * allow for ex-post analysis and debugging of the robot.
+   * This value is not shown to the user, but is stored
+   * in the serialized file.
+   */
+  readonly robotInputText: string;
+
+  /**
    * List of evidences (text highlights) that were predicted by the robot.
    * They were also used in the answer prediction as-is. Empty list means
    * the robot predicted no evidences for the field, which does happen for

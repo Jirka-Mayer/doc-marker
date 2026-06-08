@@ -122,6 +122,23 @@ export interface SerializedFileJson {
   _robotPredictions?: SerializedRobotPredictions;
 
   /**
+   * Lists plain-text representations of the report, that have been
+   * sent to the robot and are responsible for at least some of the
+   * values of fields in this file. When robot runs, it gets the
+   * report text. But since the report may be modified after the robot
+   * has run, we cannot use the "_reportText" field to determine
+   * what was the robot's input. Instead, this field lists all the
+   * distinct text values that were sent to the robot, and individual
+   * fields in the "_robotPredictions" dictionary then reference
+   * these values. These values are extracted into this global dictionary
+   * to reduce the memory footprint of the serialized JSON file.
+   * In-theory, each predicted field could just store the string directly.
+   * But since many fields will definitely share the same input text,
+   * it makes sense to extract them into this global lookup dictionary.
+   */
+  _robotInputTexts?: string[];
+
+  /**
    * ISO 8601 timestamps of when each field was last modified by the user.
    * Missing fields have never been modified or the information is not known.
    * Example value: "2023-03-14T11:11:18Z"
@@ -142,6 +159,13 @@ export type SerializedRobotPredictions = {
  * Robot prediction for a given field
  */
 export interface SerializedRobotPrediction {
+  /**
+   * Reference (0-based index) to the list of report texts
+   * provided to the robot stored in the field "_robotInputTexts".
+   * See that field of the serialized file to learn more.
+   */
+  readonly robotInputTextIndex: number;
+
   /**
    * List of evidences (text highlights) that were predicted by the robot.
    * They were also used in the answer prediction as-is. Empty list means

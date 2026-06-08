@@ -75,6 +75,9 @@ export class FileSerializer {
       return null;
     }
 
+    const [robotPredictions, robotInputTexts] =
+      this.serializeRobotPredictions();
+
     let fileJson: SerializedFileJson = {
       _version: this.dmOptions.file.currentVersion,
       _docMarkerVersion: DOC_MARKER_VERSION,
@@ -95,7 +98,8 @@ export class FileSerializer {
       _reportText: this.reportStore.text,
       _reportLanguage: this.reportStore.reportLanguage || undefined,
       _highlights: this.jotaiStore.get(this.reportStore.highlightsAtom),
-      _robotPredictions: this.serializeRobotPredictions(),
+      _robotPredictions: robotPredictions,
+      _robotInputTexts: robotInputTexts,
       _fieldTimestamps: this.fieldTimestampStore.serialize(),
     };
 
@@ -104,8 +108,14 @@ export class FileSerializer {
     return AppFile.fromJson(this.dmOptions, fileJson);
   }
 
-  private serializeRobotPredictions(): SerializedRobotPredictions {
+  private serializeRobotPredictions(): [SerializedRobotPredictions, string[]] {
+    // individual field's metadata
     let predictions: SerializedRobotPredictions = {};
+
+    // global cache for the sent report texts to the robot
+    let inputTexts: string[] = [];
+
+    // process fields one-by-one
     const fieldIds = this.robotPredictionStore.getPredictedVisibleFieldIds();
     for (const fieldId of fieldIds) {
       const p: FieldPrediction =
@@ -113,7 +123,23 @@ export class FileSerializer {
       if (p.robot === null) {
         continue; // these should not be present in the list, but skip anyways
       }
+
+      // insert the input text into the dictionary
+      const inputText = p.robot.robotInputText;
+      if (!inputTexts.includes(inputText)) {
+        inputTexts.push(inputText);
+      }
+      const inputTextIndex = inputTexts.indexOf(inputText);
+      if (inputTextIndex === -1) {
+        // safety check
+        throw new Error(
+          "Assertion failed: inputText should have been added into the inputTexts.",
+        );
+      }
+
+      // create the serialized representation
       predictions[fieldId] = {
+        robotInputTextIndex: inputTextIndex,
         evidences: p.robot.evidences,
         answer: p.robot.answer,
         evidencesMatchHighlights: p.evidencesMatchHighlights,
@@ -126,7 +152,8 @@ export class FileSerializer {
         isHumanVerified: p.isHumanVerified,
       };
     }
-    return predictions;
+
+    return [predictions, inputTexts];
   }
 
   /**
@@ -161,7 +188,10 @@ export class FileSerializer {
     this.reportStore.reportLanguage = (json._reportLanguage ||
       null) as IsoLanguage | null;
     // _highlights are ignored, since they are computable from the delta
-    this.deserializeRobotPredictions(json._robotPredictions || {});
+    this.deserializeRobotPredictions(
+      json._robotPredictions || {},
+      json._robotInputTexts || [],
+    );
     this.fieldTimestampStore.deserialize(json._fieldTimestamps);
 
     // === post-deserialization logic ===
@@ -176,12 +206,18 @@ export class FileSerializer {
 
   private deserializeRobotPredictions(
     robotPredictions: SerializedRobotPredictions,
+    robotInputTexts: string[],
   ): void {
     for (const fieldId of Object.keys(robotPredictions)) {
       const p = robotPredictions[fieldId];
+
+      // look up the input text
+      const inputText = robotInputTexts[p.robotInputTextIndex] || "";
+
       this.robotPredictionStore.loadDeserializedStateForField(
         fieldId,
         {
+          robotInputText: inputText,
           evidences: p.evidences,
           answer: p.answer,
           evidenceModelVersion: p.evidenceModelVersion,

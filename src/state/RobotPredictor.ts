@@ -364,10 +364,13 @@ export class RobotPredictor {
         return;
       }
 
+      // get the report text that will be provided to the robot
+      const robotInputText = this.quillExtended.getText();
+
       // extract evidences
       const evidenceResponse = await this.robot!.extractEvidences(
         {
-          reportText: this.quillExtended.getText(),
+          reportText: robotInputText,
           reportLanguage: reportLanguage,
           formId: this.formStore.formId!,
           fieldId: fieldId,
@@ -427,6 +430,7 @@ export class RobotPredictor {
 
       // update the prediction store
       this.predictionStore.setRobotPrediction(fieldId, {
+        robotInputText: robotInputText,
         evidences: evidenceResponse.evidences,
         answer: predictionResponse.answer,
         evidenceModelVersion: evidenceResponse.modelVersion,
