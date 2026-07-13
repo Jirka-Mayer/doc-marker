@@ -298,6 +298,7 @@ export class RobotPredictor {
       }
 
       // the field must have no highlights
+      // (we don't want to overwrite user's highlights)
       const highlights = this.jotaiStore.get(
         this.reportStore.getFieldHighlightsAtom(fieldId),
       ) as any[];

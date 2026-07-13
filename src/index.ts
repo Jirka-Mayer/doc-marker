@@ -115,6 +115,7 @@ export { useFieldHighlights } from "./ui/form/useFieldHighlights";
 export { useHighlightPinButton } from "./ui/form/useHighlightPinButton";
 export { useNullabilityMiddleware } from "./ui/form/useNullabilityMiddleware";
 export { usePreventScrollOverNumberFields } from "./ui/form/usePreventScrollOverNumberFields";
+export { RobotButtons } from "./ui/form/RobotButtons";
 
 export {
   // layouts

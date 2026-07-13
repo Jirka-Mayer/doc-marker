@@ -193,7 +193,7 @@ export function DmInputControl(
         // rendered, only at 50% opacity.
         display: visible || displayDebugInfo ? "block" : "none",
         opacity: !visible && displayDebugInfo ? 0.5 : undefined,
-        position: "relative",
+        position: "relative", // captures the backdrop
         overflow: "hidden",
 
         // the controls themselves have margin, grid does not
@@ -269,7 +269,6 @@ export function DmInputControl(
             background: "rgba(255, 255, 255, 0.8)",
           }}
           open={true}
-          // onClick={handleClose}
         >
           <CircularProgress color="primary" />
         </Backdrop>

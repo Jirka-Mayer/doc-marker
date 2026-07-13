@@ -6,6 +6,7 @@ import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import { useContext } from "react";
 import { DocMarkerContext } from "../DocMarkerContext";
 import { Translator } from "@jsonforms/core";
+import { useAtomValue } from "jotai";
 
 export interface RobotButtonsProps {
   readonly fieldId: string;
@@ -18,16 +19,27 @@ export function RobotButtons({
   fieldPrediction,
   t,
 }: RobotButtonsProps) {
-  const { robotPredictionStore } = useContext(DocMarkerContext);
+  const { robotPredictionStore, editorStore } = useContext(DocMarkerContext);
 
   const robotTooltip = t("robotButtons.robot");
   const verifyTooltip = t("robotButtons.verify");
   const unverifyTooltip = t("robotButtons.unverify");
 
+  const displayDebugInfo = useAtomValue(editorStore.displayDebugInfoAtom);
+
   const { isHumanVerified, robot } = fieldPrediction;
 
   function onRobotIconClicked() {
-    alert(JSON.stringify(fieldPrediction, null, 2));
+    alert(
+      JSON.stringify(
+        {
+          ...robot,
+          robotInputText: undefined,
+        },
+        null,
+        2,
+      ),
+    );
   }
 
   function onVerificationIconClicked() {
@@ -37,7 +49,7 @@ export function RobotButtons({
   const ThumbIcon = isHumanVerified ? ThumbUpIcon : ThumbUpOffAltIcon;
   return (
     <>
-      {robot !== null && (
+      {robot !== null && displayDebugInfo && (
         <Tooltip title={robotTooltip} disableInteractive>
           <IconButton
             onClick={onRobotIconClicked}
