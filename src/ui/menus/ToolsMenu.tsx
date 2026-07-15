@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { useContext, useState } from "react";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import { useTranslation } from "react-i18next";
 import { DocMarkerContext } from "../DocMarkerContext";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -46,7 +46,7 @@ export function ToolsMenu() {
     robotPredictor.isPredictionRunningAtom,
   );
   const activeFieldId = useAtomValue(editorStore.activeFieldIdAtom);
-  const appMode = useAtomValue(editorStore.appModeAtom);
+  const [appMode, setAppMode] = useAtom(editorStore.appModeAtom);
 
   // === click handlers ===
 
@@ -57,6 +57,7 @@ export function ToolsMenu() {
       return;
     }
 
+    setAppMode(AppMode.ANNOTATE_HIGHLIGHTS);
     robotPredictor.startPrediction();
     closeMenu();
   }
@@ -71,6 +72,7 @@ export function ToolsMenu() {
     if (activeFieldId === null) {
       return;
     }
+    setAppMode(AppMode.ANNOTATE_HIGHLIGHTS);
     robotPredictor.startPrediction([activeFieldId]);
     closeMenu();
   }
@@ -105,7 +107,6 @@ export function ToolsMenu() {
         <MenuItem
           onClick={handleRobotPredictionClick}
           disabled={
-            appMode !== AppMode.ANNOTATE_HIGHLIGHTS ||
             isRobotPredictionRunning ||
             !isFileOpen ||
             !robotPredictor.isRobotAvailable
@@ -121,7 +122,6 @@ export function ToolsMenu() {
         <MenuItem
           onClick={predictActiveField}
           disabled={
-            appMode !== AppMode.ANNOTATE_HIGHLIGHTS ||
             isRobotPredictionRunning ||
             !isFileOpen ||
             !activeFieldId ||
@@ -153,10 +153,7 @@ export function ToolsMenu() {
 
         <Divider />
 
-        <MenuItem
-          onClick={eraseAllFormData}
-          disabled={appMode !== AppMode.ANNOTATE_HIGHLIGHTS || !isFileOpen}
-        >
+        <MenuItem onClick={eraseAllFormData} disabled={!isFileOpen}>
           <ListItemIcon>
             <DeleteSweepIcon />
           </ListItemIcon>
