@@ -48,7 +48,7 @@ export function FileMenu() {
   }
 
   function onSaveFileClick() {
-    fileStateManager.saveCurrentFile();
+    fileStateManager.saveCurrentFile(); // fires promise and forgets
     closeMenu();
   }
 

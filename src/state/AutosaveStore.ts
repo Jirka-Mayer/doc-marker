@@ -49,7 +49,7 @@ export class AutosaveStore {
 
     this.fileStateManager.onBeforeFileClose.subscribe((e) => {
       if (this.jotaiStore.get(this.isDirtyAtom)) {
-        this.fileStateManager.saveCurrentFile();
+        this.fileStateManager.saveCurrentFile(); // fires promise and forgets
       }
 
       this.cancelScheduledAutosave();
@@ -104,6 +104,6 @@ export class AutosaveStore {
 
   private onAutosaveTrigger() {
     this.autosaveTimeoutId = null;
-    this.fileStateManager.saveCurrentFile();
+    this.fileStateManager.saveCurrentFile(); // fires promise and forgets
   }
 }

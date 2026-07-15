@@ -66,7 +66,7 @@ export function WelcomeBody(props: WelcomeBodyProps) {
     );
 
     // check if there is the same file already uploaded
-    const existingAppFile = filesDatabase.loadFile(uploadedAppFile.uuid);
+    const existingAppFile = await filesDatabase.loadFile(uploadedAppFile.uuid);
     if (
       existingAppFile !== null &&
       existingAppFile.updatedAtString !== uploadedAppFile.updatedAtString
@@ -76,8 +76,8 @@ export function WelcomeBody(props: WelcomeBodyProps) {
       setFileToOverwrite(existingAppFile);
     } else {
       // store and open
-      filesDatabase.storeFile(uploadedAppFile);
-      fileStateManager.openFile(uploadedAppFile.uuid);
+      await filesDatabase.storeFile(uploadedAppFile);
+      await fileStateManager.openFile(uploadedAppFile.uuid);
     }
   }
 
@@ -86,10 +86,10 @@ export function WelcomeBody(props: WelcomeBodyProps) {
     setFileToOverwrite(null);
   }
 
-  function finishFileUpload() {
+  async function finishFileUpload() {
     // store and open
-    filesDatabase.storeFile(fileToUpload!);
-    fileStateManager.openFile(fileToUpload!.uuid);
+    await filesDatabase.storeFile(fileToUpload!);
+    await fileStateManager.openFile(fileToUpload!.uuid);
 
     closeUploadFileDialog();
   }

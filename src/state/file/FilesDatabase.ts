@@ -5,8 +5,9 @@ import { ISimpleEvent, SimpleEventDispatcher } from "strongly-typed-events";
 import { Atom, atom, PrimitiveAtom } from "jotai";
 import { JotaiStore } from "../JotaiStore";
 import { SerializedFileJson } from "./SerializedFileJson";
-
-const localStorage = window.localStorage;
+import { FileStorage, migrateFromTo } from "./FileStorage";
+import { LocalStorageFileStorage } from "./LocalStorageFileStorage";
+import { OpfsFileStorage } from "./OpfsFileStorage";
 
 /**
  * Provides abstracted access to files stored in local storage
@@ -16,11 +17,45 @@ export class FilesDatabase {
   private readonly dmOptions: DmOptions;
   private readonly jotaiStore: JotaiStore;
 
+  /**
+   * The file storage used to persist app files
+   * (either OPFS or localStorage depending on the support)
+   */
+  private readonly fileStorage: FileStorage;
+
   constructor(dmOptions: DmOptions, jotaiStore: JotaiStore) {
     this.dmOptions = dmOptions;
     this.jotaiStore = jotaiStore;
 
-    this.fileListBaseAtom = atom(this.loadFilesIndex());
+    // set up file storage
+    const opfsStorage = new OpfsFileStorage(
+      this.dmOptions.localStoragePrefix, // to determine folder name
+    );
+    const localStorage = new LocalStorageFileStorage(
+      this.dmOptions.localStoragePrefix,
+    );
+    if (opfsStorage.isSupported()) {
+      // fire async data migration if needed
+      (async () => {
+        if (await opfsStorage.isUninitialized()) {
+          console.log(
+            "[FilesDatabase]: Migrating from localStorage to OPFS...",
+          );
+          await migrateFromTo(localStorage, opfsStorage);
+          this._onIndexChanged.dispatch(await opfsStorage.loadFilesIndex());
+          console.log("[FilesDatabase]: Migration done.");
+        }
+      })();
+      this.fileStorage = opfsStorage;
+    } else {
+      console.log(
+        "[FilesDatabase]: OPFS is not supported, falling back on localStorage.",
+      );
+      this.fileStorage = localStorage;
+    }
+
+    // set up Jotai stuff
+    this.fileListBaseAtom = atom([]);
     this.connectIndexLogicWithJotaiAbstraction();
   }
 
@@ -45,6 +80,11 @@ export class FilesDatabase {
     this.onIndexChanged.subscribe((records: FilesDatabaseRecord[]) => {
       this.jotaiStore.set(this.fileListBaseAtom, records);
     });
+
+    // populate the atom with actual data (asynchronously)
+    (async () => {
+      this.jotaiStore.set(this.fileListBaseAtom, await this.loadFilesIndex());
+    })();
   }
 
   /////////////////////////
@@ -54,8 +94,8 @@ export class FilesDatabase {
   /**
    * Loads a file by UUID, returns null if the file does not exist
    */
-  public loadFile(uuid: string): AppFile | null {
-    const data = localStorage.getItem(this.FILE_KEY_PREFIX + uuid);
+  public async loadFile(uuid: string): Promise<AppFile | null> {
+    const data = await this.fileStorage.loadFile(uuid);
 
     if (!data) return null;
 
@@ -68,35 +108,35 @@ export class FilesDatabase {
    * Writes the file into the local storage,
    * ovewriting any existing file with the same UUID
    */
-  public storeFile(appFile: AppFile): void {
+  public async storeFile(appFile: AppFile): Promise<void> {
     // write the file data
     const data = appFile.toJsonString();
-    localStorage.setItem(this.FILE_KEY_PREFIX + appFile.uuid, data);
+    await this.fileStorage.storeFile(appFile.uuid, data);
 
     // update the files index
-    let list = this.loadFilesIndex();
+    let list = await this.loadFilesIndex();
     list = list.filter((r) => r.uuid !== appFile.uuid);
     list.push(FilesDatabaseRecord.fromAppFile(appFile));
-    this.writeFilesIndex(list);
+    await this.writeFilesIndex(list);
   }
 
   /**
    * Deletes a file from the local storage, given its UUID
    */
-  public deleteFile(uuid: string): void {
-    localStorage.removeItem(this.FILE_KEY_PREFIX + uuid);
+  public async deleteFile(uuid: string): Promise<void> {
+    await this.fileStorage.deleteFile(uuid);
 
-    let list = this.loadFilesIndex();
+    let list = await this.loadFilesIndex();
     list = list.filter((r) => r.uuid !== uuid);
-    this.writeFilesIndex(list);
+    await this.writeFilesIndex(list);
   }
 
   /**
    * Downloads a stored file, given its UUID
    * (triggers the browser's *download file* logic)
    */
-  public downloadFile(uuid: string): void {
-    const appFile = this.loadFile(uuid);
+  public async downloadFile(uuid: string): Promise<void> {
+    const appFile = await this.loadFile(uuid);
     if (appFile !== null) {
       appFile.download();
     }
@@ -105,20 +145,6 @@ export class FilesDatabase {
   ////////////////////////////////
   // Internal Files Index Logic //
   ////////////////////////////////
-
-  /**
-   * The key under which the list of all stored files (the index) is stored
-   */
-  public get FILES_INDEX_KEY(): string {
-    return this.dmOptions.localStoragePrefix + "docMarkerFileList";
-  }
-
-  /**
-   * The key prefix used for storing individual files
-   */
-  public get FILE_KEY_PREFIX(): string {
-    return this.dmOptions.localStoragePrefix + "docMarkerFile/"; // + file UUID
-  }
 
   private _onIndexChanged = new SimpleEventDispatcher<FilesDatabaseRecord[]>();
 
@@ -133,46 +159,18 @@ export class FilesDatabase {
   /**
    * Loads the index that lists all the stored files
    */
-  private loadFilesIndex(): FilesDatabaseRecord[] {
-    const data = localStorage.getItem(this.FILES_INDEX_KEY);
-
-    if (!data) {
-      // there is no file list, the app was launched for the first time
-      return [];
-    }
-
-    const json = JSON.parse(data) as any[];
-
-    if (!Array.isArray(json)) {
-      console.error(
-        "Failed to list stored files, file list not an array:",
-        json,
-      );
-      return [];
-    }
-
-    let records = json.map((j) => FilesDatabaseRecord.fromJson(j));
-
-    records.sort((a, b) => a.updatedAt.valueOf() - b.updatedAt.valueOf());
-    records.reverse(); // newest to oldest
-
-    // throw away files that do not have a corresponding record in the storage
-    records = records.filter((r) =>
-      localStorage.getItem(this.FILE_KEY_PREFIX + r.uuid),
-    );
-
-    return records;
+  private async loadFilesIndex(): Promise<FilesDatabaseRecord[]> {
+    return await this.fileStorage.loadFilesIndex();
   }
 
   /**
    * Writes the file list index to local storage
    * @param records
    */
-  private writeFilesIndex(records: FilesDatabaseRecord[]): void {
-    const json: object[] = records.map((r) => r.toJson());
-    localStorage.setItem(this.FILES_INDEX_KEY, JSON.stringify(json));
+  private async writeFilesIndex(records: FilesDatabaseRecord[]): Promise<void> {
+    await this.fileStorage.writeFilesIndex(records);
 
     // fire the change event, with re-loaded values to ensure proper ordering
-    this._onIndexChanged.dispatch(this.loadFilesIndex());
+    this._onIndexChanged.dispatch(await this.fileStorage.loadFilesIndex());
   }
 }

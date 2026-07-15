@@ -67,7 +67,7 @@ export class FileStateManager {
    * Saves the currently open file to local storage
    * (or does nothing if no file is open)
    */
-  public saveCurrentFile(): void {
+  public async saveCurrentFile(): Promise<void> {
     const appFile = this.serializer.serializeToFile();
 
     if (appFile === null) {
@@ -75,7 +75,7 @@ export class FileStateManager {
       return;
     }
 
-    this.filesDatabase.storeFile(appFile);
+    await this.filesDatabase.storeFile(appFile);
 
     // fire the event
     this._onFileSaved.dispatch(appFile);
@@ -84,8 +84,8 @@ export class FileStateManager {
   /**
    * Opens a file from the local storage based on the given UUID
    */
-  public openFile(uuid: string): void {
-    const appFile = this.filesDatabase.loadFile(uuid);
+  public async openFile(uuid: string): Promise<void> {
+    const appFile = await this.filesDatabase.loadFile(uuid);
     if (appFile === null) return;
     this.serializer.deserializeFromFile(appFile);
     this.historyStore.clear();
