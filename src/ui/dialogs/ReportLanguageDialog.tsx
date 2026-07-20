@@ -78,7 +78,7 @@ export function ReportLanguageDialog() {
   return (
     <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
       <DialogTitle>{t("dialog.title")}</DialogTitle>
-      <DialogContent dividers>
+      <DialogContent dividers sx={{ height: "300px", width: "400px" }}>
         <TextField
           autoFocus
           id="report-language-search-field"
