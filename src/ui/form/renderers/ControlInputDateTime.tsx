@@ -11,11 +11,13 @@ import { useState } from "react";
 import { CellProps } from "@jsonforms/core";
 import { DmInputProps } from "./DmInputProps";
 
-// https://json-schema.org/understanding-json-schema/reference/string.html#dates-and-times
+// 2026-10-06: Dropped the "Z" suffix from formats.
+// The times are not in UTC really, they are in whatever the local time is.
+// So the time zone should be missing, not set explicitly to "Z" (UTC).
 const dataFormats = {
   date: "YYYY-MM-DD",
-  time: "HH:mm:ssZ",
-  "date-time": "YYYY-MM-DDTHH:mm:ssZ",
+  time: "HH:mm:ss",
+  "date-time": "YYYY-MM-DDTHH:mm:ss",
 };
 
 const pickerElements = {
@@ -24,17 +26,17 @@ const pickerElements = {
   "date-time": DateTimePicker,
 };
 
-const _dateTimeParser = (data) => {
-  let m = moment(data);
+const _dateTimeParser = (data: string): moment.Moment | null => {
+  const m = moment(data);
   if (m && !m.isValid()) return null;
   return m;
 };
 
 const dataParsers = {
-  date: (data) => {
+  date: (data: string) => {
     return _dateTimeParser(data + "T" + moment().format(dataFormats["time"]));
   },
-  time: (data) => {
+  time: (data: string) => {
     return _dateTimeParser(moment().format(dataFormats["date"]) + "T" + data);
   },
   "date-time": _dateTimeParser,
@@ -45,8 +47,29 @@ const dataParsers = {
 export const dateTimeCoercionPseudofunction = (
   givenValue: any,
   pickerVariant: PickerVariant,
-) => {
-  dataParsers[pickerVariant](String(givenValue));
+): string | null | undefined => {
+  // dataParsers above are for parsing the string data returned by
+  // the UI picker element. This coercion function is used to parse
+  // data returned by the automatic robot prediction. So this logic
+  // here must be more benevolent in what it accepts.
+  // Also, it does not return a moment instance, but a string instead.
+
+  // missing
+  if (givenValue === undefined) return undefined;
+  if (givenValue === "") return undefined;
+
+  // explicitly unknown
+  if (givenValue === null) return null;
+
+  // try parsing as valid date/time string
+  // and formatting in the expected format
+  const m = moment(givenValue);
+  if (m && m.isValid()) {
+    return m.format(dataFormats[pickerVariant]);
+  }
+
+  // invalid string, treat as missing value
+  return undefined;
 };
 
 export type PickerVariant = "date" | "time" | "date-time";
@@ -82,13 +105,15 @@ export function ControlInputDateTime(props: CellProps & DmInputProps) {
   );
 
   // parse input to null or valid moment instance
-  const parsedData = debouncedData
+  const parsedData: moment.Moment | null = debouncedData
     ? dataParsers[pickerVariant](debouncedData)
     : null;
 
   // private value holds invalid moment instances, whereas the publically
   // shown value only contains valid values or undefineds
-  const [privateValue, setPrivateValue] = useState(parsedData);
+  const [privateValue, setPrivateValue] = useState<moment.Moment | null>(
+    parsedData,
+  );
 
   // what to show in the picker
   let displayedValue: moment.Moment | null = null;
@@ -103,16 +128,17 @@ export function ControlInputDateTime(props: CellProps & DmInputProps) {
   }
 
   // when the picker value changes
-  function onPickerChange(newValue) {
+  function onPickerChange(newValue: moment.Moment) {
     if (newValue) {
-      newValue.second(0);
+      newValue.utcOffset(0, true); // forget timezone (pretend it's UTC)
+      newValue.second(0); // forget sub-minute time
       newValue.millisecond(0);
     }
 
     setPrivateValue(newValue);
 
     // transform to public value (valid ISO string or undefined)
-    let newData = undefined;
+    let newData: string | undefined = undefined;
     if (newValue && newValue.isValid()) {
       newData = newValue.format(dataFormats[pickerVariant]);
     }

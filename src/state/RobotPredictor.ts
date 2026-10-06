@@ -269,8 +269,7 @@ export class RobotPredictor {
    * started and the promise returned. If not, null is returned instead.
    */
   private tryStartOneAvailableFieldPrediction():
-    | [string, Promise<string>]
-    | null {
+    [string, Promise<string>] | null {
     // this property should only be null when prediction is not running,
     // in which case there is no prediction to be started
     if (this.fieldIdsToBePredicted === null) {
