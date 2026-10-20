@@ -63,8 +63,17 @@ export const dateTimeCoercionPseudofunction = (
 
   // try parsing as valid date/time string
   // and formatting in the expected format
-  const m = moment(givenValue);
-  if (m && m.isValid()) {
+  let m = moment(givenValue);
+  
+  // if parsing fails for time (which it does in most cases
+  // because time is special) then use explicit format for time.
+  // This format can parse 14:15:39, 14:15, 14, 14:6, etc.
+  if (!m?.isValid() && pickerVariant == "time") {
+    m = moment(givenValue, "H:m:s");
+  }
+  
+  // format the output
+  if (m?.isValid()) {
     return m.format(dataFormats[pickerVariant]);
   }
 
